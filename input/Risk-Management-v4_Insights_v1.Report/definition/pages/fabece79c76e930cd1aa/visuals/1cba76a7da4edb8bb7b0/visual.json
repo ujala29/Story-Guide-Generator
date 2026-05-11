@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "1cba76a7da4edb8bb7b0",
+  "position": {
+    "x": 1322,
+    "y": 1535.0000009568851,
+    "z": 75000,
+    "height": 22.083650190114067,
+    "width": 89.743376393074541,
+    "tabOrder": 74000
+  },
+  "visualGroup": {
+    "displayName": "Risk model/sub models Patient List button",
+    "groupMode": "ScaleMode"
+  }
+}

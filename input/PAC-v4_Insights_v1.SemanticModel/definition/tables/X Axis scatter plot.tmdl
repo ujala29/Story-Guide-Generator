@@ -1,0 +1,30 @@
+table 'X Axis scatter plot'
+	lineageTag: ea842e97-80b7-4cbb-86f6-8ef1358e6eda
+
+	measure 'Selected X Axis Value' =
+			
+			SWITCH(SELECTEDVALUE('X Axis scatter plot'[X axis]),
+			    "Avg LOS", [Avg LOS],
+			    "Overall PAC cost", [Overall PAC cost],
+			    "PAC PMPM", [PAC PMPM],
+			    "PAC to IP readmission %", [PAC to IP readmission %],
+			    BLANK()
+			)
+		lineageTag: b00af03a-ae54-4da6-94aa-b826c0807b8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'X axis'
+		lineageTag: a168586c-a214-48ab-9866-ebfa7344e692
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [X axis]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'X Axis scatter plot' = calculated
+		mode: import
+		source = DATATABLE( "X axis", STRING, { {"Avg LOS"},{"Overall PAC cost"},{"PAC PMPM"}, {"PAC to IP readmission %"} } )
+
+	annotation PBI_Id = ef5033694f7c4141af448582625392ac
+

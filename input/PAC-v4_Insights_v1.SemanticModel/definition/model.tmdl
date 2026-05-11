@@ -1,0 +1,42 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup ALL_DAX
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Static Tables'
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["DB_HOST_STRING","DB_TYPE","L5_DB_NAME","SCHEMA_NAME","ROLE","WAREHOUSE","date","pac_view","pac_opp_patient_view","attribution","ALL_DAX_PAC","static_observation_window_table","pcp","payer","user_permission","snf recommendation"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table date
+ref table pac_view
+ref table pac_opp_patient_view
+ref table attribution
+ref table ALL_DAX_PAC
+ref table static_observation_window_table
+ref table pcp
+ref table payer
+ref table Parameter
+ref table user_permission
+ref table 'X Axis scatter plot'
+ref table 'Y Axis scatter plot'
+ref table 'snf recommendation'
+
+ref role Org_Based_Role
+
+ref cultureInfo en-US
+

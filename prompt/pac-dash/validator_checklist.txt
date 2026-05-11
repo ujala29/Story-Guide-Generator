@@ -1,0 +1,27 @@
+Does this SQL correctly implement the DAX measure? Check for:
+1. Correct table (PAC_TABLE vs INPATIENT_PAC_V4_VIEW vs PCP_VISITS_VIEW)
+2. Correct date column:
+   - PAC_TABLE            → DATE_TRUNC('month', PAC_VISIT_START_DATE)
+   - INPATIENT_PAC_V4_VIEW → MONTH_OF_VISIT
+   - PCP_VISITS_VIEW      → MONTH_OF_ATTRIBUTION
+3. Date filter — apply RULE A / B / C from the schema context above:
+   - Base on PAC_TABLE             → DATE_TRUNC('month', PAC_VISIT_START_DATE) = :selected_month
+   - Base on INPATIENT_PAC_V4_VIEW → MONTH_OF_VISIT = :selected_month
+   - Base on PCP_VISITS_VIEW       → MONTH_OF_ATTRIBUTION = :selected_month
+   - PY / PM measure               → same date col but DATEADD filter, NO MAX_MONTH_FLAG
+   - YoY / MoM current subquery    → base date filter with :selected_month, NO MAX_MONTH_FLAG
+   - YoY / MoM prior subquery      → base date filter with DATEADD(...)
+   - CONTEXT_REMOVER               → no date filter at all
+   !! NONE of the PAC tables have MAX_MONTH_FLAG — never add it !!
+4. Correct aggregation function and column
+5. Correct WHERE conditions matching KEEPFILTERS
+6. NULLIF for division safety
+7. For YoY/MoM: ratio must be (current − prior) / NULLIF(prior, 0)
+ 8.IMPORTANT — NULL handling convention:
+  DAX <> operator includes NULLs. In SQL always translate as:
+  (col IS NULL OR col <> 'value')
+  
+  NEVER use IS DISTINCT FROM — use the IS NULL OR <> pattern consistently.
+  
+  When fixing a time-intel variant (PM, PY, MoM, YoY), the NULL handling
+  must exactly match the approved base measure.

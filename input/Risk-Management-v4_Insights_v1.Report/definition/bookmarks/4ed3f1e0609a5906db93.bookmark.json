@@ -1,0 +1,2944 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Show patient list",
+  "name": "4ed3f1e0609a5906db93",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "72250a355c095087d40c",
+      "3d01162fbe1d09383ed1",
+      "1b9a972307c540e49350",
+      "4e166fb8bb882d44a0e7",
+      "72efff4092d89a754e5d",
+      "b966604ceb0a160062d0"
+    ]
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "25729edac3e83a00cb6c",
+    "sections": {
+      "25729edac3e83a00cb6c": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "bf7ece000a8b94980848",
+              "type": "Categorical",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "c",
+                    "Entity": "cohort",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "c"
+                                }
+                              },
+                              "Property": "attribution_status"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Added'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Continued'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "cohort"
+                    }
+                  },
+                  "Property": "attribution_status"
+                }
+              },
+              "howCreated": 1
+            }
+          ]
+        },
+        "visualContainers": {
+          "e60d91fee3ece1722462": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "b33d0bf2ac907329038c": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "4bea5bf0135eb3bc5ee8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "200502e916c3ca677bc1",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Cohort eligible gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Cohort eligible gaps"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "7421c8bc42b40493ea02",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted patients"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "603b630a8935dee7b935",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "columnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted patients"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "a3ed9fb5ba697ba8d564": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter86e08781b70ba6b62e69",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "All DAX"
+                        }
+                      },
+                      "Property": "Total measures with goal available"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filterb0b59f40d1d4d41f67cb",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "All DAX"
+                        }
+                      },
+                      "Property": "Aggregated open gaps to next star"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "0401388c42b09dac90ea",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "627e3ed20e6170dc1601",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "8dcc21e0707e97ea98bc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_Network_Leakage"
+                        }
+                      },
+                      "Property": "Professional Potentially Avoidable Leakage"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "824766f86f7bbe886b3a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_Network_Leakage"
+                        }
+                      },
+                      "Property": "Professional Potentially Avoidable Leakage % YoY"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "8b80ac6db9b5715f5a80",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_Network_Leakage"
+                        }
+                      },
+                      "Property": "Professional Potentially Avoidable Leakage %"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "a3e95879d0b8adff97b3",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "#Members"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ac3963c4da18532171f9",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "8b1e59a9e3eb1bc4737a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "bb47bcd0ba20ec734090",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Documented risk"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "d7502199098a07093131",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Cohort eligible gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Cohort eligible gaps"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "4abf90bd8176d0124a15",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "PMPM"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ee50450b3baa3087e825",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Potential risk"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "a38ef9fc03cb800bd9d6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "RAF recapture rate"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "917a9d1168ab0b442c0a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "RAF recapture rate YoY"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "8df5b0c4189c85b7b32b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Risk recapture rate"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "30295a6f95c0cec45c3b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Risk recapture rate YoY"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "2401393f045a31e13acb",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted patients"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "949c0f20d984bab20535",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "648ac2404071a0a2807e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Realizable RAF score"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "c2e21cd00249b92365dc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Documented risk cohort"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "3c58291ea38401e04873",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Latest risk execution"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d1435467046e08a98e62",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "RAF recapture rate cohort"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "78ccc7b3d60e59e7603a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Risk recapture rate cohort"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "08f0408e860301459918",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Potential Risk recapture rate cohort"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "3a297d6951768cbb0e0e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Potential RAF recapture rate cohort"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "payer.payer_name"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "payer"
+                              }
+                            },
+                            "Property": "payer_name"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "payer.plan_name"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "5a2a01403d9d1480aa45": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "4d3d93ca3040cd3d7b04",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "199a9db0c5bd02193bbb",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "awv_status"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "awv_status"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "awv_status"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b0818358c5b0a810d526": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d2b3832fd814624125d3",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Targeted patients"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted patients"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "bd029afa402378e1041b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_days_since_last_pcp_visit_bucket"
+                        }
+                      },
+                      "Property": "days_since_last_pcp_visit_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e331d4b433a03c3510d1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_days_since_last_pcp_visit_bucket"
+                        }
+                      },
+                      "Property": "days_since_last_pcp_visit_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_days_since_last_pcp_visit_bucket"
+                        }
+                      },
+                      "Property": "days_since_last_pcp_visit_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "971dcc670cd1304a3530": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "ec8ea9c724516ea1084c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "zip"
+                            }
+                          },
+                          "Property": "latitude"
+                        }
+                      },
+                      "Function": 1
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "35da43709e50cc0e0300",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "zip"
+                            }
+                          },
+                          "Property": "longitude"
+                        }
+                      },
+                      "Function": 1
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "905ebfe0a3b778e7ba7c",
+                  "type": "TopN",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "subquery",
+                        "Expression": {
+                          "Subquery": {
+                            "Query": {
+                              "Version": 2,
+                              "From": [
+                                {
+                                  "Name": "c",
+                                  "Entity": "cohort",
+                                  "Type": 0
+                                },
+                                {
+                                  "Name": "a",
+                                  "Entity": "ALL DAX",
+                                  "Type": 0
+                                }
+                              ],
+                              "Select": [
+                                {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "c"
+                                      }
+                                    },
+                                    "Property": "zip"
+                                  },
+                                  "Name": "field"
+                                }
+                              ],
+                              "OrderBy": [
+                                {
+                                  "Direction": 2,
+                                  "Expression": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "a"
+                                        }
+                                      },
+                                      "Property": "Targeted patients"
+                                    }
+                                  }
+                                }
+                              ],
+                              "Top": 10
+                            }
+                          }
+                        },
+                        "Type": 2
+                      },
+                      {
+                        "Name": "c",
+                        "Entity": "cohort",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "c"
+                                    }
+                                  },
+                                  "Property": "zip"
+                                }
+                              }
+                            ],
+                            "Table": {
+                              "SourceRef": {
+                                "Source": "subquery"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "zip"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "75c102703298eedc87dd",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1abf5b5728c2d1e43a9a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "zip"
+                        }
+                      },
+                      "Property": "zip"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "azureMap",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "zip"
+                        }
+                      },
+                      "Property": "zip"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "7a1b2eb3813381a04006": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c0fd231800605939242e",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a1"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2e60535bc5b44abdc077",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_care_gap_bucket"
+                        }
+                      },
+                      "Property": "care_gap_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_care_gap_bucket"
+                        }
+                      },
+                      "Property": "care_gap_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_care_gap_bucket"
+                        }
+                      },
+                      "Property": "care_gap_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "2bec109c492076c504ee": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "10496c6462762528aa96",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0db1176be60017cda2de",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_coding_gap_bucket"
+                        }
+                      },
+                      "Property": "coding_gap_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_coding_gap_bucket"
+                        }
+                      },
+                      "Property": "coding_gap_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_coding_gap_bucket"
+                        }
+                      },
+                      "Property": "coding_gap_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "56a827525a4c01ddba80": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "77d1e581a69cbd0a002a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e7599f472e04292005dd",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_risk_bucket"
+                        }
+                      },
+                      "Property": "risk_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_risk_bucket"
+                        }
+                      },
+                      "Property": "risk_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_risk_bucket"
+                        }
+                      },
+                      "Property": "risk_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "50a2a09aec423e0b2e93": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "1aae9cdc73c9a38705d4": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "f720c800640a087dee48": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "171113fc623a16200b2e": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "5489a6f66da7728d6d96": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "22ff83719820b80a0ca7": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "4f8da2e51139ec787c4d": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "25e431ed9ade9c804c23": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "290b59ad01c9293cea12": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "7ad37b422dff7c610908",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "d87cf899204c233178ec": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "e3de55aeb88030adc8ce",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "3baac9d2975bbd169e05",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "80e7796d302c17acb8a0": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "2100f7e30ae36ad2476c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e2c1580005c066d7d0c4": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "3dcecfb0d002c1070c26": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "aee6bfbadcd5404c896e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "098185641cca833733be",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "contract_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e008f36ace0d7519523b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d407a51656b935a43cb2",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p1",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p1"
+                                      }
+                                    },
+                                    "Property": "payer_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "1318701fe8519c0989b2": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "e09530f323538c0b9cba",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "plan_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "5bd370a7a0d20058d626": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "e15138a1d5536be6e404",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "pcp",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "org_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ede4f453be3a4dc90c10",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "aco_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "aco_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "6e6779002aa695e60979": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "70bba950479324077370": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "5638992e05176aabd07d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "s",
+                        "Entity": "static_attribution_status",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "s"
+                                        }
+                                      },
+                                      "Property": "attribution_status"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_attribution_status"
+                        }
+                      },
+                      "Property": "attribution_status"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_attribution_status"
+                        }
+                      },
+                      "Property": "attribution_status"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ac0cfaab7862b60be106": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filterb0b59f40d1d4d41f67cb",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "All DAX"
+                        }
+                      },
+                      "Property": "Aggregated open gaps to next star"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "2b23f8e7fa1268bf6df6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp_2"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "96076be137356e31a320",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp_2"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d80f7cad49e806c45dc2",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2fc48ba0401682c0ae09",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a"
+                                  }
+                                },
+                                "Property": "Cohort eligible gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Cohort eligible gaps"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp_2"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "774c1ec504882ad61110": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "ab62c6a2db6503296cd1",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a1"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d40c48935d01e02a25e0",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_patient_seen_bucket"
+                        }
+                      },
+                      "Property": "patient_seen_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_patient_seen_bucket"
+                        }
+                      },
+                      "Property": "patient_seen_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_patient_seen_bucket"
+                        }
+                      },
+                      "Property": "patient_seen_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "7f48eb60bd6c390190d9": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d09420b09baa5b10047e",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a1"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5feb411008be4e31cd53",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_visit_amount_rolling_bucket"
+                        }
+                      },
+                      "Property": "visit_amount_rolling_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_visit_amount_rolling_bucket"
+                        }
+                      },
+                      "Property": "visit_amount_rolling_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_visit_amount_rolling_bucket"
+                        }
+                      },
+                      "Property": "visit_amount_rolling_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "5dc0ab2a0d3878053a78": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a94a032e0c4ea072c42d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_pcp_member_distance_bucket"
+                        }
+                      },
+                      "Property": "pcp_member_distance_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "209173eb6c7a3c8ce6d7",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a1"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_pcp_member_distance_bucket"
+                        }
+                      },
+                      "Property": "pcp_member_distance_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_pcp_member_distance_bucket"
+                        }
+                      },
+                      "Property": "pcp_member_distance_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "dd8c8c2cb4d8585c03e6": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b59bdd7e4018c83d74a7",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "ed_visit_bucket"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9f96712f9037805eb283",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "ALL DAX",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "a1"
+                                  }
+                                },
+                                "Property": "Targeted gaps"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Targeted gaps"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "ed_visit_bucket"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cohort"
+                        }
+                      },
+                      "Property": "ed_visit_bucket"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "72250a355c095087d40c": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "4e166fb8bb882d44a0e7": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "72efff4092d89a754e5d": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "681f134320760d495a6b": {
+            "isHidden": false
+          },
+          "3d01162fbe1d09383ed1": {
+            "isHidden": true
+          },
+          "1b9a972307c540e49350": {
+            "isHidden": false
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "true"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

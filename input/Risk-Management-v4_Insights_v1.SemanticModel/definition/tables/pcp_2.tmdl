@@ -1,0 +1,46 @@
+table pcp_2
+	lineageTag: 3629ae59-cdfb-4a16-a537-8fb4bc2a257d
+
+	column pcp_name
+		dataType: string
+		lineageTag: eb5f0875-dc96-4409-bcb0-1829ddbb6e76
+		summarizeBy: none
+		sourceColumn: pcp_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_name
+		dataType: string
+		lineageTag: 7ca78477-fe74-4b9c-af2a-ad06af8ac39e
+		summarizeBy: none
+		sourceColumn: practice_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: af03a5e3-db23-4310-b927-118b0b234003
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pcp_2 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    l5_Schema = L5_TESTING_DB_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    pcp_Table = l5_Schema{[Name= "PCP_DIM_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(pcp_Table, Text.Lower),
+				    #"Removed Columns" = Table.RemoveColumns(#"Lowercased Text",{"updated_key", "updated_on", "region_id", "region_name"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Columns",{"pcp_name", "practice_name", "org_hierarchy_master_id"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

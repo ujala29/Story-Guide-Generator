@@ -1,0 +1,67 @@
+{
+  "visual_id": "5b65519b0bee63d03671",
+  "title": "% members with open coding gaps",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [
+    {
+      "movement": "% members with open coding gaps goes UP",
+      "signal": "Negative",
+      "interpretation": "A larger share of the panel has unaddressed conditions, increasing risk of revenue leakage and inaccurate RAF scores — Cross-check Gap to potential risk"
+    },
+    {
+      "movement": "% members with open coding gaps goes DOWN",
+      "signal": "Positive",
+      "interpretation": "Fewer members have unresolved coding gaps, indicating improved documentation outreach and stronger risk capture across the panel — Cross-check Risk recapture rate"
+    },
+    {
+      "movement": "% members with open coding gaps remains high while Risk recapture rate is also rising",
+      "signal": "Investigate",
+      "interpretation": "Gaps are being closed at an increasing rate yet the share of members with open gaps is not declining, suggesting new gaps are opening faster than they are being resolved — Cross-check Documented risk vs potential risk"
+    }
+  ],
+  "drill_steps": [
+    {
+      "step": 1,
+      "visual_name": "Eligible population",
+      "question": "Has the total attributed population grown or shifted in a way that could mechanically inflate the number of members with open gaps?"
+    },
+    {
+      "step": 2,
+      "visual_name": "Risk breakdown by attribution status",
+      "question": "Are open coding gaps concentrated in a specific attribution segment, such as newly attributed or loosely attributed members?"
+    },
+    {
+      "step": 3,
+      "visual_name": "PCP distribution (top 20 by members)",
+      "question": "Which PCPs carry the highest share of members with open gaps, and are a small number of practices driving the overall rate?"
+    },
+    {
+      "step": 4,
+      "visual_name": "Gap closure by type of visit",
+      "question": "Are certain visit types failing to close gaps at expected rates, leaving conditions unaddressed after patient contact?"
+    },
+    {
+      "step": 5,
+      "visual_name": "Gap closure by network status",
+      "question": "Are out-of-network members disproportionately contributing to open gaps due to limited visibility into their encounters?"
+    },
+    {
+      "step": 6,
+      "visual_name": "Practice/PCP details",
+      "question": "Which specific practices have the highest % of members with open gaps and have shown no improvement year over year — Drill-down ends here. For member-level detail — go to Patient List on the Risk Capture Potential page."
+    }
+  ],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

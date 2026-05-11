@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "343eb8233c193db51525",
+  "position": {
+    "x": 1322,
+    "y": 574.68483441167791,
+    "z": 74000,
+    "height": 22.08365019011401,
+    "width": 89.743376393074541,
+    "tabOrder": 71000
+  },
+  "visualGroup": {
+    "displayName": "Payer/plan details Patient List button",
+    "groupMode": "ScaleMode"
+  }
+}

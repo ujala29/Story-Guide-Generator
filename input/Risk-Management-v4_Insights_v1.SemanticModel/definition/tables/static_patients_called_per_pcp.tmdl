@@ -1,0 +1,38 @@
+table static_patients_called_per_pcp
+	lineageTag: 95809636-9a0b-4541-8138-d49d9c885ae5
+
+	column patient_count
+		dataType: string
+		lineageTag: 95dbe8b2-78ac-44df-a211-94c79324e510
+		summarizeBy: none
+		sourceColumn: patient_count
+		sortByColumn: patient_count_sort_order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_count_sort_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 19bc0114-d616-4aa1-a74c-7a3efeb5e81a
+		summarizeBy: sum
+		sourceColumn: patient_count_sort_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_patients_called_per_pcp = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Jcu5CQAwDEPRXVy7yH2UmcN4g+xfR1YKweODzCSLYq4mBSpUhSrVoEZ1qFM5geMz6vzvqIs898Jb3B8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [patients_called_per_pcp = _t, patients_called_per_pcp_sort_order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"patients_called_per_pcp", type text}, {"patients_called_per_pcp_sort_order", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"patients_called_per_pcp", "patient_count"}, {"patients_called_per_pcp_sort_order", "patient_count_sort_order"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

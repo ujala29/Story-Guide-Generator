@@ -1,0 +1,67 @@
+{
+  "visual_id": "38f35b7408b903224e59",
+  "title": "PMPM",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [
+    {
+      "movement": "PMPM rises year-over-year",
+      "signal": "Investigate",
+      "interpretation": "Higher average visit costs per member may reflect increased utilization, sicker population mix, or rising unit costs — determine whether risk scores justify the spend. Cross-check Documented risk vs potential risk"
+    },
+    {
+      "movement": "PMPM falls year-over-year",
+      "signal": "Positive",
+      "interpretation": "Lower average visit costs per member suggest improved care efficiency or reduced utilization, but verify that necessary care is not being deferred. Cross-check Risk recapture rate"
+    },
+    {
+      "movement": "PMPM rises while Eligible population falls",
+      "signal": "Investigate",
+      "interpretation": "Costs per member are climbing even as the attributed population shrinks, which may indicate a higher-acuity member concentration or attribution anomalies driving inflated averages. Cross-check Risk breakdown by attribution status"
+    }
+  ],
+  "drill_steps": [
+    {
+      "step": 1,
+      "visual_name": "PMPM",
+      "question": "What is the current PMPM value and how does it compare to the same period last year?"
+    },
+    {
+      "step": 2,
+      "visual_name": "Eligible population",
+      "question": "Has the size or composition of the attributed member population changed in a way that could explain the PMPM movement?"
+    },
+    {
+      "step": 3,
+      "visual_name": "Risk breakdown by attribution status",
+      "question": "Are higher-cost members concentrated in a specific attribution status that is skewing the overall PMPM?"
+    },
+    {
+      "step": 4,
+      "visual_name": "Payer/plan details",
+      "question": "Which payer or plan is driving the largest share of total visit costs contributing to elevated PMPM?"
+    },
+    {
+      "step": 5,
+      "visual_name": "Practice/PCP details",
+      "question": "Which practices or PCPs have the highest per-member visit costs and are they outliers relative to their peers?"
+    },
+    {
+      "step": 6,
+      "visual_name": "Gap closure by type of visit",
+      "question": "Are high-cost visit types aligned with gap closure activity, or is spend occurring without corresponding risk capture — and is PMPM justified by outcomes? Drill-down ends here. For member-level detail — go to Patient List on the Risk Capture Potential page."
+    }
+  ],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

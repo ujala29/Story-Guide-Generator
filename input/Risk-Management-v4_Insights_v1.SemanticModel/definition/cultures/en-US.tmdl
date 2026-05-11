@@ -1,0 +1,6168 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "3.5.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "date": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "moment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "period": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "date.month_of_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "month_of_date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month of date": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "month_of_date": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "mth of date": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "month of moment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "month of period": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "date.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        }
+			      ]
+			    },
+			    "date.month_of_year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "month_of_year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month of year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "month_of_year": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "mth of year": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "month of yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "payer": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "payer": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "payer.payer_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "payer_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "payer id": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "id": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "payer_id": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "payer identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "payer identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "payer identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "payer credential": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ],
+			      "NameType": "Identifier"
+			    },
+			    "payer.payer_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "payer_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "payer name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "name": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "payer_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "payer nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "payer title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "payer label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "payer tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "Payer/plan": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Payer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ],
+			      "NameType": "Name"
+			    },
+			    "payer.plan_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "plan_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "plan id": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "plan_id": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "plan": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "plan identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "plan identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "plan identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "proposal": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "strategy": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "agenda": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "arrangement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "idea": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "layout": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "policy": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        }
+			      ]
+			    },
+			    "payer.plan_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "plan_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "plan name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "plan_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "plan": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "proposal": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "strategy": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "agenda": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "arrangement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "idea": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "layout": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "policy": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "preparation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "plan nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "plan title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "payer.contract_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "contract_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "contract name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "contract_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "contract": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "contract nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "contract title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "contract label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "contract tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "agreement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "pact": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "convention": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "treaty": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "bond": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "indenture": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "LOB": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "payer.date_paid_through": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "date_paid_through"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "date paid through": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "date_paid_through": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "date": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        },
+			        {
+			          "moment paid through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "period paid through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Claims paid through": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "payer.contract_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "contract_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "contract id": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "contract_id": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "contract": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "contract identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract credential": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "agreement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "pact": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "convention": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "treaty": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "bond": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "indenture": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "pcp": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pcp": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.pcp_npi": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "pcp_npi"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pcp npi": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pcp_npi": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.pcp_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "pcp_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pcp name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pcp_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "pcp nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "pcp title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "pcp label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "pcp tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "PCP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.practice_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "practice_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "practice name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "practice_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "practice": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "practice nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "practice title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "practice label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "practice tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "repetition": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "rehearsal": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "preparation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "exercise": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "training": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "run-through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "Practice/PCP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.org_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "org_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "org name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "org_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "org": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "org nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "org title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "org label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "org tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.aco_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "aco_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "aco name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "aco_name": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aco nickname": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "aco title": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "aco label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "aco tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.org_hierarchy_master_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "org_hierarchy_master_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "org hierarchy master id": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "org_hierarchy_master_id": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "master": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "hierarchy master": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "org hierarchy master": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "master id": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "hierarchy master id": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "org hierarchy master identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.771
+			          }
+			        },
+			        {
+			          "org hierarchy master identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.771
+			          }
+			        },
+			        {
+			          "org hierarchy master identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.771
+			          }
+			        },
+			        {
+			          "hierarchy master identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "hierarchy master identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "hierarchy master identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "master identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "master identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "master identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "org hierarchy master credential": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.748
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.pcp_name_new": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "pcp_name_new"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pcp name new": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pcp_name_new": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "pcp nickname new": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "pcp title new": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "pcp label new": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "pcp tag new": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        }
+			      ]
+			    },
+			    "user_permission.user_email": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "user_permission",
+			          "ConceptualProperty": "user_email"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "user email": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "user_email": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "email": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "user correspondence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "correspondence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "user message": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.461
+			          }
+			        },
+			        {
+			          "user communication": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.461
+			          }
+			        },
+			        {
+			          "message": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.452
+			          }
+			        },
+			        {
+			          "communication": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.452
+			          }
+			        }
+			      ]
+			    },
+			    "user_permission.prvid": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "user_permission",
+			          "ConceptualProperty": "prvid"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "prvid": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "user_permission": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "user_permission"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "user permission": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "user_permission": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "permission": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "user authorization": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "user approval": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "user agreement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "user acquiescence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "user clearance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "authorization": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "approval": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "agreement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "acquiescence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "clearance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.practice_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "practice_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "practice id": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "practice_id": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "practice": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "practice identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "practice identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "practice identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "practice credential": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "repetition": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "rehearsal": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "preparation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "exercise": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "training": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "run-through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "payer.payer_plan_concat": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "payer_plan_concat"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "payer plan concat": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "payer_plan_concat": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "payer proposal concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer strategy concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer agenda concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer arrangement concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer idea concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer layout concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer policy concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer preparation concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "payer blueprint concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "payer initiative concat": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "payer.contract_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "contract_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "contract type": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "contract_type": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "type": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "contract category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract genre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract manner": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract variety": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "genre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "manner": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "variety": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "contract brand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "contract class": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "contract kind": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "payer.contract_type_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "contract_type_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "contract type id": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "contract_type_id": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "type": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "type id": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "contract type identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "contract type identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "contract type identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "type identification": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "type identity": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "type identifier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "contract type credential": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "genre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "manner": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "variety": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        }
+			      ]
+			    },
+			    "payer.date_incurred_through": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "date_incurred_through"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "date incurred through": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "date_incurred_through": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "date": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        },
+			        {
+			          "moment incurred through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "period incurred through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Claims incurred through": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "payer.date_processed_through": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "date_processed_through"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "date processed through": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "date_processed_through": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "date": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        },
+			        {
+			          "moment processed through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "period processed through": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "payer.payer_master_id_index": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "payer_master_id_index"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "payer master id index": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "payer_master_id_index": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "index": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "id index": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "master id index": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "payer master identification index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "payer master identity index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "payer master identifier index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "master identification index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "master identity index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "master identifier index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "identification index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "identity index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "identifier index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "payer master credential index": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        }
+			      ]
+			    },
+			    "pac_comparison.nearest_snf": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_comparison",
+			          "ConceptualProperty": "Nearest SNF"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "attribution_disease_count.disease_count": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "attribution_disease_count",
+			          "ConceptualProperty": "disease_count"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.total_targeted_patients": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Total targeted patients"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "quality_cohort_view.awv_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "quality_cohort_view",
+			          "ConceptualProperty": "awv_status"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.measure_met_goal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% Measure met goal"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.measure_met_goal_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% measure met goal PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.measure_met_forecast_trend": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% Measure met forecast trend"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "measure.measure_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "measure",
+			          "ConceptualProperty": "measure_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.text_star_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Text star rating"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.text_ye_star_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Text YE star rating"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.goal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Goal"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.inverse_measure_flag": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Inverse measure flag"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.ye_quality_performance_overall": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "YE quality performance overall"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.quality_performance": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Quality performance"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.quality_performance_ly": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Quality performance LY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.gaps_open": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Gaps open"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "static_overview_metrics_table.metric": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_overview_metrics_table",
+			          "ConceptualProperty": "metric"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_overview.blank_dax": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Overview",
+			          "ConceptualProperty": "Blank DAX"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.total_expenditure": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Total Expenditure"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.network_leakage_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Network Leakage %"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.total_network_leakage": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Total Network Leakage"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.network_leakage__yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Network Leakage % YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.oon_utilization_rate_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "OON utilization rate YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.leakage_pmpm_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Leakage PMPM YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.members": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "#Members"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_medication_cost": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Medication cost"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.potential_savings": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential savings"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.generic_dispensing_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Generic dispensing rate"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_medication_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Medication PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.scripts_1000": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Scripts/1000"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.scripts_1000_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Scripts/1000 PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.medication_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Medication PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.medication_pmpm_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Medication PMPM PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.medication_pmpm_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Medication PMPM YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.scripts_1000_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Scripts/1000 YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.generic_dispensing_rate_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Generic dispensing rate YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.members": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "#Members"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Members": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.gap_to_potential_risk": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Gap to potential risk"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.avg_cost_script_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Avg cost/script YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.asp_change_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "ASP change YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.medication_pmpm_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Medication PMPM MoM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.scripts_1000_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Scripts/1000 MoM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.generic_dispensing_rate_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Generic dispensing rate MoM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.potential_savings_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential savings PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.avg_cost_script": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Avg cost/script"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.avg_cost_script_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Avg cost/script PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.generic_dispensing_rate_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Generic dispensing rate PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.risk_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk Score"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.risk_score_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk Score PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.medication_pmpm_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Medication PMPM PM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_scripts_1000": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Scripts/1000"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.avg_cost_script_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Avg cost/script MoM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.eligible": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_eligible": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Eligible"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.adherence_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Adherence rate"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.adherence_rate_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Adherence rate PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.eligible_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.adherence_rate_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Adherence rate YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.open_gaps_to_goal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Open gaps to goal"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.adherence_rate_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Adherence Rate MoM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.adherence_rate_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Adherence Rate PM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.eligible_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible PM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.drug_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "drug_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.drug_class": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "drug_class"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.drug_sub_class": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "drug_sub_class"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.drug_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "drug_group"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.brand_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "brand_status"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.alternate_drug_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "alternate_drug_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.alternate_drug_manufacturer_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "alternate_drug_manufacturer_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.drug_manufacturer_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "drug_manufacturer_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "ndc.ndc": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ndc",
+			          "ConceptualProperty": "ndc"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "medication.servicing_provider_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "medication",
+			          "ConceptualProperty": "servicing_provider_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "adherence.adherence_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "adherence",
+			          "ConceptualProperty": "adherence_status"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "adherence.no_of_conditions_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "adherence",
+			          "ConceptualProperty": "no_of_conditions_bucket"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "adherence.age_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "adherence",
+			          "ConceptualProperty": "age_bucket"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "adherence.days_missed_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "adherence",
+			          "ConceptualProperty": "days_missed_bucket"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "adherence.measure_concat_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "adherence",
+			          "ConceptualProperty": "measure_concat_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.potential_risk": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential risk"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Potential": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current potential risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Potential risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.members_with_open_coding_gaps": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Members with open coding gaps"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.overall_gaps_closed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Gaps closed"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.documented_risk": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Documented risk"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Documented risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current documented risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.documented_risk_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Documented risk PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "PY documented risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.members_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "#Members PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.formatted_members": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted #Members"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_members_with_open_coding_gaps": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Members with open coding gaps"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_overall_gaps_closed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Overall gaps closed"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.raf_recapture_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.raf_recapture_rate_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.raf_recapture_rate_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RAF RR YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current year change %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.risk_recapture_rate_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.risk_recapture_rate_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk RR YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.open_dropped_gaps": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Open gaps (Dropped)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Open gaps (Dropped)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.open_suspected_gaps": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Open gaps (Suspected)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Open gaps (Suspected)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.open_dropped_gaps_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "open dropped gaps (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Open gaps (Dropped)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.open_suspected_gaps_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "open suspected gaps (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Open gaps (Suspected)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.gap_to_potential_risk_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Gap to potential risk (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Gap to potential risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.documented_risk_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Documented risk (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Documented risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.raf_recapture_rate_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate (GROUP)"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.raf_recapture_rate_yoy_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate YoY (GROUP)"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.risk_recapture_rate_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk recapture rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.risk_recapture_rate_yoy_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate YoY (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk RR YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Risk recapture rate change %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.risk_model_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "measure",
+			          "ConceptualProperty": "risk_model_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Model/sub-model": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.documented_risk_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Documented risk YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.formatted_eligible_population": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Eligible population"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Eligible population": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.formatted_eligible_population_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Formatted Eligible population (group)"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "enrollment_type.churn_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_churn_status",
+			          "ConceptualProperty": "churn_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Attribution status": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.eligible_members_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible population (group)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Eligible population": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "risk_group.risk_factor_description": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "risk_group",
+			          "ConceptualProperty": "risk_factor_description"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk factor description": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "risk_group.disease": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "risk_group",
+			          "ConceptualProperty": "disease"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Disease": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.risk_recapture_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.eligible_population": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible population"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.eligible_population_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible population PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "PMPM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.pmpm_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "PMPM PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.risk_model_sub_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "measure",
+			          "ConceptualProperty": "risk_model_sub_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sub-model": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.potential_risk_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential risk (GROUP)"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.eligible_population_trend": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Eligible population trend"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.members_trend": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "#Members trend"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.open_coding_gaps_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Targeted gaps"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Targeted gaps": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dax.members_with_open_coding_gaps_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dax",
+			          "ConceptualProperty": "Members_with_open_coding_gaps_cohort"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dax.realizable_raf_impact_cohort_tab": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dax",
+			          "ConceptualProperty": "realizable_RAF_impact_cohort_tab"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.members_with_open_coding_gaps_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Targeted patients"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Targeted patients": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.potential_gaps": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Potential gaps"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "cohort.age_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "age_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Age bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.gender": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "gender"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Gender": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.race": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "race"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Race": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.ethnicity": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "ethnicity"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ethnicity": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.awv_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "awv_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Wellness visit": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "static_days_since_last_pcp_visit_bucket.days_since_last_pcp_visit_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_days_since_last_pcp_visit_bucket",
+			          "ConceptualProperty": "days_since_last_pcp_visit_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Days since last PCP visit bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "zip.zip": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "zip",
+			          "ConceptualProperty": "zip"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "static_care_gap_bucket.care_gap_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_care_gap_bucket",
+			          "ConceptualProperty": "care_gap_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Care gap bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "static_coding_gap_bucket.coding_gap_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_coding_gap_bucket",
+			          "ConceptualProperty": "coding_gap_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Coding gap bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "static_risk_bucket.risk_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_risk_bucket",
+			          "ConceptualProperty": "risk_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.risk_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "risk_bucket"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "payer.payer_name1": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PAYER",
+			          "ConceptualProperty": "payer_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "payer.plan_name1": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PAYER",
+			          "ConceptualProperty": "plan_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "payer.date_incurred_through1": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PAYER",
+			          "ConceptualProperty": "date_incurred_through"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "payer.date_paid_through1": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PAYER",
+			          "ConceptualProperty": "date_paid_through"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dax.latest_measurement_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dax",
+			          "ConceptualProperty": "Latest measurement date"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.latest_measurement_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Latest measurement date"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.documented_risk_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Documented risk cohort"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.latest_attribution_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Latest attribution date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Latest month of attribution": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.gaps_closed_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Gaps closed (GROUP)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Gaps closed": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "risk_group.gap_closure_visit_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "risk_group",
+			          "ConceptualProperty": "gap_closure_visit_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Type of visit": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "risk_group.gap_closure_network_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "risk_group",
+			          "ConceptualProperty": "gap_closure_network_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Network status": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "risk_group.gap_closure_provider_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "risk_group",
+			          "ConceptualProperty": "gap_closure_provider_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Provider type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.raf_recapture_rate_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate PM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.raf_recapture_rate_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate MoM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RAF RR MoM change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current month change %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.risk_recapture_rate_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate MoM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk RR MoM change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.documented_risk_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Documented risk PM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PM documented risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.potential_risk_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential risk PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PY potential risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.potential_risk_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential risk PM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PM potential risk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.risk_recapture_rate_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Risk recapture rate cohort"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk recapture rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "risk_group.risk_factor_code": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "risk_group",
+			          "ConceptualProperty": "risk_factor_code"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk factor": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.raf_recapture_rate_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "RAF recapture rate cohort"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RAF recapture rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.potential_risk_recapture_rate_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential Risk recapture rate cohort"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Potential Risk recapture rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.potential_raf_recapture_rate_cohort": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL DAX",
+			          "ConceptualProperty": "Potential RAF recapture rate cohort"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Potential RAF recapture rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pcp_2.practice_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp_2",
+			          "ConceptualProperty": "practice_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Practice/PCP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "static_patient_seen_bucket.patient_seen_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_patient_seen_bucket",
+			          "ConceptualProperty": "patient_seen_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PCP visits (rolling 12 months)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "static_visit_amount_rolling_bucket.visit_amount_rolling_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_visit_amount_rolling_bucket",
+			          "ConceptualProperty": "visit_amount_rolling_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cost of care (rolling 12 months)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.ed_visit_bucket": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "ed_visit_bucket"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ED visit bucket": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cohort.empi": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "cohort",
+			          "ConceptualProperty": "empi"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "EMPI": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "x_axis_scatter_plot.selected_x_axis_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "X Axis scatter plot",
+			          "ConceptualProperty": "Selected X Axis Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "X axis": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "y_axis_scatter_plot.selected_y_axis_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Y Axis scatter plot",
+			          "ConceptualProperty": "Selected Y Axis Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Y axis": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "x_axis_scatter_plot.metric_title": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "X Axis scatter plot",
+			          "ConceptualProperty": "Metric title"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Metric": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "x_axis_scatter_plot.metric_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "X Axis scatter plot",
+			          "ConceptualProperty": "Metric value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Value": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "static_scatter_plot.scatter_plot_axis": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "static_scatter_plot",
+			          "ConceptualProperty": "scatter_plot_axis"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Axis": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
+			    "pcp_has_user_permission": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "user_permission": {
+			          "Target": {
+			            "Entity": "user_permission"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "user_permission"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_user_permissions"
+			        }
+			      ]
+			    },
+			    "payer_has_payer_master_id_index": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.payer_master_id_index": {
+			          "Target": {
+			            "Entity": "payer.payer_master_id_index"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.payer_master_id_index"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_payer_master_id_indices"
+			        }
+			      ]
+			    },
+			    "payer_has_date_processed_through": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.date_processed_through": {
+			          "Target": {
+			            "Entity": "payer.date_processed_through"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.date_processed_through"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_date_processed_through"
+			        }
+			      ]
+			    },
+			    "payer_has_date_incurred_through": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.date_incurred_through": {
+			          "Target": {
+			            "Entity": "payer.date_incurred_through"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.date_incurred_through"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_date_incurred_through"
+			        }
+			      ]
+			    },
+			    "payer_has_contract_type_id": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.contract_type_id": {
+			          "Target": {
+			            "Entity": "payer.contract_type_id"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.contract_type_id"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_contract_type_ids"
+			        }
+			      ]
+			    },
+			    "payer_has_contract_type": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.contract_type": {
+			          "Target": {
+			            "Entity": "payer.contract_type"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.contract_type"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_contract_types"
+			        }
+			      ]
+			    },
+			    "payer_has_payer_plan_concat": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.payer_plan_concat": {
+			          "Target": {
+			            "Entity": "payer.payer_plan_concat"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.payer_plan_concat"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_payer_plan_concats"
+			        }
+			      ]
+			    },
+			    "pcp_has_practice_id": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.practice_id": {
+			          "Target": {
+			            "Entity": "pcp.practice_id"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.practice_id"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_practice_ids"
+			        }
+			      ]
+			    },
+			    "user_permission_has_prvid": {
+			      "Binding": {
+			        "ConceptualEntity": "user_permission"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "user_permission": {
+			          "Target": {
+			            "Entity": "user_permission"
+			          }
+			        },
+			        "user_permission.prvid": {
+			          "Target": {
+			            "Entity": "user_permission.prvid"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "user_permission"
+			            },
+			            "Object": {
+			              "Role": "user_permission.prvid"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "user_permissions_have_prvids"
+			        }
+			      ]
+			    },
+			    "user_permission_has_user_email": {
+			      "Binding": {
+			        "ConceptualEntity": "user_permission"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "user_permission": {
+			          "Target": {
+			            "Entity": "user_permission"
+			          }
+			        },
+			        "user_permission.user_email": {
+			          "Target": {
+			            "Entity": "user_permission.user_email"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "user_permission"
+			            },
+			            "Object": {
+			              "Role": "user_permission.user_email"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "user_permissions_have_user_emails"
+			        }
+			      ]
+			    },
+			    "pcp_has_all_dax_top_PC_ps": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "all_dax.top_PC_ps": {
+			          "Target": {
+			            "Entity": "all_dax.top_PC_ps"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "all_dax.top_PC_ps"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_top_PC_ps"
+			        }
+			      ]
+			    },
+			    "date_has_month_year": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month_year": {
+			          "Target": {
+			            "Entity": "date.month_year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month_year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_month_years"
+			        }
+			      ]
+			    },
+			    "pcp_has_pcp_name_new": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.pcp_name_new": {
+			          "Target": {
+			            "Entity": "pcp.pcp_name_new"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.pcp_name_new"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_pcp_name_new"
+			        }
+			      ]
+			    },
+			    "pcp_has_aco_name": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.aco_name": {
+			          "Target": {
+			            "Entity": "pcp.aco_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.aco_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_aco_names"
+			        }
+			      ]
+			    },
+			    "pcp_has_org_name": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.org_name": {
+			          "Target": {
+			            "Entity": "pcp.org_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.org_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_org_names"
+			        }
+			      ]
+			    },
+			    "pcp_has_practice_name": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.practice_name": {
+			          "Target": {
+			            "Entity": "pcp.practice_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.practice_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_practice_names"
+			        }
+			      ]
+			    },
+			    "pcp_has_pcp_name": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.pcp_name": {
+			          "Target": {
+			            "Entity": "pcp.pcp_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.pcp_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_pcp_names"
+			        }
+			      ]
+			    },
+			    "pcp_has_pcp_npi": {
+			      "Binding": {
+			        "ConceptualEntity": "pcp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "pcp": {
+			          "Target": {
+			            "Entity": "pcp"
+			          }
+			        },
+			        "pcp.pcp_npi": {
+			          "Target": {
+			            "Entity": "pcp.pcp_npi"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "pcp"
+			            },
+			            "Object": {
+			              "Role": "pcp.pcp_npi"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "pcps_have_pcp_npis"
+			        }
+			      ]
+			    },
+			    "payer_has_contract_id": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.contract_id": {
+			          "Target": {
+			            "Entity": "payer.contract_id"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.contract_id"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_contract_ids"
+			        }
+			      ]
+			    },
+			    "payer_has_date_paid_through": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.date_paid_through": {
+			          "Target": {
+			            "Entity": "payer.date_paid_through"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.date_paid_through"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_date_paid_through"
+			        }
+			      ]
+			    },
+			    "payer_has_contract_name": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.contract_name": {
+			          "Target": {
+			            "Entity": "payer.contract_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.contract_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_contract_names"
+			        }
+			      ]
+			    },
+			    "payer_has_plan_name": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.plan_name": {
+			          "Target": {
+			            "Entity": "payer.plan_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.plan_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_plan_names"
+			        }
+			      ]
+			    },
+			    "payer_has_plan_id": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.plan_id": {
+			          "Target": {
+			            "Entity": "payer.plan_id"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.plan_id"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_plan_ids"
+			        }
+			      ]
+			    },
+			    "payer_has_payer_name": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.payer_name": {
+			          "Target": {
+			            "Entity": "payer.payer_name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.payer_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_payer_names"
+			        },
+			        {
+			          "Name": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Name": {
+			              "Role": "payer.payer_name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payer_names_are_names_IDs_of_payers"
+			        }
+			      ]
+			    },
+			    "payer_has_payer_id": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.payer_id": {
+			          "Target": {
+			            "Entity": "payer.payer_id"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Object": {
+			              "Role": "payer.payer_id"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payers_have_payer_ids"
+			        },
+			        {
+			          "Name": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Name": {
+			              "Role": "payer.payer_id"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "payer_ids_are_names_IDs_of_payers"
+			        }
+			      ]
+			    },
+			    "date_has_updated_on": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.updated_on": {
+			          "Target": {
+			            "Entity": "date.updated_on"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.updated_on"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_updated_on"
+			        }
+			      ]
+			    },
+			    "date_has_month_of_year": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month_of_year": {
+			          "Target": {
+			            "Entity": "date.month_of_year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month_of_year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_month_of_year"
+			        }
+			      ]
+			    },
+			    "date_has_year": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.year": {
+			          "Target": {
+			            "Entity": "date.year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_years"
+			        }
+			      ]
+			    },
+			    "date_has_month": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month": {
+			          "Target": {
+			            "Entity": "date.month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_months"
+			        }
+			      ]
+			    },
+			    "date_has_month_of_date": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month_of_date": {
+			          "Target": {
+			            "Entity": "date.month_of_date"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month_of_date"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_month_of_date"
+			        }
+			      ]
+			    },
+			    "payer_is_processed_on_date_processed_through": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.date_processed_through": {
+			          "Target": {
+			            "Entity": "payer.date_processed_through"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "When": {
+			          "Role": "payer.date_processed_through"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Verb": {
+			            "Verbs": [
+			              {
+			                "process": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "payer"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.9,
+			          "ID": "payers_are_processed_on_date_processed_through"
+			        }
+			      ]
+			    },
+			    "payer_is_incurred_on_date_incurred_through": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.date_incurred_through": {
+			          "Target": {
+			            "Entity": "payer.date_incurred_through"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "When": {
+			          "Role": "payer.date_incurred_through"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Verb": {
+			            "Verbs": [
+			              {
+			                "incur": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "payer"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.9,
+			          "ID": "payers_are_incurred_on_date_incurred_through"
+			        }
+			      ]
+			    },
+			    "payer_is_paid_on_date_paid_through": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        },
+			        "payer.date_paid_through": {
+			          "Target": {
+			            "Entity": "payer.date_paid_through"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "When": {
+			          "Role": "payer.date_paid_through"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Verb": {
+			            "Verbs": [
+			              {
+			                "pay": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "payer"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.9,
+			          "ID": "payers_are_paid_on_date_paid_through"
+			        }
+			      ]
+			    },
+			    "date_is_updated_on_updated_on": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.updated_on": {
+			          "Target": {
+			            "Entity": "date.updated_on"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "When": {
+			          "Role": "date.updated_on"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Verb": {
+			            "Verbs": [
+			              {
+			                "update": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "date"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.9,
+			          "ID": "dates_are_updated_on_updated_on"
+			        }
+			      ]
+			    },
+			    "payer_pay": {
+			      "Binding": {
+			        "ConceptualEntity": "payer"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "payer": {
+			          "Target": {
+			            "Entity": "payer"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Verb": {
+			            "Subject": {
+			              "Role": "payer"
+			            },
+			            "Verbs": [
+			              {
+			                "pay": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ]
+			          },
+			          "State": "Generated",
+			          "Weight": 0.75,
+			          "ID": "payers_pay"
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

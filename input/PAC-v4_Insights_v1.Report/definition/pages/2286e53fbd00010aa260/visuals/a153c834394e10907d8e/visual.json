@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "a153c834394e10907d8e",
+  "position": {
+    "x": 369.60536089340832,
+    "y": 16.539715518179243,
+    "z": 1000,
+    "height": 22.731640356897735,
+    "width": 213.96490150202715,
+    "tabOrder": 0
+  },
+  "visualGroup": {
+    "displayName": "PMPM bookmark",
+    "groupMode": "ScaleMode"
+  },
+  "parentGroupName": "9280c50427eb96760062"
+}

@@ -1,0 +1,117 @@
+table attribution
+	lineageTag: 595206c6-abb7-471c-bbbf-7f22e67f3765
+
+	column payer_master_id_index
+		dataType: double
+		lineageTag: a7f74aa2-5d1f-41bb-b7ef-204a886848d3
+		summarizeBy: none
+		sourceColumn: payer_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: b93af796-3536-44b9-8fc0-d4160906e23c
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ytd_member_count
+		dataType: double
+		lineageTag: bb67960a-1300-48ba-8923-1be7e53cd9c4
+		summarizeBy: sum
+		sourceColumn: ytd_member_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column member_count
+		dataType: double
+		lineageTag: 48aa45c7-8a5b-490f-8135-12a604f04ce6
+		summarizeBy: sum
+		sourceColumn: member_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custom_segment_master_id
+		dataType: double
+		lineageTag: 82bbaf94-a818-4a06-b720-73d45a7f5294
+		summarizeBy: sum
+		sourceColumn: custom_segment_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_of_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a813f232-e459-4f50-a071-21c05354886d
+		summarizeBy: none
+		sourceColumn: month_of_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ytd_pcp_visits
+		dataType: double
+		lineageTag: f586aab3-d93c-4c07-8219-16dceb5be009
+		summarizeBy: sum
+		sourceColumn: ytd_pcp_visits
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ytd_visit_amount
+		dataType: double
+		lineageTag: 76ed7d46-3942-4bea-b615-d85fc7c159ba
+		summarizeBy: sum
+		sourceColumn: ytd_visit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column member_with_open_coding_gap_count
+		dataType: double
+		lineageTag: 4786a1de-ef1d-41de-9472-0d798d8f4ab8
+		summarizeBy: sum
+		sourceColumn: member_with_open_coding_gap_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column attribution_status
+		dataType: string
+		lineageTag: dd1912ce-4400-4d9a-a657-dc283aa00dc1
+		summarizeBy: none
+		sourceColumn: attribution_status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition attribution = m
+		mode: import
+		queryGroup: Fact
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE),
+				    L5_TESTING_DB_Database = Source{[Name= L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_09_02_Schema = L5_TESTING_DB_Database{[Name= SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PCP_Table = L5_09_02_Schema{[Name= "PCP_VISITS_V4_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PCP_Table,Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,467 @@
+table pac_view
+	lineageTag: 901b2325-2a3a-4efc-b6b8-0c8a7cee9642
+
+	column empi
+		dataType: string
+		lineageTag: a5a2d63d-1397-4e61-8baa-cdfe880462ff
+		summarizeBy: none
+		sourceColumn: empi
+
+		annotation SummarizationSetBy = Automatic
+
+	column ip_visit_id
+		dataType: string
+		lineageTag: e356b3fa-210c-4280-bf49-a5aa97ff3281
+		summarizeBy: none
+		sourceColumn: ip_visit_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_visit_id
+		dataType: string
+		lineageTag: b59aefba-b325-4918-8332-8d51cf25b70d
+		summarizeBy: none
+		sourceColumn: source_visit_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_visit_type
+		dataType: string
+		lineageTag: 608dcd85-7465-4dad-9a96-56d9cf97caf4
+		summarizeBy: none
+		sourceColumn: source_visit_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column pac_visit_id
+		dataType: string
+		lineageTag: 08381c12-e825-44d7-ab3c-8ef85bc59478
+		summarizeBy: none
+		sourceColumn: pac_visit_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pac_visit_type
+		dataType: string
+		lineageTag: 4429b6cc-5404-470f-89a1-20c7d0fd950e
+		summarizeBy: none
+		sourceColumn: pac_visit_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column transfer_no
+		dataType: double
+		lineageTag: 451933f9-8e8e-45b6-ad49-f9ffc04e4e6a
+		summarizeBy: sum
+		sourceColumn: transfer_no
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column days_in_transfer
+		dataType: double
+		lineageTag: 2766ecc8-ceba-4c55-8657-270fe446ea0c
+		summarizeBy: sum
+		sourceColumn: days_in_transfer
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pac_visit_amount
+		dataType: double
+		lineageTag: 340d9120-5699-4d85-ad9f-cc62d276e00d
+		summarizeBy: sum
+		sourceColumn: pac_visit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pac_length_of_stay
+		dataType: double
+		lineageTag: d13b50fb-7b4e-46bf-8e51-2034d53af950
+		summarizeBy: sum
+		sourceColumn: pac_length_of_stay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pac_hospital_name
+		dataType: string
+		lineageTag: bf02b576-2f00-47ec-8064-6ea9d47c350d
+		summarizeBy: none
+		sourceColumn: pac_hospital_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_source_type
+		dataType: string
+		lineageTag: ce75ea77-84d5-4790-9d79-7e09f095cfd3
+		summarizeBy: none
+		sourceColumn: sub_source_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_transfer
+		dataType: string
+		lineageTag: 397ac8f7-543d-442a-9625-958ab8597139
+		summarizeBy: none
+		sourceColumn: last_transfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column window
+		dataType: string
+		lineageTag: 7f21e218-0422-4165-bad2-70cbdb681624
+		summarizeBy: none
+		sourceColumn: window
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_id_index
+		dataType: double
+		lineageTag: 4e18114e-8b04-403d-8b2a-c3e58551cef6
+		summarizeBy: sum
+		sourceColumn: visit_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column join_key
+		dataType: string
+		lineageTag: 2ddaa080-60d1-4772-890e-ad51ba3ed48f
+		summarizeBy: none
+		sourceColumn: join_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column readmission_flag
+		dataType: string
+		lineageTag: 720fcef5-8f8f-4be7-85fb-0564e3ad190b
+		summarizeBy: none
+		sourceColumn: readmission_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column readmission_flag_60_days
+		dataType: string
+		lineageTag: ec430c13-6ad8-4b44-a89d-aad40a5daec7
+		summarizeBy: none
+		sourceColumn: readmission_flag_60_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column readmission_flag_90_days
+		dataType: string
+		lineageTag: 614090b7-5e5a-460c-8e28-6008c724dfaf
+		summarizeBy: none
+		sourceColumn: readmission_flag_90_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column readmission_index_visit_flag
+		dataType: string
+		lineageTag: c3e8e80e-8c0f-4ff3-bec6-637e77bc679e
+		summarizeBy: none
+		sourceColumn: readmission_index_visit_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column pac_visit_start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 52dd8da0-8271-4345-89b9-f38560da59b4
+		summarizeBy: none
+		sourceColumn: pac_visit_start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column discharge_disposition_code
+		dataType: double
+		lineageTag: 60555ca4-217c-4abe-b9c2-9456ac5d4d7d
+		summarizeBy: sum
+		sourceColumn: discharge_disposition_code
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ip_visit_start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 44301c42-53f9-414f-a6d8-338ab6d1187d
+		summarizeBy: none
+		sourceColumn: ip_visit_start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column initial_assessment
+		dataType: string
+		lineageTag: 3b8a2cb3-f019-4187-a8fc-b094f358399b
+		summarizeBy: none
+		sourceColumn: initial_assessment
+
+		annotation SummarizationSetBy = Automatic
+
+	column pac_visit_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 728a23c7-1fe8-4dce-a876-3e0671b31cfa
+		summarizeBy: none
+		sourceColumn: pac_visit_end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column discharge_to_home
+		dataType: string
+		lineageTag: 7fbf4853-0c3e-41bf-849b-59af64ba8d69
+		summarizeBy: none
+		sourceColumn: discharge_to_home
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_follow_up_flag
+		dataType: string
+		lineageTag: 9b6ff10d-2664-41be-b8b3-2e983d76b2b1
+		summarizeBy: none
+		sourceColumn: pcp_follow_up_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_follow_up_flag_7_days
+		dataType: string
+		lineageTag: 2c2b317b-0101-44e1-8eb7-e8e1d77ea4d2
+		summarizeBy: none
+		sourceColumn: pcp_follow_up_flag_7_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_follow_up_flag_14_days
+		dataType: string
+		lineageTag: 5cc07e53-1c85-4578-8f17-2ad123ba8e5e
+		summarizeBy: none
+		sourceColumn: pcp_follow_up_flag_14_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column alternate_id
+		dataType: string
+		lineageTag: 952d34c7-f3a0-4e14-b931-1034ceb6d5b9
+		summarizeBy: none
+		sourceColumn: alternate_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: a175fad5-45a5-4029-a238-aeb15077244e
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: b8dc1530-edb3-4500-83a7-da1c68e4e6ef
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column dob
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8a0781b4-8150-4cbe-94d1-fc816cb22476
+		summarizeBy: none
+		sourceColumn: dob
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column phone
+		dataType: string
+		lineageTag: 002193fa-a4c9-4fcd-a0c5-a7aec56c4a08
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: af33370e-ca8f-41fb-9cc5-d5960d6dfd3c
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column deceased_flag
+		dataType: string
+		lineageTag: 5589b9f5-6d18-4eda-9097-3c5157657de5
+		summarizeBy: none
+		sourceColumn: deceased_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_npi
+		dataType: double
+		lineageTag: 9572feec-5647-457e-9f4e-175a5a4d285d
+		summarizeBy: sum
+		sourceColumn: pcp_npi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pcp_name
+		dataType: string
+		lineageTag: 7a43e3fc-022f-47a1-9700-5692d5a9f12f
+		summarizeBy: none
+		sourceColumn: pcp_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_name
+		dataType: string
+		lineageTag: 3275d2c3-4e46-49a4-b2ae-8e6af00aa2c0
+		summarizeBy: none
+		sourceColumn: practice_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_name
+		dataType: string
+		lineageTag: 6ec77aa8-cfa3-4529-9474-a7027dd3f896
+		summarizeBy: none
+		sourceColumn: org_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column aco_name
+		dataType: string
+		lineageTag: bb4605b0-37e4-48c4-9926-447df9f55089
+		summarizeBy: none
+		sourceColumn: aco_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		lineageTag: b310de5e-525d-42a6-850f-ee1eb971d8e6
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: 7cc832e4-04c3-4f0a-a394-603e27ccbf6a
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_name
+		dataType: string
+		lineageTag: e3412966-be55-416e-83c5-e2aa5741dd70
+		summarizeBy: none
+		sourceColumn: payer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_name
+		dataType: string
+		lineageTag: 43eda6d2-0484-4a7f-9bfb-0284cfdc29ca
+		summarizeBy: none
+		sourceColumn: plan_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column dod
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1e11dbaa-5a50-4c93-b064-56468e076be3
+		summarizeBy: none
+		sourceColumn: dod
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column updated_on
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d8581f97-c28c-4303-aef1-1fd8e389fd8b
+		summarizeBy: none
+		sourceColumn: updated_on
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_key
+		dataType: string
+		lineageTag: 00681020-2275-4548-bf59-c6254a411e69
+		summarizeBy: none
+		sourceColumn: updated_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column out_of_network_flag
+		dataType: string
+		lineageTag: 10ea4093-e759-45f8-82a0-9212e99be818
+		summarizeBy: none
+		sourceColumn: out_of_network_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column pac_hospital_npi
+		dataType: string
+		lineageTag: 0ff0c916-af82-4732-a631-4879eb25fa0a
+		summarizeBy: none
+		sourceColumn: pac_hospital_npi
+
+		annotation SummarizationSetBy = Automatic
+
+	column pac_rating
+		dataType: double
+		lineageTag: 0d091b34-5d06-4081-833b-af87003d3d76
+		summarizeBy: sum
+		sourceColumn: pac_rating
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column alternate_pac_hospital_name
+		dataType: string
+		lineageTag: df775641-7600-48d5-91d2-95e2cae006fe
+		summarizeBy: none
+		sourceColumn: alternate_pac_hospital_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pac_view = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    DAP_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_PAC_Schema = DAP_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PAC_VIEW_View = L5_PAC_Schema{[Name="PAC_TABLE",Kind="Table"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PAC_VIEW_View, Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

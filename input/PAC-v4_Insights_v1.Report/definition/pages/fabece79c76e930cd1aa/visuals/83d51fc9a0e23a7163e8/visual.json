@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "83d51fc9a0e23a7163e8",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 1000,
+    "height": 300,
+    "width": 696,
+    "tabOrder": 3000
+  },
+  "visualGroup": {
+    "displayName": "PMPM visual ",
+    "groupMode": "ScaleMode"
+  },
+  "parentGroupName": "fd80700d107d9b0e01b8"
+}

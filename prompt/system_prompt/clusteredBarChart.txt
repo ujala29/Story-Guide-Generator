@@ -1,0 +1,42 @@
+**Widget: [Title] (Bar Chart)**
+
+> 📷 *Insert: Cropped screenshot of the [Title] bar chart*
+
+**Definition**
+
+[One sentence — what this chart compares and across what dimension]
+
+**What it measures**
+
+| Element | Description |
+|---|---|
+| Visual type | Bar chart |
+| Orientation | Horizontal / Vertical |
+| Primary metric | [measure name — what each bar represents] |
+| Category axis | [dimension — Disease / LOB / Visit bucket] |
+| Tooltip | [tooltip measures if any] |
+| Comparison | [YoY % change / None] |
+| Visual-level filters | None — responds to global filters only |
+
+**How to read it**
+
+**Directional impact:**
+
+| Movement | Signal | Interpretation |
+|---|---|---|
+| Longest bar in a category | Positive/Negative | [what it means for that category] |
+| One category significantly lower than others | Investigate | [what divergence signals] |
+| All categories uniformly low | Investigate | [system-wide issue signal] |
+
+**Technical specification**
+
+**DAX measure(s):**
+
+[verbatim DAX]
+
+**Tables and columns used:**
+
+| Table | Column | Role |
+|---|---|---|
+| [table] | [measure columns] | [role] |
+| [table] | [category column] | Category axis — groups bars by [dimension] |

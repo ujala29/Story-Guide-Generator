@@ -1,0 +1,72 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Dimension
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup RLS
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup Fact
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Static Tables'
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup 'DB Parameters'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["DB_HOST_STRING","DB_TYPE","L5_DB_NAME","ROLE","SCHEMA_NAME","WAREHOUSE","date","measure","payer","pcp","user_permission","attribution","cohort","risk_core","risk_group","ALL DAX","static_churn_status","static_care_gap_bucket","static_coding_gap_bucket","static_patients_called_per_pcp","static_days_since_last_pcp_visit_bucket","zip","static_risk_bucket","static_attribution_status","pcp_2","static_patient_seen_bucket","static_visit_amount_rolling_bucket","static_pcp_member_distance_bucket","static_scatter_plot"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table date
+ref table payer
+ref table pcp
+ref table user_permission
+ref table risk_core
+ref table risk_group
+ref table measure
+ref table 'ALL DAX'
+ref table attribution
+ref table static_churn_status
+ref table DateTableTemplate_66d99646-46fd-4cb7-9058-3e68d05eaeb7
+ref table LocalDateTable_e3cc24d7-e384-4dee-95d7-3bbe89d451e7
+ref table LocalDateTable_f45ac657-464a-4a4c-99c9-ce314b24e5d7
+ref table LocalDateTable_97b9260f-e993-49ea-9bb5-f7616b88d8c1
+ref table LocalDateTable_35ac5575-b85d-41e0-8a92-c4d9258e250e
+ref table cohort
+ref table static_care_gap_bucket
+ref table static_coding_gap_bucket
+ref table static_patients_called_per_pcp
+ref table static_days_since_last_pcp_visit_bucket
+ref table zip
+ref table static_risk_bucket
+ref table static_attribution_status
+ref table pcp_2
+ref table static_patient_seen_bucket
+ref table static_visit_amount_rolling_bucket
+ref table static_pcp_member_distance_bucket
+ref table LocalDateTable_b86e2ae8-8b57-4e42-bcd9-4ba47bae44ea
+ref table 'X Axis scatter plot'
+ref table static_scatter_plot
+ref table 'Y Axis scatter plot'
+
+ref role Org_Based_Role
+
+ref cultureInfo en-US
+

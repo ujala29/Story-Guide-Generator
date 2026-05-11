@@ -1,0 +1,58 @@
+{
+  "visual_id": "a3ed9fb5ba697ba8d564",
+  "title": "Payer/plan details",
+  "visual_type": "pivotTable",
+  "page": "Risk capture potential",
+  "comparison": "None",
+  "active_filters": [],
+  "one_line_definition": "This table summarizes risk adjustment performance metrics by payer and plan, showing how effectively each plan is identifying, targeting, and recapturing HCC-based risk gaps.",
+  "numerator_meaning": "",
+  "denominator_meaning": "",
+  "result_meaning": "Analysts use this table to compare risk recapture efficiency across payers and plans, prioritize outreach efforts, and identify where documented risk and RAF scores are being successfully closed versus left uncaptured.",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "count",
+  "measure_meanings": {},
+  "warnings": [
+    "column_definitions missing for: ['Potential Risk recapture rate cohort']"
+  ],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": true,
+  "column_definitions": {
+    "Latest risk execution": {
+      "definition": "The most recent date or run cycle on which the risk adjustment scoring and gap identification process was executed for the plan.",
+      "increasing": "A more recent date indicates the plan's risk data is current and reflects up-to-date coding and gap analysis.",
+      "decreasing": "An older date suggests the risk execution is stale, meaning gap lists and RAF scores may not reflect the most recent clinical activity."
+    },
+    "Targeted patients": {
+      "definition": "The count of members who have been selected for outreach or intervention based on identified HCC coding gaps or risk recapture opportunities.",
+      "increasing": "Rising counts indicate broader outreach efforts or a larger population with unresolved risk gaps requiring attention.",
+      "decreasing": "Falling counts may reflect successful gap closure reducing the actionable population, or a narrowing of targeting criteria."
+    },
+    "Targeted gaps": {
+      "definition": "The total number of HCC coding gaps identified across all targeted patients that have been flagged for clinical review and potential recapture.",
+      "increasing": "More gaps signal a larger uncaptured risk opportunity, suggesting either a growing at-risk population or improved gap detection sensitivity.",
+      "decreasing": "Fewer gaps indicate successful closure of previously identified conditions or a reduction in the actionable risk opportunity pipeline."
+    },
+    "Risk recapture rate cohort": {
+      "definition": "The percentage of documented risk gaps within the cohort that have been successfully recaptured through confirmed HCC coding in the current period.",
+      "increasing": "Higher rates reflect improved care manager and provider effectiveness in closing documented risk gaps through timely coding.",
+      "decreasing": "Lower rates signal that documented gaps are not being resolved, pointing to workflow, engagement, or coding compliance issues."
+    },
+    "Potential RAF recapture rate cohort": {
+      "definition": "The share of total RAF opportunity across all identified gaps — both confirmed and suspected — that remains available for recapture within the cohort.",
+      "increasing": "An increasing potential rate means more RAF value is being surfaced through gap identification, expanding the opportunity for score improvement.",
+      "decreasing": "A decreasing potential rate suggests the pipeline of unaddressed RAF opportunity is being consumed, either through successful recapture or gap expiration."
+    },
+    "RAF recapture rate cohort": {
+      "definition": "The percentage of the total potential RAF score uplift that has actually been achieved through confirmed HCC recapture within the cohort.",
+      "increasing": "Rising RAF recapture rates indicate that risk adjustment efforts are translating into measurable improvements in composite risk scores.",
+      "decreasing": "Declining rates signal that actual RAF gains are falling short of the identified opportunity, indicating execution or documentation gaps."
+    }
+  },
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

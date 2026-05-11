@@ -1,0 +1,22 @@
+{
+  "visual_id": "73f687709724772c5803",
+  "title": "Gap closure by type of visit",
+  "visual_type": "donutChart",
+  "page": "Overview LY",
+  "comparison": "None",
+  "active_filters": [
+    "gap_closure_visit_type"
+  ],
+  "directional_rows": [],
+  "drill_steps": [],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": true,
+  "is_scatter": false
+}

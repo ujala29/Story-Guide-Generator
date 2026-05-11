@@ -1,0 +1,37 @@
+table static_care_gap_bucket
+	lineageTag: f6b965f8-8c68-4d91-bf62-2ff087530880
+
+	column care_gap_bucket
+		dataType: string
+		lineageTag: a9f810e7-648c-40c0-9271-2688dca68915
+		summarizeBy: none
+		sourceColumn: care_gap_bucket
+		sortByColumn: sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 6619929b-6610-43ad-9840-5405be44da5a
+		summarizeBy: none
+		sourceColumn: sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_care_gap_bucket = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMtQ1UtJRMlSK1YlWMtY1BbKNwGwzXQsg2xjMttQGMk3ATL/8EgXH4uLM9LzUFKCgqVJsLAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [care_gap_bucket = _t, sort = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"care_gap_bucket", type text}, {"sort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

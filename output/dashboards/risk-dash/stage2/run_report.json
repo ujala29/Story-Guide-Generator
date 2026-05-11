@@ -1,0 +1,443 @@
+{
+  "run_at": "2026-05-10T19:29:53.649859+00:00",
+  "duration_s": 0.14,
+  "input_file": "C:\\Users\\i_Ujala.Gupta\\Documents\\L5_Asisstant_3.0\\Story Guide Generator_\\output\\dashboards\\risk-dash\\stage1\\schema_sections\\measures_resolved.json",
+  "totals": {
+    "total_measures": 161,
+    "in_scope": 100,
+    "out_of_scope": 61,
+    "parsed_ok": 100,
+    "parsed_failed": 0,
+    "sql_generated": 92,
+    "sql_failed": 8,
+    "needs_llm": 69,
+    "compiler_handled": 92
+  },
+  "percentages": {
+    "in_scope_pct": 62.1,
+    "sql_generated_pct": 57.1,
+    "compiler_pct": 92.0
+  },
+  "pattern_breakdown": {
+    "TIME_INTEL_YOY": 23,
+    "TIME_INTEL_MOM": 22,
+    "SIMPLE_AGG": 11,
+    "VAR_FILTERED_DIVIDE": 11,
+    "COMPLEX_VAR_DIVIDE": 8,
+    "COMPLEX": 8,
+    "ARITHMETIC": 7,
+    "FILTERED_AGG": 5,
+    "SIMPLE_DIVIDE": 3,
+    "MEASURE_RATIO": 1,
+    "CONTEXT_REMOVER": 1
+  },
+  "scope_breakdown": {
+    "IN_SCOPE": 100,
+    "DISPLAY_SYMBOL": 22,
+    "COLOR_CODE": 21,
+    "DISPLAY_FORMAT": 13,
+    "HARDCODED_STRING": 3,
+    "RUNTIME_ROUTER": 2
+  },
+  "warnings": [
+    {
+      "measure": "Info text risk cohort",
+      "warning": "HIDDEN_LOGIC_IN_COMMENT: Stripped comment may contain meaningful DAX: '// IF(SELECTEDVALUE('measure'[period_mode]) = \"ytd\",\"' — review manually."
+    },
+    {
+      "measure": "RAF_impact_cohort",
+      "warning": "TYPO_DETECTED: 'Undoumented' found in DAX — correct spelling is 'Undocumented'. Check whether database column/value uses the typo or correct spelling. Passed through unchanged."
+    }
+  ],
+  "unresolved_tables": [],
+  "measures_needing_llm": [
+    {
+      "name": "#Members YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "#Members YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "#Members MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "#Members MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Documented risk YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Documented risk YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Documented risk MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Documented risk Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Gap to potential risk YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Gap to potential risk YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Gap to potential risk MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Gap to potential risk MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Members with open coding gaps YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Members with open coding gaps YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Members with open coding gaps MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Members with open coding gaps MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Overall gaps closed YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Overall gaps closed YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Overall gaps closed MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Overall gaps closed MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted PMPM",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "PMPM YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "PMPM YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "PMPM MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "PMPM MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Potential risk YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Potential risk YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Potential risk MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Potential risk MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted #Members",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Formatted Members with open coding gaps",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Formatted Overall gaps closed",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "RAF recapture rate MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "RAF recapture rate MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "RAF recapture rate YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "RAF recapture rate YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Risk recapture rate MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Risk recapture rate MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Risk recapture rate YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Risk recapture rate YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Dropped + suspected",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "% Members with open coding gaps YoY Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "% Members with open coding gaps YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Dropped + suspected (GROUP)",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Formatted Eligible population",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Formatted Eligible population (group)",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "ELigible population YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Info text risk LY",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Risk recapture rate YoY color (GROUP)",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Realizable RAF score",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Info text risk cohort",
+      "role": "DEFINER",
+      "reason": "Pure string literal — no DAX logic, no SQL equivalent"
+    },
+    {
+      "name": "increase_RAF_impact_cohort",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Documented risk cohort",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "% Members with open coding gaps MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "% Members with open coding gaps MoM Color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "ELigible population MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Info text risk PM",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Info icon appointments per pcp",
+      "role": "DEFINER",
+      "reason": "Pure string literal — no DAX logic, no SQL equivalent"
+    },
+    {
+      "name": "RAF recapture rate cohort",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Risk recapture rate cohort",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Potential RAF recapture rate cohort",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Scatter tooltip title",
+      "role": "DEFINER",
+      "reason": "Pure string literal — no DAX logic, no SQL equivalent"
+    },
+    {
+      "name": "Formatted X Tooltip",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Metric title",
+      "role": "DEFINER",
+      "reason": "Uses SELECTEDVALUE — depends on user slicer at runtime, SQL cannot resolve"
+    },
+    {
+      "name": "Metric value",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Selected X Axis Value",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Formatted Y Tooltip",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Selected Y Axis Value",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Y Axis Title",
+      "role": "DEFINER",
+      "reason": "Uses SELECTEDVALUE — depends on user slicer at runtime, SQL cannot resolve"
+    }
+  ],
+  "sql_failures": [
+    {
+      "name": "Dropped + suspected",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Dropped + suspected (GROUP)",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Realizable RAF score",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "increase_RAF_impact_cohort",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Documented risk cohort",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "RAF recapture rate cohort",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Risk recapture rate cohort",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Potential RAF recapture rate cohort",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    }
+  ],
+  "parse_failures": []
+}

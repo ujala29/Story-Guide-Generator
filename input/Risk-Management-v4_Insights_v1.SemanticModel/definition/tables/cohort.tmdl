@@ -1,0 +1,371 @@
+table cohort
+	lineageTag: 4dea37fe-0c0f-47a4-a7a2-29d842a63493
+
+	column empi
+		dataType: string
+		lineageTag: 82e71a43-f266-4cf2-814a-6c43a4ddc613
+		summarizeBy: none
+		sourceColumn: empi
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: bbac5079-bef9-4dd8-ab54-3fef2d6a03aa
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_of_measurement
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 01411fbe-923e-4547-b1b7-2be677b062c9
+		summarizeBy: none
+		sourceColumn: month_of_measurement
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column payer_master_id_index
+		dataType: double
+		lineageTag: 39a6507c-540e-4895-8f01-441913a0ee46
+		summarizeBy: none
+		sourceColumn: payer_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custom_segment_master_id
+		dataType: double
+		lineageTag: 95ca6298-52af-430d-98d9-a851f3e957f4
+		summarizeBy: sum
+		sourceColumn: custom_segment_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column age_bucket
+		dataType: string
+		lineageTag: a5bb197b-ddca-4813-bd2b-60242edd334a
+		summarizeBy: none
+		sourceColumn: age_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column awv_status
+		dataType: string
+		lineageTag: bb224b39-d33b-417c-bac6-f5cc9866b121
+		summarizeBy: none
+		sourceColumn: awv_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column care_gap_bucket
+		dataType: string
+		lineageTag: dd0a89ef-06da-4010-8511-81424eb685d3
+		summarizeBy: none
+		sourceColumn: care_gap_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column coding_gap_bucket
+		dataType: string
+		lineageTag: ffd48810-61c6-4c51-91d3-7a90626411a7
+		summarizeBy: none
+		sourceColumn: coding_gap_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: e23cf257-fd29-4d72-b2f8-33ad85aa3098
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column race
+		dataType: string
+		lineageTag: 8f724ff7-fc8f-4606-b604-3d822c45b4f4
+		summarizeBy: none
+		sourceColumn: race
+
+		annotation SummarizationSetBy = Automatic
+
+	column ethnicity
+		dataType: string
+		lineageTag: 7c355a14-d727-4725-b540-def4d2a49ad0
+		summarizeBy: none
+		sourceColumn: ethnicity
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_seen_bucket
+		dataType: string
+		lineageTag: 22491315-1ef5-41d0-9fdd-33a292984a9d
+		summarizeBy: none
+		sourceColumn: patient_seen_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_bucket
+		dataType: string
+		lineageTag: 1dbeaa76-13be-4ee4-be9b-5a9467991e8f
+		summarizeBy: none
+		sourceColumn: risk_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column cdi_risk_bucket
+		dataType: string
+		lineageTag: 64b4a209-e901-4d68-b262-da7f34a99184
+		summarizeBy: none
+		sourceColumn: cdi_risk_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column zip
+		dataType: string
+		lineageTag: b59466ab-cc17-4070-971b-49106390c991
+		summarizeBy: none
+		sourceColumn: zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_status
+		dataType: string
+		lineageTag: 974a7a90-5ea0-4980-845d-30b41d1bcd68
+		summarizeBy: none
+		sourceColumn: churn_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column recapture_numerator
+		dataType: double
+		lineageTag: 01fbde5d-f981-4dcb-92c2-62dc27701e9b
+		summarizeBy: sum
+		sourceColumn: recapture_numerator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recapture_denominator
+		dataType: double
+		lineageTag: 8b44237b-0ad6-4254-9d05-d125c58bf881
+		summarizeBy: sum
+		sourceColumn: recapture_denominator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column suspect_numerator
+		dataType: double
+		lineageTag: a944d5b0-24e4-45d4-9330-6fa6c2ece335
+		summarizeBy: sum
+		sourceColumn: suspect_numerator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column suspect_denominator
+		dataType: double
+		lineageTag: 8e074730-b359-4a34-9e10-04af4b24a86d
+		summarizeBy: sum
+		sourceColumn: suspect_denominator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column open_gap_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 74f8d7b4-60ed-4513-9213-ee5706851d73
+		summarizeBy: none
+		sourceColumn: open_gap_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_value
+		dataType: double
+		formatString: 0.000
+		lineageTag: f9d9061a-4b9b-43da-9b3f-4261820caea9
+		summarizeBy: sum
+		sourceColumn: risk_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_last_pcp_visit_bucket
+		dataType: string
+		lineageTag: eb226f45-324b-4701-be85-997eaf45699e
+		summarizeBy: none
+		sourceColumn: days_since_last_pcp_visit_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_documentation_flag
+		dataType: string
+		lineageTag: c36e90e7-83c1-427a-9e59-89436c651be0
+		summarizeBy: none
+		sourceColumn: risk_documentation_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column measure_master_id_index
+		dataType: double
+		lineageTag: 96c69927-40e5-4a30-9a9d-54e6086eb977
+		summarizeBy: none
+		sourceColumn: measure_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column attribution_status
+		dataType: string
+		lineageTag: 64bc73dd-74a3-4c34-baaf-63c88ac4ae58
+		summarizeBy: none
+		sourceColumn: attribution_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_amount_rolling_bucket
+		dataType: string
+		lineageTag: 2be69d0d-2dd8-4c99-9100-36232121bb34
+		summarizeBy: none
+		sourceColumn: visit_amount_rolling_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_member_distance_bucket
+		dataType: string
+		lineageTag: c73e2a9b-0af6-4ef6-b9f1-61880c9c25bd
+		summarizeBy: none
+		sourceColumn: pcp_member_distance_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column ed_visit_bucket
+		dataType: string
+		lineageTag: 4c9a7fb9-3708-4d45-b450-5a872419bd3d
+		summarizeBy: none
+		sourceColumn: ed_visit_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_id
+		dataType: string
+		lineageTag: ea348f11-8dbb-41a7-9fdc-ca68b2dca0fd
+		summarizeBy: none
+		sourceColumn: payer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_id
+		dataType: string
+		lineageTag: 736bfc04-6ea8-4f34-a3ed-431bd4eb95a4
+		summarizeBy: none
+		sourceColumn: plan_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_of_measurement_payer_plan
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 70d97250-9f03-40e5-8ad4-042974eae417
+		summarizeBy: none
+		sourceColumn: month_of_measurement_payer_plan
+
+		variation Variation
+			isDefault
+			relationship: c17a8931-a05a-4049-8e4a-7f9690846b86
+			defaultHierarchy: LocalDateTable_b86e2ae8-8b57-4e42-bcd9-4ba47bae44ea.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column visit_amount
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: c2bd466c-c982-425c-a4c0-89cc8f79962d
+		summarizeBy: sum
+		sourceColumn: visit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: a32dfd9f-849e-4684-b156-0ac731181bbd
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column dob
+		dataType: string
+		lineageTag: f3124449-54eb-4950-b2c1-0673ae3a9a55
+		summarizeBy: none
+		sourceColumn: dob
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_gaps_count
+		dataType: int64
+		formatString: 0
+		lineageTag: fd336be4-b52d-460f-a6b7-057ad40348eb
+		summarizeBy: sum
+		sourceColumn: open_gaps_count
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_factor_description
+		dataType: string
+		lineageTag: 5f206dd6-e0a6-40ab-8cde-2d25661e39fa
+		summarizeBy: none
+		sourceColumn: risk_factor_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_gaps_list
+		dataType: string
+		lineageTag: c4dd6e62-b1ce-4b50-8aef-3a83e702e6b7
+		summarizeBy: none
+		sourceColumn: open_gaps_list
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_factor
+		dataType: string
+		lineageTag: 29a663ec-5a36-43ad-87cf-66ea67147acc
+		summarizeBy: none
+		sourceColumn: risk_factor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition cohort = m
+		mode: import
+		queryGroup: Fact
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE),
+				    L5_TESTING_DB_Database = Source{[Name= L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_09_02_Schema = L5_TESTING_DB_Database{[Name= SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PCP_Table = L5_09_02_Schema{[Name= if DB_TYPE = "Postgres" then "risk_core_aggregate_view" else "RISK_COHORT_V4_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PCP_Table,Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

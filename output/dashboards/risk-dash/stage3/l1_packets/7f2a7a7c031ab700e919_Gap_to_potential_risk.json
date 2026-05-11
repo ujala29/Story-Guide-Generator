@@ -1,0 +1,28 @@
+{
+  "visual_id": "7f2a7a7c031ab700e919",
+  "title": "Gap to potential risk",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "The average HCC risk weight of conditions that are either undocumented or suspected (not yet coded) per documented patient, representing the uncaptured risk gap per member.",
+  "numerator_meaning": "Total HCC risk value of conditions flagged as Undocumented (prior-year conditions not yet recoded) or Suspected (algorithmically predicted but unconfirmed) — Documented conditions are excluded.",
+  "denominator_meaning": "Total patient count restricted to Documented rows only, representing the base of patients with at least one confirmed coded condition.",
+  "result_meaning": "For every documented patient, this number shows how much additional HCC risk weight remains uncaptured due to conditions that have not yet been coded or confirmed.",
+  "scope_note": "Numerator includes only Undocumented and Suspected flags; Documented risk value is excluded from the numerator. Denominator includes only Documented rows; Undocumented and Suspected patient counts are excluded.",
+  "direction": "lower_is_better",
+  "metric_type": "gap",
+  "measure_meanings": {
+    "Gap to potential risk": "Calculates the average uncaptured HCC risk weight per documented patient by dividing the total risk value of undocumented and suspected conditions by the patient count of documented conditions.",
+    "Gap to potential risk YoY Card": "Displays the year-over-year percentage change in the gap-to-potential-risk metric, formatted as an upward or downward arrow with percentage versus the same period last year."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

@@ -1,0 +1,27 @@
+{
+  "visual_id": "0d2248de2c29bc8010ac",
+  "title": "PCP distribution (top 20 by members)",
+  "visual_type": "scatterChart",
+  "page": "Overview LY",
+  "comparison": "None",
+  "active_filters": [
+    "pcp_name"
+  ],
+  "one_line_definition": "Each bubble represents a single Primary Care Physician (PCP) from the top 20 by member panel size, where the X-axis displays a user-selected performance or risk metric, the Y-axis displays a second user-selected metric, and bubble size encodes the number of attributed members; the chart helps identify how individual PCPs compare across two key dimensions simultaneously, revealing high-performers, underperformers, and outliers who may require targeted intervention or support.",
+  "numerator_meaning": "",
+  "denominator_meaning": "",
+  "result_meaning": "[{\"position\": \"Upper-right (high X, high Y)\", \"interpretation\": \"This PCP scores high on both selected metrics \\u2014 for example, high RAF score and high HCC capture rate \\u2014 indicating strong risk documentation and coding performance; these physicians are likely best-practice models worth studying and replicating across the network.\"}, {\"position\": \"Upper-left (low X, high Y)\", \"interpretation\": \"This PCP has a high value on the Y-axis metric but a low value on the X-axis metric, suggesting an imbalance such as high member complexity but low visit completion rates; this pattern may signal a capacity or access issue that could leave high-risk members underserved.\"}, {\"position\": \"Lower-right (high X, low Y)\", \"interpretation\": \"This PCP shows a high X-axis value but a low Y-axis value \\u2014 for instance, high member panel size but low average RAF score \\u2014 which may indicate undercoding or insufficient chronic condition documentation relative to the volume of patients managed.\"}, {\"position\": \"Lower-left (low X, low Y)\", \"interpretation\": \"This PCP scores low on both selected metrics, suggesting either a low-complexity panel or underperformance in risk capture and quality measures; further investigation is needed to determine whether the panel is genuinely healthier or whether documentation and coding gaps are suppressing scores.\"}, {\"position\": \"Outlier far above the cluster\", \"interpretation\": \"This PCP sits well above the main cluster on the Y-axis, representing an unusually high value that deviates significantly from peers \\u2014 this could reflect exceptional performance, a data anomaly, a highly specialized or complex patient panel, or a coding irregularity that warrants immediate review and validation.\"}]",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "count",
+  "measure_meanings": {},
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": true
+}

@@ -1,0 +1,28 @@
+{
+  "visual_id": "5b65519b0bee63d03671",
+  "title": "% members with open coding gaps",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "The percentage of attributed members who have at least one open coding gap — a condition that should be coded but has not yet been documented.",
+  "numerator_meaning": "The count of members who have one or more open coding gaps, regardless of flag status.",
+  "denominator_meaning": "The total number of attributed members.",
+  "result_meaning": "The share of the member population with at least one condition that should be coded but remains unaddressed, indicating the breadth of coding gap exposure across the panel.",
+  "scope_note": "",
+  "direction": "lower_is_better",
+  "metric_type": "rate",
+  "measure_meanings": {
+    "% members with open coding gaps": "The proportion of total attributed members who have at least one open coding gap, expressed as a percentage.",
+    "% Members with open coding gaps YoY Card": "Displays the year-over-year percentage change in the share of members with open coding gaps, formatted as an upward or downward arrow with the percentage difference from the same period last year."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

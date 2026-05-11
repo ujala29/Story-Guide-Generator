@@ -1,0 +1,90 @@
+{
+  "page": "Data availability",
+  "visual_count": 1,
+  "visuals": [
+    {
+      "id": "19574d0d31833d5ab098",
+      "title": "",
+      "type": "tableEx",
+      "page": "Data availability",
+      "width": 1408.1063122923588,
+      "height": 627.0,
+      "measures_used": [
+        "ALL DAX.Latest attribution date",
+        "ALL DAX.Latest risk execution"
+      ],
+      "columns_used": [
+        "payer.payer_name",
+        "payer.plan_name",
+        "payer.date_incurred_through",
+        "payer.date_paid_through"
+      ],
+      "axis_bindings": {
+        "y_axis": [
+          {
+            "field_type": "Column",
+            "table": "payer",
+            "property": "payer_name",
+            "display_name": "Payer"
+          },
+          {
+            "field_type": "Column",
+            "table": "payer",
+            "property": "plan_name",
+            "display_name": "Plan"
+          },
+          {
+            "field_type": "Measure",
+            "table": "ALL DAX",
+            "property": "Latest attribution date",
+            "display_name": "Latest month of attribution"
+          },
+          {
+            "field_type": "Measure",
+            "table": "ALL DAX",
+            "property": "Latest risk execution",
+            "display_name": "Latest risk execution"
+          },
+          {
+            "field_type": "Column",
+            "table": "payer",
+            "property": "date_incurred_through",
+            "display_name": "Claims incurred through"
+          },
+          {
+            "field_type": "Column",
+            "table": "payer",
+            "property": "date_paid_through",
+            "display_name": "Claims paid through"
+          }
+        ]
+      },
+      "drill_filter_other_visuals": true,
+      "filter_config": [],
+      "measure_chains": [
+        {
+          "measure_name": "Latest attribution date",
+          "table": "ALL DAX",
+          "dax": "MAX(attribution[month_of_date])",
+          "depth": 0,
+          "is_leaf": true,
+          "referenced_columns": [
+            "attribution[month_of_date]"
+          ],
+          "depends_on": []
+        },
+        {
+          "measure_name": "Latest risk execution",
+          "table": "ALL DAX",
+          "dax": "CALCULATE(MAX(cohort[month_of_measurement]),ALL('date'))",
+          "depth": 0,
+          "is_leaf": true,
+          "referenced_columns": [
+            "cohort[month_of_measurement]"
+          ],
+          "depends_on": []
+        }
+      ]
+    }
+  ]
+}

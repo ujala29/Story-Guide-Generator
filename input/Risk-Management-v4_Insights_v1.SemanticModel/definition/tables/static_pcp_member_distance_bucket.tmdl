@@ -1,0 +1,37 @@
+table static_pcp_member_distance_bucket
+	lineageTag: 765f2020-45d5-4d46-b35c-d1a036940ef7
+
+	column pcp_member_distance_bucket
+		dataType: string
+		lineageTag: 2c5278d7-e5cc-49f6-bfde-733945323937
+		summarizeBy: none
+		sourceColumn: pcp_member_distance_bucket
+		sortByColumn: pcp_member_distance_bucket_sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_member_distance_bucket_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: fd20831d-8366-4e40-a574-c88e37fdc927
+		summarizeBy: none
+		sourceColumn: pcp_member_distance_bucket_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_pcp_member_distance_bucket = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMtA1VcjNzEktVtJRMlSK1YlWMtU1NIALGYGFDA10DRHKjCFiprpGCHUmYDEjA224iClYxC+/RMGxuDgzPS81BShophQbCwA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [pcp_member_distance_bucket = _t, pcp_member_distance_bucket_sort = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"pcp_member_distance_bucket", type text}, {"pcp_member_distance_bucket_sort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

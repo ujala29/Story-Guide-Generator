@@ -1,0 +1,37 @@
+table static_days_since_last_pcp_visit_bucket
+	lineageTag: e3578af4-ce1d-4f52-9cdb-26e4dc72aa05
+
+	column days_since_last_pcp_visit_bucket
+		dataType: string
+		lineageTag: 77d43e26-c774-4981-957a-d00eeb41412a
+		summarizeBy: none
+		sourceColumn: days_since_last_pcp_visit_bucket
+		sortByColumn: days_since_last_pcp_visit_bucket_sort_order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_last_pcp_visit_bucket_sort_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 66a28c23-1921-4673-94a2-b2bcf1f4f51b
+		summarizeBy: none
+		sourceColumn: days_since_last_pcp_visit_bucket_sort_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_days_since_last_pcp_visit_bucket = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMtA1NlDSUTJUitWJVjI21DUD8YzAPDNDXUMLENcYzDW0MNQ1NjMF8k0gis1MtYEcUzDHL79EwbG4ODM9LzUFKGimFBsLAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [days_since_last_pcp_visit_bucket = _t, days_since_last_pcp_visit_bucket_sort_order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"days_since_last_pcp_visit_bucket", type text}, {"days_since_last_pcp_visit_bucket_sort_order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

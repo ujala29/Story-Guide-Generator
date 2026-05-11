@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "4d4d60233d0050010714",
+  "position": {
+    "x": 850,
+    "y": 2095.7717898454744,
+    "z": 77000,
+    "height": 22.083650190114067,
+    "width": 89.743376393074541,
+    "tabOrder": 76000
+  },
+  "visualGroup": {
+    "displayName": "Practice/PCP Patient List button",
+    "groupMode": "ScaleMode"
+  }
+}

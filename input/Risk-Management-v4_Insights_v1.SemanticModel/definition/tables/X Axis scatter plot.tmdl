@@ -1,0 +1,95 @@
+table 'X Axis scatter plot'
+	lineageTag: 50030115-382c-45ba-b79e-986d90522214
+
+	measure 'Formatted X Tooltip' = ```
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('X Axis scatter plot'[X axis])
+			
+			RETURN
+			SWITCH(
+			    SelectedMetric,
+			
+			    "Members",
+			        FORMAT([#Members], "#,##0"),
+			
+			    "Documented risk",
+			        FORMAT([Documented risk], "0.000"),
+			
+			    "Gap to potential risk",
+			        FORMAT([Gap to potential risk], "0.000"),
+			
+			    "PMPM",
+			        FORMAT([PMPM], "$#,##0"),
+			
+			    "RAF recapture rate",
+			        FORMAT([RAF recapture rate], "0.0%"),
+			
+			    "Risk recapture rate",
+			        FORMAT([Risk recapture rate], "0.0%"),
+			
+			    "% members with open coding gaps",
+			        FORMAT([% members with open coding gaps], "0.0%"),
+			
+			    "Open gaps (Dropped)",
+			        FORMAT([Open gaps (Dropped)], "#,##0"),
+			
+			    "Open gaps (Suspected)",
+			        FORMAT([Open gaps (Suspected)], "#,##0"),
+			    
+			    "Eligible",
+			        FORMAT([Eligible population], "#,##0"),
+			
+			    BLANK()
+			)
+			```
+		lineageTag: 2d4d5daf-5529-4373-9df9-d78ee9f55e5c
+
+	measure 'Metric title' =
+			
+			SWITCH(SELECTEDVALUE(static_scatter_plot[scatter_plot_axis]),
+			 "X", SELECTEDVALUE('X Axis scatter plot'[X axis]),
+			 "Y", SELECTEDVALUE('Y Axis scatter plot'[Y axis])
+			)
+		lineageTag: 3a5c93c5-0048-42e9-820c-1bc544d58924
+
+	measure 'Metric value' =
+			
+			SWITCH(SELECTEDVALUE(static_scatter_plot[scatter_plot_axis]),
+			 "X", [Formatted X Tooltip],
+			 "Y", [Formatted Y Tooltip]
+			)
+		lineageTag: d1212061-a284-49ad-97fb-0c68b4fcca2a
+
+	measure 'Selected X Axis Value' =
+			
+			SWITCH(SELECTEDVALUE('X Axis scatter plot'[X axis]),
+			"Members",[#Members],
+			"Documented risk",[Documented risk],
+			"Gap to potential risk",[Gap to potential risk],
+			"PMPM",[PMPM],
+			"RAF recapture rate",[RAF recapture rate],
+			"Risk recapture rate",[Risk recapture rate],
+			"% members with open coding gaps",[% members with open coding gaps],
+			"Open gaps (Dropped)",[Open gaps (Dropped)],
+			"Open gaps (Suspected)",[Open gaps (Suspected)],
+			"Eligible",[Eligible population],
+			BLANK())
+		lineageTag: bbf9ae6d-3586-4b9b-9fd4-6792076653d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'X axis'
+		lineageTag: 8920f4cd-3305-4236-8b27-db68158e2d27
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [X axis]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'X Axis scatter plot' = calculated
+		mode: import
+		source = DATATABLE( "X axis", STRING, { {"Members"},{"Documented risk"},{"Gap to potential risk"}, {"PMPM"}, {"RAF recapture rate"}, {"Risk recapture rate"}, {"% members with open coding gaps"} , {"Open gaps (Dropped)"}, {"Open gaps (Suspected)"}, {"Eligible"} } )
+
+	annotation PBI_Id = 6fd37093005f462b83d77fd9b4047ea2
+

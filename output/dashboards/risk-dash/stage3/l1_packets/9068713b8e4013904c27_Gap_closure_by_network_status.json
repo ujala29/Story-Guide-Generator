@@ -1,0 +1,27 @@
+{
+  "visual_id": "9068713b8e4013904c27",
+  "title": "Gap closure by network status",
+  "visual_type": "donutChart",
+  "page": "Overview LY",
+  "comparison": "None",
+  "active_filters": [
+    "gap_closure_network_status"
+  ],
+  "one_line_definition": "Displays the distribution of closed care gaps segmented by provider network status (in-network vs. out-of-network). Answers 'Through which network status are care gaps being closed?'",
+  "numerator_meaning": "",
+  "denominator_meaning": "",
+  "result_meaning": "[{\"pattern\": \"In-network providers dominate gap closure, representing 80%+ of the donut\", \"interpretation\": \"Strong in-network utilization supports cost control and coordinated care, reinforcing network adequacy for risk adjustment activities.\"}, {\"pattern\": \"Out-of-network slice accounts for 40% or more of closed gaps\", \"interpretation\": \"Significant out-of-network gap closure signals potential care leakage, higher costs, and reduced ability to influence provider coding accuracy.\"}, {\"pattern\": \"Gap closure is nearly evenly split between in-network and out-of-network segments\", \"interpretation\": \"Balanced split indicates insufficient network steerage, prompting outreach strategies to redirect members toward contracted providers for better HCC capture control.\"}]",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "count",
+  "measure_meanings": {},
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": true,
+  "is_scatter": false
+}

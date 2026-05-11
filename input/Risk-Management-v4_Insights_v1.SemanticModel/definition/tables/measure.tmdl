@@ -1,0 +1,55 @@
+table measure
+	lineageTag: dd989708-7969-4d13-ba02-b50c9807f58f
+
+	column period_mode
+		dataType: string
+		lineageTag: ba506f04-8727-4230-9f70-f45fc56e310d
+		summarizeBy: none
+		sourceColumn: period_mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_model_name
+		dataType: string
+		lineageTag: 70dbeef3-9b8e-41a5-8a38-8eea11a304f0
+		summarizeBy: none
+		sourceColumn: risk_model_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_model_sub_type
+		dataType: string
+		lineageTag: 78ec9fd1-6d66-4ae7-af65-4b545b796b35
+		summarizeBy: none
+		sourceColumn: risk_model_sub_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column measure_master_id_index
+		dataType: double
+		lineageTag: de841a6c-c520-462a-abf9-70c58b90d263
+		summarizeBy: none
+		sourceColumn: measure_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition measure = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    l5_Schema = L5_TESTING_DB_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    date_Table = l5_Schema{[Name= "MEASURE",Kind="Table"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(date_Table, Text.Lower),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Lowercased Text",{"period_mode", "risk_model_name", "risk_model_sub_type", "measure_master_id_index"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

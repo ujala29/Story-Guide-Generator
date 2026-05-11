@@ -1,0 +1,20 @@
+{
+  "visual_id": "7f48eb60bd6c390190d9",
+  "title": "Across cost of care (rolling 12 months)",
+  "visual_type": "barChart",
+  "page": "Risk capture potential",
+  "comparison": "None",
+  "active_filters": [],
+  "directional_rows": [],
+  "drill_steps": [],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": true,
+  "is_donut": false,
+  "is_scatter": false
+}

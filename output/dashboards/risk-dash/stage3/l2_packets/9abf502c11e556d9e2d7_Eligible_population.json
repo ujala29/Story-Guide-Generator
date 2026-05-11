@@ -1,0 +1,20 @@
+{
+  "visual_id": "9abf502c11e556d9e2d7",
+  "title": "Eligible population",
+  "visual_type": "lineChart",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [],
+  "drill_steps": [],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": true,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

@@ -1,0 +1,13 @@
+{
+  "_comment": "Snowflake credentials for step5_verifier.py.",
+  "snowflake": {
+    "account"  : "scb87951.innova3.us-east-1.a.p1.satoricyber.net",
+    "host"     : "scb87951.innova3.us-east-1.a.p1.satoricyber.net",
+    "user"     : "CONSOLIDATED_DEMO_PROD_DEMO_TEAM_USER",
+    "password" : "L4dsubhfu4rgb7Uh1Qaf",
+    "database" : "CONSOLIDATED_DEMO_PROD_DAP",
+    "schema"   : "L5",
+    "warehouse": "CONSOLIDATED_DEMOPRODWAREHOUSE",
+    "role"     : "CONSOLIDATED_DEMO_PROD_DATAENGINEER"
+  }
+}

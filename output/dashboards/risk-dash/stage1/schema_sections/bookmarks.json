@@ -1,0 +1,56 @@
+[
+  {
+    "bookmark_name": "Hide patient list",
+    "bookmark_type": "toggle",
+    "page": "Risk capture potential",
+    "targets_count": 6,
+    "when_active": {
+      "groups_shown": [],
+      "groups_hidden": [],
+      "charts_visible": [],
+      "charts_hidden": []
+    }
+  },
+  {
+    "bookmark_name": "Overview LM-default",
+    "bookmark_type": "page_default",
+    "purpose": "Restores page to default state",
+    "targets_count": 0
+  },
+  {
+    "bookmark_name": "Data availability-default",
+    "bookmark_type": "page_default",
+    "purpose": "Restores page to default state",
+    "targets_count": 0
+  },
+  {
+    "bookmark_name": "Show patient list",
+    "bookmark_type": "toggle",
+    "page": "Risk capture potential",
+    "targets_count": 6,
+    "when_active": {
+      "groups_shown": [],
+      "groups_hidden": [],
+      "charts_visible": [],
+      "charts_hidden": []
+    }
+  },
+  {
+    "bookmark_name": "Overview LY-default",
+    "bookmark_type": "page_default",
+    "purpose": "Restores page to default state",
+    "targets_count": 0
+  },
+  {
+    "bookmark_name": "unnamed",
+    "bookmark_type": "page_default",
+    "purpose": "Restores page to default state",
+    "targets_count": 0
+  },
+  {
+    "bookmark_name": "Risk capture potential-default",
+    "bookmark_type": "page_default",
+    "purpose": "Restores page to default state",
+    "targets_count": 0
+  }
+]

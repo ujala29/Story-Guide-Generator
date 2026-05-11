@@ -1,0 +1,204 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Data availability-default",
+  "name": "3eeda404024859a37720",
+  "options": {
+    "targetVisualNames": []
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "c5b2890e8930490d656a",
+    "sections": {
+      "c5b2890e8930490d656a": {
+        "visualContainers": {
+          "840f4e9fb200c188aa7c": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "19574d0d31833d5ab098": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "eea70eaa57d1626b7b4d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fb4cdcd8bd9158035d98",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2441e10228da18e32a00",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "date_incurred_through"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2d6efd7f47300b291087",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "date_paid_through"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "51c2497a0842803d70d4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Latest attribution date"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "4a53df106ecd21a02d02",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Latest risk execution"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL DAX"
+                        }
+                      },
+                      "Property": "Latest risk execution"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "ad03b2e685d6e576c357": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "59bd11ccda0944717008": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "fca2386cb3094000a049": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "7e207294b2cb0a56287a": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "120d90a92646d926c188": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "5da7ebfe519c878b9c54": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "34264c9990195c3b6060": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

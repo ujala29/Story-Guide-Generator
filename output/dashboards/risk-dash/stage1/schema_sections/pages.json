@@ -1,0 +1,44 @@
+[
+  {
+    "name": "25729edac3e83a00cb6c",
+    "display_name": "Risk capture potential",
+    "order": 1,
+    "width": 1440,
+    "height": 2241
+  },
+  {
+    "name": "5bfe24f07cb0189ee597",
+    "display_name": "Scatter plot tooltip",
+    "order": 2,
+    "width": 340,
+    "height": 180
+  },
+  {
+    "name": "8b587d1782737439387c",
+    "display_name": "Additional dimensions",
+    "order": 3,
+    "width": 1440,
+    "height": 3040
+  },
+  {
+    "name": "c5b2890e8930490d656a",
+    "display_name": "Data availability",
+    "order": 4,
+    "width": 1440,
+    "height": 818
+  },
+  {
+    "name": "de9efd53c51986c5c8b2",
+    "display_name": "Overview LM",
+    "order": 5,
+    "width": 1440,
+    "height": 3040
+  },
+  {
+    "name": "fabece79c76e930cd1aa",
+    "display_name": "Overview LY",
+    "order": 6,
+    "width": 1440,
+    "height": 3040
+  }
+]

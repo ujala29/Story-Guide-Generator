@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "6bda970dacd325830e08",
+  "position": {
+    "x": 727,
+    "y": 1061.9999999999998,
+    "z": 53000,
+    "height": 300,
+    "width": 696.45500062322924,
+    "tabOrder": 64000
+  },
+  "visualGroup": {
+    "displayName": "[BM] Pac/Ip visual",
+    "groupMode": "ScaleMode"
+  }
+}

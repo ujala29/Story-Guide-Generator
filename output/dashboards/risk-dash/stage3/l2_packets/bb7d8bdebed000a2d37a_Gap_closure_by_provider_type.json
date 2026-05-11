@@ -1,0 +1,22 @@
+{
+  "visual_id": "bb7d8bdebed000a2d37a",
+  "title": "Gap closure by provider type",
+  "visual_type": "donutChart",
+  "page": "Overview LY",
+  "comparison": "None",
+  "active_filters": [
+    "gap_closure_provider_type"
+  ],
+  "directional_rows": [],
+  "drill_steps": [],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": true,
+  "is_scatter": false
+}

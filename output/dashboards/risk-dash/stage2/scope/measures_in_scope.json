@@ -1,0 +1,2947 @@
+[
+  {
+    "measure_name": "#Members",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+    "clean_dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[member_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "#Members MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([#Members], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([#Members] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 00653ef9-1fba-41da-8119-8890fcf56a88",
+    "clean_dax": "VAR pm = CALCULATE([#Members], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([#Members] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 00653ef9-1fba-41da-8119-8890fcf56a88",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "#Members",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "#Members PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([#Members], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([#Members], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "#Members",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "#Members PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "#Members",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "#Members YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([#Members] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: a87f3f47-3904-4cfd-a539-87a6cc6db22f",
+    "clean_dax": "VAR py = CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([#Members] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: a87f3f47-3904-4cfd-a539-87a6cc6db22f",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "#Members",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "#Members trend",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(attribution[member_count])\nformatString: #,0\nlineageTag: 9d17c184-8b39-4e94-a2fe-e31935811bd0",
+    "clean_dax": "SUM(attribution[member_count])\nformatString: #,0\nlineageTag: 9d17c184-8b39-4e94-a2fe-e31935811bd0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[member_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% Members with open coding gaps MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([% Members with open coding gaps], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([% Members with open coding gaps] - py, py, 0)\nlineageTag: cc717d21-9eee-48ed-9af6-7026c6afbf1a\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "VAR py = CALCULATE([% Members with open coding gaps], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([% Members with open coding gaps] - py, py, 0)\nlineageTag: cc717d21-9eee-48ed-9af6-7026c6afbf1a\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% Members with open coding gaps YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([% Members with open coding gaps], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([% Members with open coding gaps] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: ba306b67-7e38-4e01-b682-ae9eefef5565",
+    "clean_dax": "VAR py = CALCULATE([% Members with open coding gaps], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([% Members with open coding gaps] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: ba306b67-7e38-4e01-b682-ae9eefef5565",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% members with open coding gaps",
+    "table": "ALL DAX",
+    "raw_dax": "[Members with open coding gaps]/[#Members]",
+    "clean_dax": "[Members with open coding gaps]/[#Members]",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Members with open coding gaps",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_with_open_coding_gap_count]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "#Members",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_count])+0\nformatString: #,0\nlineageTag: d67d72a2-2db7-4495-b98f-0d57ba71fa97",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Cohort eligible gaps",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE(SUM(risk_group[recapture_denominator])-SUM(risk_group[recapture_numerator]), KEEPFILTERS(risk_group[open_gap_flag]=TRUE() && risk_group[max_month_flag]=TRUE()))\nlineageTag: 4dbb7592-aadd-4903-8339-abe3770cea4b\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(SUM(risk_group[recapture_denominator])-SUM(risk_group[recapture_numerator]), KEEPFILTERS(risk_group[open_gap_flag]=TRUE() && risk_group[max_month_flag]=TRUE()))\nlineageTag: 4dbb7592-aadd-4903-8339-abe3770cea4b\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[recapture_numerator]",
+      "risk_group[open_gap_flag]",
+      "risk_group[max_month_flag]",
+      "risk_group[recapture_denominator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+    "clean_dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[patient_count]",
+      "risk_core[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE(DIVIDE(SUM(risk_group[risk_value]), SUM(risk_group[patient_count])), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) + 0",
+    "clean_dax": "CALCULATE(DIVIDE(SUM(risk_group[risk_value]), SUM(risk_group[patient_count])), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) + 0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[patient_count]",
+      "risk_group[risk_value]",
+      "risk_group[risk_documentation_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([Documented risk], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Documented risk] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: a15cbdc0-8a12-4e10-b1fa-eeb77eb90f8b",
+    "clean_dax": "VAR pm = CALCULATE([Documented risk], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Documented risk] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: a15cbdc0-8a12-4e10-b1fa-eeb77eb90f8b",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Documented risk], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Documented risk], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Documented risk], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Documented risk], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Documented risk], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Documented risk] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 30cb4194-9286-4b4d-bfc2-93c6e9d445d0",
+    "clean_dax": "VAR py = CALCULATE([Documented risk], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Documented risk] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 30cb4194-9286-4b4d-bfc2-93c6e9d445d0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Documented risk cohort",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Documented risk],KEEPFILTERS(risk_core[max_month_flag] = TRUE()))",
+    "clean_dax": "CALCULATE([Documented risk],KEEPFILTERS(risk_core[max_month_flag] = TRUE()))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "risk_core[max_month_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Dropped + suspected",
+    "table": "ALL DAX",
+    "raw_dax": "var a = [Undocumented risk]\nvar b = [Suspected risk]\nreturn\n\"(\" & FORMAT(a+0, \"0.000\") & \" + \" & FORMAT(b+0, \"0.000\") & \")\"",
+    "clean_dax": "var a = [Undocumented risk]\nvar b = [Suspected risk]\nreturn\n\"(\" & FORMAT(a+0, \"0.000\") & \" + \" & FORMAT(b+0, \"0.000\") & \")\"",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Suspected risk",
+        "table": "ALL DAX",
+        "dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Suspected\"))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nlineageTag: 576f2ede-aab7-46d7-a39d-1df9d22d2273\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "Undocumented risk",
+        "table": "ALL DAX",
+        "dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Undocumented\"))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nlineageTag: 42a0a53c-9376-4722-913e-65a72a2b153c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Dropped + suspected (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR a = [Undocumented risk (GROUP)] VAR b = [Suspected risk (GROUP)] RETURN \"(\" & FORMAT(a+0,\"0.000\") & \" + \" & FORMAT(b+0,\"0.000\") & \")\"",
+    "clean_dax": "VAR a = [Undocumented risk (GROUP)] VAR b = [Suspected risk (GROUP)] RETURN \"(\" & FORMAT(a+0,\"0.000\") & \" + \" & FORMAT(b+0,\"0.000\") & \")\"",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Undocumented risk (GROUP)",
+        "table": "ALL DAX",
+        "dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Undocumented\")) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[patient_count]",
+          "risk_group[risk_value]",
+          "risk_group[risk_documentation_flag]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "Suspected risk (GROUP)",
+        "table": "ALL DAX",
+        "dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Suspected\")) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[patient_count]",
+          "risk_group[risk_value]",
+          "risk_group[risk_documentation_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Eligible population",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE(SUM(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))+0\nformatString: #,0\nlineageTag: 8c201874-31b6-4f4b-8be8-131ce92d628e",
+    "clean_dax": "CALCULATE(SUM(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))+0\nformatString: #,0\nlineageTag: 8c201874-31b6-4f4b-8be8-131ce92d628e",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[patient_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Eligible population (group)",
+    "table": "ALL DAX",
+    "raw_dax": "sum(risk_group[patient_count])",
+    "clean_dax": "sum(risk_group[patient_count])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[patient_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Eligible population MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Eligible population], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Eligible population] - py, py, 0)\nlineageTag: 5ad4e7c2-31da-4410-bd77-f123612b17af\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "VAR py = CALCULATE([Eligible population], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Eligible population] - py, py, 0)\nlineageTag: 5ad4e7c2-31da-4410-bd77-f123612b17af\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Eligible population",
+        "table": "ALL DAX",
+        "dax": "CALCULATE(SUM(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))+0\nformatString: #,0\nlineageTag: 8c201874-31b6-4f4b-8be8-131ce92d628e",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Eligible population PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE(sum(risk_core[patient_count]),SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE(sum(risk_core[patient_count]),SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[patient_count]",
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Eligible population YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Eligible population], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Eligible population] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 32234444-dc0b-42ee-88e1-6bde89cf07f1",
+    "clean_dax": "VAR py = CALCULATE([Eligible population], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Eligible population] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 32234444-dc0b-42ee-88e1-6bde89cf07f1",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Eligible population",
+        "table": "ALL DAX",
+        "dax": "CALCULATE(SUM(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))+0\nformatString: #,0\nlineageTag: 8c201874-31b6-4f4b-8be8-131ce92d628e",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Eligible population trend",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_core[patient_count])",
+    "clean_dax": "SUM(risk_core[patient_count])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[patient_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Filter",
+    "table": "ALL DAX",
+    "raw_dax": "ABS(sum(attribution[ytd_visit_amount])) +SUM(attribution[ytd_member_count])",
+    "clean_dax": "ABS(sum(attribution[ytd_visit_amount])) +SUM(attribution[ytd_member_count])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[ytd_member_count]",
+      "attribution[ytd_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gap to potential risk",
+    "table": "ALL DAX",
+    "raw_dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nformatString: 0.000\nlineageTag: 32eac8c6-11fe-461d-bf55-d27ad8617059",
+    "clean_dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nformatString: 0.000\nlineageTag: 32eac8c6-11fe-461d-bf55-d27ad8617059",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[patient_count]",
+      "risk_core[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gap to potential risk (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] IN { \"Undocumented\", \"Suspected\" })) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+    "clean_dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] IN { \"Undocumented\", \"Suspected\" })) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[patient_count]",
+      "risk_group[risk_value]",
+      "risk_group[risk_documentation_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gap to potential risk MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([Gap to potential risk], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Gap to potential risk] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 1665890e-c6d2-434a-8f8b-44a824427da4",
+    "clean_dax": "VAR pm = CALCULATE([Gap to potential risk], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Gap to potential risk] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 1665890e-c6d2-434a-8f8b-44a824427da4",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gap to potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nformatString: 0.000\nlineageTag: 32eac8c6-11fe-461d-bf55-d27ad8617059",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gap to potential risk PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Gap to potential risk], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Gap to potential risk], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gap to potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nformatString: 0.000\nlineageTag: 32eac8c6-11fe-461d-bf55-d27ad8617059",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gap to potential risk PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Gap to potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Gap to potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gap to potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nformatString: 0.000\nlineageTag: 32eac8c6-11fe-461d-bf55-d27ad8617059",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gap to potential risk YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Gap to potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Gap to potential risk] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 0faa7501-3501-4c01-ae0c-e0f3024c7b34",
+    "clean_dax": "VAR py = CALCULATE([Gap to potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Gap to potential risk] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 0faa7501-3501-4c01-ae0c-e0f3024c7b34",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gap to potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nformatString: 0.000\nlineageTag: 32eac8c6-11fe-461d-bf55-d27ad8617059",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gaps closed",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_core[recapture_numerator]) + sum(risk_core[suspect_numerator])",
+    "clean_dax": "SUM(risk_core[recapture_numerator]) + sum(risk_core[suspect_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[recapture_numerator]",
+      "risk_core[suspect_numerator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Gaps closed (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_group[recapture_numerator])",
+    "clean_dax": "SUM(risk_group[recapture_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[recapture_numerator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Latest attribution date",
+    "table": "ALL DAX",
+    "raw_dax": "MAX(attribution[month_of_date])",
+    "clean_dax": "MAX(attribution[month_of_date])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Latest measurement date",
+    "table": "ALL DAX",
+    "raw_dax": "MAX(risk_core[month_of_measurement])",
+    "clean_dax": "MAX(risk_core[month_of_measurement])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[month_of_measurement]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Latest risk execution",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE(MAX(cohort[month_of_measurement]),ALL('date'))",
+    "clean_dax": "CALCULATE(MAX(cohort[month_of_measurement]),ALL('date'))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "cohort[month_of_measurement]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Members with open coding gaps",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+    "clean_dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[member_with_open_coding_gap_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Members with open coding gaps MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([Members with open coding gaps], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Members with open coding gaps] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 30cd1202-3b6c-4fd9-8024-382cd9d4c5d5",
+    "clean_dax": "VAR pm = CALCULATE([Members with open coding gaps], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Members with open coding gaps] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 30cd1202-3b6c-4fd9-8024-382cd9d4c5d5",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Members with open coding gaps",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_with_open_coding_gap_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Members with open coding gaps PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Members with open coding gaps], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Members with open coding gaps], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Members with open coding gaps",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_with_open_coding_gap_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Members with open coding gaps PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Members with open coding gaps], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Members with open coding gaps], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Members with open coding gaps",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_with_open_coding_gap_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Members with open coding gaps YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Members with open coding gaps], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Members with open coding gaps] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 49f5a7e9-9672-4b71-82f7-54e42be2f51f",
+    "clean_dax": "VAR py = CALCULATE([Members with open coding gaps], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Members with open coding gaps] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 49f5a7e9-9672-4b71-82f7-54e42be2f51f",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Members with open coding gaps",
+        "table": "ALL DAX",
+        "dax": "SUM(attribution[member_with_open_coding_gap_count])\nformatString: #,0\nlineageTag: fb23b4af-175f-47cc-ae05-89633df943c2",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_with_open_coding_gap_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Open gaps (Dropped)",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_core[recapture_denominator])-SUM(risk_core[recapture_numerator])",
+    "clean_dax": "SUM(risk_core[recapture_denominator])-SUM(risk_core[recapture_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[recapture_denominator]",
+      "risk_core[recapture_numerator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Open gaps (Suspected)",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_core[suspect_denominator])-SUM(risk_core[suspect_numerator])",
+    "clean_dax": "SUM(risk_core[suspect_denominator])-SUM(risk_core[suspect_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[suspect_numerator]",
+      "risk_core[suspect_denominator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator])",
+    "clean_dax": "SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[recapture_numerator]",
+      "risk_group[suspect_numerator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([Gaps closed], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Gaps closed] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 0aec6dd6-0d6b-4d18-a147-aef0a85fcf63",
+    "clean_dax": "VAR pm = CALCULATE([Gaps closed], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Gaps closed] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 0aec6dd6-0d6b-4d18-a147-aef0a85fcf63",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gaps closed",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_core[recapture_numerator]) + sum(risk_core[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed MoM (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([Overall gaps closed (GROUP)], PREVIOUSMONTH('date'[month_of_date])) RETURN DIVIDE([Overall gaps closed (GROUP)] - pm, pm, 0)",
+    "clean_dax": "VAR pm = CALCULATE([Overall gaps closed (GROUP)], PREVIOUSMONTH('date'[month_of_date])) RETURN DIVIDE([Overall gaps closed (GROUP)] - pm, pm, 0)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall gaps closed (GROUP)",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Gaps closed], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Gaps closed], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gaps closed",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_core[recapture_numerator]) + sum(risk_core[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed PM (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Overall gaps closed (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Overall gaps closed (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall gaps closed (GROUP)",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Gaps closed], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Gaps closed], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gaps closed",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_core[recapture_numerator]) + sum(risk_core[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed PY (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Overall gaps closed (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Overall gaps closed (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall gaps closed (GROUP)",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Gaps closed], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Gaps closed] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 8cc815d9-5fa4-4eb8-a1b7-75cfbcece785",
+    "clean_dax": "VAR py = CALCULATE([Gaps closed], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Gaps closed] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 8cc815d9-5fa4-4eb8-a1b7-75cfbcece785",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Gaps closed",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_core[recapture_numerator]) + sum(risk_core[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall gaps closed YoY (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Overall gaps closed (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date])) RETURN DIVIDE([Overall gaps closed (GROUP)] - py, py, 0)",
+    "clean_dax": "VAR py = CALCULATE([Overall gaps closed (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date])) RETURN DIVIDE([Overall gaps closed (GROUP)] - py, py, 0)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall gaps closed (GROUP)",
+        "table": "ALL DAX",
+        "dax": "SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator])",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[suspect_numerator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PMPM",
+    "table": "ALL DAX",
+    "raw_dax": "DIVIDE(SUM(attribution[ytd_visit_amount]),Sum(attribution[ytd_member_count]))",
+    "clean_dax": "DIVIDE(SUM(attribution[ytd_visit_amount]),Sum(attribution[ytd_member_count]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[ytd_member_count]",
+      "attribution[ytd_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PMPM MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([PMPM], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([PMPM] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: b7c7f78e-82bd-4206-941d-f25c7aec4753",
+    "clean_dax": "VAR pm = CALCULATE([PMPM], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([PMPM] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: b7c7f78e-82bd-4206-941d-f25c7aec4753",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PMPM",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(attribution[ytd_visit_amount]),Sum(attribution[ytd_member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[ytd_member_count]",
+          "attribution[ytd_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PMPM PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([PMPM], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([PMPM], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PMPM",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(attribution[ytd_visit_amount]),Sum(attribution[ytd_member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[ytd_member_count]",
+          "attribution[ytd_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PMPM PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PMPM",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(attribution[ytd_visit_amount]),Sum(attribution[ytd_member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[ytd_member_count]",
+          "attribution[ytd_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PMPM YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([PMPM] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 41ca9ef2-dd8d-40e1-ad69-c8174d887ec5",
+    "clean_dax": "VAR py = CALCULATE([PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([PMPM] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 41ca9ef2-dd8d-40e1-ad69-c8174d887ec5",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PMPM",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(attribution[ytd_visit_amount]),Sum(attribution[ytd_member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[ytd_member_count]",
+          "attribution[ytd_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential RAF recapture rate cohort",
+    "table": "ALL DAX",
+    "raw_dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}),risk_core[max_month_flag]=TRUE())\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}),risk_core[max_month_flag]=TRUE())\nvar c = a + CALCULATE(sum(cohort[risk_value]))\nvar d = DIVIDE(c,b)\nreturn\nd",
+    "clean_dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}),risk_core[max_month_flag]=TRUE())\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}),risk_core[max_month_flag]=TRUE())\nvar c = a + CALCULATE(sum(cohort[risk_value]))\nvar d = DIVIDE(c,b)\nreturn\nd",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[risk_value]",
+      "risk_core[max_month_flag]",
+      "cohort[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential Risk recapture rate cohort",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE(\nDIVIDE(\nSUM(risk_core[recapture_numerator]) + [Targeted gaps],\nSUM(risk_core[recapture_denominator]),\n0\n), KEEPFILTERS(risk_core[max_month_flag]=TRUE()\n))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 29ab719a-6792-4bf8-b6d2-d58f9a09f892",
+    "clean_dax": "CALCULATE(\nDIVIDE(\nSUM(risk_core[recapture_numerator]) + [Targeted gaps],\nSUM(risk_core[recapture_denominator]),\n0\n), KEEPFILTERS(risk_core[max_month_flag]=TRUE()\n))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 29ab719a-6792-4bf8-b6d2-d58f9a09f892",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Targeted gaps",
+        "table": "ALL DAX",
+        "dax": "COUNTROWS(cohort)+0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "risk_core[recapture_numerator]",
+      "risk_core[recapture_denominator]",
+      "risk_core[max_month_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential risk",
+    "table": "ALL DAX",
+    "raw_dax": "var a  = SUM(risk_core[risk_value])\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)\nformatString: 0.000\nlineageTag: 0c8d3b8e-3e21-40a1-a754-61733cf9adf0",
+    "clean_dax": "var a  = SUM(risk_core[risk_value])\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)\nformatString: 0.000\nlineageTag: 0c8d3b8e-3e21-40a1-a754-61733cf9adf0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[patient_count]",
+      "risk_core[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential risk (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR a = SUM(risk_group[risk_value]) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)",
+    "clean_dax": "VAR a = SUM(risk_group[risk_value]) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[patient_count]",
+      "risk_group[risk_value]",
+      "risk_group[risk_documentation_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential risk MoM",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = CALCULATE([Potential risk], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Potential risk] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: d5cf57e8-1679-456c-b8b7-a12e84af9b77",
+    "clean_dax": "VAR pm = CALCULATE([Potential risk], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Potential risk] - pm, pm, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: d5cf57e8-1679-456c-b8b7-a12e84af9b77",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = SUM(risk_core[risk_value])\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)\nformatString: 0.000\nlineageTag: 0c8d3b8e-3e21-40a1-a754-61733cf9adf0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential risk PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Potential risk], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Potential risk], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = SUM(risk_core[risk_value])\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)\nformatString: 0.000\nlineageTag: 0c8d3b8e-3e21-40a1-a754-61733cf9adf0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential risk PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = SUM(risk_core[risk_value])\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)\nformatString: 0.000\nlineageTag: 0c8d3b8e-3e21-40a1-a754-61733cf9adf0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Potential risk YoY",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = CALCULATE([Potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Potential risk] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: d33016dc-ba65-40e0-b70c-02afd604867c",
+    "clean_dax": "VAR py = CALCULATE([Potential risk], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Potential risk] - py, py, 0)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: d33016dc-ba65-40e0-b70c-02afd604867c",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Potential risk",
+        "table": "ALL DAX",
+        "dax": "var a  = SUM(risk_core[risk_value])\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)\nformatString: 0.000\nlineageTag: 0c8d3b8e-3e21-40a1-a754-61733cf9adf0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate",
+    "table": "ALL DAX",
+    "raw_dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+    "clean_dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+    "clean_dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[risk_value]",
+      "risk_group[risk_documentation_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate MoM",
+    "table": "ALL DAX",
+    "raw_dax": "var pm = [RAF recapture rate PM]\nreturn\nDIVIDE([RAF recapture rate] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: be9eb187-40be-4ea1-87b6-b8f9a7567720",
+    "clean_dax": "var pm = [RAF recapture rate PM]\nreturn\nDIVIDE([RAF recapture rate] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: be9eb187-40be-4ea1-87b6-b8f9a7567720",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate PM",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([RAF recapture rate], PREVIOUSMONTH('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: ced42cb4-dc3d-46c7-a3b3-9cca72716a18",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "RAF recapture rate",
+            "table": "ALL DAX",
+            "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_core[risk_documentation_flag]",
+              "risk_core[risk_value]"
+            ],
+            "depends_on": []
+          }
+        ]
+      },
+      {
+        "measure_name": "RAF recapture rate",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate MoM (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = [RAF recapture rate PM (GROUP)] RETURN DIVIDE([RAF recapture rate (GROUP)] - pm, pm)",
+    "clean_dax": "VAR pm = [RAF recapture rate PM (GROUP)] RETURN DIVIDE([RAF recapture rate (GROUP)] - pm, pm)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[risk_value]",
+          "risk_group[risk_documentation_flag]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "RAF recapture rate PM (GROUP)",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([RAF recapture rate (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "RAF recapture rate (GROUP)",
+            "table": "ALL DAX",
+            "dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_group[risk_value]",
+              "risk_group[risk_documentation_flag]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([RAF recapture rate], PREVIOUSMONTH('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: ced42cb4-dc3d-46c7-a3b3-9cca72716a18",
+    "clean_dax": "CALCULATE([RAF recapture rate], PREVIOUSMONTH('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: ced42cb4-dc3d-46c7-a3b3-9cca72716a18",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate PM (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([RAF recapture rate (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([RAF recapture rate (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[risk_value]",
+          "risk_group[risk_documentation_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([RAF recapture rate], SAMEPERIODLASTYEAR('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 3485c63e-820e-4a28-b324-ceb573bafa13",
+    "clean_dax": "CALCULATE([RAF recapture rate], SAMEPERIODLASTYEAR('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 3485c63e-820e-4a28-b324-ceb573bafa13",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate PY (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([RAF recapture rate (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([RAF recapture rate (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[risk_value]",
+          "risk_group[risk_documentation_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate YoY",
+    "table": "ALL DAX",
+    "raw_dax": "var py = [RAF recapture rate PY]\nreturn\nDIVIDE([RAF recapture rate] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 4232eb66-0fc0-487a-95ef-d7ed152d1c8d",
+    "clean_dax": "var py = [RAF recapture rate PY]\nreturn\nDIVIDE([RAF recapture rate] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 4232eb66-0fc0-487a-95ef-d7ed152d1c8d",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "RAF recapture rate PY",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([RAF recapture rate], SAMEPERIODLASTYEAR('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 3485c63e-820e-4a28-b324-ceb573bafa13",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "RAF recapture rate",
+            "table": "ALL DAX",
+            "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_core[risk_documentation_flag]",
+              "risk_core[risk_value]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate YoY (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = [RAF recapture rate PY (GROUP)] RETURN DIVIDE([RAF recapture rate (GROUP)] - py, py)",
+    "clean_dax": "VAR py = [RAF recapture rate PY (GROUP)] RETURN DIVIDE([RAF recapture rate (GROUP)] - py, py)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[risk_value]",
+          "risk_group[risk_documentation_flag]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "RAF recapture rate PY (GROUP)",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([RAF recapture rate (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "RAF recapture rate (GROUP)",
+            "table": "ALL DAX",
+            "dax": "var a = CALCULATE(sum(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0%;-0%;0%\nlineageTag: 4a55df37-3e73-4eae-9771-1782098021c4",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_group[risk_value]",
+              "risk_group[risk_documentation_flag]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF recapture rate cohort",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([RAF recapture rate],risk_core[max_month_flag]=TRUE())",
+    "clean_dax": "CALCULATE([RAF recapture rate],risk_core[max_month_flag]=TRUE())",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "RAF recapture rate",
+        "table": "ALL DAX",
+        "dax": "var a = CALCULATE(sum(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\"}))\nvar b = CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] in {\"Documented\", \"Undocumented\"}))\nreturn\nDIVIDE(a,b)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 70ebc3c8-8fb8-48dc-815a-23f345128994",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "risk_core[max_month_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "RAF_impact_cohort",
+    "table": "ALL DAX",
+    "raw_dax": "var latest_month = CALCULATE(max(cohort[month_of_measurement]), ALL('DATE'))\nvar a = CALCULATE(SUM(cohort[risk_value]), cohort[month_of_measurement] = latest_month, ALL('DATE'), cohort[risk_documentation_flag] in {\"Undoumented\",\"Suspected\"})\nvar b = CALCULATE(sum(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag]=\"Documented\"), risk_core[month_of_measurement] = latest_month, ALL('DATE'))\n\nreturn\n\nDIVIDE(a,b)",
+    "clean_dax": "var latest_month = CALCULATE(max(cohort[month_of_measurement]), ALL('DATE'))\nvar a = CALCULATE(SUM(cohort[risk_value]), cohort[month_of_measurement] = latest_month, ALL('DATE'), cohort[risk_documentation_flag] in {\"Undoumented\",\"Suspected\"})\nvar b = CALCULATE(sum(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag]=\"Documented\"), risk_core[month_of_measurement] = latest_month, ALL('DATE'))\n\nreturn\n\nDIVIDE(a,b)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "cohort[risk_documentation_flag]",
+      "cohort[month_of_measurement]",
+      "risk_core[month_of_measurement]",
+      "risk_core[patient_count]",
+      "cohort[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Realizable RAF score",
+    "table": "ALL DAX",
+    "raw_dax": "var a = CALCULATE(SUM(cohort[risk_value]), KEEPFILTERS(cohort[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b = CALCULATE(SUM(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag]=\"Documented\"),KEEPFILTERS(risk_core[max_month_flag] = TRUE()))\nvar c = CALCULATE([Documented risk],KEEPFILTERS(risk_core[max_month_flag] = TRUE()))\nvar result = DIVIDE(a,b) + c\nreturn\nresult",
+    "clean_dax": "var a = CALCULATE(SUM(cohort[risk_value]), KEEPFILTERS(cohort[risk_documentation_flag] in {\"Undocumented\",\"Suspected\"}))\nvar b = CALCULATE(SUM(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag]=\"Documented\"),KEEPFILTERS(risk_core[max_month_flag] = TRUE()))\nvar c = CALCULATE([Documented risk],KEEPFILTERS(risk_core[max_month_flag] = TRUE()))\nvar result = DIVIDE(a,b) + c\nreturn\nresult",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "cohort[risk_documentation_flag]",
+      "cohort[risk_value]",
+      "risk_core[patient_count]",
+      "risk_core[max_month_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk factor",
+    "table": "ALL DAX",
+    "raw_dax": "MAX(risk_group[risk_factor_code])",
+    "clean_dax": "MAX(risk_group[risk_factor_code])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[risk_factor_code]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate",
+    "table": "ALL DAX",
+    "raw_dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+    "clean_dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[recapture_numerator]",
+      "risk_core[recapture_denominator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+    "clean_dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[recapture_numerator]",
+      "risk_group[recapture_denominator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate MoM",
+    "table": "ALL DAX",
+    "raw_dax": "var pm = [Risk recapture rate PM]\nreturn\nDIVIDE([Risk recapture rate] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 96ea0b22-b60d-4dc9-a36c-be07071bc47e",
+    "clean_dax": "var pm = [Risk recapture rate PM]\nreturn\nDIVIDE([Risk recapture rate] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 96ea0b22-b60d-4dc9-a36c-be07071bc47e",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate PM",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([Risk recapture rate], PREVIOUSMONTH('date'[month_of_date]))\nlineageTag: 2ebf4a11-a32d-4246-ab75-7efbf1001f9c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "Risk recapture rate",
+            "table": "ALL DAX",
+            "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_core[recapture_numerator]",
+              "risk_core[recapture_denominator]"
+            ],
+            "depends_on": []
+          }
+        ]
+      },
+      {
+        "measure_name": "Risk recapture rate",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate MoM (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR pm = [Risk recapture rate PM (GROUP)] RETURN DIVIDE([Risk recapture rate (GROUP)] - pm, pm)",
+    "clean_dax": "VAR pm = [Risk recapture rate PM (GROUP)] RETURN DIVIDE([Risk recapture rate (GROUP)] - pm, pm)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate PM (GROUP)",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([Risk recapture rate (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "Risk recapture rate (GROUP)",
+            "table": "ALL DAX",
+            "dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_group[recapture_numerator]",
+              "risk_group[recapture_denominator]"
+            ],
+            "depends_on": []
+          }
+        ]
+      },
+      {
+        "measure_name": "Risk recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate PM",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Risk recapture rate], PREVIOUSMONTH('date'[month_of_date]))\nlineageTag: 2ebf4a11-a32d-4246-ab75-7efbf1001f9c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE([Risk recapture rate], PREVIOUSMONTH('date'[month_of_date]))\nlineageTag: 2ebf4a11-a32d-4246-ab75-7efbf1001f9c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate PM (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Risk recapture rate (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Risk recapture rate (GROUP)], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate PY",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Risk recapture rate], SAMEPERIODLASTYEAR('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 1fc47f63-8bb4-411d-8e6f-a9fb2c509e0b",
+    "clean_dax": "CALCULATE([Risk recapture rate], SAMEPERIODLASTYEAR('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 1fc47f63-8bb4-411d-8e6f-a9fb2c509e0b",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate PY (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Risk recapture rate (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Risk recapture rate (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate YoY",
+    "table": "ALL DAX",
+    "raw_dax": "var py = [Risk recapture rate PY]\nreturn\nDIVIDE([Risk recapture rate] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 50b1c5b5-875d-4871-80cf-71a306f4cff5",
+    "clean_dax": "var py = [Risk recapture rate PY]\nreturn\nDIVIDE([Risk recapture rate] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 50b1c5b5-875d-4871-80cf-71a306f4cff5",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate PY",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([Risk recapture rate], SAMEPERIODLASTYEAR('date'[month_of_date]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 1fc47f63-8bb4-411d-8e6f-a9fb2c509e0b",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "Risk recapture rate",
+            "table": "ALL DAX",
+            "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_core[recapture_numerator]",
+              "risk_core[recapture_denominator]"
+            ],
+            "depends_on": []
+          }
+        ]
+      },
+      {
+        "measure_name": "Risk recapture rate",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate YoY (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR py = [Risk recapture rate PY (GROUP)] RETURN DIVIDE([Risk recapture rate (GROUP)] - py, py)",
+    "clean_dax": "VAR py = [Risk recapture rate PY (GROUP)] RETURN DIVIDE([Risk recapture rate (GROUP)] - py, py)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate PY (GROUP)",
+        "table": "ALL DAX",
+        "dax": "CALCULATE([Risk recapture rate (GROUP)], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [
+          "'date'[month_of_date]"
+        ],
+        "depends_on": [
+          {
+            "measure_name": "Risk recapture rate (GROUP)",
+            "table": "ALL DAX",
+            "dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "risk_group[recapture_numerator]",
+              "risk_group[recapture_denominator]"
+            ],
+            "depends_on": []
+          }
+        ]
+      },
+      {
+        "measure_name": "Risk recapture rate (GROUP)",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_group[recapture_numerator]), SUM(risk_group[recapture_denominator]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_group[recapture_numerator]",
+          "risk_group[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Risk recapture rate cohort",
+    "table": "ALL DAX",
+    "raw_dax": "CALCULATE([Risk recapture rate], risk_core[max_month_flag]=TRUE())",
+    "clean_dax": "CALCULATE([Risk recapture rate], risk_core[max_month_flag]=TRUE())",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Risk recapture rate",
+        "table": "ALL DAX",
+        "dax": "DIVIDE(SUM(risk_core[recapture_numerator]),SUM(risk_core[recapture_denominator]))\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 833f191f-3194-4c8f-b39c-de1b45c3b006",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[recapture_numerator]",
+          "risk_core[recapture_denominator]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "risk_core[max_month_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Suspected risk",
+    "table": "ALL DAX",
+    "raw_dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Suspected\"))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nlineageTag: 576f2ede-aab7-46d7-a39d-1df9d22d2273\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Suspected\"))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nlineageTag: 576f2ede-aab7-46d7-a39d-1df9d22d2273\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[patient_count]",
+      "risk_core[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Suspected risk (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Suspected\")) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+    "clean_dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Suspected\")) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[patient_count]",
+      "risk_group[risk_value]",
+      "risk_group[risk_documentation_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Targeted gaps",
+    "table": "ALL DAX",
+    "raw_dax": "COUNTROWS(cohort)+0",
+    "clean_dax": "COUNTROWS(cohort)+0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Targeted patients",
+    "table": "ALL DAX",
+    "raw_dax": "DISTINCTCOUNT(cohort[empi])+0\nformatString: #,0\nlineageTag: 97838794-e786-4b00-ae14-2f7d9508b327",
+    "clean_dax": "DISTINCTCOUNT(cohort[empi])+0\nformatString: #,0\nlineageTag: 97838794-e786-4b00-ae14-2f7d9508b327",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "cohort[empi]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Undocumented risk",
+    "table": "ALL DAX",
+    "raw_dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Undocumented\"))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nlineageTag: 42a0a53c-9376-4722-913e-65a72a2b153c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var a  = CALCULATE( SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Undocumented\"))\nvar b  = CALCULATE( sum(risk_core[patient_count]), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nreturn\nDIVIDE(a,b)+0\nlineageTag: 42a0a53c-9376-4722-913e-65a72a2b153c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_core[risk_documentation_flag]",
+      "risk_core[patient_count]",
+      "risk_core[risk_value]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Undocumented risk (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Undocumented\")) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+    "clean_dax": "VAR a = CALCULATE(SUM(risk_group[risk_value]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Undocumented\")) VAR b = CALCULATE(SUM(risk_group[patient_count]), KEEPFILTERS(risk_group[risk_documentation_flag] = \"Documented\")) RETURN DIVIDE(a,b)+0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[patient_count]",
+      "risk_group[risk_value]",
+      "risk_group[risk_documentation_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "increase_RAF_impact_cohort",
+    "table": "ALL DAX",
+    "raw_dax": "var latest_month = CALCULATE(max(cohort[month_of_measurement]), ALL('DATE'))\nvar doc = CALCULATE([Documented risk], risk_core[month_of_measurement]= latest_month, ALL('DATE'))\nvar a = [RAF_impact_cohort] + doc\nvar b = doc\nRETURN\nformat( DIVIDE((a-b),b)+0, \"0.0%\") & \" increase in the documented RAF Score\"\nlineageTag: bf02ba52-05ef-4da0-b8f7-9d9f633dbd62",
+    "clean_dax": "var latest_month = CALCULATE(max(cohort[month_of_measurement]), ALL('DATE'))\nvar doc = CALCULATE([Documented risk], risk_core[month_of_measurement]= latest_month, ALL('DATE'))\nvar a = [RAF_impact_cohort] + doc\nvar b = doc\nRETURN\nformat( DIVIDE((a-b),b)+0, \"0.0%\") & \" increase in the documented RAF Score\"\nlineageTag: bf02ba52-05ef-4da0-b8f7-9d9f633dbd62",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Documented risk",
+        "table": "ALL DAX",
+        "dax": "CALCULATE( DIVIDE(SUM(risk_core[risk_value]),sum(risk_core[patient_count])), KEEPFILTERS(risk_core[risk_documentation_flag] = \"Documented\"))\nformatString: 0.000\nlineageTag: 3efdba30-4573-4f09-8390-00e0cfe385fb",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "risk_core[patient_count]",
+          "risk_core[risk_value]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "RAF_impact_cohort",
+        "table": "ALL DAX",
+        "dax": "var latest_month = CALCULATE(max(cohort[month_of_measurement]), ALL('DATE'))\nvar a = CALCULATE(SUM(cohort[risk_value]), cohort[month_of_measurement] = latest_month, ALL('DATE'), cohort[risk_documentation_flag] in {\"Undoumented\",\"Suspected\"})\nvar b = CALCULATE(sum(risk_core[patient_count]),KEEPFILTERS(risk_core[risk_documentation_flag]=\"Documented\"), risk_core[month_of_measurement] = latest_month, ALL('DATE'))\n\nreturn\n\nDIVIDE(a,b)",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "risk_core[risk_documentation_flag]",
+          "cohort[risk_documentation_flag]",
+          "cohort[month_of_measurement]",
+          "risk_core[month_of_measurement]",
+          "risk_core[patient_count]",
+          "cohort[risk_value]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "cohort[month_of_measurement]",
+      "risk_core[month_of_measurement]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "open dropped gaps (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_group[recapture_denominator]) - SUM(risk_group[recapture_numerator])",
+    "clean_dax": "SUM(risk_group[recapture_denominator]) - SUM(risk_group[recapture_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[recapture_numerator]",
+      "risk_group[recapture_denominator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "open suspected gaps (GROUP)",
+    "table": "ALL DAX",
+    "raw_dax": "SUM(risk_group[suspect_denominator]) - SUM(risk_group[suspect_numerator])",
+    "clean_dax": "SUM(risk_group[suspect_denominator]) - SUM(risk_group[suspect_numerator])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "risk_group[suspect_numerator]",
+      "risk_group[suspect_denominator]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  }
+]

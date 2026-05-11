@@ -1,0 +1,118 @@
+{
+  "visual_id": "5a969a11d8a88a07826c",
+  "title": "Potential risk",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [
+    {
+      "movement": "Potential risk rises year over year",
+      "signal": "Investigate",
+      "interpretation": "The total risk burden per documented patient is growing, which may reflect a sicker population or increased suspected/undocumented conditions being identified — determine whether documentation is keeping pace. Cross-check Documented risk vs potential risk"
+    },
+    {
+      "movement": "Potential risk falls year over year",
+      "signal": "Investigate",
+      "interpretation": "Declining potential risk per documented patient could indicate improved coding closure, a healthier population mix, or a shrinking denominator of documented patients that masks true risk. Cross-check Gap to potential risk"
+    },
+    {
+      "movement": "Potential risk rises while Eligible population falls",
+      "signal": "Investigate",
+      "interpretation": "A smaller documented patient base driving a higher average potential risk suggests concentrated high-acuity members are dominating the score while lower-risk members may have dropped off attribution. Cross-check Risk breakdown by attribution status"
+    }
+  ],
+  "drill_steps": [
+    {
+      "step": 1,
+      "visual_name": "Documented risk vs potential risk",
+      "question": "How wide is the gap between documented and potential risk over time, and is that gap widening or narrowing year over year?"
+    },
+    {
+      "step": 2,
+      "visual_name": "Gap to potential risk",
+      "question": "What share of the total potential risk remains uncaptured, and is the absolute gap increasing despite any recapture efforts?"
+    },
+    {
+      "step": 3,
+      "visual_name": "Risk breakdown by attribution status",
+      "question": "Which attribution segments are contributing the most to elevated potential risk, and are undocumented or suspected conditions concentrated in a specific group?"
+    },
+    {
+      "step": 4,
+      "visual_name": "Risk recapture rate by disease",
+      "question": "Which disease categories carry the highest unrecaptured potential risk, indicating where coding outreach would have the greatest impact?"
+    },
+    {
+      "step": 5,
+      "visual_name": "Practice/PCP details",
+      "question": "Which practices or PCPs have the largest spread between potential and documented risk per patient, signaling documentation gaps at the provider level?"
+    },
+    {
+      "step": 6,
+      "visual_name": "Gap closure by type of visit",
+      "question": "Are the visit types being used for gap closure sufficient to address the conditions driving high potential risk, or are certain condition types going unaddressed? Drill-down ends here. For member-level detail — go to Patient List on the Risk Capture Potential page."
+    }
+  ],
+  "cross_read_combined": {
+    "primary_kpi": "Potential risk",
+    "partners": [
+      "Documented risk",
+      "Gap to potential risk",
+      "RAF recapture rate"
+    ],
+    "rows": [
+      {
+        "Potential risk": "High",
+        "Documented risk": "Low",
+        "Gap to potential risk": "High",
+        "RAF recapture rate": "Low",
+        "meaning": "Large uncaptured risk burden with poor documentation and no recapture momentum — immediate coding outreach and provider engagement are critical."
+      },
+      {
+        "Potential risk": "High",
+        "Documented risk": "High",
+        "Gap to potential risk": "Low",
+        "RAF recapture rate": "High",
+        "meaning": "High risk is well-documented and actively recaptured — this is a healthy state; monitor to ensure documentation quality is maintained."
+      },
+      {
+        "Potential risk": "High",
+        "Documented risk": "Low",
+        "Gap to potential risk": "High",
+        "RAF recapture rate": "High",
+        "meaning": "Recapture activity is strong but documentation has not yet caught up with the full risk burden — accelerate coding workflows to convert suspected conditions."
+      },
+      {
+        "Potential risk": "High",
+        "Documented risk": "High",
+        "Gap to potential risk": "High",
+        "RAF recapture rate": "Low",
+        "meaning": "Existing conditions are documented but a large new gap is emerging with no recapture effort — investigate whether new suspected conditions are being identified and acted on."
+      },
+      {
+        "Potential risk": "Low",
+        "Documented risk": "Low",
+        "Gap to potential risk": "Low",
+        "RAF recapture rate": "Low",
+        "meaning": "Overall low-risk population with minimal gaps and no recapture pressure — validate that the eligible population is correctly attributed and not under-identified."
+      },
+      {
+        "Potential risk": "Low",
+        "Documented risk": "High",
+        "Gap to potential risk": "Low",
+        "RAF recapture rate": "High",
+        "meaning": "Documented risk exceeds potential risk signal, suggesting over-coding or a denominator mismatch — audit condition flags and patient attribution for data integrity issues."
+      }
+    ]
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

@@ -1,0 +1,266 @@
+table risk_group
+	lineageTag: 1ae27ccf-e045-453b-8683-746c3ea79159
+
+	column month_of_measurement
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c2699110-21d3-4965-bfac-6b495360e912
+		summarizeBy: none
+		sourceColumn: month_of_measurement
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column risk_value
+		dataType: double
+		lineageTag: f6702fb2-5b30-4b01-9771-62b7338f458f
+		summarizeBy: sum
+		sourceColumn: risk_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column risk_factor
+		dataType: double
+		lineageTag: 607057a4-66cf-475a-9f57-f3a6e6f1164c
+		summarizeBy: sum
+		sourceColumn: risk_factor
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column only_clinical_risk_factors
+		dataType: double
+		lineageTag: 6511aadb-5ce0-4da4-bdcc-91459552f330
+		summarizeBy: sum
+		sourceColumn: only_clinical_risk_factors
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column claims_awaiting_risk_factor_count
+		dataType: double
+		lineageTag: 7b693b47-99fc-4659-99f2-b6b94507de06
+		summarizeBy: sum
+		sourceColumn: claims_awaiting_risk_factor_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column risk_documentation_flag
+		dataType: string
+		lineageTag: 2ac7d57f-f288-4a88-8a5c-2d469cd9508d
+		summarizeBy: none
+		sourceColumn: risk_documentation_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease
+		dataType: string
+		lineageTag: 5be13186-6f81-43fe-9fe3-8a3eec16f5df
+		summarizeBy: none
+		sourceColumn: disease
+
+		annotation SummarizationSetBy = Automatic
+
+	column recapture_numerator
+		dataType: double
+		lineageTag: b774ac17-3a68-417c-8e1f-9b195c04c519
+		summarizeBy: sum
+		sourceColumn: recapture_numerator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recapture_denominator
+		dataType: double
+		lineageTag: fc5b089f-a0a2-4702-b233-139270373612
+		summarizeBy: sum
+		sourceColumn: recapture_denominator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column suspect_numerator
+		dataType: double
+		lineageTag: b1b5491a-4e29-47cd-bbd5-af6f48b94fbc
+		summarizeBy: sum
+		sourceColumn: suspect_numerator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column suspect_denominator
+		dataType: double
+		lineageTag: 4c52601e-b20a-4200-9f29-ab9484cc1adf
+		summarizeBy: sum
+		sourceColumn: suspect_denominator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: 89b3a513-0386-4204-bfb6-462b546a4c17
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_status
+		dataType: string
+		lineageTag: 7a658b08-bde5-49be-8e0f-1e31c0b747f7
+		summarizeBy: none
+		sourceColumn: churn_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column measure_master_id_index
+		dataType: double
+		lineageTag: 96221931-733a-47a3-8f83-94e7ca4382ec
+		summarizeBy: none
+		sourceColumn: measure_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payer_master_id_index
+		dataType: double
+		lineageTag: 15b964be-968b-40b4-a9dd-582192478695
+		summarizeBy: none
+		sourceColumn: payer_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column patient_count
+		dataType: double
+		lineageTag: caf04174-6570-4a8e-bad8-d4dfe58f11d4
+		summarizeBy: sum
+		sourceColumn: patient_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custom_segment_master_id
+		dataType: double
+		lineageTag: 913f4a3e-c6c1-45ea-8410-0863479be9a5
+		summarizeBy: sum
+		sourceColumn: custom_segment_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column risk_factor_description
+		dataType: string
+		lineageTag: 28e3a2f3-a5a3-4451-9fcd-3bd4d5c22a66
+		summarizeBy: none
+		sourceColumn: risk_factor_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_factor_code
+		dataType: string
+		lineageTag: 7b231293-5956-4002-88b0-e0eaf87d6f5f
+		summarizeBy: none
+		sourceColumn: risk_factor_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column interaction_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 25fc38a6-456e-4948-8b89-769b33a12334
+		summarizeBy: none
+		sourceColumn: interaction_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_factor_type
+		dataType: string
+		lineageTag: 914a3587-f9e8-48fc-8057-b6225966e504
+		summarizeBy: none
+		sourceColumn: risk_factor_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gap_closure_network_status
+		dataType: string
+		lineageTag: 7bda7d9a-ac9b-47de-b16d-8248458af7c5
+		summarizeBy: none
+		sourceColumn: gap_closure_network_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column gap_closure_provider_type
+		dataType: string
+		lineageTag: 322e3ac6-641a-45f2-952f-b5a21ce3ce38
+		summarizeBy: none
+		sourceColumn: gap_closure_provider_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gap_closure_visit_type
+		dataType: string
+		lineageTag: 2efc2988-b0db-4d49-a240-520ffda7bb5c
+		summarizeBy: none
+		sourceColumn: gap_closure_visit_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_month_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1278f1ba-e731-41f8-aafb-fe2539f6d8e8
+		summarizeBy: none
+		sourceColumn: max_month_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_gap_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 92617fb4-65ac-4be6-bde0-09cdfafeaee4
+		summarizeBy: none
+		sourceColumn: open_gap_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribution_status
+		dataType: string
+		lineageTag: a12e5075-929c-4bb5-8d58-a8944253689b
+		summarizeBy: none
+		sourceColumn: attribution_status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition risk_group = m
+		mode: import
+		queryGroup: Fact
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE),
+				    L5_TESTING_DB_Database = Source{[Name= L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_09_02_Schema = L5_TESTING_DB_Database{[Name= SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PCP_Table = L5_09_02_Schema{[Name= if DB_TYPE = "Postgres" then "risk_core_aggregate_view" else "RISK_GROUP_V4_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PCP_Table,Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

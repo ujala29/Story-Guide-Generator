@@ -1,0 +1,422 @@
+{
+  "run_at": "2026-05-10T19:29:53.821862+00:00",
+  "duration_s": 0.11,
+  "input_file": "C:\\Users\\i_Ujala.Gupta\\Documents\\L5_Asisstant_3.0\\Story Guide Generator_\\output\\dashboards\\pac-dash\\stage1\\schema_sections\\measures_resolved.json",
+  "totals": {
+    "total_measures": 124,
+    "in_scope": 71,
+    "out_of_scope": 53,
+    "parsed_ok": 71,
+    "parsed_failed": 0,
+    "sql_generated": 61,
+    "sql_failed": 10,
+    "needs_llm": 63,
+    "compiler_handled": 61
+  },
+  "percentages": {
+    "in_scope_pct": 57.3,
+    "sql_generated_pct": 49.2,
+    "compiler_pct": 85.9
+  },
+  "pattern_breakdown": {
+    "TIME_INTEL_MOM": 20,
+    "TIME_INTEL_YOY": 20,
+    "FILTERED_AGG": 14,
+    "COMPLEX": 6,
+    "SIMPLE_AGG": 4,
+    "VAR_FILTERED_DIVIDE": 3,
+    "SIMPLE_DIVIDE": 2,
+    "MEASURE_RATIO": 1,
+    "VAR_AGG_DIVIDE": 1
+  },
+  "scope_breakdown": {
+    "IN_SCOPE": 71,
+    "HARDCODED_STRING": 1,
+    "DISPLAY_SYMBOL": 20,
+    "COLOR_CODE": 20,
+    "DISPLAY_FORMAT": 7,
+    "ROW_ITERATOR": 2,
+    "DEMO_MEASURE": 3
+  },
+  "warnings": [
+    {
+      "measure": "Info text PAC LY",
+      "warning": "TYPO_DETECTED: 'comparision' found in DAX — correct spelling is 'comparison'. Check whether database column/value uses the typo or correct spelling. Passed through unchanged."
+    },
+    {
+      "measure": "Info text PAC LM",
+      "warning": "TYPO_DETECTED: 'comparision' found in DAX — correct spelling is 'comparison'. Check whether database column/value uses the typo or correct spelling. Passed through unchanged."
+    }
+  ],
+  "unresolved_tables": [],
+  "measures_needing_llm": [
+    {
+      "name": "PAC to IP readmission %",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Blank DAX",
+      "role": "DEFINER",
+      "reason": "Pure string literal — no DAX logic, no SQL equivalent"
+    },
+    {
+      "name": "Formatted % IP discharges to PAC",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "% IP discharges to PAC MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "% IP discharges to PAC MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "% IP discharges to PAC YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "% IP discharges to PAC YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted Avg LOS",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Avg LOS MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Avg LOS MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Avg LOS YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Avg LOS YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted Cost/Admit",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Cost/Admit MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Cost/Admit MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Cost/Admit YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Cost/Admit YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted IP Discharges",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "IP Discharges MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "IP Discharges MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "IP Discharges YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "IP Discharges YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted IP to Pac Discharges",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "IP to Pac Discharges MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "IP to Pac Discharges MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "IP to Pac Discharges YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "IP to Pac Discharges YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted Overall PAC cost",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Overall PAC cost MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Overall PAC cost MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Overall PAC cost YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Overall PAC cost YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted PAC PMPM",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "PAC PMPM MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "PAC PMPM MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "PAC PMPM YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "PAC PMPM YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted PAC to IP readmission %",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "PAC to IP readmission % MoM",
+      "role": "BUILDER",
+      "reason": "TIME_INTEL_MOM: could not emit SQL"
+    },
+    {
+      "name": "PAC to IP readmission % MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "PAC to IP readmission % MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "PAC to IP readmission % PM",
+      "role": "BUILDER",
+      "reason": "TIME_INTEL_MOM: could not emit SQL"
+    },
+    {
+      "name": "PAC to IP readmission % PY",
+      "role": "BUILDER",
+      "reason": "TIME_INTEL_YOY: could not emit SQL"
+    },
+    {
+      "name": "PAC to IP readmission % YoY",
+      "role": "BUILDER",
+      "reason": "TIME_INTEL_YOY: could not emit SQL"
+    },
+    {
+      "name": "PAC to IP readmission % YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "PAC to IP readmission % YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted Readmission % IP Admits",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Readmission % IP Admits MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Readmission % IP Admits MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Readmission % IP Admits YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Readmission % IP Admits YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Formatted Utilization",
+      "role": "BUILDER",
+      "reason": "Pattern COMPLEX — LLM will generate SQL directly."
+    },
+    {
+      "name": "Utilization MoM Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Utilization MoM color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Utilization YoY Card",
+      "role": "DEFINER",
+      "reason": "Uses UNICHAR() — produces display symbols (▲▼), not a metric"
+    },
+    {
+      "name": "Utilization YoY color",
+      "role": "DEFINER",
+      "reason": "SWITCH(TRUE(),...) returning integer — conditional formatting color code"
+    },
+    {
+      "name": "Info text PAC LY",
+      "role": "DEFINER",
+      "reason": "Uses row iterator (SUMX/CONCATENATEX/etc.) — no direct SQL equivalent (function: CONCATENATEX)"
+    },
+    {
+      "name": "Info text PAC LM",
+      "role": "DEFINER",
+      "reason": "Uses row iterator (SUMX/CONCATENATEX/etc.) — no direct SQL equivalent (function: CONCATENATEX)"
+    },
+    {
+      "name": "Random % demo",
+      "role": "DEFINER",
+      "reason": "Uses RANDBETWEEN — non-deterministic demo measure, must not be translated"
+    },
+    {
+      "name": "Random LOS demo",
+      "role": "DEFINER",
+      "reason": "Uses RANDBETWEEN — non-deterministic demo measure, must not be translated"
+    },
+    {
+      "name": "random admits demo",
+      "role": "DEFINER",
+      "reason": "Uses RANDBETWEEN — non-deterministic demo measure, must not be translated"
+    },
+    {
+      "name": "Selected X Axis Value",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    },
+    {
+      "name": "Selected Y Axis Value",
+      "role": "DEFINER",
+      "reason": "FORMAT/SWITCH combination — produces display string, not a number"
+    }
+  ],
+  "sql_failures": [
+    {
+      "name": "PAC to IP readmission %",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Formatted % IP discharges to PAC",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Formatted Avg LOS",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Formatted PAC to IP readmission %",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "PAC to IP readmission % MoM",
+      "error": "TIME_INTEL_MOM: could not emit SQL",
+      "pattern": "TIME_INTEL_MOM"
+    },
+    {
+      "name": "PAC to IP readmission % PM",
+      "error": "TIME_INTEL_MOM: could not emit SQL",
+      "pattern": "TIME_INTEL_MOM"
+    },
+    {
+      "name": "PAC to IP readmission % PY",
+      "error": "TIME_INTEL_YOY: could not emit SQL",
+      "pattern": "TIME_INTEL_YOY"
+    },
+    {
+      "name": "PAC to IP readmission % YoY",
+      "error": "TIME_INTEL_YOY: could not emit SQL",
+      "pattern": "TIME_INTEL_YOY"
+    },
+    {
+      "name": "Formatted Readmission % IP Admits",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    },
+    {
+      "name": "Formatted Utilization",
+      "error": "Pattern COMPLEX — LLM will generate SQL directly.",
+      "pattern": "COMPLEX"
+    }
+  ],
+  "parse_failures": []
+}

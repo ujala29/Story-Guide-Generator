@@ -1,0 +1,30 @@
+table 'Y Axis scatter plot'
+	lineageTag: 9ff05a4e-6fb9-44a7-99ad-481d7a6741a4
+
+	measure 'Selected Y Axis Value' =
+			
+			SWITCH(SELECTEDVALUE('Y Axis scatter plot'[Y axis]),
+			    "Avg LOS", [Avg LOS],
+			    "Overall PAC cost", [Overall PAC cost],
+			    "PAC PMPM", [PAC PMPM],
+			    "PAC to IP readmission %", [PAC to IP readmission %],
+			    BLANK()
+			)
+		lineageTag: c77ab9a8-69b9-438e-9446-a8538fa017f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Y axis'
+		lineageTag: c23d55a6-aa02-474a-a4a2-4d4b4aa9b2f9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Y axis]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Y Axis scatter plot' = calculated
+		mode: import
+		source = DATATABLE( "Y axis", STRING, { {"Avg LOS"},{"Overall PAC cost"},{"PAC PMPM"}, {"PAC to IP readmission %"} } )
+
+	annotation PBI_Id = 3ba079c119ee45729c2b4bcad0c74467
+

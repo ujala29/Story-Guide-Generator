@@ -1,0 +1,112 @@
+You are writing a Widget Specification entry for a Power BI dashboard.
+Reproduce the exact document format shown below — no deviations.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FORMAT SPECIFICATION (follow exactly)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Widget: [Widget Name] ([Visual Type])**
+
+
+
+**Definition**
+
+[One paragraph. Plain business language. What the metric measures and what it represents.]
+
+**What it measures**
+
+| Element | Description |
+|---|---|
+| Visual type | [e.g. KPI card] |
+| Primary metric | [What the main number shows] |
+| Comparison | [e.g. YoY or MoM % change] |
+| Visual-level filters | [e.g. None — responds to global filters only] |
+
+**How to read it**
+
+**Directional impact:**
+
+| Movement | Signal | Interpretation |
+|---|---|---|
+| [Movement 1] | [Negative / Positive / Investigate/Context] | [One-line explanation] |
+| [Movement 2] | [Negative / Positive / Investigate/Context] | [One-line explanation] |
+| [Movement 3] | [Negative / Positive / Investigate/Context] | [One-line explanation] |
+
+
+**Key patterns (cross-read with [Related KPI Name]):**
+
+| Pattern | What it means |
+|---|---|
+| [Condition 1] | [One-line interpretation] |
+| [Condition 2] | [One-line interpretation] |
+| [Condition 3] | [One-line interpretation] |
+| [Condition 4] | [One-line interpretation] |
+
+
+**Technical specification**
+
+**DAX measure(s):**
+
+[Measure name] = [Full DAX expression, exactly as written]
+
+**Tables and columns used:**
+
+| Table | Column | Role |
+|---|---|---|
+| [table_name] | [column_name] | [Role — what this column contributes to the calculation] |
+| [table_name] | [column_name] | [Role — what this column contributes to the calculation] |
+| [table_name] | [column_name] | [Role — what this column contributes to the calculation] |
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RULES (non-negotiable)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LABELS — every section label uses **bold text**, not a Markdown heading (##).
+The only exception is the widget title, which uses **bold text** with the
+prefix "Widget:".
+
+
+TABLES — all tables must use valid Markdown pipe syntax.
+No merged cells. No multiline cell content. Every cell on a single line.
+The "What it measures" table has exactly 2 columns: Element | Description.
+The "Directional impact" table has exactly 3 columns: Movement | Signal | Interpretation.
+The "Tables and columns used" table has exactly 3 columns: Table | Column | Role.
+The "Key patterns" table has exactly 2 columns: Pattern | What it means.
+
+SIGNAL VALUES — in the Directional impact table, the Signal column may only
+contain one of these three values: Negative, Positive, Investigate.
+
+DAX — write the full DAX expression on a single line or as a plain indented
+block. No code fences (no triple backticks). No line breaks inside the
+expression unless the original DAX uses them. Write measure names exactly
+as they appear in the model.
+
+KEY PATTERNS TABLE — optional. Include only when the widget has a meaningful
+cross-read relationship with one other specific KPI (e.g. RAF Recapture Rate
+read alongside Risk Recapture Rate). If included:
+- The bold label must read exactly: "Key patterns (cross-read with [KPI Name]):"
+- The table has exactly 2 columns: Pattern | What it means
+- Pattern column describes a combined state of both KPIs (e.g. "RAF high, Risk low")
+- What it means column gives a one-line business interpretation
+- 3–4 rows maximum
+- Place this table immediately after "Tables and columns used" — it is the
+  last element in the entry
+- If no meaningful cross-read exists for this widget, omit entirely. Do not
+  write "N/A" or leave the header with an empty table.
+
+SECTION ORDER — sections must appear in this exact order, with no additions,
+omissions, or reordering:
+1.  Widget title (bold)
+2.  Screenshot placeholder (blockquote)
+3.  Definition (bold label + paragraph)
+4.  What it measures (bold label + 4-row table)
+5.  How to read it (bold label)
+6.  Directional impact (bold label + 3-row table)
+7.  Technical specification (bold label)
+8.  DAX measure(s) (bold label + DAX expression)
+9.  Tables and columns used (bold label + table)
+10. Key patterns (bold label + table — optional, omit if not applicable)
+
+OUTPUT — clean Markdown only. No preamble. No commentary after the entry.
+No HTML. No extra blank lines between the bold label and its content.

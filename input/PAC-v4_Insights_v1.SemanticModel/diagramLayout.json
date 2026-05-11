@@ -1,0 +1,215 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 7995.6165581565347,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 344.46205038435943,
+            "y": 192.65408966303104
+          },
+          "nodeIndex": "date",
+          "nodeLineageTag": "6092267e-5693-46e2-811d-03732d9b1f3d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 10103.753059632558,
+            "y": 745.77684770930443
+          },
+          "nodeIndex": "pac_opp_patient_view",
+          "nodeLineageTag": "f3f17eda-2c14-4cba-89b4-f65483501817",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 9505.59781850767,
+            "y": 314.47730683788006
+          },
+          "nodeIndex": "pac_view",
+          "nodeLineageTag": "901b2325-2a3a-4efc-b6b8-0c8a7cee9642",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 8979.489166142841,
+            "y": 601.24545299580177
+          },
+          "nodeIndex": "ALL_DAX_PAC",
+          "nodeLineageTag": "9f819040-7ffe-4e82-9309-cb1bf16ee114",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 8858.9177375714135,
+            "y": 0
+          },
+          "nodeIndex": "payer",
+          "nodeLineageTag": "00021b57-0b10-4ffb-b1eb-e559b36bea43",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 10262.060594714272,
+            "y": 218.58473871008752
+          },
+          "nodeIndex": "pcp",
+          "nodeLineageTag": "06936b9a-a5a8-441c-8773-44af10aac1b8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 9258.3463089999841,
+            "y": 34.888310138658909
+          },
+          "nodeIndex": "static_observation_window_table",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 10220.818590572322,
+            "y": 1091.3717545934446
+          },
+          "nodeIndex": "Parameter",
+          "nodeLineageTag": "fc2fdae7-0de7-4e97-abc7-ee5159d4aeda",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 9327.43998201437,
+            "y": 800.55196585957242
+          },
+          "nodeIndex": "attribution",
+          "size": {
+            "height": 400.2088150251077,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10201.598544329912,
+            "y": 557.68587729672231
+          },
+          "nodeIndex": "user_permission",
+          "nodeLineageTag": "0aed619d-511b-4684-aa4f-961c58bb78fe",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10201.598544329912,
+            "y": 521.68587729672231
+          },
+          "nodeIndex": "X Axis scatter plot",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10201.598544329912,
+            "y": 521.68587729672231
+          },
+          "nodeIndex": "Y Axis scatter plot",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10201.598544329912,
+            "y": 471.68587729672231
+          },
+          "nodeIndex": "snf recommendation",
+          "nodeLineageTag": "d2939016-a568-47d6-91fe-a89f8e0468b9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 49.668880730678183,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [],
+      "name": "Layout 1",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [],
+      "name": "Layout 2",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

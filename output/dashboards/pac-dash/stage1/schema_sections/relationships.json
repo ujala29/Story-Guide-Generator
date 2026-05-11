@@ -1,0 +1,82 @@
+[
+  {
+    "from_table": "pac_opp_patient_view",
+    "from_column": "org_hierarchy_master_id",
+    "to_table": "pcp",
+    "to_column": "org_hierarchy_master_id",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "attribution",
+    "from_column": "org_hierarchy_master_id",
+    "to_table": "pcp",
+    "to_column": "org_hierarchy_master_id",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "pac_opp_patient_view",
+    "from_column": "payer_master_id_index",
+    "to_table": "payer",
+    "to_column": "payer_master_id_index",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "attribution",
+    "from_column": "payer_master_id_index",
+    "to_table": "payer",
+    "to_column": "payer_master_id_index",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "pac_view",
+    "from_column": "window",
+    "to_table": "static_observation_window_table",
+    "to_column": "observation_window_value",
+    "direction": "bothDirections",
+    "is_active": true
+  },
+  {
+    "from_table": "pac_opp_patient_view",
+    "from_column": "month_of_visit",
+    "to_table": "date",
+    "to_column": "month_of_date",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "attribution",
+    "from_column": "month_of_attribution",
+    "to_table": "date",
+    "to_column": "month_of_date",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "pac_view",
+    "from_column": "join_key",
+    "to_table": "pac_opp_patient_view",
+    "to_column": "join_key",
+    "direction": "singleDirection",
+    "is_active": true
+  },
+  {
+    "from_table": "pcp",
+    "from_column": "org_hierarchy_master_id",
+    "to_table": "user_permission",
+    "to_column": "prvid",
+    "direction": "singleDirection",
+    "is_active": false
+  },
+  {
+    "from_table": "'snf recommendation'",
+    "from_column": "plan_name",
+    "to_table": "payer",
+    "to_column": "plan_name",
+    "direction": "singleDirection",
+    "is_active": true
+  }
+]

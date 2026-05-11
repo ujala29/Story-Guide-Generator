@@ -1,0 +1,4173 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "PM PAC to IP readmits",
+  "name": "7529fa31e43026177471",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "6bda970dacd325830e08",
+      "6277af0fce540ec6803c",
+      "51f3f31002e71ae2ec92",
+      "d424729b696e2488e530",
+      "b2dc246a945546d0a37e",
+      "e789a1ec5b00c6496794",
+      "bceb8908a5ca93ce3397",
+      "48ae8fe3106e06a10c6d",
+      "616fb59769c0d88c18d7",
+      "f3859614512b009ad815",
+      "74686de4bc5c63026b40"
+    ]
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "2286e53fbd00010aa260",
+    "sections": {
+      "2286e53fbd00010aa260": {
+        "visualContainers": {
+          "47cb1f3c1e1abe6e2093": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "71a409983373dd7a3927": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "56ff0955e991142e9262",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "% IP discharges to PAC"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "% IP discharges to PAC"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "f8af53064779764e556e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a1bbe9fd26b927db883e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "% IP discharges to PAC MoM Card"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "a40321118d0c421e8a3a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "90561881376e1b3e0af4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Formatted IP Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "7a3a8af756ecd1b368bb": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "d424729b696e2488e530": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "b2dc246a945546d0a37e": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "e789a1ec5b00c6496794": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0c1ee643068778499be8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "aeffa18b0f177b55871a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a813c945db1d99a69aac",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2dff18a1c5a2094a0ded",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmits"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "c94dee689606e612c103": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "b8e143d303a36d8320b7": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "1420a9427062e7000d32": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d631b2d1e08c9e69e77f",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "490e585f04b1ce927a48",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5f19ebeea443f488ee65",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "3cb530543a66fd620288",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Utilization"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "caf72afc6c3a54c05d54": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "7778311160236cc60d1c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "34d9c3ed02867b929e76": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d631b2d1e08c9e69e77f",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "e78854187ec16d3aed58",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c5d71bfee407cd8129db",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "698f188ee8ec7f83a3bb",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC PMPM"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "616fb59769c0d88c18d7": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "f3859614512b009ad815": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "74686de4bc5c63026b40": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0c1ee643068778499be8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "2e43f406ee34a2d4bdc3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "64c5b42e0e1652489b94",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b69efc1c2118863fa7a3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b878f491717780d5b82a": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "5f659bb1a47345b8a480": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "d409da912e2eeda9e1a7": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "73342cd987ddcbf39a72",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "b721e793269ce154477a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "54acb59093446251a01e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d5f260b40017bcb2af3e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Formatted PAC to IP readmission %"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "7ef89aefd2ea50714e5b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "3eb7ba7222ba69226d70": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "8a08c791bd880b57c634",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "7cec8f0be01ec82a98bb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "56cdfe858462b4023673",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p1",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p1"
+                                      }
+                                    },
+                                    "Property": "payer_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "18ba2f3fdc63aee23851",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "drg_name_index"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "drg_name_index"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "77ed1444e72e309b75b8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d730b6088bcd98ae6a86",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost MoM Card"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "b24e1c6d7400d61552d1": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "4aaefc3b4438bdc4cbb6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC PMPM MoM Card"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "a4439841bcd90ae4c82e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b35ba01c59abcee9b7a2",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS MoM Card"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "cd872cec8a02a1703c2c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "ffea6804c85ad958e835",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Readmission % IP Admits MoM Card"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "3c47ea6ab4a76bd09189": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d631b2d1e08c9e69e77f",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "0969968a48216ac7aaa1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_index"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ef47766f10dfe34ac093",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_index"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "8c52cd91a9c0ab988652": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "511176113ecff7564e64",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "pac_opp_patient_view",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "p"
+                                        }
+                                      },
+                                      "Property": "mdc_name_readmission"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "a2daaf1aa8a3a84fb80b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_index"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "78a38a4228d1256a17a6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_index"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "1419f9203a12b33de879": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a81edb82323617493015",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "95a26707f635dec127c7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmits"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmits"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "28d860a26236e577ac29": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "624bd7e74fec19983aab",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b4c8e0092e8dae5a2c19",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e283bd4b7e5651a44190",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "596538278f53a8715416",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "% IP discharges to PAC"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "40a014a5227bed84212f",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "323911dc6c434514622d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmits"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "cb1796feb5044cded73a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission %"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "8baac52ad8e7af970506",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Utilization"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a02fa883aae4624a213a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost MoM"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f7dcf2d46789330d9ee8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission % MoM"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "payer.payer_name"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "payer"
+                              }
+                            },
+                            "Property": "payer_name"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "payer.plan_name"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "ddfa4238dec38e46d33e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d4fa8f2e9c0566dcc6ba",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d6a2bba0309a3ba87dfd",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c1c870e3236eb309dff0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Utilization"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "84e0e7615f597ddf4088",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "initial_assessment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ed5e8b12ab453057bc2e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ab21a4b08b01e21c4681",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "bff7d83512679183ec9d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "% IP discharges to PAC"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "38e0cd5c78a8487cc3df",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission %"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f47b93947dffd2e1d7e1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission % MoM"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5a27905d1eac61197dca",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost MoM"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "pcp.practice_name"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "pcp"
+                              }
+                            },
+                            "Property": "practice_name"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "pcp.pcp_name"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "67136a74b511252a31b2": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d631b2d1e08c9e69e77f",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_readmission"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "620763f3197667112718",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_hospital_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5499ec84479e9a888965",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC PMPM"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "8beb4d3b32154ea27264",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission %"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "66ffa3a103749aa34095",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7bdf74ffadd2d9f1d5f7",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "scatterChart",
+              "objects": {},
+              "activeProjections": {
+                "X": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission %"
+                    }
+                  }
+                ],
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_hospital_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "bd680225719001bba66d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0147411a1033842910a8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_hospital_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0d4c530e42c4012f3a9b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f69b97153f7445109f6a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "09bd08c79b94bd13b1d1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission %"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "569ed0c704f224324e3d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "46b8f159f9123c5e0243",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "initial_assessment_%"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "15422a3a33a7bedab598",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost MoM"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "88fce4709c037497d01e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission % MoM"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_hospital_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "a7c6b5a7a476b42090c8": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "db3989e0cc7e454ea9a9": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "b0a2405092306d069b26": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "2447c241d004ce9ab150": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "2c483e9d932a913d2f04",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Formatted Avg LOS"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "d3bd47771a44035d1e70": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b784a766e9cc464b75d4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Formatted Readmission % IP Admits"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "b5e3ca3202ae090942e2": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f98a2f6f025c3214d769",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Cost/Admit"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "86b8a9d5ed1aaafff890",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC PMPM"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "341413faef33d902f896",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission %"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fc4ed21dc3d8f65565f8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_observation_window_table"
+                        }
+                      },
+                      "Property": "observation_window"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d031673be5eb5819161e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7a56573d21a0f33dfc7b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5226b470003f71997719",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "edf0766a0e3ebbcaaf4d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c7493788c900188b26e0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "initial_assessment_%"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0791b5861a60b50f6d71",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Utilization"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e07fc45045dfc485ca88",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Utilization YoY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "13fcdf9d582c1dda356a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS YoY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "88cda45236f98032d272",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "PAC to IP readmission % YoY"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_observation_window_table"
+                        }
+                      },
+                      "Property": "observation_window"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "pac_view.pac_visit_type"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "pac_view"
+                              }
+                            },
+                            "Property": "pac_visit_type"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "static_observation_window_table.observation_window"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "b7430fd3a226a02db257": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "8ea4354d2cf74385ccd8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "date",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "year"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'2025'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "7624449409357d20eec7": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e81932114e4d6a0376d4": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "70f940b9e1e98d13a54a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "practice_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "3f881b6433be3a8ed138": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a456ba07ec9c03c8a78f",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "9398b80de37bbf80d705",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "pcp_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b386fc1ba9c007302927": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d16b455ab1e8960d6dde",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_observation_window_table"
+                        }
+                      },
+                      "Property": "observation_window"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "s",
+                                "Entity": "static_observation_window_table",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "s"
+                                            }
+                                          },
+                                          "Property": "observation_window"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'30 Day'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "static_observation_window_table"
+                        }
+                      },
+                      "Property": "observation_window"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "4e86098245809e9cd294": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "efd2ebf4773901954660",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p1",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p1"
+                                      }
+                                    },
+                                    "Property": "payer_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "634e138a914cb9e31afd",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_index"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "mdc_name_index"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "12bb8cb8a3b6980d0440": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "30be764a0b03ca351860",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "pcp",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "org_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "bb4ae0af289653ee0374",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "hospital_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_opp_patient_view"
+                        }
+                      },
+                      "Property": "hospital_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "c372566f02e58772a528": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "e35e1dd74ce8f69c94da",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "fa02b87cedaa300c75c8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c4f913087eb241884cde",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Formatted Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "25b31d4d9057a8062e60": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "d5cb5a7c6be099a81294": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "39e9b3c02ab58c48ca62": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "baefe6978c0889b928b1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Formatted PAC PMPM"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "30c45ecd2dbcad90ab48": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "fd3a347cb4bc336ca50d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1c77c584f3d3642cbd1e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "d77c1e79a58ca986bb0c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f26d38e8304f4e68c11d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "IP to Pac Discharges"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "64bddff04353680a38a7": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter0579e0852b62684d9581",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter722bb3af2cadab14c21e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter7289a2f878ba11db4415",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "1498a42fb1c6d1cc9491",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "All DAX"
+                        }
+                      },
+                      "Property": "% Measure met goal filterable"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "144279aff3c4a0adbbbe",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5230f28f575255a40eee",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Overall PAC cost"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pac_view"
+                        }
+                      },
+                      "Property": "pac_visit_type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "c8243286ae5604370ca6": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "d9acdf1bc7475c54a49c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "8628cd2f09a40d6d0b5c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "b5722c55040ddd763b2a": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "582155368136c533c58c": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "e1e10abd5c0e401bb118": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "60138c57ea1d16c4edb9": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "7f2d53d351b4ddad527b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "093a1905580f58d334e3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "date",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "month_of_year"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Nov'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month_of_year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "9c2171b33000000306bd": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6cf55dcb5249897c2d4f",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "contract_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "fdc426321ac410bebdb8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "264b109eefdf51c3b3e3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "payer_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "36d1312195bdc439392e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d766641326633976ea6f",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "plan_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "plan_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "1850d39500907e80d0e4": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "97237e18e0b5a80ff1b4",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "pcp",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "p"
+                                      }
+                                    },
+                                    "Property": "org_name"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "org_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "fb40816af09df036e3bc",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "aco_name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pcp"
+                        }
+                      },
+                      "Property": "aco_name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "f716373f80c25ae5cd70": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "4a2ebc234ba54591be06": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b006655b6f5a10624010",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "payer",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "p"
+                                        }
+                                      },
+                                      "Property": "contract_name"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "8919010d5e4991c441d8",
+                  "type": "TopN",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "subquery",
+                        "Expression": {
+                          "Subquery": {
+                            "Query": {
+                              "Version": 2,
+                              "From": [
+                                {
+                                  "Name": "d",
+                                  "Entity": "date",
+                                  "Type": 0
+                                }
+                              ],
+                              "Select": [
+                                {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "d"
+                                      }
+                                    },
+                                    "Property": "month"
+                                  },
+                                  "Name": "field"
+                                }
+                              ],
+                              "OrderBy": [
+                                {
+                                  "Direction": 2,
+                                  "Expression": {
+                                    "Aggregation": {
+                                      "Expression": {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "month_of_date"
+                                        }
+                                      },
+                                      "Function": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "Top": 2
+                            }
+                          }
+                        },
+                        "Type": 2
+                      },
+                      {
+                        "Name": "d",
+                        "Entity": "date",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "d"
+                                    }
+                                  },
+                                  "Property": "month"
+                                }
+                              }
+                            ],
+                            "Table": {
+                              "SourceRef": {
+                                "Source": "subquery"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "date"
+                        }
+                      },
+                      "Property": "month"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "5e62e18a59acced8daed",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ff5cf09b1f1ca5c73b88",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS PM"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5c8d299e1e21db3fddd0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS MoM"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ALL_DAX_PAC"
+                        }
+                      },
+                      "Property": "Avg LOS PM"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "payer"
+                        }
+                      },
+                      "Property": "contract_name"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "6bda970dacd325830e08": {
+            "children": {
+              "6277af0fce540ec6803c": {
+                "isHidden": false
+              },
+              "bceb8908a5ca93ce3397": {
+                "isHidden": true
+              }
+            }
+          },
+          "ec929e6010d1732110a9": {
+            "children": {
+              "aa51ba056429390ead20": {
+                "isHidden": true,
+                "children": {
+                  "91fb2df6013b400b0030": {
+                    "isHidden": false
+                  }
+                }
+              },
+              "9280c50427eb96760062": {
+                "isHidden": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "true"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

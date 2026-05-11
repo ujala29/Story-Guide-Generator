@@ -1,0 +1,35 @@
+Generate a Story Guide for the following dashboard visual.
+
+## Visual Metadata
+- Title: {{visual.title}}
+- Type: {{visual.type}}
+- Page: {{visual.page}}
+
+## Primary Measure Being Displayed
+Name: {{primary_measure.measure_name}}
+DAX logic: {{primary_measure.dax}}
+Source columns: {{primary_measure.referenced_columns}}
+
+## Supporting Measures Also on This Visual
+{{#each supporting_measures}}
+- {{measure_name}}: {{dax}}
+{{/each}}
+
+## Dimensions / Filters Applied
+Row dimensions: {{row_dimensions}}
+Column dimensions: {{column_dimensions}}
+Key filter conditions: {{active_filters}}
+
+## Dependent Measures (what this metric depends on)
+{{#each measure_chains}}
+- {{measure_name}} depends on: {{depends_on}}
+{{/each}}
+
+## Other Visuals on the Same Page That Share This Measure
+{{related_visuals}}
+
+## Domain Context
+This dashboard is for a healthcare organisation managing 
+risk adjustment (HCC coding) and value-based care contracts. 
+Users are care managers, medical directors, and payer 
+contract analysts.

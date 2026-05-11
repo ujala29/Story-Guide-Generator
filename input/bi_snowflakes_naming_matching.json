@@ -1,0 +1,236 @@
+{
+  "date": {
+    "table_id": 12,
+    "bi_table": "date",
+    "snowflake_object": "DATE_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "month_year": {
+          "type": "created_then_removed",
+          "sql_expression": "CONCAT(MONTH_OF_YEAR, '-', CAST(YEAR AS VARCHAR))",
+          "note": "Created using Text.Combine, later removed"
+        },
+        "month_of_year1": {
+          "type": "derived",
+          "source_column": "month_of_year",
+          "note": "Created via Table.DuplicateColumn"
+        },
+        "updated_key": { "type": "removed" },
+        "updated_on": { "type": "removed" }
+      }
+    }
+  },
+
+  "payer": {
+    "table_id": 24,
+    "bi_table": "payer",
+    "snowflake_object": "PAYER",
+    "snowflake_kind": "Table",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "updated_key": { "type": "removed" },
+        "updated_on": { "type": "removed" },
+        "payer_master_id": { "type": "removed" }
+      }
+    }
+  },
+
+  "pcp": {
+    "table_id": 30,
+    "bi_table": "pcp",
+    "snowflake_object": "PCP_DIM_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "updated_key": { "type": "removed" },
+        "updated_on": { "type": "removed" },
+        "region_id": { "type": "removed" },
+        "region_name": { "type": "removed" },
+        "__projection__": {
+          "type": "select_columns",
+          "columns": [
+            "aco_name",
+            "org_name",
+            "practice_name",
+            "pcp_name",
+            "practice_id",
+            "pcp_npi",
+            "org_hierarchy_master_id"
+          ]
+        }
+      }
+    }
+  },
+
+  "user_permission": {
+    "table_id": 199323,
+    "bi_table": "user_permission",
+    "snowflake_object": "USER_PERMISSION_FILTERED",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "prvid": { "type": "kept" },
+        "user_email": { "type": "kept" },
+        "__all_other_cols__": { "type": "removed" }
+      }
+    }
+  },
+
+  "risk_core": {
+    "table_id": 658174,
+    "bi_table": "risk_core",
+    "snowflake_object": {
+      "snowflake": "RISK_CORE_V4_VIEW",
+      "postgres": "risk_core_aggregate_view"
+    },
+    "snowflake_kind": "View",
+    "type": "source",
+    "has_max_month_flag": true,
+    "date_column": "MONTH_OF_MEASUREMENT",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "unique_members_count": { "type": "removed" },
+        "ytd_pcp_visit_count": { "type": "removed" }
+      }
+    }
+  },
+
+  "risk_group": {
+    "table_id": 659086,
+    "bi_table": "risk_group",
+    "snowflake_object": {
+      "snowflake": "RISK_GROUP_V4_VIEW",
+      "postgres": "risk_core_aggregate_view"
+    },
+    "snowflake_kind": "View",
+    "type": "source",
+    "has_max_month_flag": true,
+    "date_column": "MONTH_OF_MEASUREMENT",
+    "transformations": {
+      "lowercased": true
+    }
+  },
+
+  "measure": {
+    "table_id": 661196,
+    "bi_table": "measure",
+    "snowflake_object": "MEASURE",
+    "snowflake_kind": "Table",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "__projection__": {
+          "type": "select_columns",
+          "columns": [
+            "period_mode",
+            "risk_model_name",
+            "risk_model_sub_type",
+            "measure_master_id_index"
+          ]
+        }
+      }
+    }
+  },
+
+  "attribution": {
+    "table_id": 662085,
+    "bi_table": "attribution",
+    "snowflake_object": "PCP_VISITS_V4_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true
+    }
+  },
+
+  "cohort": {
+    "table_id": 684795,
+    "bi_table": "cohort",
+    "snowflake_object": {
+      "snowflake": "RISK_COHORT_V4_VIEW",
+      "postgres": "risk_core_aggregate_view"
+    },
+    "snowflake_kind": "View",
+    "type": "source",
+    "has_max_month_flag": false,
+    "date_column": "MONTH_OF_MEASUREMENT",
+    "transformations": {
+      "lowercased": true
+    }
+  },
+
+  "zip": {
+    "table_id": 709398,
+    "bi_table": "zip",
+    "snowflake_object": "DIM_ZIP",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true
+    }
+  },
+
+  "pcp_2": {
+    "table_id": 769975,
+    "bi_table": "pcp_2",
+    "snowflake_object": "PCP_DIM_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "columns": {
+        "__projection__": {
+          "type": "select_columns",
+          "columns": [
+            "pcp_name",
+            "practice_name",
+            "org_hierarchy_master_id"
+          ]
+        }
+      }
+    }
+  },
+
+  "ALL_DAX": {
+    "table_id": 662082,
+    "type": "measure_container",
+    "snowflake_object": null
+  },
+
+  "static_tables": {
+    "static_churn_status": { "table_id": 663420 },
+    "static_care_gap_bucket": { "table_id": 702372 },
+    "static_coding_gap_bucket": { "table_id": 702375 },
+    "static_patients_called_per_pcp": { "table_id": 702378 },
+    "static_days_since_last_pcp_visit_bucket": { "table_id": 702381 },
+    "static_risk_bucket": { "table_id": 711307 },
+    "static_attribution_status": { "table_id": 763728 },
+    "static_patient_seen_bucket": { "table_id": 773539 },
+    "static_visit_amount_rolling_bucket": { "table_id": 777720 },
+    "static_pcp_member_distance_bucket": { "table_id": 781968 },
+    "static_scatter_plot": { "table_id": 802315 }
+  },
+
+  "X Axis scatter plot": {
+    "table_id": 802206,
+    "type": "parameter",
+    "note": "DATATABLE"
+  },
+
+  "Y Axis scatter plot": {
+    "table_id": 804410,
+    "type": "parameter",
+    "note": "DATATABLE"
+  }
+}

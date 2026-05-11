@@ -1,0 +1,37 @@
+table static_risk_bucket
+	lineageTag: 6824fac2-35f9-4f44-960e-c28479ac5447
+
+	column risk_bucket
+		dataType: string
+		lineageTag: 6cf53c49-8b9e-4113-8ba4-c2e5d30a6638
+		summarizeBy: none
+		sourceColumn: risk_bucket
+		sortByColumn: sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column sort
+		dataType: int64
+		formatString: 0
+		lineageTag: cb5d2cdd-6623-46f2-81db-4225457a7663
+		summarizeBy: none
+		sourceColumn: sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_risk_bucket = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8skvV9JRMlSK1YlW8k1NySzNBXKNwNygzOLMvHSFoszibKCYMVgsLLWoUsEjMz0DKGICFvHLL1FwLC7OTM9LTQEKmirFxgIA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [risk_bucket = _t, sort = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"risk_bucket", type text}, {"sort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "7ef89aefd2ea50714e5b",
+  "position": {
+    "x": 1169.9701155250405,
+    "y": 361,
+    "z": 12000,
+    "height": 29,
+    "width": 166.84844235199839,
+    "tabOrder": 51000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "PAC to IP Readmission %"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

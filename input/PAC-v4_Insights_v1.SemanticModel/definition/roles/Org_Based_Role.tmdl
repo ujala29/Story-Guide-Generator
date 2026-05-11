@@ -1,0 +1,7 @@
+role Org_Based_Role
+	modelPermission: read
+
+	tablePermission user_permission = [user_email] = USERPRINCIPALNAME()
+
+	annotation PBI_Id = 89092a4574eb4029b3d207a01c4b7a39
+

@@ -1,0 +1,156 @@
+table payer
+	lineageTag: 4bc8104f-67cb-4c98-a743-ebb40b061022
+
+	column payer_id
+		dataType: string
+		lineageTag: 73fd2716-c902-425c-a996-fd16635f19bd
+		summarizeBy: none
+		sourceColumn: payer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_name
+		dataType: string
+		lineageTag: 6b4190c9-7c56-413b-acbe-37f233b2648d
+		summarizeBy: none
+		sourceColumn: payer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_id
+		dataType: string
+		lineageTag: edb865dc-65b5-4430-9a34-48c42616e064
+		summarizeBy: none
+		sourceColumn: plan_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_name
+		dataType: string
+		lineageTag: cfdb87e2-b8df-49a6-8bd8-8a45deb8555b
+		summarizeBy: none
+		sourceColumn: plan_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: ab43f5b0-58c9-4a41-b096-bc460725962f
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_paid_through
+		dataType: dateTime
+		formatString: mmmm yyyy
+		lineageTag: 72681001-642f-477d-8aba-e3daf47bfd83
+		summarizeBy: none
+		sourceColumn: date_paid_through
+
+		variation Variation
+			isDefault
+			relationship: 75a582a2-a675-4d7f-b2b2-8721314043b7
+			defaultHierarchy: LocalDateTable_f45ac657-464a-4a4c-99c9-ce314b24e5d7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column contract_id
+		dataType: string
+		lineageTag: 9b58ae40-4285-4341-996d-3aae0d3a624a
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_plan_concat
+		dataType: string
+		lineageTag: f61e49d0-423f-4d22-bdd2-4b72fe0e9608
+		summarizeBy: none
+		sourceColumn: payer_plan_concat
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_type
+		dataType: string
+		lineageTag: 87b696c1-8e53-482c-9e50-41b0bb03d31f
+		summarizeBy: none
+		sourceColumn: contract_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_type_id
+		dataType: string
+		lineageTag: aa880242-0cb7-4cd8-bc3c-ff9c000449ba
+		summarizeBy: none
+		sourceColumn: contract_type_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_incurred_through
+		dataType: dateTime
+		formatString: mmmm yyyy
+		lineageTag: 8e2ffa82-0bea-47b1-b348-98b0b7ed2b36
+		summarizeBy: none
+		sourceColumn: date_incurred_through
+
+		variation Variation
+			isDefault
+			relationship: b286a4fe-1fa6-4178-af32-1662b340bc55
+			defaultHierarchy: LocalDateTable_97b9260f-e993-49ea-9bb5-f7616b88d8c1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column date_processed_through
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b25aaa96-b834-4d10-81a4-f2b6082d6572
+		summarizeBy: none
+		sourceColumn: date_processed_through
+
+		variation Variation
+			isDefault
+			relationship: f83b64e9-a7cf-4f3c-a40f-87bc2b44b91d
+			defaultHierarchy: LocalDateTable_35ac5575-b85d-41e0-8a92-c4d9258e250e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column payer_master_id_index
+		dataType: double
+		lineageTag: 1d2dca60-34a0-4b09-ae2d-3cbf14f76c33
+		summarizeBy: none
+		sourceColumn: payer_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition payer = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    l5_Schema = L5_TESTING_DB_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    payer_Table = l5_Schema{[Name= "PAYER",Kind="Table"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(payer_Table, Text.Lower),
+				    #"Removed Columns" = Table.RemoveColumns(#"Lowercased Text",{"updated_key", "updated_on", "payer_master_id"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{ "payer_id", "payer_name", "plan_id", "plan_name", "contract_name", "date_paid_through", "date_incurred_through", "date_processed_through"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,87 @@
+{
+  "total_tables": 25,
+  "total_measures": 161,
+  "total_relationships": 34,
+  "total_pages": 6,
+  "total_visuals": 128,
+  "total_filters": 42,
+  "total_bookmarks": 7,
+  "total_toggle_groups": 0,
+  "table_classification": {
+    "measure_container": [
+      "ALL DAX"
+    ],
+    "source": [
+      "attribution",
+      "cohort",
+      "date",
+      "measure",
+      "payer",
+      "pcp",
+      "pcp_2",
+      "risk_core",
+      "risk_group",
+      "user_permission",
+      "zip"
+    ],
+    "parameter": [
+      "static_attribution_status",
+      "static_care_gap_bucket",
+      "static_churn_status",
+      "static_coding_gap_bucket",
+      "static_days_since_last_pcp_visit_bucket",
+      "static_patient_seen_bucket",
+      "static_patients_called_per_pcp",
+      "static_pcp_member_distance_bucket",
+      "static_risk_bucket",
+      "static_scatter_plot",
+      "static_visit_amount_rolling_bucket",
+      "X Axis scatter plot",
+      "Y Axis scatter plot"
+    ]
+  },
+  "most_referenced_measures": [
+    {
+      "name": "Documented risk",
+      "dependent_count": 13
+    },
+    {
+      "name": "#Members",
+      "dependent_count": 12
+    },
+    {
+      "name": "PMPM",
+      "dependent_count": 11
+    },
+    {
+      "name": "RAF recapture rate",
+      "dependent_count": 11
+    },
+    {
+      "name": "Risk recapture rate",
+      "dependent_count": 11
+    },
+    {
+      "name": "Gap to potential risk",
+      "dependent_count": 10
+    },
+    {
+      "name": "Eligible population",
+      "dependent_count": 9
+    },
+    {
+      "name": "Members with open coding gaps",
+      "dependent_count": 8
+    },
+    {
+      "name": "Gaps closed",
+      "dependent_count": 7
+    },
+    {
+      "name": "Potential risk",
+      "dependent_count": 6
+    }
+  ],
+  "max_dependency_depth": 3,
+  "measures_with_dependencies": 111
+}

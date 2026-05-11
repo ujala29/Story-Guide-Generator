@@ -1,0 +1,28 @@
+{
+  "visual_id": "f264f3d0767620698bbd",
+  "title": "RAF recapture rate",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "The share of total known HCC risk weight (Documented and Undocumented) that has been successfully recaptured through documented clinical encounters.",
+  "numerator_meaning": "Total HCC risk weight for conditions flagged as Documented — meaning conditions that have been coded at a clinical encounter in the current period.",
+  "denominator_meaning": "Total HCC risk weight for conditions flagged as either Documented or Undocumented — representing all known risk that should be captured, excluding Suspected conditions.",
+  "result_meaning": "The percentage of known recapturable HCC risk weight that has been successfully documented, indicating how effectively prior-year conditions are being recoded.",
+  "scope_note": "Only Documented and Undocumented flags are included in this calculation — Suspected conditions are explicitly excluded from both numerator and denominator.",
+  "direction": "higher_is_better",
+  "metric_type": "rate",
+  "measure_meanings": {
+    "RAF recapture rate": "The proportion of known HCC risk weight (Documented plus Undocumented) that has been recaptured through documented clinical coding in the current period.",
+    "RAF recapture rate YoY Card": "Displays the year-over-year percentage change in the RAF recapture rate compared to the same period last year, shown as an upward or downward arrow with the percentage difference."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

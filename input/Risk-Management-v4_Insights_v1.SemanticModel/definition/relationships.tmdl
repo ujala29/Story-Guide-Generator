@@ -1,0 +1,169 @@
+relationship 8b8db87a-2ea9-9cd9-8911-8e18a21f820b
+	isActive: false
+	toCardinality: many
+	fromColumn: pcp.org_hierarchy_master_id
+	toColumn: user_permission.prvid
+
+relationship f3ee994d-449f-b859-21b8-930372f8d465
+	fromColumn: risk_core.payer_master_id_index
+	toColumn: payer.payer_master_id_index
+
+relationship c1dab5fe-cdcf-42cf-d725-a1f2ba4f5fc0
+	fromColumn: risk_core.org_hierarchy_master_id
+	toColumn: pcp.org_hierarchy_master_id
+
+relationship 316001c3-b00b-bcc6-02d8-344c9062f6df
+	fromColumn: risk_core.month_of_measurement
+	toColumn: date.month_of_date
+
+relationship AutoDetected_adbda3e7-3a4c-44b0-85ba-4c0a2e36d1e2
+	fromColumn: risk_core.measure_master_id_index
+	toColumn: measure.measure_master_id_index
+
+relationship AutoDetected_4d3d7446-f542-4933-86ed-b966617e9e04
+	fromColumn: attribution.payer_master_id_index
+	toColumn: payer.payer_master_id_index
+
+relationship 80b4d49b-0397-aef5-f0a9-9a6d46f3dec2
+	fromColumn: attribution.org_hierarchy_master_id
+	toColumn: pcp.org_hierarchy_master_id
+
+relationship AutoDetected_a172d1d6-e82b-452f-ad66-4498cae139f8
+	fromColumn: risk_group.payer_master_id_index
+	toColumn: payer.payer_master_id_index
+
+relationship AutoDetected_6614da9c-6f76-41aa-98f6-846a609b9081
+	fromColumn: risk_group.measure_master_id_index
+	toColumn: measure.measure_master_id_index
+
+relationship 7ba4094d-266b-de1e-e374-f1ed18e8459e
+	fromColumn: risk_group.churn_status
+	toColumn: static_churn_status.churn_status_join
+
+relationship bc12a371-900e-9373-8e7d-cf24b5fb3cb6
+	fromColumn: attribution.month_of_date
+	toColumn: date.month_of_date
+
+relationship d1b27533-b29e-6351-1fd8-e29d46c3d966
+	fromColumn: risk_group.org_hierarchy_master_id
+	toColumn: pcp.org_hierarchy_master_id
+
+relationship 9606cf24-5c6f-826b-da61-df6d300859c0
+	fromColumn: risk_group.month_of_measurement
+	toColumn: date.month_of_date
+
+relationship 73085e3a-c768-9e4b-3b89-9ef7f67bad22
+	fromColumn: risk_core.churn_status
+	toColumn: static_churn_status.churn_status_join
+
+relationship 07cf7685-1d58-4fe5-8dbe-92d04994907f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: date.month_of_date
+	toColumn: LocalDateTable_e3cc24d7-e384-4dee-95d7-3bbe89d451e7.Date
+
+relationship 75a582a2-a675-4d7f-b2b2-8721314043b7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: payer.date_paid_through
+	toColumn: LocalDateTable_f45ac657-464a-4a4c-99c9-ce314b24e5d7.Date
+
+relationship b286a4fe-1fa6-4178-af32-1662b340bc55
+	joinOnDateBehavior: datePartOnly
+	fromColumn: payer.date_incurred_through
+	toColumn: LocalDateTable_97b9260f-e993-49ea-9bb5-f7616b88d8c1.Date
+
+relationship f83b64e9-a7cf-4f3c-a40f-87bc2b44b91d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: payer.date_processed_through
+	toColumn: LocalDateTable_35ac5575-b85d-41e0-8a92-c4d9258e250e.Date
+
+relationship AutoDetected_e29bddab-2eea-4d28-8789-c7801ceb2601
+	fromColumn: cohort.payer_master_id_index
+	toColumn: payer.payer_master_id_index
+
+relationship 1ef0e84f-20fd-2bcc-4803-6d170e306f07
+	fromColumn: cohort.month_of_measurement
+	toColumn: date.month_of_date
+
+relationship 27d70ceb-a209-6925-69d7-0296b2d77a35
+	fromColumn: cohort.churn_status
+	toColumn: static_churn_status.churn_status
+
+relationship AutoDetected_3299017d-339c-4e3a-ba7d-d6efe7e3c0b5
+	fromColumn: cohort.care_gap_bucket
+	toColumn: static_care_gap_bucket.care_gap_bucket
+
+relationship AutoDetected_62551a84-b05e-4f3f-b05e-62498fca3e5c
+	fromColumn: cohort.coding_gap_bucket
+	toColumn: static_coding_gap_bucket.coding_gap_bucket
+
+relationship AutoDetected_250042a3-951a-4c9a-9339-fd3495c404df
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: static_coding_gap_bucket.sort
+	toColumn: static_care_gap_bucket.sort
+
+relationship 2e66056f-f4cd-c007-5645-fbb2e3609903
+	fromColumn: cohort.zip
+	toColumn: zip.zip
+
+relationship AutoDetected_2d413e38-a62d-41a0-ae37-8af803d3f779
+	fromColumn: cohort.risk_bucket
+	toColumn: static_risk_bucket.risk_bucket
+
+relationship AutoDetected_57de9e0d-417d-4480-8b97-4bb16c06c8e7
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: static_risk_bucket.sort
+	toColumn: static_care_gap_bucket.sort
+
+relationship AutoDetected_57df9323-e72f-4fa0-ab10-c360671fa869
+	fromColumn: cohort.measure_master_id_index
+	toColumn: measure.measure_master_id_index
+
+relationship 600644e3-53f3-d46a-7c23-b1a382185a06
+	fromColumn: attribution.attribution_status
+	toColumn: static_attribution_status.attribution_status_join
+
+relationship 05ad82fb-7bb4-51ba-b453-c122ef5c3c88
+	fromColumn: cohort.attribution_status
+	toColumn: static_attribution_status.attribution_status_join
+
+relationship b3fe8622-5082-9404-ac05-d05763756556
+	fromColumn: risk_core.attribution_status
+	toColumn: static_attribution_status.attribution_status_join
+
+relationship a54c8b1d-51be-1ab0-06c2-bf7d2245bfa7
+	fromColumn: risk_group.attribution_status
+	toColumn: static_attribution_status.attribution_status_join
+
+relationship 802fe491-3c2c-ddec-2f64-1e6bc346518d
+	fromColumn: cohort.org_hierarchy_master_id
+	toColumn: pcp_2.org_hierarchy_master_id
+
+relationship 35c1fa7b-07d5-570a-a216-1329a54cd7f6
+	fromColumn: pcp_2.org_hierarchy_master_id
+	toColumn: pcp.org_hierarchy_master_id
+
+relationship c2a91c48-efda-2445-eb3d-acccc5e6adc4
+	fromColumn: cohort.days_since_last_pcp_visit_bucket
+	toColumn: static_days_since_last_pcp_visit_bucket.days_since_last_pcp_visit_bucket
+
+relationship AutoDetected_a0300754-56dc-469f-84f4-89596a818c27
+	fromColumn: cohort.patient_seen_bucket
+	toColumn: static_patient_seen_bucket.patient_seen_bucket
+
+relationship AutoDetected_41786b8c-ce61-43df-bbb5-5a099fae7739
+	fromColumn: cohort.visit_amount_rolling_bucket
+	toColumn: static_visit_amount_rolling_bucket.visit_amount_rolling_bucket
+
+relationship AutoDetected_96d121a1-798e-4e82-81fb-690a86cfd246
+	fromColumn: cohort.pcp_member_distance_bucket
+	toColumn: static_pcp_member_distance_bucket.pcp_member_distance_bucket
+
+relationship c17a8931-a05a-4049-8e4a-7f9690846b86
+	joinOnDateBehavior: datePartOnly
+	fromColumn: cohort.month_of_measurement_payer_plan
+	toColumn: LocalDateTable_b86e2ae8-8b57-4e42-bcd9-4ba47bae44ea.Date
+

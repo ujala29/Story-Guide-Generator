@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "5bfe24f07cb0189ee597",
+  "displayName": "Scatter plot tooltip",
+  "displayOption": "ActualSize",
+  "height": 180,
+  "width": 340,
+  "visibility": "HiddenInViewMode",
+  "type": "Tooltip"
+}

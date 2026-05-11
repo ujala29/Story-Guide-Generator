@@ -1,0 +1,32 @@
+━━━ DATE FILTER RULES — apply exactly as written ━━━
+
+  RULE A — BASE measures (no time-intel suffix, e.g. "Documented risk", "#Members"):
+    Attribution (PCP_VISITS_V4_VIEW)              : WHERE MONTH_OF_DATE = :selected_month
+    Risk tables WITH max_month_flag               : WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month
+      → applies to: RISK_CORE_V4_VIEW, RISK_GROUP_V4_VIEW
+    RISK_COHORT_V4_VIEW (NO max_month_flag col)   : WHERE MONTH_OF_MEASUREMENT = :selected_month only
+      !! RISK_COHORT_V4_VIEW does NOT have a MAX_MONTH_FLAG column — never add it !!
+
+  RULE B — TIME-INTEL measures: PY, PM, YoY, MoM
+    !! NEVER use MAX_MONTH_FLAG in any time-intel measure or subquery !!
+    MAX_MONTH_FLAG = TRUE marks ONLY the latest month in the table.
+    Pairing it with a prior-period date always returns 0 rows.
+
+    PY  (prior year,  SAMEPERIODLASTYEAR) : WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
+    PM  (prior month, PREVIOUSMONTH)      : WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
+    YoY ratio = (current − prior_year) / prior_year:
+        current subquery  → WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
+        prior   subquery  → WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
+    MoM ratio = (current − prior_month) / prior_month:
+        current subquery  → WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
+        prior   subquery  → WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
+
+  RULE C — CONTEXT_REMOVER (ALL / ALL('DATE')):
+    No date filter whatsoever — ALL() removes date context by design.
+
+━━━ OTHER CONVENTIONS ━━━
+  - DIVIDE(a,b)   → a / NULLIF(b, 0)
+  - DIVIDE(a,b,0) → COALESCE(a / NULLIF(b, 0), 0)
+  - Always use SELECT ... FROM ... (no CTEs unless necessary)
+  - Never use DATE_TRUNC on RISK_* tables — they have pre-computed MONTH_OF_MEASUREMENT
+  - Never add MAX_MONTH_FLAG to PCP_VISITS_V4_VIEW or RISK_COHORT_V4_VIEW

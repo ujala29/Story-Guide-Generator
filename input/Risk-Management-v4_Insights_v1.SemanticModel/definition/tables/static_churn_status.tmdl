@@ -1,0 +1,34 @@
+table static_churn_status
+	lineageTag: 07a1c31c-bdad-455b-aa36-cd6999cc5934
+
+	column churn_status
+		dataType: string
+		lineageTag: b7d514f8-2a6c-47b5-a3c6-1d00ab881e94
+		summarizeBy: none
+		sourceColumn: churn_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_status_join
+		dataType: string
+		lineageTag: bdbc0847-91c5-4bc0-8b08-bb24643468ea
+		summarizeBy: none
+		sourceColumn: churn_status_join
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_churn_status = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8kstz6lUSM0rys/JSU1R0lFyTEkB0rE60UrO+XklmXmlYFEEGyTjklmcjCTpl1+ikFhSUpSZVFoCUhELAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [churn_status = _t, Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"churn_status", type text}, {"Column1", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "churn_status_join"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

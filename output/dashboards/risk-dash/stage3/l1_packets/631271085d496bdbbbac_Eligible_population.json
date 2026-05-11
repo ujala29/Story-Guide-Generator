@@ -1,0 +1,28 @@
+{
+  "visual_id": "631271085d496bdbbbac",
+  "title": "Eligible population",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "Displays the total count of eligible members formatted for readability, scaling to K, M, or bn depending on magnitude.",
+  "numerator_meaning": "Total count of eligible members across all flag values with no flag filter applied.",
+  "denominator_meaning": "",
+  "result_meaning": "The total number of members who are eligible for risk adjustment consideration in the selected period.",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "count",
+  "measure_meanings": {
+    "Formatted Eligible population": "Displays the eligible member count scaled and formatted as a whole number, K, M, or bn depending on its size.",
+    "ELigible population YoY Card": "Shows the year-over-year percentage change in the eligible population count compared to the same period last year, displayed as an up or down arrow with a percentage."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

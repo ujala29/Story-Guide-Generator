@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PAC-v4_Insights_v1"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9ebceb4b-8cee-4c87-a6ba-47dbbf8f52ad"
+  }
+}

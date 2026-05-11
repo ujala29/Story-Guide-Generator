@@ -1,0 +1,318 @@
+table pcp
+	lineageTag: 06936b9a-a5a8-441c-8773-44af10aac1b8
+
+	column pcp_npi
+		dataType: double
+		lineageTag: 22bfbd20-720d-4404-bc0a-f9b294da838a
+		summarizeBy: sum
+		sourceColumn: pcp_npi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pcp_speciality
+		dataType: string
+		lineageTag: 9d897025-1f05-473c-a0b0-c432943975e5
+		summarizeBy: none
+		sourceColumn: pcp_speciality
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_name
+		dataType: string
+		lineageTag: a2b526c8-91c6-41b7-91df-595ebb4b4565
+		summarizeBy: none
+		sourceColumn: pcp_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_id
+		dataType: string
+		lineageTag: 967191fe-e0d6-49a0-8c56-3e394cf116f9
+		summarizeBy: none
+		sourceColumn: practice_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_name
+		dataType: string
+		lineageTag: 38cc2681-b69a-49b6-9dc6-93314d6c4c7c
+		summarizeBy: none
+		sourceColumn: practice_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_city
+		dataType: string
+		lineageTag: 39034c59-f60a-4000-9ced-156376471816
+		summarizeBy: none
+		sourceColumn: practice_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_id
+		dataType: string
+		lineageTag: 2a06fcd5-43ed-4fd6-a0bb-e722d40c4c82
+		summarizeBy: none
+		sourceColumn: org_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_name
+		dataType: string
+		lineageTag: 46cd245a-bee5-4865-ad41-584a6303a338
+		summarizeBy: none
+		sourceColumn: org_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column aco_id
+		dataType: string
+		lineageTag: 7c1be18a-cef3-4f91-ae61-c58cc1293e07
+		summarizeBy: none
+		sourceColumn: aco_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column aco_name
+		dataType: string
+		lineageTag: add1bc42-5ac3-4dfa-a696-174849b7fdb1
+		summarizeBy: none
+		sourceColumn: aco_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_id
+		dataType: string
+		lineageTag: 3c289cd5-8abc-455f-b2c6-7f62a77aca88
+		summarizeBy: none
+		sourceColumn: region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		lineageTag: f362e5c2-f8ac-42b2-9a72-8c3d7060eb24
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_on
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b8be8b49-09f1-4d08-bb88-851b5471ffb0
+		summarizeBy: none
+		sourceColumn: updated_on
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_key
+		dataType: string
+		lineageTag: e1e0e29f-0563-4e0c-ba51-bddd195c6862
+		summarizeBy: none
+		sourceColumn: updated_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_tin
+		dataType: string
+		lineageTag: 9e3eb454-69e0-44fc-a693-4894b8f7b82b
+		summarizeBy: none
+		sourceColumn: org_tin
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_address
+		dataType: string
+		lineageTag: 09df8397-f11a-4aec-bf56-c24724b15c8f
+		summarizeBy: none
+		sourceColumn: pcp_address
+
+		annotation SummarizationSetBy = Automatic
+
+	column innote_installation_status
+		dataType: string
+		lineageTag: e4e92522-0a20-4c6f-a936-44fcfea49284
+		summarizeBy: none
+		sourceColumn: innote_installation_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_1_id
+		dataType: string
+		lineageTag: 41d87f48-b3e4-43d9-998b-d8e1ab622dda
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_1_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_1_name
+		dataType: string
+		lineageTag: 08d43d53-1e9e-4ed0-a982-ac70be1cb25b
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_1_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_2_id
+		dataType: string
+		lineageTag: d70e183a-281f-4ac3-be06-7c91c5429071
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_2_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_2_name
+		dataType: string
+		lineageTag: 83f9ee24-e81b-4deb-948b-573f6ac85560
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_2_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_3_id
+		dataType: string
+		lineageTag: 29898e19-c607-42bf-a260-83d2d11c0f28
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_3_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_3_name
+		dataType: string
+		lineageTag: f22fa5fe-5802-4454-a96d-78a8587a0e4a
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_3_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_4_id
+		dataType: string
+		lineageTag: f3885e84-ebc3-448d-8343-ced8e4d04089
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_4_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_4_name
+		dataType: string
+		lineageTag: bbe73268-da60-44b7-94c7-97368a34aada
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_4_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: 602b4e63-33a0-4c09-828d-4689c9c95dd0
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_5_id
+		dataType: string
+		lineageTag: 28d9b60e-967a-4da6-89f3-9ded0e8d8290
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_5_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_5_name
+		dataType: string
+		lineageTag: fd874ae9-fe70-4df8-bac0-c2efc6420a00
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_5_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_6_id
+		dataType: string
+		lineageTag: cc1c6f0e-b016-44c5-9751-9d441920ed75
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_6_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_6_name
+		dataType: string
+		lineageTag: d3f0752c-104d-4d05-8f03-e6421bdc7cdd
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_6_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_7_id
+		dataType: string
+		lineageTag: 8155f3a5-f292-4669-9fec-541239ca11cc
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_7_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_7_name
+		dataType: string
+		lineageTag: 53a9e879-7cae-4f39-8080-f52121531f15
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_7_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_8_id
+		dataType: string
+		lineageTag: de718b51-4aa2-4e44-85c1-ba5a7dc2e324
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_8_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column custom_hierarchy_level_8_name
+		dataType: string
+		lineageTag: 56866890-cc12-4faf-a9ef-2a8d45d825ea
+		summarizeBy: none
+		sourceColumn: custom_hierarchy_level_8_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column group_id
+		dataType: string
+		lineageTag: 70f3d778-be01-4d5e-bd5a-fa92611046ee
+		summarizeBy: none
+		sourceColumn: group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column group_name
+		dataType: string
+		lineageTag: e01b0000-c28a-42a2-b1f6-392633fbc437
+		summarizeBy: none
+		sourceColumn: group_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column group_npi
+		dataType: string
+		lineageTag: 7f8dbad1-cc0b-4749-ab76-8c1f2aae20be
+		summarizeBy: none
+		sourceColumn: group_npi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pcp = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    DAP_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_PAC_Schema = DAP_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PAC_VIEW_View = L5_PAC_Schema{[Name="PCP",Kind="Table"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PAC_VIEW_View, Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

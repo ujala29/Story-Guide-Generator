@@ -1,0 +1,385 @@
+
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.wrap{padding:8px 0 20px}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:5px 12px;font-size:12px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:20px;cursor:pointer;color:var(--color-text-secondary);background:transparent}
+.tab.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;background:var(--color-background-secondary)}
+.card-head:hover{background:var(--color-background-tertiary)}
+.pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.in{background:#EAF3DE;color:#3B6D11}
+.out{background:#FCEBEB;color:#A32D2D}
+.partial{background:#FAEEDA;color:#854F0B}
+.ec-pill{background:#E6F1FB;color:#185FA5;font-size:10px;padding:2px 6px;border-radius:10px;font-weight:500}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1}
+.chev{font-size:10px;color:var(--color-text-tertiary);transition:transform .2s}
+.card-body{display:none;padding:12px 14px;border-top:0.5px solid var(--color-border-tertiary)}
+.card-body.open{display:block}
+.section{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 4px}
+.section:first-child{margin-top:0}
+.code{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-family:var(--font-mono);font-size:11px;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word;margin:0}
+.ec-box{background:#E6F1FB20;border:0.5px solid #185FA520;border-radius:var(--border-radius-md);padding:8px 10px;margin-top:6px}
+.ec-title{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:3px}
+.ec-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+.ec-code{font-family:var(--font-mono);font-size:10px;background:var(--color-background-secondary);padding:4px 6px;border-radius:4px;margin-top:4px;display:block;word-break:break-word}
+.files{font-size:11px;color:var(--color-text-tertiary);margin-top:6px}
+.hidden{display:none}
+</style>
+
+<h2 class="sr-only">DAX pattern catalogue with edge cases from both measure files</h2>
+
+<div class="wrap">
+<div class="tabs">
+  <div class="tab active" onclick="filter('all',this)">All patterns</div>
+  <div class="tab" onclick="filter('in',this)">In scope</div>
+  <div class="tab" onclick="filter('partial',this)">Partial</div>
+  <div class="tab" onclick="filter('out',this)">Out of scope</div>
+</div>
+<div id="list"></div>
+</div>
+
+<script>
+const patterns = [
+  {
+    id:"P1", title:"Plain SUM", scope:"in",
+    f1:"#Members", f2:"Overall PAC cost",
+    dax1:"SUM(attribution[member_count]) + 0",
+    dax2:"sum(pac_view[pac_visit_amount]) + 0",
+    sql:"SELECT SUM(member_count) FROM attribution",
+    ecs:[
+      {id:"EC1", title:"+0 suffix to force numeric type",
+       desc:"Both files add +0 after SUM. In DAX this converts BLANK to 0. Your parser must strip +0 before translating — SQL SUM already returns 0 on no rows (or NULL which COALESCE handles).",
+       code:"SUM(attribution[member_count]) + 0\n-- strip +0 → SELECT SUM(member_count) FROM attribution"}
+    ]
+  },
+  {
+    id:"P2", title:"CALCULATE + COUNT / DISTINCTCOUNT", scope:"in",
+    f1:"Targeted gaps → COUNTROWS(cohort)+0", f2:"IP Discharges → CALCULATE(count(...))+0",
+    dax1:"COUNTROWS(cohort) + 0",
+    dax2:"CALCULATE(count(pac_opp_patient_view[visit_id])) + 0",
+    sql:"SELECT COUNT(*) FROM cohort\nSELECT COUNT(visit_id) FROM pac_opp_patient_view",
+    ecs:[
+      {id:"EC16", title:"CALCULATE(...) + 0 wrapper",
+       desc:"IP Discharges wraps COUNT inside CALCULATE with no filters — just forces evaluation context. CALCULATE alone here adds nothing. Parser must detect this and treat it as plain COUNT.",
+       code:"CALCULATE(count(pac_opp_patient_view[visit_id])) + 0\n-- CALCULATE with no filter = plain COUNT"}
+    ]
+  },
+  {
+    id:"P3", title:"DIVIDE — simple ratio", scope:"in",
+    f1:"PMPM", f2:"PAC PMPM",
+    dax1:"DIVIDE(SUM(attribution[ytd_visit_amount]), SUM(attribution[ytd_member_count]))",
+    dax2:"DIVIDE(sum(pac_view[pac_visit_amount]), sum(attribution[member_count]))",
+    sql:"SELECT SUM(ytd_visit_amount) / NULLIF(SUM(ytd_member_count), 0)\nFROM attribution",
+    ecs:[
+      {id:"EC19", title:"DIVIDE without 3rd safe-default param",
+       desc:"DIVIDE(a,b) returns BLANK on divide-by-zero. DIVIDE(a,b,0) returns 0. Many measures in File1 skip the 3rd param — RAF recapture rate, Potential risk etc. SQL NULLIF returns NULL not 0. Decide: use COALESCE(...,0) or leave as NULL.",
+       code:"DIVIDE(a, b)     -- BLANK on /0  → SQL: a / NULLIF(b,0) → NULL\nDIVIDE(a, b, 0)  -- 0 on /0    → SQL: COALESCE(a/NULLIF(b,0), 0)"}
+    ]
+  },
+  {
+    id:"P4", title:"DIVIDE × scalar multiplier", scope:"in",
+    f1:"— (not present)", f2:"Utilization",
+    dax1:"-- not in File1",
+    dax2:"VAR Num = CALCULATE(count(pac_view[join_key]))\nVAR Denom = SUM(attribution[member_count])\nRETURN DIVIDE(Num, Denom) * 12000",
+    sql:"SELECT (COUNT(join_key) / NULLIF(SUM(member_count),0)) * 12000\nFROM pac_view, attribution",
+    ecs:[
+      {id:"EC10", title:"Scalar multiplied after DIVIDE",
+       desc:"* 12000 is annualization — converts monthly rate to per-1000 per-year. Parser must capture this multiplier and apply it in SQL. Easy to miss if you only look for DIVIDE().",
+       code:"DIVIDE(Num, Denom) * 12000\n-- SQL: (COUNT(join_key)/NULLIF(SUM(member_count),0)) * 12000"},
+      {id:"EC5+EC14", title:"lineageTag + formatString metadata in DAX string",
+       desc:"Utilization's DAX string contains Power BI metadata after the actual logic. Parser will crash or produce wrong SQL if it tries to parse these lines.",
+       code:"DIVIDE(Num, Denom) * 12000\nformatString: #,0                ← strip this\nlineageTag: b2578648-...         ← strip this\nannotation PBI_FormatHint = ...  ← strip this"}
+    ]
+  },
+  {
+    id:"P5", title:"CALCULATE + KEEPFILTERS (single value)", scope:"in",
+    f1:"Documented risk", f2:"Avg LOS",
+    dax1:'CALCULATE(DIVIDE(SUM(risk_core[risk_value]),SUM(risk_core[patient_count])),\n  KEEPFILTERS(risk_core[risk_documentation_flag] = "Documented"))',
+    dax2:'CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),\n  KEEPFILTERS(pac_view[pac_visit_type] <> "Home Health")) + 0',
+    sql:'SELECT SUM(risk_value)/NULLIF(SUM(patient_count),0)\nFROM risk_core WHERE risk_documentation_flag = \'Documented\'\n\nSELECT AVG(pac_length_of_stay)\nFROM pac_view WHERE pac_visit_type != \'Home Health\'',
+    ecs:[
+      {id:"EC3", title:"Not-equal filter (<>) in KEEPFILTERS",
+       desc:"Avg LOS excludes Home Health using <>. All other filters use =. Parser must handle both = and <> operators. SQL equivalent is != or NOT IN.",
+       code:'KEEPFILTERS(pac_view[pac_visit_type] <> "Home Health")\n-- SQL: WHERE pac_visit_type != \'Home Health\''},
+      {id:"EC18", title:"AVERAGE aggregation (not SUM)",
+       desc:"Avg LOS uses AVERAGE — the only AVERAGE in both files. Parser default is usually SUM. Must detect AVERAGE and map to SQL AVG().",
+       code:"CALCULATE(AVERAGE(pac_view[pac_length_of_stay]), ...)\n-- SQL: SELECT AVG(pac_length_of_stay) FROM pac_view"}
+    ]
+  },
+  {
+    id:"P6", title:"CALCULATE + KEEPFILTERS IN {set}", scope:"in",
+    f1:"Gap to potential risk", f2:"— (not present)",
+    dax1:'VAR a = CALCULATE(SUM(risk_core[risk_value]),\n  KEEPFILTERS(risk_core[risk_documentation_flag]\n  IN {"Undocumented","Suspected"}))\nVAR b = CALCULATE(SUM(risk_core[patient_count]),\n  KEEPFILTERS(risk_core[risk_documentation_flag] = "Documented"))\nRETURN DIVIDE(a,b)',
+    dax2:"-- not in File2",
+    sql:"SELECT\n  SUM(CASE WHEN flag IN ('Undocumented','Suspected') THEN risk_value END)\n  / NULLIF(SUM(CASE WHEN flag='Documented' THEN patient_count END), 0)\nFROM risk_core",
+    ecs:[
+      {id:"EC2", title:"IN {set} syntax — curly braces",
+       desc:"DAX uses IN {\"val1\",\"val2\"} with curly braces. SQL uses IN ('val1','val2') with parentheses. Parser must convert this syntax correctly.",
+       code:'KEEPFILTERS(flag IN {"Undocumented","Suspected"})\n-- SQL: WHERE flag IN (\'Undocumented\',\'Suspected\')'},
+      {id:"EC22", title:"Typo in data value — 'Undoumented'",
+       desc:"RAF_impact_cohort in File1 has a real typo: cohort[risk_documentation_flag] IN {\"Undoumented\",\"Suspected\"} — missing 'c' in Undocumented. Parser will pass it through. But SQL will return wrong results silently.",
+       code:'cohort[risk_documentation_flag] IN {"Undoumented","Suspected"}\n--                                    ^^ typo! missing "c"\n-- Will match no rows in DB — silent wrong result'}
+    ]
+  },
+  {
+    id:"P7", title:"CALCULATE inline filter (no KEEPFILTERS)", scope:"in",
+    f1:"— (not present)", f2:"Hospice PMPM / % IP discharges to Rehab",
+    dax1:"-- not in File1",
+    dax2:'CALCULATE(DIVIDE(SUM(pac_view[pac_visit_amount]),SUM(attribution[member_count])),\n  pac_view[pac_visit_type] = "Hospice")\n\nCALCULATE(DIVIDE([IP to Pac Discharges],[IP Discharges]),\n  pac_view[pac_visit_type] = "Rehab")',
+    sql:"SELECT SUM(pac_visit_amount)/NULLIF(SUM(member_count),0)\nFROM pac_view WHERE pac_visit_type = 'Hospice'",
+    ecs:[
+      {id:"EC24", title:"Inline filter vs KEEPFILTERS — different DAX semantics",
+       desc:"File1 always uses KEEPFILTERS(). File2 sometimes uses bare filter inside CALCULATE without KEEPFILTERS. In DAX these behave differently when report filters are active. For SQL translation both become WHERE — but flag it as a semantic gap.",
+       code:"CALCULATE(expr, KEEPFILTERS(col = val)) -- respects existing filters\nCALCULATE(expr, col = val)              -- overrides existing filters\n-- Both → SQL WHERE col = 'val' (same in your system)"}
+    ]
+  },
+  {
+    id:"P8", title:"VAR + COUNTROWS boolean flag filter", scope:"in",
+    f1:"Realizable RAF score (max_month_flag)", f2:"Readmission % IP Admits",
+    dax1:'var b = CALCULATE(SUM(risk_core[patient_count]),\n  KEEPFILTERS(risk_core[risk_documentation_flag]="Documented"),\n  KEEPFILTERS(risk_core[max_month_flag] = TRUE()))',
+    dax2:'VAR TotalReadmissions = CALCULATE(\n  COUNTROWS(pac_opp_patient_view),\n  pac_opp_patient_view[readmission_flag] = TRUE\n)',
+    sql:"SELECT COUNT(*) FROM pac_opp_patient_view WHERE readmission_flag = TRUE",
+    ecs:[
+      {id:"EC8", title:"TRUE without parentheses vs TRUE()",
+       desc:"File1 uses TRUE() with parens (correct DAX function). File2 uses = TRUE without parens. Both mean same thing in DAX but parser regex may not catch both forms.",
+       code:"risk_core[max_month_flag] = TRUE()   -- File1: function call\npac_opp_patient_view[flag] = TRUE    -- File2: keyword\n-- Both → SQL: WHERE flag = TRUE"},
+      {id:"EC9", title:'String "true" vs Boolean TRUE',
+       desc:'PAC to IP readmission % uses pac_view[readmission_flag] = "true" (string). Readmission % IP Admits uses = TRUE (boolean). Same concept, different types across tables. Parser must handle both — and SQL column type must match.',
+       code:'pac_opp_patient_view[readmission_flag] = TRUE    -- boolean column\npac_view[readmission_flag] = "true"             -- string column\n-- SQL must know which table has which type'}
+    ]
+  },
+  {
+    id:"P9", title:"Multi-flag CALCULATE (multiple inline conditions)", scope:"in",
+    f1:"Documented risk cohort", f2:"PAC to IP readmits",
+    dax1:'CALCULATE([Documented risk],\n  KEEPFILTERS(risk_core[max_month_flag] = TRUE()))',
+    dax2:'CALCULATE(\n  DISTINCTCOUNT(pac_view[join_key]),\n  pac_view[readmission_flag] = "true",\n  pac_view[last_transfer] = "true"\n)',
+    sql:"SELECT COUNT(DISTINCT join_key)\nFROM pac_view\nWHERE readmission_flag = 'true'\n  AND last_transfer = 'true'",
+    ecs:[
+      {id:"EC17", title:"max_month_flag — boolean column needing joins",
+       desc:"max_month_flag = TRUE() filters to only the latest month's data. This assumes the flag is pre-computed in the table. If the database doesn't have this column, the SQL will fail. Must verify column exists before translating.",
+       code:"KEEPFILTERS(risk_core[max_month_flag] = TRUE())\n-- SQL: WHERE max_month_flag = TRUE\n-- RISK: column may not exist in all DB environments"}
+    ]
+  },
+  {
+    id:"P10", title:"Direct measure-to-measure division", scope:"in",
+    f1:"% members with open coding gaps", f2:"% IP discharges to PAC",
+    dax1:"[Members with open coding gaps] / [#Members]",
+    dax2:"DIVIDE([IP to Pac Discharges], [IP Discharges])",
+    sql:"SELECT SUM(member_with_open_coding_gap_count)\n     / NULLIF(SUM(member_count), 0)\nFROM attribution",
+    ecs:[
+      {id:"EC_DEP", title:"Must resolve dependency tree before translating",
+       desc:"Both measures reference other measures by name — not raw columns. Parser must resolve [Members with open coding gaps] → its SQL first, then inline it. The depends_on tree in your JSON handles this, but depth must be processed bottom-up.",
+       code:"[Members with open coding gaps] / [#Members]\n-- Step 1: resolve [Members with open coding gaps] → SUM(member_with_open_coding_gap_count)\n-- Step 2: resolve [#Members] → SUM(member_count)\n-- Step 3: compose final SQL"}
+    ]
+  },
+  {
+    id:"P11", title:"Time intelligence — PY / PM snapshot", scope:"partial",
+    f1:"#Members PY", f2:"Avg LOS PM",
+    dax1:"CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    dax2:"CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))",
+    sql:"SELECT SUM(member_count) FROM attribution\nWHERE YEAR(month_of_date) = :year - 1\n  AND MONTH(month_of_date) = MONTH(:selected_date)",
+    ecs:[
+      {id:"EC_DATE", title:"Date parameter must be passed explicitly",
+       desc:"Without a live filter context, SAMEPERIODLASTYEAR and PREVIOUSMONTH return BLANK. SQL system must receive a date parameter from the caller. No date = wrong result silently.",
+       code:"SAMEPERIODLASTYEAR('date'[month_of_date])\n-- Needs: WHERE year = :input_year - 1\n-- If no param passed → query returns NULL or wrong period"}
+    ]
+  },
+  {
+    id:"P12", title:"YoY / MoM ratio", scope:"partial",
+    f1:"#Members YoY", f2:"Avg LOS MoM",
+    dax1:"VAR py = CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN DIVIDE([#Members] - py, py, 0)",
+    dax2:"var pm = CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))\nRETURN DIVIDE([Avg LOS] - pm, pm)",
+    sql:"SELECT (curr - prev) / NULLIF(prev, 0)\nFROM (\n  SELECT\n    SUM(CASE WHEN year=:y THEN val END) curr,\n    SUM(CASE WHEN year=:y-1 THEN val END) prev\n  FROM attribution\n)",
+    ecs:[
+      {id:"EC19b", title:"File1 uses DIVIDE(a,b,0), File2 uses DIVIDE(a,b) — different zero behavior",
+       desc:"#Members YoY uses DIVIDE(x,py,0) — returns 0 on /0. Avg LOS MoM uses DIVIDE(x,pm) — returns BLANK on /0. SQL will return NULL in both cases unless you add COALESCE. Check which behavior is expected.",
+       code:"DIVIDE([#Members] - py, py, 0)   -- 0 on divide-by-zero\nDIVIDE([Avg LOS] - pm, pm)       -- BLANK on divide-by-zero\n-- SQL NULLIF returns NULL for both — add COALESCE(,0) only for first"}
+    ]
+  },
+  {
+    id:"P13", title:"MAX / MIN aggregation", scope:"in",
+    f1:"Latest measurement date", f2:"Latest attribution date",
+    dax1:"MAX(risk_core[month_of_measurement])",
+    dax2:"MAX(attribution[month_of_attribution])",
+    sql:"SELECT MAX(month_of_measurement) FROM risk_core\nSELECT MAX(month_of_attribution) FROM attribution",
+    ecs:[
+      {id:"EC_COL", title:"Different column names for same concept across files",
+       desc:"File1 uses month_of_measurement. File2 uses month_of_attribution. Same concept (latest date) but different table+column. Parser must not assume column names are consistent across measure files.",
+       code:"MAX(risk_core[month_of_measurement])   -- File1\nMAX(attribution[month_of_attribution]) -- File2\n-- Different tables, different column names, same pattern"}
+    ]
+  },
+  {
+    id:"P14", title:"ALL() — removes date filter context", scope:"partial",
+    f1:"RAF_impact_cohort", f2:"— (not present)",
+    dax1:"var latest_month = CALCULATE(max(cohort[month_of_measurement]), ALL('DATE'))\nvar a = CALCULATE(SUM(cohort[risk_value]),\n  cohort[month_of_measurement] = latest_month, ALL('DATE'))",
+    dax2:"-- not in File2",
+    sql:"SELECT MAX(month_of_measurement) FROM cohort  -- no date WHERE\n-- Then use that value as a subquery filter",
+    ecs:[
+      {id:"EC4", title:"ALL() strips all date filters — cross-time query",
+       desc:"ALL('DATE') removes any date filter that's active. In SQL this means the subquery must have NO WHERE on date — it looks across all time. Easy to accidentally add a date filter and get wrong results.",
+       code:"CALCULATE(MAX(month_of_measurement), ALL('DATE'))\n-- SQL: SELECT MAX(month_of_measurement) FROM cohort\n-- NO WHERE clause on date — intentionally looks at all history"}
+    ]
+  },
+  {
+    id:"P15", title:"Card measures — UNICHAR + FORMAT", scope:"out",
+    f1:"#Members YoY Card", f2:"Avg LOS YoY Card",
+    dax1:'VAR py = CALCULATE([#Members], SAMEPERIODLASTYEAR(...))\nVAR yoy = DIVIDE([#Members] - py, py, 0)\nRETURN IF(ISBLANK(py),"",\nSWITCH(TRUE(),\n  yoy>0, UNICHAR(9650) & " " & FORMAT(yoy,"0%") & " from LY",\n  yoy<0, UNICHAR(9660) & " " & FORMAT(ABS(yoy),"0%") & " from LY",\n""))',
+    dax2:'VAR py = CALCULATE([Avg LOS], SAMEPERIODLASTYEAR(...))\nVAR yoy = DIVIDE([Avg LOS] - py, py)\nRETURN IF(ISBLANK(py),"",\nSWITCH(TRUE(),\n  yoy>0, UNICHAR(9650) & " " & FORMAT(yoy,"0.0%") & " from LY",\n  yoy<0, UNICHAR(9660) & " " & FORMAT(ABS(yoy),"0.0%") & " from LY",\n"0.0%"))',
+    sql:"-- NOT TRANSLATABLE\n-- Output: '▲ 12% from LY' — text string, not a number",
+    ecs:[
+      {id:"EC_FORMAT", title:"Format string differs between files — 0% vs 0.0%",
+       desc:'File1 uses FORMAT(yoy,"0%") — no decimal. File2 uses FORMAT(yoy,"0.0%") — one decimal. Both are out of scope but if someone tries to extract the underlying YoY number, they must use the right precision.',
+       code:'File1: FORMAT(yoy, "0%")   → "12% from LY"\nFile2: FORMAT(yoy, "0.0%") → "12.3% from LY"\n-- Different precision even for same metric type'}
+    ]
+  },
+  {
+    id:"P16", title:"Color signal — SWITCH(TRUE(),...)", scope:"out",
+    f1:"#Members YoY Color", f2:"Avg LOS MoM color",
+    dax1:"VAR a = [#Members YoY]\nRETURN SWITCH(TRUE(), a < 0, 1, 2)",
+    dax2:"var a = [Avg LOS MoM]\nreturn SWITCH(TRUE(), a > 0, 2, a < 0, 1)",
+    sql:"-- NOT TRANSLATABLE\n-- Returns 1 or 2 as color signal for Power BI conditional formatting",
+    ecs:[
+      {id:"EC_COLOR", title:"Color logic is inverted between files",
+       desc:"File1: a<0 → 1 (red), else → 2 (green). File2: a>0 → 2, a<0 → 1. Same values (1,2) but the condition order differs. If someone tries to interpret these numbers as business logic, they'll get confused.",
+       code:"File1: SWITCH(TRUE(), a < 0, 1, 2)        -- negative=1, else=2\nFile2: SWITCH(TRUE(), a > 0, 2, a < 0, 1) -- positive=2, negative=1\n-- Same meaning, different syntax — watch out"}
+    ]
+  },
+  {
+    id:"P17", title:"Formatted display — FORMAT only", scope:"out",
+    f1:"Formatted #Members", f2:"Formatted Avg LOS",
+    dax1:'VAR x = [#Members]\nRETURN SWITCH(TRUE(),\n  x < 1000, FORMAT(x,"#,##0"),\n  x < 1000000, FORMAT(x,"#,.0") & "K",\n  x < 1000000000, FORMAT(x,"#,##0,,.0") & "M",\n  FORMAT(x,"#,,,.0") & "bn"\n)',
+    dax2:'VAR x = [Avg LOS]\nRETURN FORMAT(x, "0")',
+    sql:"-- NOT TRANSLATABLE\n-- Returns display strings like '1.2K', '$45M', '3'\n-- Frontend should handle number formatting",
+    ecs:[
+      {id:"EC_THRESH", title:"Threshold-based formatting — K/M/bn suffix",
+       desc:"File1 Formatted measures use tiered thresholds (<1000, <1M, <1B) to pick suffix. File2 Formatted measures use simple FORMAT with no thresholds. Two different formatting approaches — both out of scope but show inconsistency.",
+       code:'File1: SWITCH(TRUE(), x<1000, FORMAT(x,"#,##0"), x<1000000, ... & "K")\nFile2: FORMAT(x, "0")   -- just plain number string\n-- Neither is a business metric — both are display labels'}
+    ]
+  },
+  {
+    id:"P18", title:"SELECTEDVALUE — runtime axis router", scope:"out",
+    f1:"Selected Y Axis Value", f2:"Selected X Axis Value (PAC)",
+    dax1:'SWITCH(SELECTEDVALUE(\'Y Axis scatter plot\'[Y axis]),\n  "Members", [#Members],\n  "PMPM",    [PMPM],\n  BLANK())',
+    dax2:'SWITCH(SELECTEDVALUE(\'X Axis scatter plot\'[X axis]),\n  "Avg LOS",        [Avg LOS],\n  "Overall PAC cost",[Overall PAC cost],\n  BLANK())',
+    sql:"-- NOT TRANSLATABLE\n-- No user = no slicer = SELECTEDVALUE returns BLANK\n-- Which of 10 measures to run? System cannot decide.",
+    ecs:[
+      {id:"EC_STATIC", title:"Static disconnected table used as slicer",
+       desc:"Both files use disconnected tables (Y Axis scatter plot, X Axis scatter plot) that exist only for UI. They have no joins to any fact table. Parser must detect table name patterns and flag as SELECTEDVALUE-dependent.",
+       code:"SELECTEDVALUE('Y Axis scatter plot'[Y axis])  -- File1\nSELECTEDVALUE('X Axis scatter plot'[X axis])  -- File2\n-- Tables not in schema — exist only in Power BI model"}
+    ]
+  },
+  {
+    id:"P19", title:"CONCATENATEX row iterator", scope:"out",
+    f1:"Info text risk LY (10+ VARs)", f2:"Info text PAC LY",
+    dax1:'SWITCH(SELECTEDVALUE(\'measure\'[period_mode]),\n  "ytd", "Data for " & MinMonthCY_Text & " " & CY & " (YTD)...",\n  ...)',
+    dax2:'CONCATENATEX(\n  VALUES(attribution[month_of_attribution]),\n  FORMAT(attribution[month_of_attribution],"MMM"),\n  ", ",\n  attribution[month_of_attribution], ASC\n)',
+    sql:"-- NOT TRANSLATABLE directly\n-- CONCATENATEX = row-level iteration + string join\n-- Closest SQL: STRING_AGG() but complex",
+    ecs:[
+      {id:"EC11", title:"CONCATENATEX — only row iterator in both files",
+       desc:"This is the only iterator function (SUMX/AVERAGEX family) found in both files. It loops over VALUES(column) and joins formatted strings. STRING_AGG() in SQL is partial equivalent but ordering + FORMAT makes it very hard.",
+       code:"CONCATENATEX(\n  VALUES(attribution[month_of_attribution]),\n  FORMAT(attribution[month_of_attribution],\"MMM\"),\n  \", \", attribution[month_of_attribution], ASC\n)\n-- SQL equivalent: STRING_AGG(TO_CHAR(month,'Mon'),', ') ORDER BY month ASC"},
+      {id:"EC20", title:"Typo in column name — 'comparision' (should be 'comparison')",
+       desc:"Info text PAC LY references 'date'[last_year_comparision_flag] — misspelled. If your DB has correct spelling (comparison), SQL will fail with column-not-found. Flag all column names for spelling validation at ingestion.",
+       code:"'date'[last_year_comparision_flag]  ← typo in DAX\n-- DB column might be: last_year_comparison_flag\n-- SQL will throw: column not found"},
+      {id:"EC7", title:"COUNTROWS(VALUES()) — unique value count",
+       desc:"Info text PAC LY uses COUNTROWS(VALUES(attribution[month_of_attribution])) to count distinct months selected. This is DISTINCTCOUNT equivalent. Not a metric — used inside display text logic.",
+       code:"COUNTROWS(VALUES(attribution[month_of_attribution]))\n-- = DISTINCTCOUNT(attribution[month_of_attribution])\n-- Used here only for building display sentence — not a metric"}
+    ]
+  },
+  {
+    id:"P20", title:"RANDBETWEEN — demo/placeholder", scope:"out",
+    f1:"— (not present)", f2:"Random % demo / Random LOS demo",
+    dax1:"-- not in File1",
+    dax2:"DIVIDE(RANDBETWEEN(5, 100), 100)\nRANDBETWEEN(5, 35)",
+    sql:"-- NOT TRANSLATABLE as-is\n-- SELECT RANDOM() * 0.95 + 0.05  (approximate)\n-- But these are demo measures — should be flagged and skipped",
+    ecs:[
+      {id:"EC12", title:"Non-deterministic — different result every evaluation",
+       desc:"RANDBETWEEN generates random numbers. If you translate to SQL RANDOM(), every query run gives different results. These are purely demo measures for UI testing — must be flagged at ingestion and excluded from production translation.",
+       code:"RANDBETWEEN(5, 100)  -- DAX: random int between 5-100\n-- SQL: FLOOR(RANDOM() * 96 + 5)\n-- BUT: results differ on every call — not a real metric"}
+    ]
+  },
+  {
+    id:"P21", title:"Hardcoded string / empty string", scope:"out",
+    f1:"Info text risk cohort (with commented DAX)", f2:"Blank DAX",
+    dax1:'"The cohort is built on latest risk execution data..."\n// IF(SELECTEDVALUE(\'measure\'[period_mode]) = "ytd","...")',
+    dax2:'""',
+    sql:"-- NOT TRANSLATABLE\n-- Pure string constant — no data query needed",
+    ecs:[
+      {id:"EC6+EC15", title:"Commented-out SELECTEDVALUE inside DAX string",
+       desc:"Info text risk cohort has // IF(SELECTEDVALUE...) commented out. The active DAX is just a string. But the comment reveals original intent — it was supposed to be runtime-dependent. Parser must ignore // comments but log them for review.",
+       code:'"The cohort is built on latest risk execution data..."\n// IF(SELECTEDVALUE(\'measure\'[period_mode]) = "ytd","...")\n-- Active: hardcoded string\n-- Commented: was SELECTEDVALUE-dependent\n-- Parser: strip comments, flag for human review'}
+    ]
+  },
+  {
+    id:"P22", title:"ABS() utility wrapper", scope:"in",
+    f1:"Filter", f2:"(inside Card measures only)",
+    dax1:"ABS(sum(attribution[ytd_visit_amount])) + SUM(attribution[ytd_member_count])",
+    dax2:"FORMAT(ABS(mom), \"0.0%\")  -- inside Card measures",
+    sql:"SELECT ABS(SUM(ytd_visit_amount)) + SUM(ytd_member_count)\nFROM attribution",
+    ecs:[
+      {id:"EC23", title:"ABS on raw aggregation vs ABS on computed measure",
+       desc:"File1 Filter measure uses ABS(SUM(...)) — ABS wrapping a raw column aggregation. File2 Card measures use ABS() on a computed VAR value inside FORMAT. Two different uses — one translatable, one inside an out-of-scope card measure.",
+       code:"ABS(SUM(attribution[ytd_visit_amount]))  -- File1: translatable\nFORMAT(ABS(mom), '0.0%')                -- File2: inside Card, NOT translatable"}
+    ]
+  }
+];
+
+function render(items) {
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  items.forEach((p, i) => {
+    const scopeClass = p.scope;
+    const scopeLabel = {in:'IN SCOPE', out:'OUT OF SCOPE', partial:'PARTIAL'}[p.scope];
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.dataset.scope = p.scope;
+    div.innerHTML = `
+      <div class="card-head" onclick="toggle(${i})">
+        <span class="pill ${scopeClass}">${scopeLabel}</span>
+        <span class="card-title">${p.id} — ${p.title}</span>
+        <span class="ec-pill">${p.ecs.length} edge case${p.ecs.length>1?'s':''}</span>
+        <span class="chev" id="chv${i}">▼</span>
+      </div>
+      <div class="card-body" id="body${i}">
+        <div class="section">Example — File 1 (measures_resolved.json)</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px">${p.f1}</div>
+        <pre class="code">${p.dax1}</pre>
+
+        <div class="section">Example — File 2 (PAC measures)</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px">${p.f2}</div>
+        <pre class="code">${p.dax2}</pre>
+
+        <div class="section">SQL translation</div>
+        <pre class="code">${p.sql}</pre>
+
+        <div class="section">Edge cases in this pattern</div>
+        ${p.ecs.map(ec=>`
+          <div class="ec-box">
+            <div class="ec-title">${ec.id} — ${ec.title}</div>
+            <div class="ec-desc">${ec.desc}</div>
+            <code class="ec-code">${ec.code}</code>
+          </div>
+        `).join('')}
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function toggle(i) {
+  const b = document.getElementById('body'+i);
+  const c = document.getElementById('chv'+i);
+  const open = b.classList.toggle('open');
+  c.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function filter(scope, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const filtered = scope === 'all' ? patterns : patterns.filter(p=>p.scope===scope);
+  render(filtered);
+}
+
+render(patterns);
+</script>

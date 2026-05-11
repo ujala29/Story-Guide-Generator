@@ -1,0 +1,56 @@
+table zip
+	lineageTag: 12f39654-08e1-477a-b9f9-dd8d674f60c8
+
+	column zip
+		dataType: string
+		lineageTag: cf7ef559-9646-41f5-986a-717ad2415b3c
+		summarizeBy: none
+		sourceColumn: zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 800f2d55-cbdc-44d1-8e80-e8bb47a4b0db
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 3f9773fa-9961-41d7-81fc-bdf051729fdb
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column county
+		dataType: string
+		lineageTag: 9695c4ed-c01c-4858-981c-5118a8e73a5c
+		summarizeBy: none
+		sourceColumn: county
+
+		annotation SummarizationSetBy = Automatic
+
+	partition zip = m
+		mode: import
+		queryGroup: Fact
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    l5_Schema = L5_TESTING_DB_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    date_Table = l5_Schema{[Name= "DIM_ZIP",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(date_Table, Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

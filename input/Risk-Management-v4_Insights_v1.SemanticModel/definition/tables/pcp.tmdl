@@ -1,0 +1,86 @@
+table pcp
+	lineageTag: c7585ddb-0db3-483d-b387-65d4cabc36e3
+
+	column pcp_npi
+		dataType: double
+		lineageTag: 935e6e3e-0b6f-40a8-8d18-3e392e731a4b
+		summarizeBy: sum
+		sourceColumn: pcp_npi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pcp_name
+		dataType: string
+		lineageTag: eb7211e7-aa3a-45f6-9bf0-8b02a7fe8fd7
+		summarizeBy: none
+		sourceColumn: pcp_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_name
+		dataType: string
+		lineageTag: e07ee749-3240-45e9-9f61-b069b63d4537
+		summarizeBy: none
+		sourceColumn: practice_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_name
+		dataType: string
+		lineageTag: 1582efe6-efc5-433e-aed0-b85304c75146
+		summarizeBy: none
+		sourceColumn: org_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column aco_name
+		dataType: string
+		lineageTag: d27aa4cd-c7b4-424f-9162-c2cd98210a28
+		summarizeBy: none
+		sourceColumn: aco_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: f542b963-73c5-416c-b805-592052ad6c20
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pcp_name_new = SELECTCOLUMNS( FILTER(pcp, pcp[pcp_name] <> "Not Assigned"), "pcp_names_new", [pcp_name])
+		lineageTag: ba8457cf-fcd8-4008-8597-f2dc87c22acd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice_id
+		dataType: string
+		lineageTag: 8292942c-976d-4f6f-9c67-b790064b6752
+		summarizeBy: none
+		sourceColumn: practice_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pcp = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    l5_Schema = L5_TESTING_DB_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    pcp_Table = l5_Schema{[Name= "PCP_DIM_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(pcp_Table, Text.Lower),
+				    #"Removed Columns" = Table.RemoveColumns(#"Lowercased Text",{"updated_key", "updated_on", "region_id", "region_name"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Columns",{"aco_name", "org_name", "practice_name", "pcp_name", "practice_id","pcp_npi", "org_hierarchy_master_id"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

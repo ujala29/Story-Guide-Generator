@@ -1,0 +1,48 @@
+expression DB_HOST_STRING = "scb87951.innova3.us-east-1.a.p1.satoricyber.net" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 3074ea61-1bdf-4eab-87c4-fc8a3a027f7f
+	queryGroup: 'DB Parameters'
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression L5_DB_NAME = "CONSOLIDATED_DEMO_PROD_DAP" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 374a082e-39cc-436a-a179-80ab6dc65c6b
+	queryGroup: 'DB Parameters'
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression SCHEMA_NAME = "L5_JAN" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 13004f1e-9e4b-44f0-b36a-e82be5beebf5
+	queryGroup: 'DB Parameters'
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression ROLE = "CONSOLIDATED_DEMO_PROD_DATAENGINEER" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 863af0b8-c187-48b3-8c7c-2e6ddc49de88
+	queryGroup: 'DB Parameters'
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression WAREHOUSE = "CONSOLIDATED_DEMOPRODWAREHOUSE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: dccffa8c-d313-4895-a328-53f071ca295e
+	queryGroup: 'DB Parameters'
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression DB_TYPE = "Snowflake" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a7c5ce35-d127-4d26-ad59-86645e012fc1
+	queryGroup: 'DB Parameters'
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,807 @@
+{
+  "#Members": {
+    "technical_definition": "Aggregates MEMBER_COUNT by summing all values from PCP_VISITS_V4_VIEW filtered to the selected month via the MONTH_OF_DATE column. The result represents the total member count for the chosen reporting period.",
+    "business_definition": "The total number of health plan members for the selected month, used to understand the size of the population being tracked.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps": {
+    "technical_definition": "Aggregates the sum of MEMBER_WITH_OPEN_CODING_GAP_COUNT from PCP_VISITS_V4_VIEW, filtered to the selected month via the MONTH_OF_DATE column. The DAX measure applies a simple SUM aggregation over the filtered SQL result set.",
+    "business_definition": "The total number of members who have at least one unresolved coding gap in the selected month, indicating opportunities where a diagnosis has not yet been documented or confirmed during a care visit.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk": {
+    "technical_definition": "Queries RISK_CORE_V4_VIEW filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month, computing the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Undocumented' or 'Suspected' divided by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG is 'Documented'. The result represents a ratio of uncaptured/suspected risk value against the documented patient population baseline.",
+    "business_definition": "This metric shows how much additional risk value could potentially be captured per documented patient by closing gaps where diagnoses are suspected or not yet documented, helping identify revenue and care management opportunities.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gaps closed": {
+    "technical_definition": "Sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR columns from RISK_CORE_V4_VIEW, filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month. The result represents the total closed gaps by combining recaptured and suspected numerator counts.",
+    "business_definition": "The total number of care gaps that have been successfully closed within the selected month, combining both recaptured and newly identified resolved gaps.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk": {
+    "technical_definition": "Aggregates data from RISK_CORE_V4_VIEW by summing RISK_VALUE and dividing by the sum of PATIENT_COUNT, filtered to records where MAX_MONTH_FLAG is TRUE, RISK_DOCUMENTATION_FLAG equals 'Documented', and MONTH_OF_MEASUREMENT matches the selected month. The division uses NULLIF to prevent divide-by-zero errors, producing a per-patient average risk score for documented patients only.",
+    "business_definition": "This metric represents the average risk score for patients whose risk has been formally documented in the selected month, helping analysts understand the clinical complexity of the population with completed risk documentation.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM": {
+    "technical_definition": "Divides the sum of YTD_VISIT_AMOUNT by the sum of YTD_MEMBER_COUNT from PCP_VISITS_V4_VIEW, filtered to a selected month, using NULLIF to prevent division by zero. The result represents a simple ratio aggregation of year-to-date visit costs over year-to-date member enrollment counts.",
+    "business_definition": "This metric shows the average year-to-date PCP visit cost per member per month, helping analysts understand how much is being spent on primary care visits on a per-member basis.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk": {
+    "technical_definition": "Aggregates SUM(RISK_VALUE) divided by the count of patients where RISK_DOCUMENTATION_FLAG equals 'Documented' from RISK_CORE_V4_VIEW, filtered to the latest month using MAX_MONTH_FLAG and a selected measurement month. The division uses NULLIF to prevent divide-by-zero errors, yielding an average risk value per documented patient.",
+    "business_definition": "This metric estimates the average potential risk score per documented patient for a given month, helping analysts identify how much unaddressed or emerging risk exists relative to the population that has been formally assessed.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members PY": {
+    "technical_definition": "Aggregates MEMBER_COUNT from PCP_VISITS_V4_VIEW filtered to the month that is exactly one year prior to the selected month using DATEADD(year, -1). The result serves as the prior year baseline for year-over-year comparison against the current period #Members measure.",
+    "business_definition": "The total number of members enrolled or attributed in the same month one year ago, used to compare membership trends against the current period.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members YoY": {
+    "technical_definition": "Calculates the year-over-year percentage change in total member count by subtracting the prior year's SUM(MEMBER_COUNT) from the current selected month's SUM(MEMBER_COUNT), then dividing by the prior year value, using MONTH_OF_DATE as the time filter on PCP_VISITS_V4_VIEW. NULLIF prevents division by zero, and COALESCE defaults the result to 0 when no prior year data exists.",
+    "business_definition": "Shows how the total number of members has grown or declined compared to the same month one year ago, expressed as a percentage change.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members YoY Card": {
+    "technical_definition": "This measure computes a Year-over-Year comparison of the #Members measure, which aggregates MEMBER_COUNT from the PCP_VISITS_V4_VIEW table, contrasting the current period's member count against the same period in the prior year.",
+    "business_definition": "This metric shows how the total number of members has changed compared to the same time last year, helping analysts quickly identify membership growth or decline trends.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members YoY Color": {
+    "technical_definition": "This measure applies conditional color formatting based on the '#Members YoY' dependent measure, referencing MEMBER_COUNT from PCP_VISITS_V4_VIEW and MONTH_OF_DATE from DATE_VIEW to evaluate year-over-year member count change. It returns a color value (e.g., hex code or color name) indicating positive, negative, or neutral trend direction.",
+    "business_definition": "This metric drives the visual color indicator that shows whether member enrollment is trending up, down, or flat compared to the same period last year, enabling analysts to quickly spot membership growth or decline at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members PM": {
+    "technical_definition": "Aggregates MEMBER_COUNT from PCP_VISITS_V4_VIEW filtered to the month prior to the selected month using a month-over-month (MOM) time intelligence pattern. References MONTH_OF_DATE for period filtering and sums MEMBER_COUNT to produce the prior month's total. Draws from DATE_VIEW for date context and PCP_VISITS_V4_VIEW for member counts.",
+    "business_definition": "This metric shows the total number of members enrolled in the previous month, used as a baseline for month-over-month comparisons and trend analysis.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in total member count by subtracting the prior month's SUM(MEMBER_COUNT) from the selected month's SUM(MEMBER_COUNT), then dividing by the prior month's total, using MONTH_OF_DATE as the period filter on PCP_VISITS_V4_VIEW. NULLIF prevents division-by-zero and COALESCE defaults the result to 0 when no data exists. The calculation references the #Members measure and the DATE_VIEW table for period context.",
+    "business_definition": "This metric shows how the total number of members has grown or shrunk compared to the previous month, expressed as a percentage change, helping analysts quickly identify membership trends over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members MoM Card": {
+    "technical_definition": "This measure computes a Month-over-Month card visualization of member count by referencing the base '#Members' measure, which aggregates MEMBER_COUNT from the PCP_VISITS_V4_VIEW table. It likely compares the current month's member count against the prior month to surface a delta or trend value for display in a card visual.",
+    "business_definition": "This metric shows how the total number of members has changed compared to the previous month, giving analysts a quick snapshot of membership growth or decline.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members MoM Color": {
+    "technical_definition": "This measure uses MEMBER_COUNT from PCP_VISITS_V4_VIEW and MONTH_OF_DATE from DATE_VIEW to derive a color-coding indicator based on the #Members MoM (Month-over-Month) measure, likely applying conditional logic to return a color value (e.g., red, yellow, green) depending on whether member count trends are positive, negative, or neutral. The measure references the parent #Members MoM measure and applies a threshold-based classification.",
+    "business_definition": "This metric provides a visual color indicator that signals whether the month-over-month change in member count is trending favorably or unfavorably, making it easier to quickly identify growth or decline in membership at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk PY": {
+    "technical_definition": "Calculates the average documented risk score for the prior year period by summing RISK_VALUE and dividing by the total PATIENT_COUNT from RISK_CORE_V4_VIEW, filtered where RISK_DOCUMENTATION_FLAG = 'Documented' and MONTH_OF_MEASUREMENT equals one year prior to the selected month. Uses DATE_VIEW for time context and applies year-over-year (YOY) time intelligence logic based on the parent measure 'Documented risk'.",
+    "business_definition": "Shows the average risk score for patients with fully documented risk profiles from the same month one year ago, enabling year-over-year comparison to track how documented risk levels have changed over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in average documented risk score by dividing the difference between the current month's and prior year month's average risk (SUM(RISK_VALUE) / SUM(PATIENT_COUNT)) by the prior year average, filtered to rows where RISK_DOCUMENTATION_FLAG = 'Documented' in RISK_CORE_V4_VIEW. COALESCE ensures a 0 is returned when the prior year value is null or zero. References MONTH_OF_MEASUREMENT for period filtering and PATIENT_COUNT as the denominator for per-patient averaging.",
+    "business_definition": "Shows how the average risk score for documented patients has changed compared to the same month last year, expressed as a percentage, helping analysts track whether risk documentation efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk YoY Card": {
+    "technical_definition": "This card measure builds on the 'Documented risk' measure, leveraging the RISK_CORE_V4_VIEW table and filtering on RISK_DOCUMENTATION_FLAG to aggregate RISK_VALUE or PATIENT_COUNT for documented patients, then computes a year-over-year variance by comparing the current period value against the prior year equivalent.",
+    "business_definition": "This metric shows how the number or value of patients with documented risk has changed compared to the same period last year, helping analysts quickly assess whether risk documentation efforts are improving over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk YoY Color": {
+    "technical_definition": "This measure computes a conditional color formatting value based on the 'Documented risk YoY' dependent measure, likely returning a color code (e.g., red, green, or neutral) depending on whether year-over-year change in documented risk is positive, negative, or flat. It references PATIENT_COUNT and RISK_VALUE from RISK_CORE_V4_VIEW filtered by RISK_DOCUMENTATION_FLAG, with MONTH_OF_DATE from DATE_VIEW used for period comparison. The output is a display string or hex color code used for visual formatting in Power BI reports.",
+    "business_definition": "This metric drives the color-coded visual indicator that shows whether documented patient risk scores are trending up or down compared to the same period last year, helping analysts quickly identify improvement or deterioration at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk PM": {
+    "technical_definition": "Computes the prior month's average documented risk by dividing SUM(RISK_VALUE) by SUM(PATIENT_COUNT) from RISK_CORE_V4_VIEW, filtered where RISK_DOCUMENTATION_FLAG = 'Documented' and MONTH_OF_MEASUREMENT equals one month before the selected month. Uses DATE_VIEW for time context and applies a NULLIF guard to prevent division-by-zero errors.",
+    "business_definition": "This metric shows the average documented risk score per patient from the previous month, enabling analysts to track month-over-month changes in how well patient risks are being captured and documented.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in average documented risk score by dividing the difference between the current month's and prior month's average risk (SUM(RISK_VALUE) / SUM(PATIENT_COUNT)) by the prior month's average, filtered to rows where RISK_DOCUMENTATION_FLAG = 'Documented' in RISK_CORE_V4_VIEW. Uses DATEADD to derive the prior month from the selected month parameter, and COALESCE/NULLIF to handle division-by-zero cases returning 0.",
+    "business_definition": "Shows how the average risk score for patients with documented risk has changed compared to the previous month, expressed as a percentage, helping analysts track whether documented patient risk is trending up or down over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk MoM Card": {
+    "technical_definition": "This card measure builds on the 'Documented risk' measure, filtering the RISK_CORE_V4_VIEW table where RISK_DOCUMENTATION_FLAG indicates documented status, aggregating PATIENT_COUNT or RISK_VALUE to compute a month-over-month comparison. It calculates the change or percentage difference in documented risk between the current and prior month periods.",
+    "business_definition": "This metric shows how documented patient risk scores are trending compared to the previous month, helping analysts quickly identify whether risk capture efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk Color": {
+    "technical_definition": "This measure calculates a color indicator based on the 'Documented risk MoM' dependent measure, leveraging RISK_CORE_V4_VIEW columns including RISK_DOCUMENTATION_FLAG and RISK_VALUE alongside DATE_VIEW's MONTH_OF_DATE to assess month-over-month trend direction. The color output is conditionally assigned based on whether the MoM change in documented risk (aggregated via PATIENT_COUNT) is positive, negative, or neutral. It serves as a visual KPI flag rather than a numeric aggregation.",
+    "business_definition": "This metric displays a color-coded indicator showing whether the month-over-month trend in documented patient risk is improving, declining, or holding steady, helping analysts quickly assess performance at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk PY": {
+    "technical_definition": "Computes the prior year equivalent of the 'Gap to potential risk' measure by filtering RISK_CORE_V4_VIEW to the month one year prior to the selected month, summing RISK_VALUE for records where RISK_DOCUMENTATION_FLAG is 'Undocumented' or 'Suspected', and dividing by the count of patients with a 'Documented' flag using NULLIF to avoid division by zero. Uses DATE_VIEW for time intelligence context and mirrors the current period logic offset by one year.",
+    "business_definition": "This metric shows last year's untapped risk value per documented patient for the equivalent time period, enabling year-over-year comparison of how much potential risk was going unaddressed relative to the documented patient base.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in the 'Gap to potential risk' metric by subtracting the prior year's ratio (sum of RISK_VALUE for 'Undocumented' or 'Suspected' flags divided by documented PATIENT_COUNT at MONTH_OF_MEASUREMENT one year prior) from the current selected month's equivalent ratio, then dividing by the prior year value from RISK_CORE_V4_VIEW. COALESCE ensures a 0 is returned when the prior year base is null or zero.",
+    "business_definition": "Shows how the gap between potential and documented patient risk has changed compared to the same month last year, expressed as a percentage, helping analysts track whether risk capture efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk YoY Card": {
+    "technical_definition": "This card measure builds on the 'Gap to potential risk' measure, leveraging the RISK_CORE_V4_VIEW table and its PATIENT_COUNT, RISK_DOCUMENTATION_FLAG, and RISK_VALUE columns to compute a year-over-year comparison of the gap between documented and potential risk scores. It likely calculates the delta or percentage change in the risk gap metric across two consecutive years to surface trending information.",
+    "business_definition": "This metric shows how the gap between a patient population's actual documented risk and their total potential risk has changed compared to the prior year, helping analysts understand whether risk capture efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk YoY Color": {
+    "technical_definition": "This measure computes a color-coding indicator based on the 'Gap to potential risk YoY' measure, derived from RISK_CORE_V4_VIEW using RISK_VALUE and PATIENT_COUNT columns filtered by RISK_DOCUMENTATION_FLAG, with DATE_VIEW.MONTH_OF_DATE providing the time dimension for year-over-year comparison. It applies conditional logic to assign a display color (e.g., red, yellow, green) based on whether the year-over-year gap metric is positive, negative, or neutral.",
+    "business_definition": "This metric provides a visual color signal to quickly indicate whether the gap between documented and potential risk scores is improving, worsening, or staying the same compared to the prior year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk PM": {
+    "technical_definition": "Computes a month-over-month time intelligence variation of the 'Gap to potential risk' measure by querying RISK_CORE_V4_VIEW for the prior month (DATEADD month -1). The core calculation divides the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Undocumented' or 'Suspected' by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG is 'Documented', using NULLIF to prevent division by zero.",
+    "business_definition": "Tracks how the gap between potential and documented patient risk scores changed compared to the previous month, helping analysts identify whether efforts to capture undocumented or suspected risk conditions are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in the 'Gap to potential risk' metric using RISK_CORE_V4_VIEW, where the base metric is calculated as the sum of RISK_VALUE for 'Undocumented' and 'Suspected' RISK_DOCUMENTATION_FLAG records divided by the sum of PATIENT_COUNT for 'Documented' records. The formula subtracts the prior month's value from the selected month's value, then divides by the prior month's value using MONTH_OF_MEASUREMENT filters with a one-month DATEADD offset, with COALESCE and NULLIF guards against division by zero.",
+    "business_definition": "Tracks how the gap between potential and documented risk scores is trending compared to the previous month, expressed as a percentage change, helping analysts quickly identify whether the organization is closing or widening its risk capture opportunity over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk MoM Card": {
+    "technical_definition": "This card measure builds on the 'Gap to potential risk' measure, leveraging the RISK_CORE_V4_VIEW table and its PATIENT_COUNT, RISK_DOCUMENTATION_FLAG, and RISK_VALUE columns to compute a month-over-month change in the gap between actual documented risk and potential risk. It likely calculates the difference between the current month's gap value and the prior month's gap value to surface directional trend.",
+    "business_definition": "This metric shows how the gap between patients' potential risk and their documented risk is changing from one month to the next, helping analysts quickly identify whether the organization is closing or widening its risk capture shortfall over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk MoM Color": {
+    "technical_definition": "This measure computes a color indicator based on the 'Gap to potential risk MoM' measure, which tracks month-over-month changes in the gap between documented and potential risk scores using RISK_VALUE and RISK_DOCUMENTATION_FLAG from RISK_CORE_V4_VIEW, segmented by MONTH_OF_DATE from DATE_VIEW. The color output is conditionally derived from whether the MoM gap trend is improving or worsening, using PATIENT_COUNT as a denominator or weighting factor.",
+    "business_definition": "This metric provides a visual color signal indicating whether the gap between patients' actual documented risk and their potential risk is getting better or worse compared to the previous month, helping analysts quickly identify trends at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps PY": {
+    "technical_definition": "Aggregates MEMBER_WITH_OPEN_CODING_GAP_COUNT from PCP_VISITS_V4_VIEW filtered to the month that is exactly one year prior to the selected month using DATEADD, enabling year-over-year comparison via the TIME_INTEL_YOY DAX pattern. References DATE_VIEW for time context and uses MONTH_OF_DATE as the filter key.",
+    "business_definition": "Shows the total number of members who had open coding gaps during the same month in the prior year, allowing analysts to compare current performance against the previous year's baseline.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in members with open coding gaps by subtracting the prior year's SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) from the current month's value and dividing by the prior year value, using MONTH_OF_DATE filters on PCP_VISITS_V4_VIEW. NULLIF prevents division-by-zero and COALESCE defaults the result to 0 when no prior year data exists.",
+    "business_definition": "Shows how the number of members with unresolved coding gaps has changed compared to the same month last year, expressed as a percentage, helping analysts identify whether gap closure efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps YoY Card": {
+    "technical_definition": "This card measure references the 'Members with open coding gaps' base measure, which aggregates MEMBER_WITH_OPEN_CODING_GAP_COUNT from the PCP_VISITS_V4_VIEW table to produce a year-over-year comparison of members with unresolved coding gaps. The DAX pattern likely computes the current period value alongside a prior year value using time intelligence functions to derive the YoY variance or trend.",
+    "business_definition": "This metric shows how the number of members with unresolved coding gaps has changed compared to the same period last year, helping analysts identify whether gap closure performance is improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps YoY Color": {
+    "technical_definition": "This measure uses MEMBER_WITH_OPEN_CODING_GAP_COUNT from PCP_VISITS_V4_VIEW and MONTH_OF_DATE from DATE_VIEW to compute a color indicator based on the year-over-year change in members with open coding gaps, referencing the parent measure 'Members with open coding gaps YoY'. It applies conditional logic to return a color value (e.g., red/green) depending on whether the YoY trend is favorable or unfavorable.",
+    "business_definition": "This metric provides a visual color signal indicating whether the number of members with unresolved coding gaps is improving or worsening compared to the same period last year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps PM": {
+    "technical_definition": "Aggregates MEMBER_WITH_OPEN_CODING_GAP_COUNT from PCP_VISITS_V4_VIEW filtered to the prior month by comparing MONTH_OF_DATE to one month before the selected month using DATEADD. This is a month-over-month (MOM) time intelligence pattern that retrieves the previous month's value of the 'Members with open coding gaps' measure.",
+    "business_definition": "This metric shows the number of members who had open coding gaps in the previous month, allowing analysts to compare current performance against last month's baseline to track whether gap closure efforts are improving over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in members with open coding gaps by subtracting the prior month's SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) from the selected month's sum, then dividing by the prior month's sum using NULLIF to avoid division by zero, sourced from PCP_VISITS_V4_VIEW filtered on MONTH_OF_DATE. COALESCE ensures a 0 is returned when no prior month data exists.",
+    "business_definition": "This metric shows how the number of members with unresolved coding gaps is trending compared to the previous month, helping analysts quickly identify whether coding gap exposure is growing or shrinking over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps MoM Card": {
+    "technical_definition": "This card measure references the 'Members with open coding gaps' base measure, which aggregates the MEMBER_WITH_OPEN_CODING_GAP_COUNT column from the PCP_VISITS_V4_VIEW table to produce a month-over-month display value. It likely applies current period context filtering to return the count of distinct members who have at least one unresolved coding gap in the reporting period.",
+    "business_definition": "This metric shows the number of health plan members who currently have unresolved coding gaps, tracked month over month, helping analysts identify trends in documentation and risk capture completeness.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Members with open coding gaps MoM Color": {
+    "technical_definition": "This measure uses the MEMBER_WITH_OPEN_CODING_GAP_COUNT column from PCP_VISITS_V4_VIEW, filtered by MONTH_OF_DATE from DATE_VIEW, to derive a color indicator based on the month-over-month change calculated by the dependent measure 'Members with open coding gaps MoM'. The color output is likely a conditional formatting value (e.g., red/yellow/green) driven by whether the MoM trend is improving or worsening.",
+    "business_definition": "This metric provides a visual color signal indicating whether the number of members with open coding gaps is trending better or worse compared to the previous month, helping analysts quickly identify if performance is improving or needs attention.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed PY": {
+    "technical_definition": "Sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW filtered to the month that is exactly one year prior to the selected month, using DATEADD to offset the MONTH_OF_MEASUREMENT filter. The result represents the prior year equivalent of the current 'Gaps Closed' measure, enabling year-over-year comparison.",
+    "business_definition": "This metric shows the total number of care gaps that were closed during the same month one year ago, providing a prior-year baseline to evaluate whether gap closure performance is improving or declining compared to the current period.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed YoY": {
+    "technical_definition": "Computes year-over-year percentage change in total gaps closed by summing RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW for the selected month versus the same month one year prior, dividing the difference by the prior-year value using NULLIF to avoid division by zero and COALESCE to default null results to 0.",
+    "business_definition": "Shows how much the total number of closed care gaps has grown or declined compared to the same point last year, expressed as a percentage change to help assess improvement trends in closing patient risk gaps over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed YoY Card": {
+    "technical_definition": "This card measure computes the year-over-year change in overall gaps closed by aggregating the RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR columns from the RISK_CORE_V4_VIEW table, building on the base 'Gaps closed' measure. It likely calculates the difference or percentage change between the current and prior year totals of these two numerator components.",
+    "business_definition": "This metric shows how the total number of closed care gaps has changed compared to the same period last year, helping leadership quickly assess whether gap closure performance is improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed YoY Color": {
+    "technical_definition": "This measure computes a color indicator based on the 'Overall gaps closed YoY' measure, using MONTH_OF_DATE from DATE_VIEW to filter time context and aggregating RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW to evaluate year-over-year gap closure performance. The color output is conditionally assigned based on whether the YoY change meets, exceeds, or falls below a defined threshold.",
+    "business_definition": "This metric provides a visual color signal (e.g., red, yellow, green) indicating whether the overall number of closed care gaps is improving, declining, or holding steady compared to the same period last year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed PM": {
+    "technical_definition": "Sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW filtered to the prior month (one month before the selected month), implementing a month-over-month time intelligence pattern against the DATE_VIEW calendar table. The result represents the prior month's total gap closure count used for MOM comparison.",
+    "business_definition": "This metric shows the total number of care gaps that were closed in the previous month, combining both recaptured and suspected conditions, allowing analysts to compare current month performance against the prior month's results.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in total gaps closed by summing RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW for the selected month versus the prior month, dividing the difference by the prior month total using NULLIF to avoid division by zero, and defaulting to 0 via COALESCE if no prior period data exists. The DATE_VIEW table supports month filtering via MONTH_OF_DATE, while MONTH_OF_MEASUREMENT drives the period comparisons.",
+    "business_definition": "Shows how much the total number of closed care gaps has increased or decreased compared to the previous month, expressed as a percentage change, helping analysts quickly assess whether gap closure performance is trending up or down.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed MoM Card": {
+    "technical_definition": "This card measure aggregates gap closure activity by summing RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR columns from the RISK_CORE_V4_VIEW table, building on the 'Gaps closed' base measure to reflect month-over-month performance.",
+    "business_definition": "This metric shows the total number of care gaps closed in the current month compared to the prior month, giving analysts a quick snapshot of progress in closing both recaptured and suspected care gaps.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed MoM Color": {
+    "technical_definition": "This measure computes a color-coding indicator based on the 'Overall gaps closed MoM' measure, referencing MONTH_OF_DATE from DATE_VIEW and RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW to evaluate month-over-month change in closed gaps. It applies conditional logic to assign a color value (e.g., green, red, yellow) depending on whether the MoM trend is positive, negative, or neutral.",
+    "business_definition": "This metric provides a visual color indicator showing whether the overall number of closed care gaps is trending better, worse, or flat compared to the previous month, helping analysts quickly assess performance direction at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted PMPM": {
+    "technical_definition": "This measure formats the PMPM measure (derived from YTD_VISIT_AMOUNT divided by YTD_MEMBER_COUNT from PCP_VISITS_V4_VIEW) as a currency or decimal string for display purposes, applying formatting logic to the underlying PMPM calculation.",
+    "business_definition": "This metric shows the average per-member-per-month cost or utilization in a visually formatted value, making it easy for analysts to read and compare PCP visit spending across different populations or time periods.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM PY": {
+    "technical_definition": "Computes the prior year equivalent of the PMPM measure by querying PCP_VISITS_V4_VIEW and filtering MONTH_OF_DATE to the same month one year prior to the selected month. It divides SUM(YTD_VISIT_AMOUNT) by SUM(YTD_MEMBER_COUNT), using NULLIF to avoid division by zero.",
+    "business_definition": "This metric shows the average per-member per-month PCP visit cost from the same point in the prior year, allowing analysts to compare current year spending trends against the previous year's baseline.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in PMPM by subtracting the prior year YTD PMPM (SUM(YTD_VISIT_AMOUNT) / SUM(YTD_MEMBER_COUNT) for the same month one year prior) from the current period PMPM, then dividing by the prior year PMPM, using MONTH_OF_DATE as the period filter against PCP_VISITS_V4_VIEW. COALESCE and NULLIF guards prevent division-by-zero errors and default the result to 0 when prior year data is absent.",
+    "business_definition": "Shows how much the average cost per member per month has increased or decreased compared to the same point last year, helping analysts quickly assess whether healthcare spending trends are improving or worsening over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM YoY Card": {
+    "technical_definition": "This card measure builds on the PMPM measure using the PCP_VISITS_V4_VIEW, leveraging YTD_MEMBER_COUNT and YTD_VISIT_AMOUNT columns to compute a year-over-year comparison of the Per Member Per Month cost metric. It likely calculates the difference or percentage change in PMPM between the current and prior year periods to surface trend direction.",
+    "business_definition": "This metric shows how the average monthly cost per member has changed compared to the same period last year, helping analysts quickly identify whether healthcare spending per member is trending up or down over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM YoY Color": {
+    "technical_definition": "This measure derives a conditional color value based on the 'PMPM YoY' dependent measure, referencing year-over-year changes in per-member-per-month costs calculated from YTD_VISIT_AMOUNT divided by YTD_MEMBER_COUNT across MONTH_OF_DATE in DATE_VIEW and PCP_VISITS_V4_VIEW. It likely returns a color string (e.g., red/green) based on whether the PMPM year-over-year variance is positive or negative.",
+    "business_definition": "This metric provides a visual color indicator that highlights whether the per-member-per-month cost is trending better or worse compared to the same period last year, enabling quick identification of cost performance at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM PM": {
+    "technical_definition": "Computes the prior month's Per Member Per Month (PMPM) value by dividing SUM(YTD_VISIT_AMOUNT) by SUM(YTD_MEMBER_COUNT) from PCP_VISITS_V4_VIEW, filtered to the month immediately preceding the selected month using MONTH_OF_DATE. NULLIF prevents division-by-zero errors when member count is zero.",
+    "business_definition": "This metric shows the average PCP visit cost per member for the previous month, enabling analysts to compare current month spending trends against the prior month's baseline.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in PMPM (Per Member Per Month) cost by dividing the difference between the current month's and prior month's PMPM values by the prior month's PMPM, using YTD_VISIT_AMOUNT and YTD_MEMBER_COUNT from PCP_VISITS_V4_VIEW filtered by MONTH_OF_DATE. NULLIF guards against division by zero, and COALESCE defaults to 0 if the result is null.",
+    "business_definition": "Shows how much the average cost per member has increased or decreased compared to the previous month, helping analysts quickly identify trends or anomalies in PCP visit spending.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM MoM Card": {
+    "technical_definition": "This card measure builds on the PMPM measure using data from PCP_VISITS_V4_VIEW, leveraging YTD_MEMBER_COUNT and YTD_VISIT_AMOUNT columns to compute a Month-over-Month comparison of the Per Member Per Month cost metric. It likely calculates the difference or percentage change in PMPM between the current month and the prior month to surface directional trends.",
+    "business_definition": "This metric shows how the average monthly cost per member has changed compared to the previous month, helping analysts quickly identify whether healthcare spending per member is trending up or down over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "PMPM MoM Color": {
+    "technical_definition": "This measure computes a color indicator based on the 'PMPM MoM' dependent measure, which calculates month-over-month change in Per Member Per Month cost using YTD_VISIT_AMOUNT and YTD_MEMBER_COUNT from PCP_VISITS_V4_VIEW, filtered by MONTH_OF_DATE from DATE_VIEW. The color output likely applies conditional logic to the MoM variance to return a color value (e.g., red/green) based on whether the metric improved or worsened.",
+    "business_definition": "This metric provides a visual color indicator that flags whether the month-over-month change in per-member healthcare costs is trending favorably or unfavorably, helping analysts quickly identify concerning or improving cost trends.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk PY": {
+    "technical_definition": "Computes the prior year equivalent of the 'Potential risk' measure by querying RISK_CORE_V4_VIEW for the month one year prior to the selected month, calculating SUM(RISK_VALUE) divided by SUM(PATIENT_COUNT) where RISK_DOCUMENTATION_FLAG = 'Documented', using NULLIF to avoid division by zero. The DAX TIME_INTEL_YOY pattern shifts the date context back 12 months using the DATE_VIEW calendar table.",
+    "business_definition": "This metric shows the average potential risk score from the same month last year, allowing analysts to compare current risk levels against prior year performance to identify year-over-year trends.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in potential risk by comparing the ratio of SUM(RISK_VALUE) to documented patient count (where RISK_DOCUMENTATION_FLAG = 'Documented') for the selected month versus the same month one year prior, using RISK_CORE_V4_VIEW filtered by MONTH_OF_MEASUREMENT. The result is (current period ratio - prior year ratio) / prior year ratio, with COALESCE and NULLIF guards to handle division by zero or null values.",
+    "business_definition": "This metric shows how the average potential risk per documented patient has changed compared to the same month last year, expressed as a percentage, helping analysts quickly assess whether overall patient risk is trending up or down year over year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk YoY Card": {
+    "technical_definition": "This card measure builds on the 'Potential risk' measure, leveraging the RISK_CORE_V4_VIEW table and comparing RISK_VALUE aggregations across current and prior year periods, filtered by RISK_DOCUMENTATION_FLAG and weighted or counted via PATIENT_COUNT to compute a year-over-year change. The YoY calculation derives the variance or percentage change between two time periods for the potential risk metric.",
+    "business_definition": "This metric shows how the organization's potential risk score has changed compared to the same period last year, helping analysts quickly identify whether the patient population's undocumented or unaddressed risk is trending up or down over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk YoY Color": {
+    "technical_definition": "This measure evaluates the year-over-year change in potential risk by referencing the 'Potential risk YoY' measure, using RISK_VALUE and PATIENT_COUNT from RISK_CORE_V4_VIEW filtered by RISK_DOCUMENTATION_FLAG, with DATE_VIEW.MONTH_OF_DATE providing the time dimension for period comparison. It returns a color-coded output (e.g., a conditional string or hex value) based on whether the YoY trend is positive, negative, or neutral. The coloring logic acts as a visual indicator driven by the computed YoY variance.",
+    "business_definition": "This metric provides a color-coded signal indicating whether the organization's potential risk score is trending up, down, or flat compared to the same period last year, enabling analysts to quickly spot favorable or unfavorable risk shifts at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk PM": {
+    "technical_definition": "Computes the month-over-month change in potential risk per member by dividing the sum of RISK_VALUE by the count of patients where RISK_DOCUMENTATION_FLAG = 'Documented' from RISK_CORE_V4_VIEW, filtered to the prior month using DATEADD(month, -1, :selected_month). The TIME_INTEL_MOM pattern applies the base 'Potential risk' measure to the previous month for period-over-period comparison.",
+    "business_definition": "Shows how the average potential risk score per documented patient changed compared to the previous month, helping analysts identify whether overall risk exposure is trending up or down over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in average potential risk by dividing the difference between the selected month's and prior month's average risk scores by the prior month's average, where each monthly average is derived from RISK_CORE_V4_VIEW as SUM(RISK_VALUE) divided by the count of patients with RISK_DOCUMENTATION_FLAG = 'Documented', filtered by MONTH_OF_MEASUREMENT. NULLIF guards against division by zero, and COALESCE defaults the result to 0 if the prior month value is null or zero.",
+    "business_definition": "This metric shows how the average potential patient risk score has changed compared to the previous month, expressed as a percentage, helping analysts quickly identify whether overall risk levels are trending up or down.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk MoM Card": {
+    "technical_definition": "This card measure builds on the 'Potential risk' base measure, leveraging the RISK_CORE_V4_VIEW table and aggregating RISK_VALUE across patients filtered by RISK_DOCUMENTATION_FLAG, then computes a Month-over-Month (MoM) comparison against PATIENT_COUNT to surface period-over-period change in potential risk scores.",
+    "business_definition": "This metric shows how the total potential patient risk has changed compared to the previous month, helping analysts quickly identify whether the overall risk burden across the patient population is trending up or down.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk MoM Color": {
+    "technical_definition": "This measure computes a color indicator based on the 'Potential risk MoM' dependent measure, which tracks month-over-month changes in potential risk using RISK_VALUE and PATIENT_COUNT from RISK_CORE_V4_VIEW, filtered by RISK_DOCUMENTATION_FLAG and grouped by MONTH_OF_DATE from DATE_VIEW. The color output is conditionally assigned based on whether the MoM trend is positive, negative, or neutral.",
+    "business_definition": "This metric visually flags whether the potential patient risk trend is improving, worsening, or stable compared to the prior month, helping analysts quickly identify concerning shifts in population risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted #Members": {
+    "technical_definition": "This measure formats the numeric result of the '#Members' measure, likely applying number formatting (such as thousands separators or integer rounding) to the MEMBER_COUNT column aggregated from the PCP_VISITS_V4_VIEW table.",
+    "business_definition": "Displays the total number of members in a visually formatted way, making it easier to read large membership counts in reports and dashboards.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted Members with open coding gaps": {
+    "technical_definition": "This measure formats the integer value of 'Members with open coding gaps' by referencing the MEMBER_WITH_OPEN_CODING_GAP_COUNT column from PCP_VISITS_V4_VIEW, applying a display format (such as thousands separators or fixed decimal) for presentation purposes. It depends on the base measure 'Members with open coding gaps' and serves as a display-layer wrapper without altering the underlying aggregation logic.",
+    "business_definition": "This metric shows the total number of members who have at least one unresolved coding gap, formatted for easy reading in reports and dashboards.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted Overall gaps closed": {
+    "technical_definition": "This measure formats the 'Gaps closed' dependent measure, which aggregates RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR columns from RISK_CORE_V4_VIEW to compute total closed gaps, then applies a display format for presentation purposes.",
+    "business_definition": "Shows the total number of care gaps that have been closed or resolved, formatted for clean reporting and dashboard display.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate": {
+    "technical_definition": "Divides the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Documented' by the total sum of RISK_VALUE for both 'Documented' and 'Undocumented' records from RISK_CORE_V4_VIEW, filtered to the latest month snapshot (MAX_MONTH_FLAG = TRUE) and the selected measurement month. NULLIF prevents division by zero.",
+    "business_definition": "RAF Recapture Rate measures the percentage of total known risk value that has been successfully documented, indicating how effectively the care team is capturing and closing gaps in patient risk coding.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate PM": {
+    "technical_definition": "Computes the prior month's RAF recapture rate by dividing the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Documented' by the total RISK_VALUE for both 'Documented' and 'Undocumented' flags from RISK_CORE_V4_VIEW, filtered to one month prior to the selected month using a month-over-month time intelligence pattern. NULLIF prevents division-by-zero errors on the denominator.",
+    "business_definition": "This metric shows last month's rate at which previously identified patient risk scores were successfully recaptured through documented clinical encounters, allowing analysts to track month-over-month progress in closing RAF gaps.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in RAF recapture rate by subtracting the prior month's recapture rate from the selected month's recapture rate, then dividing by the prior month's rate, using RISK_CORE_V4_VIEW filtered on MONTH_OF_MEASUREMENT. Each period's recapture rate is the ratio of RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Documented' to total RISK_VALUE across both 'Documented' and 'Undocumented' flags, with NULLIF guards preventing division by zero.",
+    "business_definition": "Shows how much the RAF recapture rate has improved or declined compared to the previous month, helping analysts quickly identify trends in how effectively documented risk is keeping pace with total identified risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate MoM Card": {
+    "technical_definition": "This measure computes a Month-over-Month comparison card for RAF recapture rate by referencing two dependent measures: 'RAF recapture rate' for the current month and 'RAF recapture rate PM' for the prior month, filtered using MONTH_OF_DATE from DATE_VIEW. The RAF recapture rate itself aggregates RISK_VALUE from RISK_CORE_V4_VIEW where RISK_DOCUMENTATION_FLAG meets recapture criteria, calculating the ratio of recaptured risk scores relative to a baseline.",
+    "business_definition": "This metric shows whether the rate at which previously identified patient risk conditions are being re-documented is trending up or down compared to last month, helping teams assess the momentum of their risk recapture efforts.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate MoM color": {
+    "technical_definition": "This measure computes a color indicator based on the 'RAF recapture rate MoM' dependent measure, referencing MONTH_OF_DATE from DATE_VIEW and RISK_DOCUMENTATION_FLAG and RISK_VALUE from RISK_CORE_V4_VIEW to evaluate month-over-month directional change. It applies conditional logic to assign a color value (e.g., green/red/yellow) depending on whether the MoM RAF recapture rate has improved, declined, or remained flat.",
+    "business_definition": "This metric provides a visual color signal indicating whether the RAF recapture rate improved or worsened compared to the prior month, helping analysts quickly assess performance trends at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate PY": {
+    "technical_definition": "Computes the prior year RAF recapture rate by filtering RISK_CORE_V4_VIEW to the month one year before the selected period, then dividing the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Documented' by the total RISK_VALUE for both 'Documented' and 'Undocumented' flags using NULLIF to avoid division by zero. This is a year-over-year time intelligence variant of the base RAF recapture rate measure, anchored to the prior year equivalent month.",
+    "business_definition": "This metric shows the percentage of at-risk RAF score that was successfully captured through documented diagnoses in the same period one year ago, providing a historical baseline to evaluate whether recapture performance is improving or declining year over year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in RAF recapture rate by subtracting the prior year rate from the current period rate and dividing by the prior year rate, using RISK_CORE_V4_VIEW filtered by MONTH_OF_MEASUREMENT. The recapture rate itself is derived as the ratio of RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Documented' to total RISK_VALUE across both 'Documented' and 'Undocumented' flags, with NULLIF guards preventing division by zero. Both current and prior year periods are evaluated independently via subqueries offset by one year using DATEADD.",
+    "business_definition": "This metric shows how much the organization's ability to recapture patient risk scores has improved or declined compared to the same period last year, expressed as a percentage change.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate YoY Card": {
+    "technical_definition": "This measure computes a year-over-year comparison card for RAF recapture rate by referencing two dependent measures: 'RAF recapture rate' (current year) and 'RAF recapture rate PY' (prior year), using MONTH_OF_DATE from DATE_VIEW for time filtering and RISK_DOCUMENTATION_FLAG and RISK_VALUE from RISK_CORE_V4_VIEW to derive recapture logic.",
+    "business_definition": "This metric shows how the rate of successfully re-documented risk scores compares to the same period last year, helping teams quickly assess whether RAF recapture performance is improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate YoY color": {
+    "technical_definition": "This measure computes a color indicator based on the 'RAF recapture rate YoY' dependent measure, referencing MONTH_OF_DATE for time context and RISK_DOCUMENTATION_FLAG and RISK_VALUE from RISK_CORE_V4_VIEW to evaluate year-over-year RAF recapture performance. It applies conditional logic to assign a color value (e.g., red/yellow/green) reflecting whether the YoY rate meets, exceeds, or falls below a defined threshold. The DATE_VIEW table provides the monthly time dimension for period comparison.",
+    "business_definition": "This metric provides a visual color indicator that signals whether the RAF recapture rate is improving, declining, or holding steady compared to the same period last year, helping analysts quickly identify performance trends at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate": {
+    "technical_definition": "Aggregates RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR from RISK_CORE_V4_VIEW, filtered to the latest measurement period using MAX_MONTH_FLAG = TRUE and a selected month, then computes their ratio using a safe division (NULLIF prevents divide-by-zero). The DAX mirrors this with a simple divide pattern over the filtered dataset.",
+    "business_definition": "Risk recapture rate measures how successfully the organization is re-documenting or recapturing previously identified patient risk conditions in the current measurement period, indicating how well care teams are closing gaps in risk documentation.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate PM": {
+    "technical_definition": "Computes the prior month's risk recapture rate by summing RECAPTURE_NUMERATOR divided by RECAPTURE_DENOMINATOR from RISK_CORE_V4_VIEW, filtered to the month immediately preceding the selected month using a DATEADD offset on MONTH_OF_MEASUREMENT. This is a month-over-month (MOM) time intelligence pattern referencing DATE_VIEW for period context.",
+    "business_definition": "Shows the risk recapture rate from the previous month, allowing analysts to compare current performance against last month's rate and track whether the organization is improving its ability to recapture previously identified patient risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in risk recapture rate by subtracting the prior month's rate (SUM(RECAPTURE_NUMERATOR)/SUM(RECAPTURE_DENOMINATOR) for MONTH_OF_MEASUREMENT = selected month - 1) from the current month's rate, then dividing by the prior month's rate using NULLIF to avoid division by zero. Both the current and prior month rates are derived from RISK_CORE_V4_VIEW filtered by MONTH_OF_MEASUREMENT, and the result represents the relative change between the two periods.",
+    "business_definition": "This metric shows how much the risk recapture rate has improved or declined compared to the previous month, expressed as a percentage change, helping analysts quickly identify month-over-month trends in how effectively the organization is recapturing risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate MoM Card": {
+    "technical_definition": "This measure computes a Month-over-Month card value for the risk recapture rate by leveraging two dependent measures: 'Risk recapture rate PM' (prior month) and 'Risk recapture rate' (current month), derived from RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR columns in RISK_CORE_V4_VIEW, filtered by MONTH_OF_DATE from DATE_VIEW. The card likely calculates the directional change or variance between the current and prior month recapture rates.",
+    "business_definition": "This metric shows how the risk recapture rate has changed compared to the previous month, helping analysts quickly assess whether the organization is improving or declining in its ability to re-document patient risk conditions over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate MoM color": {
+    "technical_definition": "This measure computes a color indicator based on the 'Risk recapture rate MoM' dependent measure, using MONTH_OF_DATE from DATE_VIEW to establish the month context and RECAPTURE_NUMERATOR divided by RECAPTURE_DENOMINATOR from RISK_CORE_V4_VIEW to derive the month-over-month recapture rate. It applies conditional logic to assign a color value (e.g., red, yellow, green) based on whether the MoM rate meets defined thresholds.",
+    "business_definition": "This metric provides a visual color signal indicating whether the month-over-month risk recapture rate is performing below, at, or above expectations, helping analysts quickly identify trends in how well previously identified patient risks are being recaptured in the current period.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate PY": {
+    "technical_definition": "Computes the prior year risk recapture rate by summing RECAPTURE_NUMERATOR divided by RECAPTURE_DENOMINATOR from RISK_CORE_V4_VIEW, filtered to the month one year prior to the selected month using a year-over-year time intelligence offset. Returns NULL if the denominator sums to zero.",
+    "business_definition": "Shows the rate at which previously identified patient risk conditions were successfully recaptured during the same period in the prior year, providing a historical benchmark to compare against current performance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in risk recapture rate by dividing the difference between the current period rate and the prior year rate by the prior year rate, using RISK_CORE_V4_VIEW filtered on MONTH_OF_MEASUREMENT for both the selected month and the same month one year prior. Each period's rate is calculated as SUM(RECAPTURE_NUMERATOR) / SUM(RECAPTURE_DENOMINATOR), with NULLIF guards to prevent division by zero. The final result expresses relative growth or decline between the two periods.",
+    "business_definition": "This metric shows how much the risk recapture rate has improved or declined compared to the same month last year, helping analysts quickly assess whether the organization is doing a better or worse job of identifying and recapturing previously missed patient risk over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate YoY Card": {
+    "technical_definition": "This card measure computes the year-over-year change in risk recapture rate by comparing the current period's recapture rate (RECAPTURE_NUMERATOR / RECAPTURE_DENOMINATOR from RISK_CORE_V4_VIEW) against the prior year equivalent, filtered by MONTH_OF_DATE from DATE_VIEW. It depends on the 'Risk recapture rate' and 'Risk recapture rate PY' measures to derive the variance or ratio between the two periods.",
+    "business_definition": "This metric shows how the organization's ability to recapture expected risk has changed compared to the same period last year, helping analysts quickly identify whether risk documentation and coding efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate YoY color": {
+    "technical_definition": "This measure computes a color-coding indicator based on the 'Risk recapture rate YoY' measure, using RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR columns from RISK_CORE_V4_VIEW, filtered by MONTH_OF_DATE from DATE_VIEW to derive year-over-year recapture rate performance. The color output is conditionally assigned based on whether the YoY recapture rate meets, exceeds, or falls below a defined threshold.",
+    "business_definition": "This metric provides a visual color indicator that signals whether the year-over-year risk recapture rate is performing favorably, neutrally, or unfavorably, helping analysts quickly assess performance trends at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Dropped + suspected": {
+    "technical_definition": "Queries RISK_CORE_V4_VIEW filtered to the selected month and MAX_MONTH_FLAG = TRUE, computing two ratios: SUM of RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Undocumented' and SUM of RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Suspected', each divided by SUM of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG = 'Documented'. The results are formatted as a concatenated string in the pattern '(Undocumented_ratio + Suspected_ratio)'.",
+    "business_definition": "Displays a combined label showing the per-documented-patient risk contribution from both dropped (undocumented) and suspected conditions side by side, giving analysts a quick snapshot of unconfirmed risk exposure relative to the documented patient base.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Suspected risk": {
+    "technical_definition": "Queries RISK_CORE_V4_VIEW filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month, computing the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Suspected' divided by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG is 'Documented', with NULLIF preventing division by zero.",
+    "business_definition": "This metric shows the ratio of suspected (unconfirmed) risk value relative to the documented patient population, helping analysts identify how much potential risk has been flagged but not yet formally confirmed for a given month.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Undocumented risk": {
+    "technical_definition": "Queries RISK_CORE_V4_VIEW filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month, summing RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Undocumented' divided by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG = 'Documented', with NULLIF guarding against division by zero.",
+    "business_definition": "Measures the amount of undocumented risk relative to the documented patient population, helping identify how much clinical risk lacks proper documentation compared to what has been captured.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% members with open coding gaps": {
+    "technical_definition": "Divides the sum of MEMBER_WITH_OPEN_CODING_GAP_COUNT by the sum of MEMBER_COUNT from PCP_VISITS_V4_VIEW, filtered to a selected month, using NULLIF to prevent division by zero. The result is a ratio computed from two aggregated subqueries over the same table and time filter.",
+    "business_definition": "This metric shows the percentage of members who have at least one unresolved coding gap, helping identify how large a share of the population may have incomplete or missing diagnoses that need to be addressed.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% Members with open coding gaps YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in the ratio of members with open coding gaps to total members, using PCP_VISITS_V4_VIEW filtered by MONTH_OF_DATE for the selected month and the same month one year prior via DATEADD(year, -1). The metric divides the difference of the two period ratios (SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) / SUM(MEMBER_COUNT)) by the prior year ratio, with NULLIF guards to prevent division by zero and COALESCE defaulting to 0.",
+    "business_definition": "This metric shows how the share of members with unresolved coding gaps has changed compared to the same month last year, helping analysts quickly identify whether coding gap closure performance is improving or declining year over year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% Members with open coding gaps YoY Color": {
+    "technical_definition": "This measure references the '% Members with open coding gaps YoY' measure and uses the MONTH_OF_DATE column from DATE_VIEW to apply conditional color formatting logic based on year-over-year directional changes in the percentage of members with open coding gaps.",
+    "business_definition": "This metric provides a visual color indicator to help analysts quickly identify whether the share of members with unresolved coding gaps is improving or worsening compared to the same period last year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% Members with open coding gaps YoY Card": {
+    "technical_definition": "This measure calculates the year-over-year change in the percentage of members who have open (unresolved) coding gaps, likely by comparing the current period's ratio of members with open HCC or quality coding gaps to the prior year's equivalent ratio. The computation typically involves member eligibility tables, gap status columns, and date/period filters to derive both current and prior year percentages.",
+    "business_definition": "This metric shows how the share of health plan members with unresolved diagnosis coding gaps has changed compared to the same point last year, helping teams assess whether gap closure efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Open gaps (Dropped)": {
+    "technical_definition": "Computes the difference between SUM(RECAPTURE_DENOMINATOR) and SUM(RECAPTURE_NUMERATOR) from RISK_CORE_V4_VIEW, filtered to the latest month record (MAX_MONTH_FLAG = TRUE) for a selected measurement month. The result represents unrecaptured opportunities remaining after subtracting numerator (recaptured) from denominator (total eligible).",
+    "business_definition": "Represents the number of risk recapture opportunities that have not yet been closed or addressed for the selected month, helping analysts track how many patients still have unresolved care gaps.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Open gaps (Suspected)": {
+    "technical_definition": "Computes the difference between SUM(SUSPECT_DENOMINATOR) and SUM(SUSPECT_NUMERATOR) from RISK_CORE_V4_VIEW, filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month. The result represents the count of suspected care gaps that have not yet been closed.",
+    "business_definition": "Indicates how many suspected health condition gaps remain open and unaddressed for patients during the selected time period, helping teams prioritize outreach and closure activities.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gap to potential risk (GROUP)": {
+    "technical_definition": "Aggregates RISK_VALUE from RISK_GROUP_V4_VIEW where RISK_DOCUMENTATION_FLAG is 'Undocumented' or 'Suspected', divided by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG is 'Documented', filtered to the latest month (MAX_MONTH_FLAG = TRUE) and the selected measurement month. The result represents a ratio of uncaptured risk value per documented patient.",
+    "business_definition": "This metric shows how much additional risk value could potentially be captured per documented patient by closing gaps in undocumented or suspected conditions — helping identify the opportunity to improve risk accuracy for a patient group.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed (GROUP)": {
+    "technical_definition": "Sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_GROUP_V4_VIEW, filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month, then adds the two aggregates arithmetically to produce a single total.",
+    "business_definition": "Represents the total number of risk gaps closed for a group during a given month, combining both recaptured known gaps and confirmed suspected conditions.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk (GROUP)": {
+    "technical_definition": "Aggregates RISK_VALUE and PATIENT_COUNT from RISK_GROUP_V4_VIEW, filtering to the most recent month (MAX_MONTH_FLAG = TRUE), a user-selected MONTH_OF_MEASUREMENT, and only records where RISK_DOCUMENTATION_FLAG = 'Documented'. Returns the weighted average risk score by dividing total RISK_VALUE by total PATIENT_COUNT, with NULLIF guarding against division by zero.",
+    "business_definition": "Represents the average risk score for patients whose risk has been formally documented in the selected month, helping analysts assess how well clinical teams are capturing and recording patient risk levels.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential risk (GROUP)": {
+    "technical_definition": "Aggregates RISK_VALUE and divides by the count of patients where RISK_DOCUMENTATION_FLAG equals 'Documented' from RISK_GROUP_V4_VIEW, filtered to the most recent month using MAX_MONTH_FLAG and a selected month parameter. The division uses NULLIF to prevent divide-by-zero errors, yielding an average risk value per documented patient at the group level.",
+    "business_definition": "This metric shows the average potential risk score per documented patient within a group for a given month, helping analysts identify how much unaddressed or undermanaged risk exists relative to what has been formally documented.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed PY (GROUP)": {
+    "technical_definition": "Sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_GROUP_V4_VIEW filtered to the same month in the prior year (DATEADD year -1 from the selected month), providing a prior-year baseline for year-over-year comparison. This measure serves as the prior-year counterpart to 'Overall gaps closed (GROUP)' using the TIME_INTEL_YOY DAX pattern.",
+    "business_definition": "Represents the total number of care gaps closed across all groups during the same month in the previous year, enabling analysts to compare current performance against prior-year results.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed YoY (GROUP)": {
+    "technical_definition": "Computes the year-over-year percentage change in total gaps closed by dividing the difference between the current selected month's sum of RECAPTURE_NUMERATOR + SUSPECT_NUMERATOR and the same month one year prior from RISK_GROUP_V4_VIEW, by the prior year value (with NULLIF zero-division protection and COALESCE defaulting to 0). Filters are applied on MONTH_OF_MEASUREMENT for both the current and prior-year periods.",
+    "business_definition": "This metric shows how much the total number of closed risk gaps has grown or declined compared to the same month last year, helping analysts assess whether year-over-year progress in closing care gaps is improving or worsening at the group level.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed PM (GROUP)": {
+    "technical_definition": "Aggregates the sum of RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_GROUP_V4_VIEW, filtered to the month prior to the selected month using a DATEADD offset on MONTH_OF_MEASUREMENT. This prior-month value supports a Month-over-Month (MOM) time intelligence comparison against the current period's 'Overall gaps closed (GROUP)' measure.",
+    "business_definition": "This metric represents the total number of care gaps closed in the previous month at the group level, used as the baseline for comparing month-over-month performance trends.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Overall gaps closed MoM (GROUP)": {
+    "technical_definition": "Computes the month-over-month percentage change in total gaps closed for a group by subtracting the prior month's sum of RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from the selected month's sum, then dividing by the prior month's total from RISK_GROUP_V4_VIEW, with NULLIF guarding against division by zero and COALESCE defaulting to 0. Filters are applied on MONTH_OF_MEASUREMENT for both the selected and prior month periods.",
+    "business_definition": "This metric shows how much the total number of closed care gaps has grown or shrunk compared to the previous month, expressed as a percentage change, helping the group track whether their gap closure efforts are accelerating or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate (GROUP)": {
+    "technical_definition": "Calculates the ratio of documented risk value to total risk value (documented + undocumented) from RISK_GROUP_V4_VIEW, filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month. The numerator sums RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Documented', divided by the sum of RISK_VALUE across both 'Documented' and 'Undocumented' flags using NULLIF to prevent division by zero.",
+    "business_definition": "Measures the percentage of total RAF (Risk Adjustment Factor) score that has been successfully captured and documented for a group, indicating how effectively known patient risk is being recorded relative to the full potential risk opportunity.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate PM (GROUP)": {
+    "technical_definition": "Calculates the prior month's RAF recapture rate for a group by dividing the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Documented' by the total RISK_VALUE for both 'Documented' and 'Undocumented' flags from RISK_GROUP_V4_VIEW, filtered to the month preceding the selected month using DATEADD. This is a month-over-month time intelligence variant of the base RAF recapture rate (GROUP) measure.",
+    "business_definition": "Shows last month's rate at which the group successfully recaptured expected risk scores by documenting patient conditions, providing a prior-period benchmark to compare against the current month's performance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate MoM (GROUP)": {
+    "technical_definition": "Computes the month-over-month percentage change in RAF recapture rate for the group by subtracting the prior month's recapture rate from the selected month's recapture rate, then dividing by the prior month's rate using NULLIF to avoid division by zero. Each monthly recapture rate is derived from RISK_GROUP_V4_VIEW as the ratio of summed RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Documented' over total RISK_VALUE for both 'Documented' and 'Undocumented' flags, filtered by MONTH_OF_MEASUREMENT. The DAX measure depends on RAF recapture rate (GROUP) and RAF recapture rate PM (GROUP) as its base measures.",
+    "business_definition": "This metric shows how much the group's RAF recapture rate has improved or declined compared to the previous month, expressed as a percentage change, helping analysts quickly identify trends in how effectively the group is documenting and capturing patient risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate PY (GROUP)": {
+    "technical_definition": "Computes the prior year RAF recapture rate for groups by dividing the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG is 'Documented' by the total RISK_VALUE for both 'Documented' and 'Undocumented' flags from RISK_GROUP_V4_VIEW, filtered to the month one year prior to the selected month using DATEADD. Uses NULLIF to prevent division by zero, and references DATE_VIEW for time intelligence alignment.",
+    "business_definition": "This metric shows what percentage of the group's total risk score was successfully captured and documented in the same month of the prior year, serving as a year-over-year benchmark for how well the group recaptured patient risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate YoY (GROUP)": {
+    "technical_definition": "Computes the year-over-year percent change in RAF recapture rate for the group by subtracting the prior year recapture rate from the current period recapture rate, then dividing by the prior year rate; both rates are derived from RISK_GROUP_V4_VIEW by summing RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Documented' divided by total RISK_VALUE for 'Documented' and 'Undocumented' flags, filtered by MONTH_OF_MEASUREMENT for the selected month and the same month one year prior. NULLIF guards against division by zero in both the rate calculations and the final YoY division.",
+    "business_definition": "This metric shows how much the group's RAF recapture rate has improved or declined compared to the same period last year, expressed as a percentage change, helping leadership assess whether risk documentation efforts are trending in the right direction over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate (GROUP)": {
+    "technical_definition": "Divides the sum of RECAPTURE_NUMERATOR by the sum of RECAPTURE_DENOMINATOR from RISK_GROUP_V4_VIEW, filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month. A NULLIF guard prevents division by zero.",
+    "business_definition": "This metric shows the percentage of expected risk conditions or diagnoses that were successfully recaptured for a patient group during a given month, indicating how effectively the organization is closing gaps in risk documentation.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate PM (GROUP)": {
+    "technical_definition": "Calculates the prior month's risk recapture rate for groups by summing RECAPTURE_NUMERATOR divided by RECAPTURE_DENOMINATOR from RISK_GROUP_V4_VIEW, filtered to the month immediately preceding the selected month using a month-over-month time intelligence offset. This measure serves as the prior period baseline for the parent measure 'Risk recapture rate (GROUP)'.",
+    "business_definition": "Shows the group-level risk recapture rate from the previous month, allowing analysts to compare current performance against last month's results to assess whether the organization is improving its ability to identify and document previously coded patient risk conditions.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate MoM (GROUP)": {
+    "technical_definition": "Computes the month-over-month percentage change in risk recapture rate for groups by subtracting the prior month's rate (SUM(RECAPTURE_NUMERATOR)/SUM(RECAPTURE_DENOMINATOR) for MONTH_OF_MEASUREMENT = selected month - 1) from the current month's rate, then dividing by the prior month's rate using NULLIF to avoid division by zero. Both current and prior month values are derived from RISK_GROUP_V4_VIEW, filtered by MONTH_OF_MEASUREMENT, and depend on the Risk recapture rate (GROUP) and Risk recapture rate PM (GROUP) measures.",
+    "business_definition": "Shows how much the group's risk recapture rate has improved or declined compared to the previous month, expressed as a percentage change, helping analysts track month-over-month momentum in capturing documented patient risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate PY (GROUP)": {
+    "technical_definition": "Computes the prior year risk recapture rate for a group by dividing SUM(RECAPTURE_NUMERATOR) by SUM(RECAPTURE_DENOMINATOR) from RISK_GROUP_V4_VIEW, filtered to the month that is exactly one year before the selected month using DATEADD(year, -1). Returns NULL if the denominator is zero, and serves as the prior-year baseline for a year-over-year comparison against the current Risk Recapture Rate (GROUP) measure.",
+    "business_definition": "Shows the rate at which the group successfully re-captured or re-documented patient risk conditions in the same month of the prior year, providing a historical benchmark to assess whether risk recapture performance has improved or declined year over year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate YoY (GROUP)": {
+    "technical_definition": "Computes the year-over-year percentage change in risk recapture rate for the group by subtracting the prior year rate (MONTH_OF_MEASUREMENT = selected month minus 1 year) from the current period rate (MONTH_OF_MEASUREMENT = selected month), then dividing by the prior year rate; each rate is derived from RISK_GROUP_V4_VIEW as SUM(RECAPTURE_NUMERATOR) / SUM(RECAPTURE_DENOMINATOR). NULLIF guards against division by zero at both the rate and YoY change calculations. Depends on the base measures Risk recapture rate (GROUP) and Risk recapture rate PY (GROUP).",
+    "business_definition": "Shows how much the group's risk recapture rate has improved or declined compared to the same month last year, expressed as a percentage change to help leadership assess trends in closing care gaps for high-risk patients over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "open dropped gaps (GROUP)": {
+    "technical_definition": "Computes the difference between SUM(RECAPTURE_DENOMINATOR) and SUM(RECAPTURE_NUMERATOR) from RISK_GROUP_V4_VIEW, filtered to the most recent month (MAX_MONTH_FLAG = TRUE) and a selected measurement month. The result represents the count of recapture opportunities that have not yet been fulfilled.",
+    "business_definition": "Shows the number of care gaps within a risk group that have been identified for recapture but not yet closed, helping teams prioritize outreach to improve risk score accuracy and patient care.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "open suspected gaps (GROUP)": {
+    "technical_definition": "Computes the difference between SUM(SUSPECT_DENOMINATOR) and SUM(SUSPECT_NUMERATOR) from RISK_GROUP_V4_VIEW, filtered to the most recent month using MAX_MONTH_FLAG = TRUE and a selected measurement month. The result represents the count of suspected care gaps that remain open (i.e., denominator-eligible members not yet meeting the numerator criteria).",
+    "business_definition": "Indicates how many suspected care gaps have not yet been closed for a patient group in the selected month, helping analysts identify outstanding opportunities to address potential quality or risk issues.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Undocumented risk (GROUP)": {
+    "technical_definition": "Queries RISK_GROUP_V4_VIEW filtered to the current measurement month (MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = selected month), summing RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Undocumented' divided by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG = 'Documented', using NULLIF to prevent division by zero.",
+    "business_definition": "Measures the average undocumented risk burden per documented patient within a group, helping analysts identify how much clinical risk is going unrecorded relative to the documented patient population.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Suspected risk (GROUP)": {
+    "technical_definition": "Queries RISK_GROUP_V4_VIEW filtered to the current measurement month (MAX_MONTH_FLAG = TRUE) and divides the sum of RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Suspected' by the sum of PATIENT_COUNT where RISK_DOCUMENTATION_FLAG = 'Documented', using NULLIF to prevent division by zero.",
+    "business_definition": "This metric shows the average suspected risk value per documented patient for a group, helping analysts understand the potential unconfirmed risk burden relative to the confirmed patient population in a given month.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Dropped + suspected (GROUP)": {
+    "technical_definition": "Queries RISK_GROUP_V4_VIEW filtered to the selected month and MAX_MONTH_FLAG = TRUE, computing two ratios: SUM of RISK_VALUE where RISK_DOCUMENTATION_FLAG = 'Undocumented' divided by SUM of PATIENT_COUNT where documented, and SUM of RISK_VALUE where 'Suspected' divided by the same documented patient count denominator. The results are formatted and concatenated as a display string '(dropped_val + suspected_val)' using COALESCE to handle nulls.",
+    "business_definition": "Shows the combined impact of dropped (undocumented) and suspected risk conditions for a patient group as a paired display value, helping analysts quickly see how much potential risk is being missed or unconfirmed relative to the documented population.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Eligible population": {
+    "technical_definition": "Aggregates PATIENT_COUNT from RISK_CORE_V4_VIEW by summing rows where MAX_MONTH_FLAG is TRUE, RISK_DOCUMENTATION_FLAG equals 'Documented', and MONTH_OF_MEASUREMENT matches the selected month filter. This ensures only the most recent month snapshot of patients with documented risk assessments is counted.",
+    "business_definition": "The total number of patients who have documented risk assessments and are considered eligible for measurement in the selected reporting month.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted Eligible population": {
+    "technical_definition": "This measure formats the 'Eligible population' dependent measure, which is derived from RISK_CORE_V4_VIEW by aggregating PATIENT_COUNT filtered on RISK_DOCUMENTATION_FLAG. The formatting logic likely applies number formatting (e.g., thousands separators or display units) to the underlying eligible population count.",
+    "business_definition": "This metric displays the total number of patients eligible for risk documentation programs in a visually formatted manner, making it easier to read and interpret in reports and dashboards.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Eligible population (group)": {
+    "technical_definition": "Aggregates PATIENT_COUNT from RISK_GROUP_V4_VIEW, filtering to the most recent month record (MAX_MONTH_FLAG = TRUE) and the selected measurement month, returning the total eligible patient population for that period.",
+    "business_definition": "The total number of patients who are eligible and enrolled in a risk group for the selected month.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted Eligible population (group)": {
+    "technical_definition": "This measure formats the 'Eligible population (group)' base measure, which aggregates PATIENT_COUNT from the RISK_GROUP_V4_VIEW table, applying display formatting (such as number formatting or conditional logic) for presentation purposes.",
+    "business_definition": "Displays the total number of eligible patients within a risk group in a formatted, readable way for reports and dashboards.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Eligible population PY": {
+    "technical_definition": "Sums PATIENT_COUNT from RISK_CORE_V4_VIEW filtered to the month that is exactly one year prior to the selected month, joining to DATE_VIEW via MONTH_OF_MEASUREMENT = MONTH_OF_DATE. The aggregation produces a single integer representing the total eligible patient count for the prior year equivalent period.",
+    "business_definition": "This metric shows the total number of eligible patients enrolled during the same month one year ago, used as a baseline for year-over-year comparisons.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Eligible population YoY": {
+    "technical_definition": "Computes the year-over-year percentage change in eligible population by subtracting the prior year's SUM(PATIENT_COUNT) from the current period's SUM(PATIENT_COUNT) in RISK_CORE_V4_VIEW, then dividing by the prior year value using NULLIF to avoid division by zero; both periods filter on RISK_DOCUMENTATION_FLAG = 'Documented' and are anchored to the selected month via DATEADD(year, -1). Returns 0 via COALESCE if the result is null.",
+    "business_definition": "This metric shows how the count of documented eligible patients has grown or shrunk compared to the same month one year ago, expressed as a percentage change to help analysts track population trends over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "ELigible population YoY Card": {
+    "technical_definition": "This measure computes a Year-over-Year comparison of the eligible population count by referencing the 'Eligible population' base measure, which aggregates PATIENT_COUNT from RISK_CORE_V4_VIEW filtered by RISK_DOCUMENTATION_FLAG. The YoY card likely calculates the difference or percentage change between the current period and the prior year period using time intelligence logic.",
+    "business_definition": "This metric shows how the number of eligible patients has changed compared to the same period last year, helping analysts quickly identify growth or decline trends in the eligible population.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate YoY color (GROUP)": {
+    "technical_definition": "This measure computes a color-coding indicator derived from the 'Risk recapture rate YoY (GROUP)' measure, which uses RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR columns from RISK_GROUP_V4_VIEW filtered by MONTH_OF_DATE from DATE_VIEW to calculate year-over-year recapture rate at the group level. The color logic conditionally evaluates the YoY rate result to assign a visual status indicator (e.g., red/yellow/green) based on performance thresholds.",
+    "business_definition": "This metric provides a color-coded visual signal indicating whether the group's year-over-year risk recapture rate is performing above, at, or below target, helping analysts quickly identify performance trends at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Eligible population trend": {
+    "technical_definition": "Aggregates PATIENT_COUNT from RISK_CORE_V4_VIEW using SUM, filtered to a specific month via the MONTH_OF_MEASUREMENT column parameter. Returns the total count of eligible patients for the selected measurement month.",
+    "business_definition": "Shows the total number of patients eligible for risk measurement in a given month, allowing analysts to track how the eligible population grows or changes over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "#Members trend": {
+    "technical_definition": "Aggregates MEMBER_COUNT from PCP_VISITS_V4_VIEW using SUM, filtered to a specific month via the MONTH_OF_DATE column matching a selected month parameter. The result represents the total member count for that given month.",
+    "business_definition": "Shows the total number of members enrolled or active for a selected month, enabling analysts to track membership volume trends over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Realizable RAF score": {
+    "technical_definition": "Computes the Realizable RAF score by summing two components for a selected month: (1) the total RISK_VALUE from RISK_COHORT_V4_VIEW where RISK_DOCUMENTATION_FLAG is 'Undocumented' or 'Suspected', divided by the documented patient count from RISK_CORE_V4_VIEW where MAX_MONTH_FLAG = TRUE; and (2) the total RISK_VALUE from RISK_CORE_V4_VIEW where RISK_DOCUMENTATION_FLAG = 'Documented' and MAX_MONTH_FLAG = TRUE, also divided by the same documented patient count. Both denominators use NULLIF to prevent division by zero.",
+    "business_definition": "This metric estimates the full potential Risk Adjustment Factor (RAF) score a patient population could achieve if all suspected and undocumented conditions were captured and confirmed, showing the gap between current documented risk and the total realizable risk.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Info text risk cohort": {
+    "technical_definition": "This measure appears to have no DAX expression provided, making it impossible to determine the underlying computation, tables, columns, or aggregation logic.",
+    "business_definition": "No definition can be provided as this measure contains no logic or calculation to interpret.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Targeted gaps": {
+    "technical_definition": "Counts all rows in RISK_COHORT_V4_VIEW filtered to the selected measurement month using a simple COUNT(*) aggregation. No additional column-level filters are applied beyond the MONTH_OF_MEASUREMENT parameter.",
+    "business_definition": "Represents the total number of targeted care gaps identified for members in the selected month, helping teams understand the volume of outstanding clinical opportunities to address.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Targeted patients": {
+    "technical_definition": "Counts distinct EMPI values from RISK_COHORT_V4_VIEW filtered to the selected measurement month, representing unique patients in the risk cohort for that period.",
+    "business_definition": "The total number of unique patients identified and targeted for care management or intervention in the selected month.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF_impact_cohort": {
+    "technical_definition": "Queries RISK_CORE_V4_VIEW filtered to MAX_MONTH_FLAG = TRUE, dividing the sum of RISK_VALUE for 'Undocumented' or 'Suspected' records in the latest MONTH_OF_MEASUREMENT by the sum of PATIENT_COUNT for 'Documented' records in the same month, using NULLIF to avoid division by zero. The latest month is dynamically resolved via a subquery on RISK_COHORT_V4_VIEW.",
+    "business_definition": "This metric estimates the average RAF (Risk Adjustment Factor) score impact per documented patient that could be gained by capturing currently undocumented or suspected risk conditions, helping identify the potential value of closing documentation gaps.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "increase_RAF_impact_cohort": {
+    "technical_definition": "Divides the sum of RISK_VALUE for 'Undocumented' and 'Suspected' flags in RISK_COHORT_V4_VIEW (latest month) by the sum of PATIENT_COUNT for 'Documented' flags in RISK_CORE_V4_VIEW (latest month), then divides again by the average documented RISK_VALUE per patient (where MAX_MONTH_FLAG = TRUE), multiplying by 100 to yield a percentage string. The result represents the proportional RAF increase if suspected/undocumented conditions were captured relative to the current documented RAF score.",
+    "business_definition": "This metric estimates the potential percentage increase in the documented RAF score if all suspected and undocumented conditions in the cohort were properly captured and coded, helping analysts prioritize documentation improvement efforts.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Latest measurement date": {
+    "technical_definition": "Computes the maximum value of MONTH_OF_MEASUREMENT from RISK_CORE_V4_VIEW, filtered to only rows where MAX_MONTH_FLAG is TRUE, returning the single most recent measurement month available in the dataset.",
+    "business_definition": "Identifies the most recent month for which risk measurement data is available, helping analysts understand how current the data is.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Documented risk cohort": {
+    "technical_definition": "Computes the average risk value for documented patients by dividing SUM(RISK_VALUE) by SUM(PATIENT_COUNT) from RISK_COHORT_V4_VIEW, filtered where RISK_DOCUMENTATION_FLAG = 'Documented' and MONTH_OF_MEASUREMENT matches the selected month. Uses NULLIF to prevent division-by-zero errors across the aggregated cohort.",
+    "business_definition": "Represents the average risk score for patients whose risk has been formally documented in the selected month, helping analysts assess the clinical complexity of the population with completed risk documentation.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Latest risk execution": {
+    "technical_definition": "Retrieves the maximum value of MONTH_OF_MEASUREMENT from RISK_COHORT_V4_VIEW using a MAX aggregation, with the CONTEXT_REMOVER DAX pattern applied to ignore any active report filters and return a single global result.",
+    "business_definition": "Identifies the most recent month for which risk data has been processed and is available, giving analysts a reference point for the latest available risk assessment cycle.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Latest attribution date": {
+    "technical_definition": "Computes the maximum value of the MONTH_OF_DATE column from the PCP_VISITS_V4_VIEW table using a simple MAX aggregation with no additional filters applied.",
+    "business_definition": "Identifies the most recent month for which patient attribution data is available, indicating how current the dataset is.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk factor": {
+    "technical_definition": "Retrieves the maximum RISK_FACTOR_CODE from RISK_GROUP_V4_VIEW, filtered to records where MAX_MONTH_FLAG is TRUE and MONTH_OF_MEASUREMENT matches the selected month parameter. The aggregation uses MAX() on the RISK_FACTOR_CODE column to return a single value for the given time period.",
+    "business_definition": "Indicates the highest risk factor code assigned to a patient or group for the selected month, reflecting the most severe or elevated risk classification recorded during that period.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Gaps closed (GROUP)": {
+    "technical_definition": "Sums the RECAPTURE_NUMERATOR column from RISK_GROUP_V4_VIEW, filtered to only the most recent month record per group (MAX_MONTH_FLAG = TRUE) and the selected measurement month. This produces a single aggregated count of closed gaps at the group level.",
+    "business_definition": "The total number of care gaps that have been closed or addressed for the group during the selected month, indicating how effectively outstanding clinical deficiencies are being resolved.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% Members with open coding gaps MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in the ratio of members with open coding gaps by dividing the difference between the selected month's and prior month's (MEMBER_WITH_OPEN_CODING_GAP_COUNT / MEMBER_COUNT) ratios by the prior month's ratio, sourced from PCP_VISITS_V4_VIEW filtered on MONTH_OF_DATE with DATEADD logic for the prior month. NULLIF guards against division by zero at both the ratio and MoM change levels, defaulting to 0 via COALESCE.",
+    "business_definition": "This metric shows how the share of members with unresolved coding gaps has changed compared to the previous month, helping analysts quickly identify whether coding gap closure efforts are improving or declining over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% Members with open coding gaps MoM Card": {
+    "technical_definition": "This measure calculates the month-over-month percentage of members who have at least one open (unresolved) coding gap, comparing the current month's count of members with open gaps to the prior month's count, likely derived from a member-gap fact table filtered on gap status and appointment/service month.",
+    "business_definition": "This metric tracks whether the share of members with unaddressed diagnosis coding gaps is improving or worsening compared to the previous month, helping teams prioritize outreach and close gaps before the end of the measurement year.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "% Members with open coding gaps MoM Color": {
+    "technical_definition": "This measure uses the MONTH_OF_DATE column from DATE_VIEW to apply a month-over-month color formatting condition based on the value of the '% Members with open coding gaps MoM' measure, likely returning a color code or indicator string for conditional formatting in visuals.",
+    "business_definition": "This metric provides a visual color indicator that highlights whether the month-over-month change in members with open coding gaps is trending favorably or unfavorably, making it easier to spot performance changes at a glance.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Eligible population MoM": {
+    "technical_definition": "Computes the month-over-month percentage change in total PATIENT_COUNT from RISK_CORE_V4_VIEW, filtered to records where RISK_DOCUMENTATION_FLAG = 'Documented', by subtracting the prior month's sum from the selected month's sum and dividing by the prior month's sum using NULLIF to avoid division by zero. The selected month and the prior month (DATEADD month -1) are compared using the MONTH_OF_MEASUREMENT column, with COALESCE defaulting the result to 0 if null.",
+    "business_definition": "This metric shows how the documented eligible patient population has grown or shrunk compared to the previous month, expressed as a percentage change, helping analysts quickly identify trends in patient documentation from month to month.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "ELigible population MoM Card": {
+    "technical_definition": "This card measure builds on the 'Eligible population' base measure, filtering the RISK_CORE_V4_VIEW table using the RISK_DOCUMENTATION_FLAG column to derive a patient count from PATIENT_COUNT, then computes a Month-over-Month (MoM) comparison of the eligible population metric across consecutive months.",
+    "business_definition": "This metric shows how the number of eligible patients has changed compared to the previous month, helping analysts quickly identify growth or decline trends in the patient population over time.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Info icon appointments per pcp": {
+    "technical_definition": "This measure appears to calculate the average or total number of appointments per Primary Care Provider (PCP), likely dividing a count of appointments by a distinct count of PCPs; however, no DAX expression or SQL was provided to confirm the exact columns, filters, or aggregation logic used.",
+    "business_definition": "This metric shows how many appointments are associated with each primary care provider on average, helping leadership understand provider workload distribution across the practice.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Filter": {
+    "technical_definition": "Queries PCP_VISITS_V4_VIEW filtered to a selected month, computing the sum of the absolute value of YTD_VISIT_AMOUNT added to the sum of YTD_MEMBER_COUNT as a single arithmetic result.",
+    "business_definition": "Provides a combined filter value based on year-to-date visit amounts and member counts for a selected month, used to drive report filtering or validation logic.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "RAF recapture rate cohort": {
+    "technical_definition": "Calculates the ratio of documented risk value to total risk value (documented + undocumented) from RISK_COHORT_V4_VIEW, filtered to a selected measurement month, using RISK_DOCUMENTATION_FLAG to segment and RISK_VALUE as the aggregated measure with NULLIF guarding against division by zero.",
+    "business_definition": "Shows the percentage of total expected risk that has been successfully documented for a specific patient cohort in a given month, indicating how effectively the organization is capturing and recoding known patient conditions.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Risk recapture rate cohort": {
+    "technical_definition": "Aggregates RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR from RISK_COHORT_V4_VIEW filtered by a selected month, computing their ratio using SUM division with NULLIF zero-division protection. The measure builds on the base 'Risk recapture rate' measure and applies cohort-level segmentation using MAX_MONTH_FLAG and month filtering logic.",
+    "business_definition": "Measures the percentage of previously identified at-risk patients whose risk conditions were successfully recaptured or re-documented within a given month, evaluated at a cohort level to track performance across specific patient groups.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential Risk recapture rate cohort": {
+    "technical_definition": "Computes a recapture rate by summing RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR from RISK_CORE_V4_VIEW filtered to MAX_MONTH_FLAG = TRUE and a selected measurement month, then adds a cohort count (rows from RISK_COHORT_V4_VIEW for the same month) to the numerator before dividing, returning 0 if the denominator is null or zero. The cohort count is derived via a subquery cross-joined to the main aggregation.",
+    "business_definition": "This metric shows the potential rate at which previously identified risk gaps could be recaptured within a specific member cohort during a given month, helping analysts assess how effectively care teams are closing outstanding risk documentation opportunities.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Potential RAF recapture rate cohort": {
+    "technical_definition": "Computes a recapture rate by dividing the sum of documented risk values from RISK_CORE_V4_VIEW (filtered to MAX_MONTH_FLAG = TRUE and the selected month) plus all cohort risk values from RISK_COHORT_V4_VIEW by the total of both documented and undocumented risk values from RISK_CORE_V4_VIEW for the same period. The numerator represents captured/recaptured RAF, while the denominator represents total potential RAF opportunity, using NULLIF to prevent division by zero.",
+    "business_definition": "This metric shows the percentage of potential RAF (Risk Adjustment Factor) value that has been successfully recaptured for a patient cohort in a given month, helping organizations understand how effectively they are closing gaps in chronic condition documentation compared to the total opportunity available.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Cohort eligible gaps": {
+    "technical_definition": "Aggregates from RISK_GROUP_V4_VIEW by summing RECAPTURE_DENOMINATOR minus RECAPTURE_NUMERATOR, filtered to records where OPEN_GAP_FLAG is TRUE and MAX_MONTH_FLAG is TRUE for the selected measurement month. The result represents the net unclosed gap count within the eligible cohort for that period.",
+    "business_definition": "Tracks the number of care gaps that remain open and uncaptured for eligible members in a given month, helping analysts understand how many opportunities for risk recapture have yet to be addressed.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Scatter tooltip title": {
+    "technical_definition": "This measure has no DAX expression provided, making it impossible to determine the underlying logic, tables, columns, or aggregation method used.",
+    "business_definition": "This metric currently has no definition available and may serve as a display label or placeholder for a scatter chart tooltip in a report.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted X Tooltip": {
+    "technical_definition": "This measure aggregates multiple KPIs from PCP_VISITS_V4_VIEW and RISK_CORE_V4_VIEW, combining columns such as MEMBER_COUNT, YTD_VISIT_AMOUNT, RECAPTURE_NUMERATOR/DENOMINATOR, SUSPECT_NUMERATOR/DENOMINATOR, and RISK_DOCUMENTATION_FLAG to compute a composite tooltip string. It depends on upstream measures including RAF recapture rate, PMPM, open coding gaps, and documented risk to format a multi-line or concatenated display value for chart tooltips.",
+    "business_definition": "This metric compiles a summary of key risk and visit performance indicators — such as member counts, coding gap rates, and risk recapture rates — into a single formatted label displayed when hovering over a chart data point.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Metric value": {
+    "technical_definition": "This measure aggregates multiple columns across PCP_VISITS_V4_VIEW and RISK_CORE_V4_VIEW, including member counts (MEMBER_COUNT, YTD_MEMBER_COUNT), visit amounts (YTD_VISIT_AMOUNT), risk metrics (RISK_VALUE, RISK_DOCUMENTATION_FLAG), coding gap counts (MEMBER_WITH_OPEN_CODING_GAP_COUNT), and numerator/denominator pairs for recapture and suspect rates (RECAPTURE_NUMERATOR/DENOMINATOR, SUSPECT_NUMERATOR/DENOMINATOR). It depends on Formatted Y Tooltip and Formatted X Tooltip measures, suggesting it dynamically surfaces a selected or context-driven metric value for visualization purposes. The specific aggregation logic is unknown due to an undefined DAX pattern.",
+    "business_definition": "This metric represents a dynamic, context-sensitive value displayed on reports or charts, reflecting key performance indicators such as member engagement, risk documentation, coding gap closure, and visit activity for primary care providers.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Selected X Axis Value": {
+    "technical_definition": "This measure dynamically returns the value of a user-selected X-axis metric by switching between multiple dependent measures including MEMBER_COUNT, YTD_MEMBER_COUNT, YTD_VISIT_AMOUNT, RISK_VALUE, and gap/recapture fields from PCP_VISITS_V4_VIEW and RISK_CORE_V4_VIEW. It acts as a selector measure that resolves to one of: Open gaps (Suspected/Dropped), Eligible population, Risk recapture rate, RAF recapture rate, #Members, Gap to potential risk, % members with open coding gaps, PMPM, or Documented risk based on a slicer or parameter selection. The underlying aggregation type varies depending on which measure is resolved.",
+    "business_definition": "This metric dynamically displays whichever performance indicator the user has selected for the X-axis of a chart, allowing analysts to flexibly compare providers or populations across a range of risk, utilization, and care gap measures in a single view.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Formatted Y Tooltip": {
+    "technical_definition": "This measure aggregates and formats tooltip values for Y-axis data points by drawing on multiple columns across PCP_VISITS_V4_VIEW and RISK_CORE_V4_VIEW, including visit amounts, member counts, risk values, and numerator/denominator fields for suspect and recapture rates. It depends on a broad set of upstream measures such as RAF recapture rate, PMPM, open coding gaps, and documented risk to compose a dynamic, context-sensitive tooltip string. The formatting logic consolidates these dependent measures into a single display value shown when hovering over chart elements.",
+    "business_definition": "This metric powers the informational tooltip that appears when a user hovers over a data point on a chart, summarizing key performance indicators such as risk scores, member counts, coding gaps, and recapture rates in a single readable label. It helps analysts quickly understand the full context of a data point without needing to navigate to separate reports.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Selected Y Axis Value": {
+    "technical_definition": "This measure dynamically returns the value of a selected Y-axis metric by switching between multiple dependent measures including member counts, RAF/risk recapture rates, PMPM, open coding gaps, and visit amounts sourced from PCP_VISITS_V4_VIEW and RISK_CORE_V4_VIEW. It references columns such as MEMBER_COUNT, RISK_VALUE, RECAPTURE_NUMERATOR/DENOMINATOR, SUSPECT_NUMERATOR/DENOMINATOR, and YTD_VISIT_AMOUNT to compute the appropriate aggregation based on user selection. The logic acts as a dynamic selector that routes to the correct underlying measure depending on the chosen Y-axis option in the report.",
+    "business_definition": "This metric dynamically displays whichever performance indicator a user selects for the Y-axis of a chart, allowing analysts to flexibly compare measures like member counts, risk recapture rates, cost per member, or coding gap rates in a single visualization.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Y Axis Title": {
+    "technical_definition": "No DAX expression or SQL logic was provided, so no computation, columns, or aggregation can be identified for this measure.",
+    "business_definition": "No business metric can be defined as no measure logic was supplied.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Info text risk LY": {
+    "technical_definition": "The DAX expression for this measure was not provided, preventing full technical analysis. Based on the name, it likely retrieves an informational text or label related to a risk metric for the Last Year (LY) period, possibly using a time intelligence function or a string aggregation over a prior year date filter.",
+    "business_definition": "This measure appears to display a descriptive or contextual text label associated with a risk indicator from the previous year, intended to provide supplementary information to analysts viewing risk-related reports.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Info text risk PM": {
+    "technical_definition": "No DAX expression or SQL was provided for this measure. Based on the name, this likely represents an informational text or label measure related to risk per member (PM) metrics, potentially returning a string value or descriptor for risk-based per-member calculations.",
+    "business_definition": "This measure appears to display descriptive or contextual information related to risk-based per-member metrics, helping analysts understand or label risk performance indicators in reports.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  },
+  "Metric title": {
+    "technical_definition": "No DAX expression or SQL logic was provided, so no computation, columns, filters, or aggregation can be identified.",
+    "business_definition": "No metric definition can be determined as no measure logic or context was supplied.",
+    "updated_at": "2026-05-11T08:15:53.357597+00:00"
+  }
+}

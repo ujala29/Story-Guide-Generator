@@ -1,0 +1,37 @@
+table static_patient_seen_bucket
+	lineageTag: 2c789a54-2118-43f1-b36a-2edde78811d8
+
+	column patient_seen_bucket
+		dataType: string
+		lineageTag: 1ccce7f8-df24-44db-9aaa-b8e32a61f24c
+		summarizeBy: none
+		sourceColumn: patient_seen_bucket
+		sortByColumn: patient_seen_bucket_sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_seen_bucket_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: eb1f6a51-219c-4dc1-990d-805ff0f75c31
+		summarizeBy: none
+		sourceColumn: patient_seen_bucket_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_patient_seen_bucket = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlDSUTJUitWJVjLUNQGyjcBsU10LINsYzLbUNTQCckwgiox1jUyBPFMwz8hUG8g2A7P98ksUHIuLM9PzUlOAguZKsbEA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [patient_seen_bucket = _t, patient_seen_bucket_sort = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"patient_seen_bucket", type text}, {"patient_seen_bucket_sort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

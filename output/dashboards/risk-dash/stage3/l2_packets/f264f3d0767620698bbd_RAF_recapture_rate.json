@@ -1,0 +1,112 @@
+{
+  "visual_id": "f264f3d0767620698bbd",
+  "title": "RAF recapture rate",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [
+    {
+      "movement": "RAF recapture rate increases year over year",
+      "signal": "Positive",
+      "interpretation": "A higher share of known prior-year HCC risk weight is being successfully recoded this period, indicating improved clinical documentation and coding completeness. Cross-check Documented risk vs potential risk"
+    },
+    {
+      "movement": "RAF recapture rate decreases year over year",
+      "signal": "Negative",
+      "interpretation": "Fewer prior-year conditions are being recaptured through clinical encounters, signaling documentation gaps or reduced member engagement that may understate risk scores. Cross-check Gap to potential risk"
+    },
+    {
+      "movement": "RAF recapture rate rises while eligible population falls",
+      "signal": "Investigate",
+      "interpretation": "Improving recapture on a shrinking population may reflect selection bias or attribution changes rather than genuine coding improvement across the full panel. Cross-check Eligible population"
+    }
+  ],
+  "drill_steps": [
+    {
+      "step": 1,
+      "visual_name": "RAF recapture rate",
+      "question": "What is the current RAF recapture rate and how does it compare to the prior year at the overall population level?"
+    },
+    {
+      "step": 2,
+      "visual_name": "Documented risk vs potential risk",
+      "question": "Is the gap between documented and potential risk narrowing or widening over time, consistent with the recapture rate trend?"
+    },
+    {
+      "step": 3,
+      "visual_name": "Risk recapture rate by disease",
+      "question": "Which specific HCC disease categories are driving the highest or lowest recapture rates and pulling the overall rate up or down?"
+    },
+    {
+      "step": 4,
+      "visual_name": "Gap closure by type of visit",
+      "question": "Are certain visit types — such as AWVs or specialist encounters — more effective at closing recapture gaps than others?"
+    },
+    {
+      "step": 5,
+      "visual_name": "Practice/PCP details",
+      "question": "Which practices or PCPs have the lowest RAF recapture rates and represent the greatest opportunity for targeted coding outreach?"
+    },
+    {
+      "step": 6,
+      "visual_name": "Risk breakdown by attribution status",
+      "question": "Does recapture performance differ significantly across attribution statuses, and are unattributed members contributing to the rate decline? Drill-down ends here. For member-level detail — go to Patient List on the Risk Capture Potential page."
+    }
+  ],
+  "cross_read_combined": {
+    "primary_kpi": "RAF recapture rate",
+    "partners": [
+      "Gap to potential risk",
+      "Documented risk",
+      "Eligible population"
+    ],
+    "rows": [
+      {
+        "RAF recapture rate": "High",
+        "Gap to potential risk": "Low",
+        "Documented risk": "High",
+        "meaning": "Most known risk is being captured and documented effectively — maintain current coding workflows and monitor for sustainability."
+      },
+      {
+        "RAF recapture rate": "High",
+        "Gap to potential risk": "High",
+        "Documented risk": "Low",
+        "meaning": "Recapture is strong but a large undocumented risk pool remains, suggesting suspected conditions are not yet being worked — expand gap closure outreach."
+      },
+      {
+        "RAF recapture rate": "High",
+        "Gap to potential risk": "Low",
+        "Documented risk": "Low",
+        "meaning": "High recapture rate on a low documented risk base may indicate a small or low-acuity population — validate that eligible population size is adequate."
+      },
+      {
+        "RAF recapture rate": "Low",
+        "Gap to potential risk": "High",
+        "Documented risk": "Low",
+        "meaning": "Critical risk capture failure — large uncaptured opportunity combined with poor documentation requires immediate coding intervention and provider engagement."
+      },
+      {
+        "RAF recapture rate": "Low",
+        "Gap to potential risk": "High",
+        "Documented risk": "High",
+        "meaning": "Despite high documented risk, recapture of prior-year conditions is lagging — investigate whether chronic conditions are being dropped between coding cycles."
+      },
+      {
+        "RAF recapture rate": "Low",
+        "Gap to potential risk": "Low",
+        "Documented risk": "Low",
+        "meaning": "Low activity across all risk dimensions may reflect a declining or disengaged eligible population — cross-check Eligible population trend for attribution losses."
+      }
+    ]
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

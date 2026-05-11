@@ -1,0 +1,95 @@
+table date
+	lineageTag: 6092267e-5693-46e2-811d-03732d9b1f3d
+
+	column month_of_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 92f7809e-e7c3-4b23-a29c-53d65e1177cf
+		summarizeBy: none
+		sourceColumn: month_of_date
+
+		variation Variation
+			isDefault
+			relationship: 07cf7685-1d58-4fe5-8dbe-92d04994907f
+			defaultHierarchy: LocalDateTable_e3cc24d7-e384-4dee-95d7-3bbe89d451e7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: string
+		lineageTag: 32843086-a84e-42f5-9eed-cde2426b19e5
+		summarizeBy: none
+		sourceColumn: year
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_of_year
+		dataType: string
+		lineageTag: b54bf610-b0c2-49a1-ba8b-5f431948908b
+		summarizeBy: none
+		sourceColumn: month_of_year
+		sortByColumn: month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_of_year1
+		dataType: string
+		lineageTag: f76aac7c-e4d0-4410-8030-65b0ac2789f1
+		summarizeBy: none
+		sourceColumn: month_of_year1
+		sortByColumn: month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_year_comparision_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 16d60c65-b911-427c-9923-f1383300c7df
+		summarizeBy: none
+		sourceColumn: last_year_comparision_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: double
+		lineageTag: 7d01be57-8d2c-4cce-8656-efd3c24951ce
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition date = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    l5_Schema = L5_TESTING_DB_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    date_Table = l5_Schema{[Name= "DATE_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(date_Table, Text.Lower),
+				    #"Added Custom" = Table.AddColumn(#"Lowercased Text", "Custom", each Text.Combine({[month_of_year], Number.ToText([year], "G")}, "-")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"Custom", "month_year"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"updated_key"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns",{{"year", Int64.Type}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "month_of_year", "month_of_year - Copy"),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Duplicated Column",{"month_of_date", "month", "year", "month_of_year", "month_of_year - Copy", "updated_on", "month_year"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"month_of_year - Copy", "month_of_year1"}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Renamed Columns1",{ "updated_on", "month_year"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

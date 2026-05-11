@@ -1,0 +1,52 @@
+Snowflake tables available:
+  PCP_VISITS_V4_VIEW    — Attribution data. Key cols: MEMBER_COUNT, YTD_VISIT_AMOUNT,
+                          YTD_MEMBER_COUNT, MEMBER_WITH_OPEN_CODING_GAP_COUNT,
+                          MONTH_OF_DATE (date filter col), ORG_HIERARCHY_MASTER_ID
+                          NO max_month_flag column.
+
+  RISK_CORE_V4_VIEW     — Risk core data. Key cols: RISK_VALUE, PATIENT_COUNT,
+                          RISK_DOCUMENTATION_FLAG ('Documented','Undocumented','Suspected'),
+                          RECAPTURE_NUMERATOR, RECAPTURE_DENOMINATOR,
+                          SUSPECT_NUMERATOR, SUSPECT_DENOMINATOR,
+                          MONTH_OF_MEASUREMENT (date filter col),
+                          MAX_MONTH_FLAG (TRUE only on the latest month's rows in the table)
+
+  RISK_GROUP_V4_VIEW    — Risk group data. Same cols as RISK_CORE_V4_VIEW.
+
+  RISK_COHORT_V4_VIEW   — Cohort data. Key cols: EMPI, RECAPTURE_NUMERATOR,
+                          RECAPTURE_DENOMINATOR, OPEN_GAP_FLAG,
+                          MONTH_OF_MEASUREMENT, RISK_DOCUMENTATION_FLAG
+                          !! NO MAX_MONTH_FLAG column — never add it !!
+
+  DATE_VIEW             — Date dimension. Key cols: MONTH_OF_DATE
+
+━━━ DATE FILTER RULES — apply exactly as written ━━━
+
+  RULE A — BASE measures (no time-intel suffix, e.g. "Documented risk", "#Members"):
+    Attribution (PCP_VISITS_V4_VIEW)              : WHERE MONTH_OF_DATE = :selected_month
+    Risk tables WITH max_month_flag               : WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month
+      → applies to: RISK_CORE_V4_VIEW, RISK_GROUP_V4_VIEW
+    RISK_COHORT_V4_VIEW (NO max_month_flag col)   : WHERE MONTH_OF_MEASUREMENT = :selected_month only
+      !! RISK_COHORT_V4_VIEW does NOT have a MAX_MONTH_FLAG column — never add it !!
+
+  RULE B — TIME-INTEL measures: PY, PM, YoY, MoM
+    !! NEVER use MAX_MONTH_FLAG in any time-intel measure or subquery !!
+    MAX_MONTH_FLAG = TRUE marks ONLY the latest month in the table.
+    Pairing it with a prior-period date always returns 0 rows.
+
+    PY  (prior year,  SAMEPERIODLASTYEAR) : WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
+    PM  (prior month, PREVIOUSMONTH)      : WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
+    YoY ratio = (current − prior_year) / prior_year:
+        current subquery  → WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
+        prior   subquery  → WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
+    MoM ratio = (current − prior_month) / prior_month:
+        current subquery  → WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
+        prior   subquery  → WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
+
+  RULE C — CONTEXT_REMOVER (ALL / ALL('DATE')):
+    No date filter whatsoever — ALL() removes date context by design.
+
+━━━ OTHER CONVENTIONS ━━━
+  - DIVIDE(a,b)   → a / NULLIF(b, 0)
+  - DIVIDE(a,b,0) → COALESCE(a / NULLIF(b, 0), 0)
+  - Always use SELECT ... FROM ... (no CTEs unless necessary)

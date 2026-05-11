@@ -1,0 +1,1260 @@
+table ALL_DAX_PAC
+	lineageTag: 9f819040-7ffe-4e82-9309-cb1bf16ee114
+
+	measure 'Overall PAC cost' = sum(pac_view[pac_visit_amount]) +0
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 65757c0a-1d51-4b75-869a-159d8bd7b2f3
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'IP Discharges' = CALCULATE(count(pac_opp_patient_view[visit_id])) +0
+		formatString: #,0
+		lineageTag: 684bdc91-320b-4a4c-a2f5-ce5b7d43ff77
+
+	measure 'IP to Pac Discharges' = CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0
+		formatString: #,0
+		lineageTag: 862c6cd9-ad96-4db8-9845-49779483e896
+
+	measure 'Readmission % IP Admits' = ```
+			
+			VAR TotalReadmissions = 
+			    CALCULATE(
+			        COUNTROWS(pac_opp_patient_view),
+			        pac_opp_patient_view[readmission_flag] = TRUE
+			    ) 
+			
+			VAR TotalIndexVisits = 
+			    CALCULATE(
+			        COUNTROWS(pac_opp_patient_view),
+			        pac_opp_patient_view[readmission_index_visit_flag] = TRUE
+			    )
+			
+			RETURN
+			DIVIDE(TotalReadmissions, TotalIndexVisits)
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 4bdf5b9b-cd5a-47b7-ba8b-4477eb2ddf7b
+
+	measure 'PAC to IP readmission %' = ```
+			
+			VAR TotalReadmissions = 
+			    CALCULATE(
+			        DISTINCTCOUNT(pac_view[join_key]),
+			        pac_view[readmission_flag] = "true"
+			    ) 
+			
+			VAR TotalIndexVisits = 
+			    CALCULATE(
+			        DISTINCTCOUNT(pac_view[join_key]),
+			        pac_view[readmission_index_visit_flag] = "true"
+			    )
+			
+			RETURN
+			CALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = "true"))
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 527c7194-b194-40f9-bc7f-a920dc358f2e
+
+	measure 'Hospice PMPM' =
+			
+			CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),
+			pac_view[pac_visit_type] = "Hospice")
+		lineageTag: 73d8edd9-ce1b-41d0-962b-1fd547d291a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PAC PMPM' = DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: c10b3b5e-7522-40e6-a4a9-11b3b886812d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Cost/Admit = DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 6e70d46d-80a8-4abb-bde6-a4df81203d77
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Blank DAX' = ""
+		lineageTag: 83479483-74bc-414b-b50e-791e45c8dee1
+
+	measure 'Avg LOS' = ```
+			CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> "Home Health")) +0 
+			```
+		formatString: 0
+		lineageTag: 5afa1453-7ce4-452e-8e6c-da48d9ac997a
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% IP discharges to PAC' = DIVIDE([IP to Pac Discharges],[IP Discharges])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: dc357276-67c1-4f8f-9624-6f67e2090ad5
+
+	measure Utilization =
+			
+			VAR Num =
+			    CALCULATE(
+			        count(pac_view[join_key])
+			    )
+			VAR Denom = SUM(attribution[member_count])
+			RETURN
+			DIVIDE(Num, Denom) * 12000
+		formatString: #,0
+		lineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Formatted % IP discharges to PAC' =
+			
+			VAR x = [% IP discharges to PAC]
+			RETURN FORMAT(x, "0.0%")
+		lineageTag: a647c143-c6c4-4de3-bc41-a77ccd5b1486
+
+	measure '% IP discharges to PAC MoM' =
+			
+			var pm = CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([% IP discharges to PAC] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: dd819955-5184-4195-be0a-90f701107f1c
+
+	measure '% IP discharges to PAC MoM Card' =
+			
+			VAR pm = CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([% IP discharges to PAC] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 3928f1de-a940-4f98-b635-1d62d8d381fe
+
+	measure '% IP discharges to PAC MoM color' =
+			
+			var a = [% IP discharges to PAC MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 4d4b50de-4a48-45a7-9348-ba26afe42827
+
+	measure '% IP discharges to PAC PM' = ```
+			CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))
+			
+			```
+		lineageTag: 6af46ed5-58a1-439d-8193-51b98d756dd4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to PAC PY' = CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))
+		lineageTag: 3cd89315-4799-4ed3-ab87-b967797bacbc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to PAC YoY' =
+			
+			var py = CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([% IP discharges to PAC] - py, py)
+		lineageTag: 550f9117-4425-4f3c-9062-edd34a292f7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to PAC YoY Card' =
+			
+			VAR py = CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([% IP discharges to PAC] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: c825f7ac-3e36-4bf6-809f-17e3535b4c64
+
+	measure '% IP discharges to PAC YoY color' =
+			
+			var a = [% IP discharges to PAC YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 67c91d33-e5ba-4621-b9cb-a84c520f4624
+
+	measure 'Formatted Avg LOS' =
+			
+			VAR x = [Avg LOS]
+			RETURN FORMAT(x, "0")
+		lineageTag: af9a4990-4af8-494e-a4c5-60ec3ed26a2c
+
+	measure 'Avg LOS MoM' =
+			
+			var pm = CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([Avg LOS] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: 689b82c6-eb9a-47c9-b8bf-e38f46e7712a
+
+	measure 'Avg LOS MoM Card' =
+			
+			VAR pm = CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([Avg LOS] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: f3e1311c-de29-4ce3-b1d3-b9053300c264
+
+	measure 'Avg LOS MoM color' =
+			
+			var a = [Avg LOS MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: ff5accb3-5cfa-4d2a-8e18-483a702d5247
+
+	measure 'Avg LOS PM' = CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))
+		lineageTag: 5b8695b7-5072-43de-9427-9d36f39e3f5c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg LOS PY' = CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))
+		lineageTag: 7a26a5a0-4914-44db-ac4d-21523bbdbe78
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg LOS YoY' =
+			
+			var py = CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([Avg LOS] - py, py)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7d86e35d-6511-415c-bde5-f0a7391b4089
+
+	measure 'Avg LOS YoY Card' =
+			
+			VAR py = CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([Avg LOS] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 6ba09e0b-041e-40e5-9fda-613015a2f598
+
+	measure 'Avg LOS YoY color' =
+			
+			var a = [Avg LOS YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 8c79bf8e-9fc8-4ce3-b885-785cfcba7e6e
+
+	measure 'Formatted Cost/Admit' =
+			
+			VAR x = [Cost/Admit]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        x < 10000, "$" & FORMAT(x, "#,##0"),
+			        x < 1000000, "$" & FORMAT(x, "#,.0") & "K",
+			        x < 1000000000, "$" & FORMAT(x , "#,##0,,.0") & "M",
+			        FORMAT(x, "#,,,.0") & "bn"
+			    )
+		lineageTag: 9c6709ea-a4b7-440b-b0f4-230558d4390f
+
+	measure 'Cost/Admit MoM' =
+			
+			var pm = CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([Cost/Admit] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: 7c7a6ecf-210c-481b-8f15-b256a6e15950
+
+	measure 'Cost/Admit MoM Card' =
+			
+			VAR pm = CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([Cost/Admit] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 1f2ddfe8-2239-44bb-b445-9c4c0e746367
+
+	measure 'Cost/Admit MoM color' =
+			
+			var a = [Cost/Admit MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 58aa5c37-0442-4900-a110-b4a57d60f053
+
+	measure 'Cost/Admit PM' = CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))
+		lineageTag: 9f36c0d3-d6f0-477c-b0d1-99cf34146c30
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cost/Admit PY' = ```
+			CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			
+			```
+		lineageTag: b93b2011-b6d5-4b94-a752-9adac3152090
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cost/Admit YoY' =
+			
+			var py = CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([Cost/Admit] - py, py)
+		lineageTag: f64f59bf-a64d-4d5e-9177-8fb21f50bc61
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cost/Admit YoY Card' =
+			
+			VAR py = CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([Cost/Admit] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 8c653d0e-4f92-4c36-888c-ca90ae9cb5bd
+
+	measure 'Cost/Admit YoY color' =
+			
+			var a = [Cost/Admit YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 182c4b12-f2de-4add-aa91-dbc9e899bfc1
+
+	measure 'Formatted IP Discharges' =
+			
+			VAR x = [IP Discharges]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        x < 1000, FORMAT(x, "#,##0"),
+			        x < 1000000, FORMAT(x, "#,.0") & "K",
+			        x < 1000000000, FORMAT(x , "#,##0,,.0") & "M",
+			        FORMAT(x, "#,,,.0") & "bn"
+			    )
+		lineageTag: 259b14e3-4c40-4d55-a3d4-e1986aa23a4b
+
+	measure 'IP Discharges MoM' =
+			
+			var pm = CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([IP Discharges] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: 3e53570b-c222-441f-8682-af21c830618f
+
+	measure 'IP Discharges MoM Card' =
+			
+			VAR pm = CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([IP Discharges] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 93a9144b-4e7f-485e-b08c-ae57388a5eda
+
+	measure 'IP Discharges MoM color' =
+			
+			var a = [IP Discharges MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 03aa8f7c-fef0-4fd9-9e46-f0f6b7cc9e97
+
+	measure 'IP Discharges PM' = ```
+			CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))
+			
+			```
+		formatString: 0
+		lineageTag: a025ac2a-8b2e-4fc4-a37e-be68ad6e3a3c
+
+	measure 'IP Discharges PY' = ```
+			CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			
+			```
+		formatString: 0
+		lineageTag: 68c086d0-1855-45c5-b1a9-93605007a499
+
+	measure 'IP Discharges YoY' =
+			
+			var py = CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([IP Discharges] - py, py)
+		lineageTag: 50194e02-fd8b-4459-a5b3-772975d6cc07
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IP Discharges YoY Card' =
+			
+			VAR py = CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([IP Discharges] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: d4530e40-5b34-4f7e-a9ee-31f45c170b37
+
+	measure 'IP Discharges YoY color' =
+			
+			var a = [IP Discharges YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 55c2d7c8-9fa0-49d7-8342-46f9b4962787
+
+	measure 'Formatted IP to Pac Discharges' =
+			
+			VAR x = [IP to Pac Discharges]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        x < 1000, FORMAT(x, "#,##0"),
+			        x < 1000000, FORMAT(x, "#,.0") & "K",
+			        x < 1000000000, FORMAT(x , "#,##0,,.0") & "M",
+			        FORMAT(x, "#,,,.0") & "bn"
+			    )
+		lineageTag: ada3ba10-471c-4ead-b0c0-913790c5dff9
+
+	measure 'IP to Pac Discharges MoM' =
+			
+			var pm = CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([IP to Pac Discharges] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: a2b38d95-ce90-4e1b-b7d0-3fed603f84d6
+
+	measure 'IP to Pac Discharges MoM Card' =
+			
+			VAR pm = CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([IP to Pac Discharges] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 5feaa289-6b1d-4def-9d92-daf0866e9068
+
+	measure 'IP to Pac Discharges MoM color' =
+			
+			var a = [IP to Pac Discharges MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: a77e59b8-789f-4fb2-a196-cc1cda1300ff
+
+	measure 'IP to Pac Discharges PM' = ```
+			CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))
+			
+			```
+		formatString: 0
+		lineageTag: 0976e71e-a8f6-4c99-a2e7-4319b2e323fe
+
+	measure 'IP to Pac Discharges PY' = CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))
+		formatString: 0
+		lineageTag: 5ba895a1-6ed6-4a5a-bf35-f3a64d896b1c
+
+	measure 'IP to Pac Discharges YoY' =
+			
+			var py = CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([IP to Pac Discharges] - py, py)
+		lineageTag: 1a455893-3531-4e6d-9f83-574284bfa9f7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IP to Pac Discharges YoY Card' =
+			
+			VAR py = CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([IP to Pac Discharges] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 7c433e86-d178-4a2d-a96d-4ca74e3df6ae
+
+	measure 'IP to Pac Discharges YoY color' =
+			
+			var a = [IP to Pac Discharges YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 8dfca87e-7490-4803-bf1a-0530cbd4c240
+
+	measure 'Formatted Overall PAC cost' =
+			
+			VAR x = [Overall PAC cost]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        x < 10000, "$" & FORMAT(x, "#,##0"),
+			        x < 1000000, "$" & FORMAT(x, "#,.0") & "K",
+			        x < 1000000000, "$" & FORMAT(x , "#,##0,,.0") & "M",
+			        FORMAT(x, "#,,,.0") & "bn"
+			    )
+		lineageTag: a100e875-5c1a-447e-aaa8-7b40acd08fbb
+
+	measure 'Overall PAC cost MoM' =
+			
+			var pm = CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([Overall PAC cost] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: ac9c5041-5f40-4c90-a99a-daac1ca4193b
+
+	measure 'Overall PAC cost MoM Card' =
+			
+			VAR pm = CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([Overall PAC cost] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: f12fbaea-be6f-40d6-8956-9d5974cf51b6
+
+	measure 'Overall PAC cost MoM color' =
+			
+			var a = [Overall PAC cost MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 94115163-2bcc-4b20-863c-832a3694e269
+
+	measure 'Overall PAC cost PM' = CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))
+		lineageTag: f4157d0f-b1e0-473e-8a43-38e905b1fee9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Overall PAC cost PY' = ```
+			CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			
+			```
+		lineageTag: 9e9a8edb-ad6b-4a07-a23d-f9bd68d0bd16
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Overall PAC cost YoY' =
+			
+			var py = CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([Overall PAC cost] - py, py)
+		formatString: 0%;-0%;0%
+		lineageTag: cbbe34d4-c147-412e-bbef-c55ff16c0b93
+
+	measure 'Overall PAC cost YoY Card' =
+			
+			VAR py = CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([Overall PAC cost] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 054b0f3d-2622-415c-b4b4-fbc45eb7bd99
+
+	measure 'Overall PAC cost YoY color' =
+			
+			var a = [Overall PAC cost YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: eb587886-f7f9-4461-810a-7174a73ea0dd
+
+	measure 'Formatted PAC PMPM' =
+			
+			VAR x = [PAC PMPM]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        x < 10000, "$" & FORMAT(x, "#,##0"),
+			        x < 1000000, "$" & FORMAT(x, "#,.0") & "K",
+			        x < 1000000000, "$" & FORMAT(x , "#,##0,,.0") & "M",
+			        FORMAT(x, "#,,,.0") & "bn"
+			    )
+		lineageTag: d774c0f6-5760-4f37-a8e9-22eb310f44e1
+
+	measure 'PAC PMPM MoM' =
+			
+			var pm = CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([PAC PMPM] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: 3f99b4aa-8d41-4842-bc6b-c7af9fd457d3
+
+	measure 'PAC PMPM MoM Card' =
+			
+			VAR pm = CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([PAC PMPM] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: a2558961-9260-4f05-9b17-1672012ba8f0
+
+	measure 'PAC PMPM MoM color' =
+			
+			var a = [PAC PMPM MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 45ca03a7-bde2-4de4-bb91-d2d894863eb7
+
+	measure 'PAC PMPM PM' = ```
+			CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))
+			
+			```
+		lineageTag: 49f27a55-9554-4adb-bf32-db205919280c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PAC PMPM PY' = ```
+			CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			
+			```
+		lineageTag: 03f9f10a-ce79-4f7e-ac9b-c75e7b9cdcef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PAC PMPM YoY' =
+			
+			var py = CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([PAC PMPM] - py, py)
+		lineageTag: fde1430a-5ad1-41cb-8156-afdb8124b9d3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PAC PMPM YoY Card' =
+			
+			VAR py = CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([PAC PMPM] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: c2f60d29-d266-47ae-b860-18e3710cedd5
+
+	measure 'PAC PMPM YoY color' =
+			
+			var a = [PAC PMPM YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: cd088f8a-b639-42f9-9c07-e31c3597795e
+
+	measure 'Formatted PAC to IP readmission %' =
+			
+			VAR x = [PAC to IP readmission %]
+			RETURN FORMAT(x, "0.0%")
+		lineageTag: f7e17b1e-e1b0-4f84-8652-24da38581f30
+
+	measure 'PAC to IP readmission % MoM' =
+			
+			var pm = CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([PAC to IP readmission %] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: e618e44b-5002-4570-86de-279300044160
+
+	measure 'PAC to IP readmission % MoM Card' =
+			
+			VAR pm = CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([PAC to IP readmission %] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 0cb4c687-5b2a-4687-985e-b4c639a31685
+
+	measure 'PAC to IP readmission % MoM color' =
+			
+			var a = [PAC to IP readmission % MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 7ebc29ed-18b9-4c45-afce-bb44c93f8e23
+
+	measure 'PAC to IP readmission % PM' = CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))
+		lineageTag: 5a3561d2-caf5-4beb-8659-9005ad041e62
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PAC to IP readmission % PY' = CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))
+		lineageTag: 1588adca-2844-4691-b345-d4d50d107c4a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PAC to IP readmission % YoY' =
+			
+			var py = CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([PAC to IP readmission %] - py, py)
+		formatString: 0%;-0%;0%
+		lineageTag: 0590fe73-e8a9-4a57-aeac-49a4281e8c95
+
+	measure 'PAC to IP readmission % YoY Card' =
+			
+			VAR py = CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([PAC to IP readmission %] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: c7b818cc-19b2-45b2-bc27-0222a77343f4
+
+	measure 'PAC to IP readmission % YoY color' =
+			
+			var a = [PAC to IP readmission % YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 9d5454ac-c861-4f66-bd70-f770ff5fb271
+
+	measure 'Formatted Readmission % IP Admits' =
+			
+			VAR x = [Readmission % IP Admits]
+			RETURN FORMAT(x, "0.0%")
+		lineageTag: 645d46f4-fda5-4215-ad41-86c35b6d7953
+
+	measure 'Readmission % IP Admits MoM' =
+			
+			var pm = CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([Readmission % IP Admits] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: c7c9a51a-e4c7-4d65-9980-f1b3f2503238
+
+	measure 'Readmission % IP Admits MoM Card' =
+			
+			VAR pm = CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([Readmission % IP Admits] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 35cb429a-bc09-4fca-b37c-a5f339184289
+
+	measure 'Readmission % IP Admits MoM color' =
+			
+			var a = [Readmission % IP Admits MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 11608bad-a687-46f0-b773-3b38f910ef09
+
+	measure 'Readmission % IP Admits PM' = CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))
+		lineageTag: 508e36f6-0dee-4f13-9e91-df7fb636ecd3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Readmission % IP Admits PY' = CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))
+		lineageTag: 8cb99ab6-f6b7-4feb-9452-3c30f563bce0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Readmission % IP Admits YoY' =
+			
+			var py = CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([Readmission % IP Admits] - py, py)
+		lineageTag: 581d5620-1367-41fb-be64-9fac2d8f7590
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Readmission % IP Admits YoY Card' =
+			
+			VAR py = CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([Readmission % IP Admits] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: c3ef579f-7379-4347-9c51-b3e51200bdb7
+
+	measure 'Readmission % IP Admits YoY color' =
+			
+			var a = [Readmission % IP Admits YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 1697630c-e9d3-41d5-9825-a4750a54650f
+
+	measure 'Formatted Utilization' =
+			
+			VAR x = [Utilization]
+			RETURN FORMAT(x, "0.0")
+		lineageTag: 1111bd68-dd7e-4490-ae9b-7a00c2a35a64
+
+	measure 'Utilization MoM' =
+			
+			var pm = CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))
+			RETURN
+			DIVIDE([Utilization] - pm, pm)
+		formatString: 0%;-0%;0%
+		lineageTag: 4453250f-e7fa-4eb7-814e-facd139df2de
+
+	measure 'Utilization MoM Card' =
+			
+			VAR pm = CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))
+			VAR mom = DIVIDE([Utilization] - pm, pm)
+			RETURN
+			IF(
+			    ISBLANK(pm),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        mom > 0, UNICHAR(9650) & " " & FORMAT(mom, "0.0%") & " from LM",
+			        mom < 0, UNICHAR(9660) & " " & FORMAT(ABS(mom), "0.0%") & " from LM",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 4ee119e8-f03d-4222-8180-5df4e37f43a1
+
+	measure 'Utilization MoM color' =
+			
+			var a = [Utilization MoM]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: fb8d453c-29ec-4927-9adc-f0bdd9b393fb
+
+	measure 'Utilization PM' = ```
+			CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))
+			
+			```
+		lineageTag: a7eddd70-cfaa-4a6d-8367-4997dcd8664e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Utilization PY' = CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))
+		lineageTag: 3595c704-6d66-40fb-8f01-d529a05e8390
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Utilization YoY' =
+			
+			var py = CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			RETURN
+			DIVIDE([Utilization] - py, py)
+		formatString: 0%;-0%;0%
+		lineageTag: 94f5e454-68c8-4737-a781-d53de6b27b4f
+
+	measure 'Utilization YoY Card' =
+			
+			VAR py = CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))
+			VAR yoy = DIVIDE([Utilization] - py, py)
+			RETURN
+			IF(
+			    ISBLANK(py),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        yoy > 0, UNICHAR(9650) & " " & FORMAT(yoy, "0.0%") & " from LY",
+			        yoy < 0, UNICHAR(9660) & " " & FORMAT(ABS(yoy), "0.0%") & " from LY",
+			        "0.0%"
+			    )
+			)
+		lineageTag: 1933f6d5-cdf6-486d-8963-9ca12e825978
+
+	measure 'Utilization YoY color' =
+			
+			var a = [Utilization YoY]
+			return
+			SWITCH(TRUE(),
+				a> 0, 2,
+				a< 0, 1)
+		formatString: 0
+		lineageTag: 9d94bf59-1567-4cbe-8fe6-547cb8222b1f
+
+	measure 'PAC to IP readmits' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(pac_view[join_key]),
+			        pac_view[readmission_flag] = "true",
+			        pac_view[last_transfer] = "true"
+			    )
+			```
+		formatString: 0
+		lineageTag: ebe7e6d0-382f-4fc8-b593-34ede98ec1c9
+
+	measure 'SNF PMPM' =
+			
+			CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),
+			pac_view[pac_visit_type] = "SNF")
+		lineageTag: 2d37702f-4d70-4a30-94c5-57206a8de554
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rehab PMPM' =
+			
+			CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),
+			pac_view[pac_visit_type] = "Rehab")
+		lineageTag: 4543a193-8376-40c9-b7c6-10c532e77899
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'LTCH PMPM' =
+			
+			CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),
+			pac_view[pac_visit_type] = "LTCH")
+		lineageTag: f4549a77-d134-497d-b057-4f590a552e74
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Home Health PMPM' =
+			
+			CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),
+			pac_view[pac_visit_type] = "Home Health")
+		lineageTag: 4acee88c-4c9f-4470-b87b-d7cc305ba51c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Swing Beds PMPM' =
+			
+			CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),
+			pac_view[pac_visit_type] = "Swing Beds")
+		lineageTag: 0dc990c3-e481-470c-8696-980a172fafe4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to Rehab' =
+			CALCULATE (
+			    DIVIDE ([IP to Pac Discharges], [IP Discharges]),
+			    pac_view[pac_visit_type] = "Rehab"
+			)
+		lineageTag: 48c13276-91da-4c42-903e-7fbcf3975f97
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to LTCH' =
+			CALCULATE (
+			    DIVIDE ([IP to Pac Discharges], [IP Discharges]),
+			    pac_view[pac_visit_type] = "LTCH"
+			)
+		lineageTag: ff543370-272c-4b78-8f9e-7ca2ded961d5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to Swing Beds' =
+			CALCULATE (
+			    DIVIDE ([IP to Pac Discharges], [IP Discharges]),
+			    pac_view[pac_visit_type] = "Swing Beds"
+			)
+		lineageTag: 4040491e-9cac-4d05-b033-d19f081c1a47
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to Hospice' =
+			CALCULATE (
+			    DIVIDE ([IP to Pac Discharges], [IP Discharges]),
+			    pac_view[pac_visit_type] = "Hospice"
+			)
+		lineageTag: 4dde7c91-b962-4847-89c8-f29ed5c9bdd5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to Home Health' =
+			CALCULATE (
+			    DIVIDE ([IP to Pac Discharges], [IP Discharges]),
+			    pac_view[pac_visit_type] = "Home Health"
+			)
+		lineageTag: cea8d181-5e4f-4ab6-b1dd-1a4d188b0107
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% IP discharges to SNF' =
+			CALCULATE (
+			    DIVIDE ([IP to Pac Discharges], [IP Discharges]),
+			    pac_view[pac_visit_type] = "SNF"
+			)
+		lineageTag: 7bb0c8e1-5de1-403e-8609-bf90cea09666
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure initial_assessment_% =
+			
+			var a = CALCULATE(COUNT(pac_view[join_key]),KEEPFILTERS(pac_view[initial_assessment]="true"))
+			var b = COUNTROWS(pac_view)
+			RETURN
+			DIVIDE(a,b)+0
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f07d706d-96c5-4b0f-a18b-b036b48a20a2
+
+	measure '7 day followup %' =
+			
+			var a = CALCULATE(COUNT(pac_view[join_key]),KEEPFILTERS(pac_view[pcp_follow_up_flag_7_days]="True"))
+			var b = COUNTROWS(pac_view)
+			RETURN
+			DIVIDE(a,b)+0
+		formatString: 0
+		lineageTag: 322d8536-36b2-45bb-b478-faeba18e5976
+
+	measure 'Info text PAC LY' =
+			
+			VAR MinMonthLY = CALCULATE ( MIN ( 'date'[month_of_date] ), SAMEPERIODLASTYEAR ( 'date'[month_of_date] ), KEEPFILTERS ( 'date'[last_year_comparision_flag] = TRUE () ) )
+			VAR MaxMonthLY = CALCULATE ( MAX ( 'date'[month_of_date] ), SAMEPERIODLASTYEAR ( 'date'[month_of_date] ), KEEPFILTERS ( 'date'[last_year_comparision_flag] = TRUE () ) )
+			VAR LY = YEAR ( MinMonthLY )
+			VAR MinMonthCY = MIN ( attribution[month_of_attribution] )
+			VAR MaxMonthCY = MAX ( attribution[month_of_attribution])
+			VAR CY = YEAR ( MinMonthCY )
+			VAR MinMonthCY_Text = FORMAT ( MinMonthCY, "MMM" )
+			VAR MaxMonthCY_Text = FORMAT ( MaxMonthCY, "MMM" )
+			VAR MinMonthLY_Text = FORMAT ( MinMonthLY, "MMM" )
+			VAR MaxMonthLY_Text = FORMAT ( MaxMonthLY, "MMM" )
+			VAR diff = MONTH(MaxMonthCY) - MONTH(MinMonthCY) + 1
+			VAR SelectedMonths = COUNTROWS(VALUES(attribution[month_of_attribution]))
+			RETURN
+			IF( diff = 1,
+			    "Data for " & MinMonthCY_Text & " (" & CY &
+			    ") is being compared with " & MinMonthLY_Text &
+			    " (" & LY & ")",
+			    IF(
+			    diff = SelectedMonths,
+			    "Data from " & MinMonthCY_Text & " to " & MaxMonthCY_Text & " (" & CY &
+			    ") is being compared with " & MinMonthLY_Text & " to " & MaxMonthLY_Text &
+			    " (" & LY & ")",
+			    "Data for " &
+			    CONCATENATEX(VALUES(attribution[month_of_attribution]), FORMAT(attribution[month_of_attribution],"MMM"), ", ", attribution[month_of_attribution], ASC) &
+			    " (" & CY & ") is being compared with " &
+			    CONCATENATEX(VALUES(attribution[month_of_attribution]), FORMAT(attribution[month_of_attribution],"MMM"), ", ", attribution[month_of_attribution], ASC) &
+			    " (" & LY & ")"
+			)
+			)
+		lineageTag: d1ca4e6b-be87-426b-90d9-029083eb024a
+
+	measure 'Latest attribution date' = MAX(attribution[month_of_attribution])
+		formatString: Mmmm yy
+		lineageTag: 88257ba5-c03c-4f89-b33b-029cf6be0771
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Info text PAC LM' =
+			
+			VAR MinMonthLY = CALCULATE ( MIN ( 'date'[month_of_date] ), PREVIOUSMONTH ( 'date'[month_of_date] ), KEEPFILTERS ( 'date'[last_year_comparision_flag] = TRUE () ) )
+			VAR MaxMonthLY = CALCULATE ( MAX ( 'date'[month_of_date] ), PREVIOUSMONTH ( 'date'[month_of_date] ), KEEPFILTERS ( 'date'[last_year_comparision_flag] = TRUE () ) )
+			VAR LY = YEAR ( MinMonthLY )
+			VAR MinMonthCY = MIN ( attribution[month_of_attribution] )
+			VAR MaxMonthCY = MAX ( attribution[month_of_attribution])
+			VAR CY = YEAR ( MinMonthCY )
+			VAR MinMonthCY_Text = FORMAT ( MinMonthCY, "MMM" )
+			VAR MaxMonthCY_Text = FORMAT ( MaxMonthCY, "MMM" )
+			VAR MinMonthLY_Text = FORMAT ( MinMonthLY, "MMM" )
+			VAR MaxMonthLY_Text = FORMAT ( MaxMonthLY, "MMM" )
+			VAR diff = MONTH(MaxMonthCY) - MONTH(MinMonthCY) + 1
+			VAR SelectedMonths = COUNTROWS(VALUES(attribution[month_of_attribution]))
+			RETURN
+			IF( diff = 1,
+			    "Data for " & MinMonthCY_Text & " (" & CY &
+			    ") is being compared with " & MinMonthLY_Text &
+			    " (" & LY & ")",
+			    IF(
+			    diff = SelectedMonths,
+			    "Data from " & MinMonthCY_Text & " to " & MaxMonthCY_Text & " (" & CY &
+			    ") is being compared with " & MinMonthLY_Text & " to " & MaxMonthLY_Text &
+			    " (" & LY & ")",
+			    "Data for " &
+			    CONCATENATEX(VALUES(attribution[month_of_attribution]), FORMAT(attribution[month_of_attribution],"MMM"), ", ", attribution[month_of_attribution], ASC) &
+			    " (" & CY & ") is being compared with " &
+			    CONCATENATEX(VALUES(attribution[month_of_attribution]), FORMAT(attribution[month_of_attribution],"MMM"), ", ", attribution[month_of_attribution], ASC) &
+			    " (" & LY & ")"
+			)
+			)
+		lineageTag: c5005a65-c459-488e-9d2a-66fbf6c36c88
+
+	measure 'Random % demo' = DIVIDE(RANDBETWEEN(5, 100), 100)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cd516daf-a644-4da6-8bf3-1c49a134e6e9
+
+	measure 'Random LOS demo' = RANDBETWEEN(5,35)
+		formatString: 0
+		lineageTag: 2ecf2e5b-bf50-40e1-ac4c-b2190c3cd1f6
+
+	measure 'random admits demo' = RANDBETWEEN(10, 85)
+		formatString: 0
+		lineageTag: 7921efa5-c082-4372-8826-894d417b24de
+
+	column Column1
+		dataType: int64
+		formatString: 0
+		lineageTag: 8bbc9ee3-ae95-4407-b53d-1bf2246222b7
+		summarizeBy: sum
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ALL_DAX_PAC = m
+		mode: import
+		queryGroup: ALL_DAX
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

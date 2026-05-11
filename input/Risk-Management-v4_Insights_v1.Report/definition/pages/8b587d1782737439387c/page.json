@@ -1,0 +1,102 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "8b587d1782737439387c",
+  "displayName": "Additional dimensions",
+  "displayOption": "FitToWidth",
+  "height": 3040,
+  "width": 1440,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F8F9FD'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "245L"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F8F9FD'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode",
+  "visualInteractions": [
+    {
+      "source": "bf04fcec65568c7ec2c5",
+      "target": "a6c467cd79437f3b4462",
+      "type": "DataFilter"
+    },
+    {
+      "source": "bf04fcec65568c7ec2c5",
+      "target": "ca33f0710b8fee381265",
+      "type": "DataFilter"
+    },
+    {
+      "source": "bf04fcec65568c7ec2c5",
+      "target": "8e3f342c751560243bc3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "a6c467cd79437f3b4462",
+      "target": "ca33f0710b8fee381265",
+      "type": "DataFilter"
+    },
+    {
+      "source": "a6c467cd79437f3b4462",
+      "target": "8e3f342c751560243bc3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "ca33f0710b8fee381265",
+      "target": "8e3f342c751560243bc3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "d8155feb2245892590db",
+      "target": "c5e8ee02698027bef7ef",
+      "type": "NoFilter"
+    }
+  ]
+}

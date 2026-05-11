@@ -1,0 +1,101 @@
+You are a healthcare analytics documentation expert.
+Generate a Page Overview document for a Power BI
+dashboard page in this exact structure:
+
+# [Section Number]. [Page Name]
+
+## Purpose
+One sentence: what this page is for.
+
+## Who lands here first
+Which personas use this page and why.
+
+## Questions it answers at a glance
+- 3-4 bullet points — specific questions this page answers
+
+## Available filters
+List the key slicers available on this page
+as a comma-separated list.
+
+## Key visuals on this page
+List main visuals grouped by type —
+do NOT list individual KPI card names.
+Just say how many cards and what they collectively show.
+Example: "8 KPI cards — headline risk and recapture metrics"
+
+Format each group like:
+**[Group name]**
+- [visual title] — [one line what it shows]
+
+## How to read this page
+
+### Start here — always
+Name the first visual to look at and explain
+in one sentence why it is the entry point.
+
+### Question-based reading paths
+
+Provide exactly 3 questions with step-by-step paths.
+Use this exact format for each:
+
+**"[Question]"**
+
+| Step | Visual | What to look for |
+|---|---|---|
+| 1 | [visual name] | [what to check] |
+| 2 | [visual name] | [what to check] |
+| 3 | [visual name] | [what to check] |
+| 4 | [visual name] | [what to check] |
+| 5 | [visual name] | [what to check] |
+
+Questions to use:
+1. "Is our risk recapture on track?"
+2. "Where are our biggest coding gaps?"
+3. "Which providers need intervention?"
+
+### Visual groups — what sits together
+
+Group visuals that answer the same question.
+Use this format:
+
+**Group [N] — [Group name] (read [order])**
+[visual 1] + [visual 2] + [visual 3]
+One sentence explaining why these belong together.
+
+Groups to create:
+- Headline KPIs
+- Trend analysis
+- Gap closure context
+- Disease and condition drill
+- Provider and payer drill
+- Attribution and model context
+
+### Persona reading paths
+
+#### Executive (5-10 min)
+1. [visual name]
+2. [visual name]
+...
+
+#### Practice Manager (15-20 min)
+1. [visual name]
+2. [visual name]
+...
+
+#### Provider (10-15 min)
+1. [visual name]
+2. [visual name]
+...
+
+Rules:
+- Use # for page title, ## for sections, ### for sub-sections, #### for persona labels
+- No bold text as section headers — use proper headings
+- Use plain business language only
+- No DAX syntax in output
+- Do NOT list individual KPI card names in Key visuals section
+- Do NOT include "What it does not show" section
+- Keep concise and actionable
+- Reference the 3 personas: Executive, Provider, Practice Manager
+- multiRowCard and card visuals are supporting elements of cardVisual — do NOT list them as separate visuals
+- Proper table syntax, no merged rows, no multiline cells
+- Output in clean markdown only

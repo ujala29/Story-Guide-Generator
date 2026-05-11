@@ -1,0 +1,1408 @@
+{
+  "edges": [
+    {
+      "measure": "#Members",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Members with open coding gaps",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Gap to potential risk",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Gaps closed",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Documented risk",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "PMPM",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Potential risk",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "#Members PY",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members YoY",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members YoY Card",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members YoY Color",
+      "depends_on": [
+        "#Members YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members PM",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members MoM",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members MoM Card",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "#Members MoM Color",
+      "depends_on": [
+        "#Members MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk PY",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk YoY",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk YoY Card",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk YoY Color",
+      "depends_on": [
+        "Documented risk YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk PM",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk MoM",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk MoM Card",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Documented risk Color",
+      "depends_on": [
+        "Documented risk MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk PY",
+      "depends_on": [
+        "Gap to potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk YoY",
+      "depends_on": [
+        "Gap to potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk YoY Card",
+      "depends_on": [
+        "Gap to potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk YoY Color",
+      "depends_on": [
+        "Gap to potential risk YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk PM",
+      "depends_on": [
+        "Gap to potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk MoM",
+      "depends_on": [
+        "Gap to potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk MoM Card",
+      "depends_on": [
+        "Gap to potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Gap to potential risk MoM Color",
+      "depends_on": [
+        "Gap to potential risk MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps PY",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps YoY",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps YoY Card",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps YoY Color",
+      "depends_on": [
+        "Members with open coding gaps YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps PM",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps MoM",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps MoM Card",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Members with open coding gaps MoM Color",
+      "depends_on": [
+        "Members with open coding gaps MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed PY",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed YoY",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed YoY Card",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed YoY Color",
+      "depends_on": [
+        "Overall gaps closed YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed PM",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed MoM",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed MoM Card",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed MoM Color",
+      "depends_on": [
+        "Overall gaps closed MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Formatted PMPM",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM PY",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM YoY",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM YoY Card",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM YoY Color",
+      "depends_on": [
+        "PMPM YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM PM",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM MoM",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM MoM Card",
+      "depends_on": [
+        "PMPM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "PMPM MoM Color",
+      "depends_on": [
+        "PMPM MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk PY",
+      "depends_on": [
+        "Potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk YoY",
+      "depends_on": [
+        "Potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk YoY Card",
+      "depends_on": [
+        "Potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk YoY Color",
+      "depends_on": [
+        "Potential risk YoY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk PM",
+      "depends_on": [
+        "Potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk MoM",
+      "depends_on": [
+        "Potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk MoM Card",
+      "depends_on": [
+        "Potential risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential risk MoM Color",
+      "depends_on": [
+        "Potential risk MoM"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Formatted #Members",
+      "depends_on": [
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Formatted Members with open coding gaps",
+      "depends_on": [
+        "Members with open coding gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Formatted Overall gaps closed",
+      "depends_on": [
+        "Gaps closed"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "RAF recapture rate PM",
+      "depends_on": [
+        "RAF recapture rate"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate MoM",
+      "depends_on": [
+        "RAF recapture rate PM",
+        "RAF recapture rate"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate MoM Card",
+      "depends_on": [
+        "RAF recapture rate PM",
+        "RAF recapture rate"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate MoM color",
+      "depends_on": [
+        "RAF recapture rate MoM"
+      ],
+      "depth": 3,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate PY",
+      "depends_on": [
+        "RAF recapture rate"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate YoY",
+      "depends_on": [
+        "RAF recapture rate",
+        "RAF recapture rate PY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate YoY Card",
+      "depends_on": [
+        "RAF recapture rate",
+        "RAF recapture rate PY"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate YoY color",
+      "depends_on": [
+        "RAF recapture rate YoY"
+      ],
+      "depth": 3,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Risk recapture rate PM",
+      "depends_on": [
+        "Risk recapture rate"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate MoM",
+      "depends_on": [
+        "Risk recapture rate PM",
+        "Risk recapture rate"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate MoM Card",
+      "depends_on": [
+        "Risk recapture rate PM",
+        "Risk recapture rate"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate MoM color",
+      "depends_on": [
+        "Risk recapture rate MoM"
+      ],
+      "depth": 3,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate PY",
+      "depends_on": [
+        "Risk recapture rate"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate YoY",
+      "depends_on": [
+        "Risk recapture rate PY",
+        "Risk recapture rate"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate YoY Card",
+      "depends_on": [
+        "Risk recapture rate PY",
+        "Risk recapture rate"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate YoY color",
+      "depends_on": [
+        "Risk recapture rate YoY"
+      ],
+      "depth": 3,
+      "is_leaf": false
+    },
+    {
+      "measure": "Dropped + suspected",
+      "depends_on": [
+        "Suspected risk",
+        "Undocumented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Suspected risk",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Undocumented risk",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "% members with open coding gaps",
+      "depends_on": [
+        "Members with open coding gaps",
+        "#Members"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "% Members with open coding gaps YoY",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "% Members with open coding gaps YoY Color",
+      "depends_on": [
+        "% Members with open coding gaps YoY"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "% Members with open coding gaps YoY Card",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Open gaps (Dropped)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Open gaps (Suspected)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Gap to potential risk (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Overall gaps closed (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Documented risk (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Potential risk (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Overall gaps closed PY (GROUP)",
+      "depends_on": [
+        "Overall gaps closed (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed YoY (GROUP)",
+      "depends_on": [
+        "Overall gaps closed (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed PM (GROUP)",
+      "depends_on": [
+        "Overall gaps closed (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Overall gaps closed MoM (GROUP)",
+      "depends_on": [
+        "Overall gaps closed (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "RAF recapture rate PM (GROUP)",
+      "depends_on": [
+        "RAF recapture rate (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate MoM (GROUP)",
+      "depends_on": [
+        "RAF recapture rate (GROUP)",
+        "RAF recapture rate PM (GROUP)"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate PY (GROUP)",
+      "depends_on": [
+        "RAF recapture rate (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "RAF recapture rate YoY (GROUP)",
+      "depends_on": [
+        "RAF recapture rate (GROUP)",
+        "RAF recapture rate PY (GROUP)"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Risk recapture rate PM (GROUP)",
+      "depends_on": [
+        "Risk recapture rate (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate MoM (GROUP)",
+      "depends_on": [
+        "Risk recapture rate PM (GROUP)",
+        "Risk recapture rate (GROUP)"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate PY (GROUP)",
+      "depends_on": [
+        "Risk recapture rate (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate YoY (GROUP)",
+      "depends_on": [
+        "Risk recapture rate PY (GROUP)",
+        "Risk recapture rate (GROUP)"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "open dropped gaps (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "open suspected gaps (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Undocumented risk (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Suspected risk (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Dropped + suspected (GROUP)",
+      "depends_on": [
+        "Undocumented risk (GROUP)",
+        "Suspected risk (GROUP)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Eligible population",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Formatted Eligible population",
+      "depends_on": [
+        "Eligible population"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Eligible population (group)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Formatted Eligible population (group)",
+      "depends_on": [
+        "Eligible population (group)"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Eligible population PY",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Eligible population YoY",
+      "depends_on": [
+        "Eligible population"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "ELigible population YoY Card",
+      "depends_on": [
+        "Eligible population"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Info text risk LY",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Risk recapture rate YoY color (GROUP)",
+      "depends_on": [
+        "Risk recapture rate YoY (GROUP)"
+      ],
+      "depth": 3,
+      "is_leaf": false
+    },
+    {
+      "measure": "Eligible population trend",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "#Members trend",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Realizable RAF score",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Info text risk cohort",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Targeted gaps",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Targeted patients",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "RAF_impact_cohort",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "increase_RAF_impact_cohort",
+      "depends_on": [
+        "Documented risk",
+        "RAF_impact_cohort"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Latest measurement date",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Documented risk cohort",
+      "depends_on": [
+        "Documented risk"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Latest risk execution",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Latest attribution date",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Risk factor",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Gaps closed (GROUP)",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "% Members with open coding gaps MoM",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "% Members with open coding gaps MoM Card",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "% Members with open coding gaps MoM Color",
+      "depends_on": [
+        "% Members with open coding gaps MoM"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Eligible population MoM",
+      "depends_on": [
+        "Eligible population"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "ELigible population MoM Card",
+      "depends_on": [
+        "Eligible population"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Info text risk PM",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Info icon appointments per pcp",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Filter",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "RAF recapture rate cohort",
+      "depends_on": [
+        "RAF recapture rate"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Risk recapture rate cohort",
+      "depends_on": [
+        "Risk recapture rate"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential Risk recapture rate cohort",
+      "depends_on": [
+        "Targeted gaps"
+      ],
+      "depth": 1,
+      "is_leaf": false
+    },
+    {
+      "measure": "Potential RAF recapture rate cohort",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Cohort eligible gaps",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Scatter tooltip title",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Formatted X Tooltip",
+      "depends_on": [
+        "Open gaps (Suspected)",
+        "Eligible population",
+        "Risk recapture rate",
+        "#Members",
+        "RAF recapture rate",
+        "Open gaps (Dropped)",
+        "Gap to potential risk",
+        "% members with open coding gaps",
+        "PMPM",
+        "Documented risk"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Metric title",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    },
+    {
+      "measure": "Metric value",
+      "depends_on": [
+        "Formatted Y Tooltip",
+        "Formatted X Tooltip"
+      ],
+      "depth": 3,
+      "is_leaf": false
+    },
+    {
+      "measure": "Selected X Axis Value",
+      "depends_on": [
+        "Open gaps (Suspected)",
+        "Eligible population",
+        "Risk recapture rate",
+        "#Members",
+        "RAF recapture rate",
+        "Open gaps (Dropped)",
+        "Gap to potential risk",
+        "% members with open coding gaps",
+        "PMPM",
+        "Documented risk"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Formatted Y Tooltip",
+      "depends_on": [
+        "Open gaps (Suspected)",
+        "Eligible population",
+        "Risk recapture rate",
+        "#Members",
+        "RAF recapture rate",
+        "Open gaps (Dropped)",
+        "Gap to potential risk",
+        "% members with open coding gaps",
+        "PMPM",
+        "Documented risk"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Selected Y Axis Value",
+      "depends_on": [
+        "Open gaps (Suspected)",
+        "Eligible population",
+        "Risk recapture rate",
+        "#Members",
+        "RAF recapture rate",
+        "Open gaps (Dropped)",
+        "Gap to potential risk",
+        "% members with open coding gaps",
+        "PMPM",
+        "Documented risk"
+      ],
+      "depth": 2,
+      "is_leaf": false
+    },
+    {
+      "measure": "Y Axis Title",
+      "depends_on": [],
+      "depth": 0,
+      "is_leaf": true
+    }
+  ],
+  "topological_order": [
+    "#Members",
+    "Members with open coding gaps",
+    "Gap to potential risk",
+    "Gaps closed",
+    "Documented risk",
+    "PMPM",
+    "Potential risk",
+    "RAF recapture rate",
+    "Risk recapture rate",
+    "Suspected risk",
+    "Undocumented risk",
+    "% Members with open coding gaps YoY",
+    "% Members with open coding gaps YoY Card",
+    "Open gaps (Dropped)",
+    "Open gaps (Suspected)",
+    "Gap to potential risk (GROUP)",
+    "Overall gaps closed (GROUP)",
+    "Documented risk (GROUP)",
+    "Potential risk (GROUP)",
+    "RAF recapture rate (GROUP)",
+    "Risk recapture rate (GROUP)",
+    "open dropped gaps (GROUP)",
+    "open suspected gaps (GROUP)",
+    "Undocumented risk (GROUP)",
+    "Suspected risk (GROUP)",
+    "Eligible population",
+    "Eligible population (group)",
+    "Eligible population PY",
+    "Info text risk LY",
+    "Eligible population trend",
+    "#Members trend",
+    "Info text risk cohort",
+    "Targeted gaps",
+    "Targeted patients",
+    "RAF_impact_cohort",
+    "Latest measurement date",
+    "Latest risk execution",
+    "Latest attribution date",
+    "Risk factor",
+    "Gaps closed (GROUP)",
+    "% Members with open coding gaps MoM",
+    "% Members with open coding gaps MoM Card",
+    "Info text risk PM",
+    "Info icon appointments per pcp",
+    "Filter",
+    "Potential RAF recapture rate cohort",
+    "Cohort eligible gaps",
+    "Scatter tooltip title",
+    "Metric title",
+    "Y Axis Title",
+    "#Members PY",
+    "#Members YoY",
+    "#Members YoY Card",
+    "#Members PM",
+    "#Members MoM",
+    "#Members MoM Card",
+    "Formatted #Members",
+    "Members with open coding gaps PY",
+    "Members with open coding gaps YoY",
+    "Members with open coding gaps YoY Card",
+    "Members with open coding gaps PM",
+    "Members with open coding gaps MoM",
+    "Members with open coding gaps MoM Card",
+    "Formatted Members with open coding gaps",
+    "% members with open coding gaps",
+    "Gap to potential risk PY",
+    "Gap to potential risk YoY",
+    "Gap to potential risk YoY Card",
+    "Gap to potential risk PM",
+    "Gap to potential risk MoM",
+    "Gap to potential risk MoM Card",
+    "Overall gaps closed PY",
+    "Overall gaps closed YoY",
+    "Overall gaps closed YoY Card",
+    "Overall gaps closed PM",
+    "Overall gaps closed MoM",
+    "Overall gaps closed MoM Card",
+    "Formatted Overall gaps closed",
+    "Documented risk PY",
+    "Documented risk YoY",
+    "Documented risk YoY Card",
+    "Documented risk PM",
+    "Documented risk MoM",
+    "Documented risk MoM Card",
+    "Realizable RAF score",
+    "Documented risk cohort",
+    "Formatted PMPM",
+    "PMPM PY",
+    "PMPM YoY",
+    "PMPM YoY Card",
+    "PMPM PM",
+    "PMPM MoM",
+    "PMPM MoM Card",
+    "Potential risk PY",
+    "Potential risk YoY",
+    "Potential risk YoY Card",
+    "Potential risk PM",
+    "Potential risk MoM",
+    "Potential risk MoM Card",
+    "RAF recapture rate PM",
+    "RAF recapture rate PY",
+    "RAF recapture rate cohort",
+    "Risk recapture rate PM",
+    "Risk recapture rate PY",
+    "Risk recapture rate cohort",
+    "Dropped + suspected",
+    "% Members with open coding gaps YoY Color",
+    "Overall gaps closed PY (GROUP)",
+    "Overall gaps closed YoY (GROUP)",
+    "Overall gaps closed PM (GROUP)",
+    "Overall gaps closed MoM (GROUP)",
+    "RAF recapture rate PM (GROUP)",
+    "RAF recapture rate PY (GROUP)",
+    "Risk recapture rate PM (GROUP)",
+    "Risk recapture rate PY (GROUP)",
+    "Dropped + suspected (GROUP)",
+    "Formatted Eligible population",
+    "Eligible population YoY",
+    "ELigible population YoY Card",
+    "Eligible population MoM",
+    "ELigible population MoM Card",
+    "Formatted Eligible population (group)",
+    "Potential Risk recapture rate cohort",
+    "increase_RAF_impact_cohort",
+    "% Members with open coding gaps MoM Color",
+    "#Members YoY Color",
+    "#Members MoM Color",
+    "Members with open coding gaps YoY Color",
+    "Members with open coding gaps MoM Color",
+    "Formatted X Tooltip",
+    "Selected X Axis Value",
+    "Formatted Y Tooltip",
+    "Selected Y Axis Value",
+    "Gap to potential risk YoY Color",
+    "Gap to potential risk MoM Color",
+    "Overall gaps closed YoY Color",
+    "Overall gaps closed MoM Color",
+    "Documented risk YoY Color",
+    "Documented risk Color",
+    "PMPM YoY Color",
+    "PMPM MoM Color",
+    "Potential risk YoY Color",
+    "Potential risk MoM Color",
+    "RAF recapture rate MoM",
+    "RAF recapture rate MoM Card",
+    "RAF recapture rate YoY",
+    "RAF recapture rate YoY Card",
+    "Risk recapture rate MoM",
+    "Risk recapture rate MoM Card",
+    "Risk recapture rate YoY",
+    "Risk recapture rate YoY Card",
+    "RAF recapture rate MoM (GROUP)",
+    "RAF recapture rate YoY (GROUP)",
+    "Risk recapture rate MoM (GROUP)",
+    "Risk recapture rate YoY (GROUP)",
+    "Metric value",
+    "RAF recapture rate MoM color",
+    "RAF recapture rate YoY color",
+    "Risk recapture rate MoM color",
+    "Risk recapture rate YoY color",
+    "Risk recapture rate YoY color (GROUP)"
+  ]
+}

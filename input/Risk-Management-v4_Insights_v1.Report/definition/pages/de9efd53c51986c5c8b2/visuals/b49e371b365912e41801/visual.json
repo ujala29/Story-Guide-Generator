@@ -1,0 +1,1735 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "b49e371b365912e41801",
+  "position": {
+    "x": 490,
+    "y": 553,
+    "z": 37000,
+    "height": 300,
+    "width": 932,
+    "tabOrder": 37000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "payer"
+                    }
+                  },
+                  "Property": "payer_name"
+                }
+              },
+              "queryRef": "payer.payer_name",
+              "nativeQueryRef": "Payer/plan",
+              "active": true,
+              "displayName": "Payer/plan"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "payer"
+                    }
+                  },
+                  "Property": "plan_name"
+                }
+              },
+              "queryRef": "payer.plan_name",
+              "nativeQueryRef": " ",
+              "active": false,
+              "displayName": " "
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "#Members"
+                }
+              },
+              "queryRef": "ALL_DAX.#Members",
+              "nativeQueryRef": "Members",
+              "displayName": "Members"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "Documented risk"
+                }
+              },
+              "queryRef": "ALL_DAX.documented_risk",
+              "nativeQueryRef": "Documented risk",
+              "displayName": "Documented risk"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "Gap to potential risk"
+                }
+              },
+              "queryRef": "ALL_DAX.Gap to potential risk",
+              "nativeQueryRef": "Gap to potential risk"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "PMPM"
+                }
+              },
+              "queryRef": "ALL_DAX.PMPM",
+              "nativeQueryRef": "PMPM"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "RAF recapture rate"
+                }
+              },
+              "queryRef": "ALL_DAX.RAF recapture rate",
+              "nativeQueryRef": "RAF recapture rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "RAF recapture rate MoM"
+                }
+              },
+              "queryRef": "ALL_DAX.RAF recapture rate MoM",
+              "nativeQueryRef": "RAF RR MoM change ",
+              "displayName": "RAF RR MoM change "
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "Risk recapture rate"
+                }
+              },
+              "queryRef": "ALL_DAX.Risk recapture rate",
+              "nativeQueryRef": "Risk recapture rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ALL DAX"
+                    }
+                  },
+                  "Property": "Risk recapture rate MoM"
+                }
+              },
+              "queryRef": "ALL_DAX.Risk recapture rate MoM",
+              "nativeQueryRef": "Risk RR MoM change ",
+              "displayName": "Risk RR MoM change "
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "ALL DAX"
+                  }
+                },
+                "Property": "#Members"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "payer.payer_name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "payer"
+                    }
+                  },
+                  "Property": "payer_name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "payer.plan_name"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "total": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2F2F2F'"
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "titleAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            },
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E5E5E5'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F8F9FD'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2F2F2F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2F2F2F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "ALL_DAX.RAF recapture rate"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "ALL DAX"
+                                    }
+                                  },
+                                  "Property": "Risk recapture rate MoM color"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "2D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#CE5639'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "ALL_DAX.Risk recapture rate MoM"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "ALL DAX"
+                                    }
+                                  },
+                                  "Property": "RAF recapture rate MoM color"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "2D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#CE5639'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "ALL_DAX.RAF recapture rate MoM"
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E5E5E5'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "198.49436533115417D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "payer.payer_name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "88.65564693851859D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.RAF recapture rate"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "97.0800636419242D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.Risk recapture rate"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "96.68387389026626D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.documented_risk"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "70.72238703613539D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.PMPM"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "74.23589163308216D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.#Members"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "91.33610986435929D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.Gap to potential risk"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "86.70002834357035D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.RAF recapture rate MoM"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "85.71174530141668D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ALL_DAX.Risk recapture rate MoM"
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E5E5E5'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "preset": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Custom'"
+                }
+              }
+            },
+            "shadowSpread": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "shadowBlur": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "shadowDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "84D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Payer/plan details'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2F2F2F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "customizeSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "keepLayerOrder": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filterdb57a307ebc60b719108",
+        "ordinal": 0,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Aggregated star rating"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "241fda66d6f40e78d86c",
+        "ordinal": 1,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Total Network Leakage"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filter019fe3ef74bf6b9e4747",
+        "ordinal": 2,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "YE quality performance"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filter771ab8ce96bd6977b936",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "YE aggregated star rating"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filter86e08781b70ba6b62e69",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Total measures with goal available"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filterb0b59f40d1d4d41f67cb",
+        "ordinal": 5,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Aggregated open gaps to next star"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filter0e7f7b1dea5b0e01315a",
+        "ordinal": 6,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Aggregated closed gaps"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filtere0bb2a79314961b89331",
+        "ordinal": 7,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Aggregated open gaps"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filterd924f9cf5a292ab09690",
+        "ordinal": 8,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Goal"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "Filtereb04b6c691dc45008082",
+        "ordinal": 9,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Current open gaps to goal"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "882e11dd0c896a1fd836",
+        "ordinal": 10,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Inverse measure flag"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "5481cb4f6fecdc1f416a",
+        "ordinal": 11,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "All DAX"
+              }
+            },
+            "Property": "Net quality performance"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "c840584c0ac0a8473b2a",
+        "ordinal": 12,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Network Leakage %"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "b51c1a463b24a8e65ba1",
+        "ordinal": 13,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Total Network Leakage"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "0401388c42b09dac90ea",
+        "ordinal": 14,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "pcp"
+              }
+            },
+            "Property": "practice_name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "b5134fd2bda8f99337e7",
+        "ordinal": 15,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "OON utilization rate"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "627e3ed20e6170dc1601",
+        "ordinal": 16,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "pcp"
+              }
+            },
+            "Property": "pcp_name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "55025b25846197675f79",
+        "ordinal": 17,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Network Leakage % YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "6ec215e634a8a4aa2051",
+        "ordinal": 18,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "OON utilization rate YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "8dcc21e0707e97ea98bc",
+        "ordinal": 19,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Professional Potentially Avoidable Leakage"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "824766f86f7bbe886b3a",
+        "ordinal": 20,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Professional Potentially Avoidable Leakage % YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "8b80ac6db9b5715f5a80",
+        "ordinal": 21,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Professional Potentially Avoidable Leakage %"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "ec00e6f968953950aab4",
+        "ordinal": 22,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Leakage PMPM"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "2f1f83c1fe00fc49465f",
+        "ordinal": 23,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Leakage PMPM YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "ec040ccd4ce5f256f31d",
+        "ordinal": 24,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "#Members"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "a3e95879d0b8adff97b3",
+        "ordinal": 25,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "#Members"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1d20384ff856ac2febe8",
+        "ordinal": 26,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL_DAX_Network_Leakage"
+              }
+            },
+            "Property": "Visits"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "ac3963c4da18532171f9",
+        "ordinal": 27,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "payer"
+              }
+            },
+            "Property": "payer_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8b1e59a9e3eb1bc4737a",
+        "ordinal": 28,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "payer"
+              }
+            },
+            "Property": "plan_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "88b6c78e8ffea5a334fb",
+        "ordinal": 29,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "#Members"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "7caa6d74ce4328153c9c",
+        "ordinal": 30,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Medication PMPM"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "d90601dfe9364021283d",
+        "ordinal": 31,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Scripts/1000"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "1ff04d88aa7b59d6aa4e",
+        "ordinal": 32,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Generic dispensing rate"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "8c049718c40da26a43d3",
+        "ordinal": 33,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Potential savings"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "fdff55c9259dfc7997b6",
+        "ordinal": 34,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Medication PMPM YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "de3abaad39032e8607d1",
+        "ordinal": 35,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Scripts/1000 YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "2dd4254cc559e03a8bb2",
+        "ordinal": 36,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Generic dispensing rate YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "bb47bcd0ba20ec734090",
+        "ordinal": 37,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Documented risk"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4abf90bd8176d0124a15",
+        "ordinal": 38,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "PMPM"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ee50450b3baa3087e825",
+        "ordinal": 39,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Potential risk"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "a38ef9fc03cb800bd9d6",
+        "ordinal": 40,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "RAF recapture rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "917a9d1168ab0b442c0a",
+        "ordinal": 41,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "RAF recapture rate YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "8df5b0c4189c85b7b32b",
+        "ordinal": 42,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Risk recapture rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "30295a6f95c0cec45c3b",
+        "ordinal": 43,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Risk recapture rate YoY"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "a96ae14402a2a81284be",
+        "ordinal": 44,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Gap to potential risk"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6f46d5be0254ff58ab68",
+        "ordinal": 45,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "RAF recapture rate MoM"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c1e112a7378d0c37f3e8",
+        "ordinal": 46,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Risk recapture rate MoM"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "18ea2f920930dcca0bda",
+        "ordinal": 47,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ALL DAX"
+              }
+            },
+            "Property": "Filter"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "a",
+              "Entity": "ALL DAX",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "a"
+                        }
+                      },
+                      "Property": "Filter"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}

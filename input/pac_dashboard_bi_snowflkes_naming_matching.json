@@ -1,0 +1,254 @@
+{
+  "date": {
+    "table_id": 12,
+    "bi_table": "date",
+    "snowflake_object": "DATE_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": null,
+      "columns": {
+        "month_year": {
+          "type": "created",
+          "source_column": null,
+          "sql_expression": "CONCAT(month_of_year, '-', CAST(year AS VARCHAR))",
+          "note": "Created using Text.Combine of month_of_year and year"
+        },
+        "updated_key": {
+          "type": "removed",
+          "source_column": "updated_key",
+          "sql_expression": null,
+          "note": "Removed using Table.RemoveColumns"
+        }
+      }
+    }
+  },
+
+  "pac_view": {
+    "table_id": 630537,
+    "bi_table": "pac_view",
+    "snowflake_object": "PAC_TABLE",
+    "snowflake_kind": "Table",
+    "type": "source",
+    "date_column": "DATE_TRUNC('month', PAC_VISIT_START_DATE)",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": null,
+      "columns": {}
+    }
+  },
+
+  "pac_opp_patient_view": {
+    "table_id": 630540,
+    "bi_table": "pac_opp_patient_view",
+    "snowflake_object": "INPATIENT_PAC_V4_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "date_column": "MONTH_OF_VISIT",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": ["join_key"],
+      "columns": {
+        "join_key": {
+          "type": "deduplicated",
+          "source_column": "join_key",
+          "sql_expression": null,
+          "note": "Duplicates removed using Table.Distinct"
+        }
+      }
+    }
+  },
+
+  "attribution": {
+    "table_id": 630543,
+    "bi_table": "attribution",
+    "snowflake_object": "PCP_VISITS_VIEW",
+    "snowflake_kind": "View",
+    "type": "source",
+    "date_column": "MONTH_OF_ATTRIBUTION",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": null,
+      "columns": {}
+    }
+  },
+
+  "all_dax_pac": {
+    "table_id": 633757,
+    "bi_table": "all_dax_pac",
+    "snowflake_object": null,
+    "snowflake_kind": null,
+    "type": "static",
+    "transformations": {
+      "lowercased": false,
+      "deduplicated_on": null,
+      "columns": {
+        "column1": {
+          "type": "static",
+          "source_column": null,
+          "sql_expression": null,
+          "note": "Static table generated from compressed JSON"
+        }
+      }
+    }
+  },
+
+  "static_observation_window_table": {
+    "table_id": 633811,
+    "bi_table": "static_observation_window_table",
+    "snowflake_object": null,
+    "snowflake_kind": null,
+    "type": "static",
+    "transformations": {
+      "lowercased": false,
+      "deduplicated_on": null,
+      "columns": {
+        "observation_window": {
+          "type": "renamed",
+          "source_column": "Window",
+          "sql_expression": null,
+          "note": "Renamed from Window"
+        },
+        "observation_window_value": {
+          "type": "renamed",
+          "source_column": "Value",
+          "sql_expression": null,
+          "note": "Renamed from Value"
+        }
+      }
+    }
+  },
+
+  "pcp": {
+    "table_id": 643764,
+    "bi_table": "pcp",
+    "snowflake_object": "PCP",
+    "snowflake_kind": "Table",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": null,
+      "columns": {}
+    }
+  },
+
+  "payer": {
+    "table_id": 643767,
+    "bi_table": "payer",
+    "snowflake_object": "PAYER",
+    "snowflake_kind": "Table",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": null,
+      "columns": {}
+    }
+  },
+
+  "parameter": {
+    "table_id": 646054,
+    "bi_table": "parameter",
+    "snowflake_object": null,
+    "snowflake_kind": null,
+    "type": "parameter",
+    "transformations": {
+      "lowercased": false,
+      "deduplicated_on": null,
+      "columns": {
+        "parameter_name": {
+          "type": "static",
+          "source_column": null,
+          "sql_expression": null,
+          "note": "Defined using NAMEOF mapping for measures"
+        }
+      }
+    }
+  },
+
+  "user_permission": {
+    "table_id": 686405,
+    "bi_table": "user_permission",
+    "snowflake_object": "USER_PERMISSION_FILTERED",
+    "snowflake_kind": "View",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": null,
+      "columns": {
+        "prvid": {
+          "type": "selected",
+          "source_column": "prvid",
+          "sql_expression": null,
+          "note": "Selected using Table.SelectColumns"
+        },
+        "user_email": {
+          "type": "selected",
+          "source_column": "user_email",
+          "sql_expression": null,
+          "note": "Selected using Table.SelectColumns"
+        }
+      }
+    }
+  },
+
+  "x_axis_scatter_plot": {
+    "table_id": 689150,
+    "bi_table": "x_axis_scatter_plot",
+    "snowflake_object": null,
+    "snowflake_kind": null,
+    "type": "static",
+    "transformations": {
+      "lowercased": false,
+      "deduplicated_on": null,
+      "columns": {
+        "x_axis": {
+          "type": "static",
+          "source_column": null,
+          "sql_expression": null,
+          "note": "Defined using DATATABLE"
+        }
+      }
+    }
+  },
+
+  "y_axis_scatter_plot": {
+    "table_id": 689421,
+    "bi_table": "y_axis_scatter_plot",
+    "snowflake_object": null,
+    "snowflake_kind": null,
+    "type": "static",
+    "transformations": {
+      "lowercased": false,
+      "deduplicated_on": null,
+      "columns": {
+        "y_axis": {
+          "type": "static",
+          "source_column": null,
+          "sql_expression": null,
+          "note": "Defined using DATATABLE"
+        }
+      }
+    }
+  },
+
+  "snf_recommendation": {
+    "table_id": 701105,
+    "bi_table": "snf_recommendation",
+    "snowflake_object": "PAC_TABLE",
+    "snowflake_kind": "Table",
+    "type": "source",
+    "transformations": {
+      "lowercased": true,
+      "deduplicated_on": ["pac_hospital_name"],
+      "columns": {
+        "pac_hospital_name": {
+          "type": "deduplicated",
+          "source_column": "pac_hospital_name",
+          "sql_expression": null,
+          "note": "Duplicates removed using Table.Distinct"
+        }
+      }
+    }
+  }
+}

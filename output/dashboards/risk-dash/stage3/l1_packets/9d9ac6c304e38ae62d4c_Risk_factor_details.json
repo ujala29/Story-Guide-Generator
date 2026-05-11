@@ -1,0 +1,61 @@
+{
+  "visual_id": "9d9ac6c304e38ae62d4c",
+  "title": "Risk factor details",
+  "visual_type": "tableEx",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "This table presents year-over-year risk adjustment performance metrics at the group level, showing how well documented risk, gap closure, and recapture rates are trending across the eligible population.",
+  "numerator_meaning": "",
+  "denominator_meaning": "",
+  "result_meaning": "Analysts use this table to identify whether care management efforts are successfully closing HCC coding gaps, recapturing risk, and improving RAF scores relative to the prior year for a defined member group.",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "count",
+  "measure_meanings": {},
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": true,
+  "column_definitions": {
+    "Eligible population (group)": {
+      "definition": "The total count of members in the group who are eligible for risk adjustment evaluation during the measurement period.",
+      "increasing": "Rising membership signals a growing population requiring risk documentation and gap closure resources.",
+      "decreasing": "Falling membership may indicate attrition, eligibility changes, or panel reductions that could affect overall RAF and revenue projections."
+    },
+    "Documented risk (GROUP)": {
+      "definition": "The aggregate RAF score derived from HCC conditions that have already been coded and submitted for the group during the measurement period.",
+      "increasing": "Higher documented risk reflects improved coding completeness, more accurate capture of member acuity, and stronger risk-adjusted revenue.",
+      "decreasing": "Lower documented risk suggests coding gaps, missed diagnoses, or member health improvement, potentially leading to underpayment relative to true clinical burden."
+    },
+    "Gap to potential risk (GROUP)": {
+      "definition": "The difference between the group's potential RAF score (including suspected but uncaptured HCCs) and the currently documented RAF score, representing unclosed coding opportunity.",
+      "increasing": "A growing gap indicates that more suspected conditions are going undocumented, signaling deteriorating coding performance or insufficient outreach.",
+      "decreasing": "A shrinking gap reflects successful closure of HCC coding opportunities, improving alignment between clinical reality and submitted risk scores."
+    },
+    "Risk recapture rate (GROUP)": {
+      "definition": "The percentage of identified HCC coding gaps that were successfully closed and documented for the group during the measurement period.",
+      "increasing": "A higher recapture rate demonstrates effective care management outreach and provider engagement in closing suspected diagnosis gaps.",
+      "decreasing": "A declining recapture rate signals that fewer gaps are being resolved, risking RAF score degradation and potential revenue shortfalls."
+    },
+    "Risk recapture rate YoY (GROUP)": {
+      "definition": "The year-over-year percentage change in the group's risk recapture rate, measuring whether gap closure performance is improving or declining relative to the prior year.",
+      "increasing": "A positive YoY change indicates the group is closing a greater proportion of gaps than the prior year, reflecting program improvement.",
+      "decreasing": "A negative YoY change signals that gap closure efficiency has worsened compared to the prior year, warranting investigation into outreach or documentation workflows."
+    },
+    "open dropped gaps (GROUP)": {
+      "definition": "The count of HCC coding gaps that were previously identified but have been removed from active pursuit without being resolved, typically due to clinical review or administrative decisions.",
+      "increasing": "A rising number of dropped gaps may indicate overly aggressive gap identification, clinical invalidation of suspected conditions, or workflow inefficiencies causing premature gap closure.",
+      "decreasing": "Fewer dropped gaps suggests better upfront gap quality, more accurate suspect algorithms, or improved follow-through before gaps are abandoned."
+    },
+    "open suspected gaps (GROUP)": {
+      "definition": "The count of HCC conditions that algorithms or clinical review have flagged as likely present but not yet documented or coded for members in the group.",
+      "increasing": "More open suspected gaps signals a growing backlog of unaddressed coding opportunities, increasing risk of RAF score underrepresentation if not acted upon.",
+      "decreasing": "Fewer open suspected gaps indicates that the group is actively working through its pipeline, either by closing gaps through documentation or by dropping clinically invalid suspects."
+    }
+  },
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

@@ -1,0 +1,31 @@
+**Widget: Gap closure by type of visit (Donut Chart)**
+
+> 📷 *Insert: Cropped screenshot of the Gap closure by type of visit donut*
+
+**Definition**
+
+[2 sentences ending with quoted question]
+
+**What it measures**
+
+| Element | Description |
+|---|---|
+| Visual type | Donut chart with count labels |
+| Primary metric | [measure] |
+| Legend | [category dimension] |
+| Comparison | None |
+| Visual-level filters | [active filters] |
+
+**How to read it**
+
+| Pattern | Interpretation |
+|---|---|
+[3-4 rows]
+
+**Technical specification**
+
+**DAX measure(s):**
+[verbatim]
+
+**Tables and columns used:**
+| Table | Column | Role |

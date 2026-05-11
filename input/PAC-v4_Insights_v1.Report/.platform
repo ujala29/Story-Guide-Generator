@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PAC-v4_Insights_v1"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "13e7d9b9-ad7b-41e4-8c10-4ee9fc7af1e4"
+  }
+}

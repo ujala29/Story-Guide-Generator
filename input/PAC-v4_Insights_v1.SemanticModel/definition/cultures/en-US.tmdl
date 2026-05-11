@@ -1,0 +1,2108 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "3.5.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "date": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "moment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "period": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "date.month_of_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "month_of_date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month of date": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "month_of_date": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "mth of date": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "month of moment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "month of period": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "date.month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "month"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "mth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        }
+			      ]
+			    },
+			    "date.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        }
+			      ]
+			    },
+			    "date.month_of_year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "month_of_year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month of year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "month_of_year": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "mth of year": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "month of yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        }
+			      ]
+			    },
+			    "date.updated_on": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "updated_on"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "updated on": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "updated_on": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "date.month_year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "date",
+			          "ConceptualProperty": "month_year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "month_year": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "month yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "mth year": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "pac_comparison.nearest_snf": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_comparison",
+			          "ConceptualProperty": "Nearest SNF"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "attribution_disease_count.disease_count": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "attribution_disease_count",
+			          "ConceptualProperty": "disease_count"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_medication.cost_due_to_medical_benefit_drugs": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Medication",
+			          "ConceptualProperty": "Cost due to Medical Benefit Drugs"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_medication.cost_due_to_medical_benefit_drugs_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Medication",
+			          "ConceptualProperty": "Cost due to Medical Benefit Drugs PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_medication.total_cost_pharmacy_benefit_drugs": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Medication",
+			          "ConceptualProperty": "Total Cost Pharmacy Benefit Drugs"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_medication.total_cost_pharmacy_benefit_drugs_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Medication",
+			          "ConceptualProperty": "Total Cost Pharmacy Benefit Drugs PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.total_targeted_patients": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Total targeted patients"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "quality_cohort_view.awv_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "quality_cohort_view",
+			          "ConceptualProperty": "awv_status"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.measure_met_goal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% Measure met goal"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.measure_met_goal_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% measure met goal PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.measure_met_forecast_trend": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% Measure met forecast trend"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "measure.measure_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "measure",
+			          "ConceptualProperty": "measure_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.text_star_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Text star rating"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.text_ye_star_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Text YE star rating"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.goal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Goal"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.inverse_measure_flag": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Inverse measure flag"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.ye_quality_performance_overall": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "YE quality performance overall"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.quality_performance": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Quality performance"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.quality_performance_ly": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Quality performance LY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.gaps_open": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Gaps open"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_overview.blank_dax": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Overview",
+			          "ConceptualProperty": "Blank DAX"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.total_network_leakage": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Total Network Leakage"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.professional_potentially_avoidable_leakage_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Professional Potentially Avoidable Leakage %"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.formatted_professional_potentially_avoidable_leakage": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Formatted Professional Potentially Avoidable Leakage"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.network_leakage_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Network Leakage %"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.network_leakage__py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Network Leakage % PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.formatted_total_network_leakage": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Formatted Total Network Leakage"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.formatted_total_network_leakage_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Formatted Total Network Leakage PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.pmpm_inst__prof": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "PMPM (Inst + Prof)"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.professional_leakage_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Professional Leakage %"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.institutional_leakage_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Institutional Leakage %"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.formatted_total_expenditure": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Formatted Total Expenditure"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.total_expenditure": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Total Expenditure"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.total_network_leakage_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Total Network Leakage YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.network_leakage__yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Network Leakage % YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.oon_utilization_rate_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "OON utilization rate YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.professional_potentially_avoidable_leakage": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Professional Potentially Avoidable Leakage"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.professional_potentially_avoidable_leakage__yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Professional Potentially Avoidable Leakage % YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.professional_potentially_avoidable_leakage_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Professional Potentially Avoidable Leakage YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.leakage_pmpm_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "Leakage PMPM YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.members": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "#Members"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_network_leakage.members_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_Network_Leakage",
+			          "ConceptualProperty": "#Members YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "payer.contract_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "contract_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "LoB": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "payer.plan_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "plan_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Plan": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "payer.payer_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "payer_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Payer/plan": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Payer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.total_pac_cost": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Overall PAC cost"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC cost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Overall Cost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "network_leakage_view.visit_category": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "network_leakage_view",
+			          "ConceptualProperty": "visit_category"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "network_leakage_view.primary_procedure_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "network_leakage_view",
+			          "ConceptualProperty": "primary_procedure_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "network_leakage_view.speciality_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "network_leakage_view",
+			          "ConceptualProperty": "speciality_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "network_leakage_view.visit_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "network_leakage_view",
+			          "ConceptualProperty": "visit_type"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "network_leakage_view.visit_sub_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "network_leakage_view",
+			          "ConceptualProperty": "visit_sub_type"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_visit_provider.county": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_visit_provider",
+			          "ConceptualProperty": "county"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_visit_provider.visit_provider": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_visit_provider",
+			          "ConceptualProperty": "visit_provider"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "pcp.practice_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "practice_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Practice/PCP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pcp.pcp_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pcp",
+			          "ConceptualProperty": "pcp_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.readmission__ip_admits": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Readmission % IP Admits"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_to_pac_discharges": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "IP to Pac Discharges"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC admits": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Admits": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Discharges to PAC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pac_view.pac_visit_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_view",
+			          "ConceptualProperty": "pac_visit_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Visit type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Facility Type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "PAC visit type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.pac_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "PAC PMPM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PMPM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pac_view.pac_hospital_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_view",
+			          "ConceptualProperty": "pac_hospital_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Facility name": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Hospital name": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.pac_to_ip_readmits": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "PAC to IP readmits"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.snf_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "SNF PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.rehab_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Rehab PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ltch_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "LTCH PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.hospice_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Hospice PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.home_health_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Home Health PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.swing_beds_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Swing Beds PMPM"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_snf": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to SNF"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_rehab": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to Rehab"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_ltch": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to LTCH"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_hospice": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to Hospice"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_home_health": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to Home Health"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_swing_beds": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to Swing Beds"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.ip_discharges_to_pac": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "% IP discharges to PAC"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.formatted_overall_pac_cost": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Formatted Overall PAC cost"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC Cost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.formatted_pac_pmpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Formatted PAC PMPM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC PMPM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.formatted_avg_los": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Formatted Avg LOS"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Avg LOS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.formatted_ip_discharges": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Formatted IP Discharges"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "IP Discharges": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.formatted_readmission__ip_admits": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Formatted Readmission % IP Admits"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Overall Readmission %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.initial_assessment_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "initial_assessment_%"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Initial assessment %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "payer.date_incurred_through": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "date_incurred_through"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Claims incurred through": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "payer.date_paid_through": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "payer",
+			          "ConceptualProperty": "date_paid_through"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Claims paid through": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.latest_attribution_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX",
+			          "ConceptualProperty": "Latest attribution date"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.latest_attribution_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Latest attribution date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Latest month of attribution": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pac_opp_patient_view.mdc_name_index": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_opp_patient_view",
+			          "ConceptualProperty": "mdc_name_index"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "MDC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pac_opp_patient_view.mdc_name_readmission": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_opp_patient_view",
+			          "ConceptualProperty": "mdc_name_readmission"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "MDC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.utilization": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Utilization"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Visits": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Visits/1000": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.column1utilization_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Utilization YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Visits/1000 YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.avg_los_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Avg LOS YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Avg LOS YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Avg LOS YoY change %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.pac_to_ip_readmission__yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "PAC to IP readmission % YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC to IP readmission % YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax.measure_meeting_target_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% measure meeting target YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.closed_gaps_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "% closed gaps YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.aggregated_star_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Aggregated star rating"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.aggregated_star_rating_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Aggregated star rating YoY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax.open_gaps": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "All DAX",
+			          "ConceptualProperty": "Open gaps"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.overall_pac_cost_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Overall PAC cost PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.pac_to_ip_readmission__py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "PAC to IP readmission % PY"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.overall_pac_cost_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Overall PAC cost YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Overall PAC cost YoY change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.avg_los": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Avg LOS"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Current year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Current month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.avg_los_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Avg LOS PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.avg_los_pm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Avg LOS PM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Previous month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.overall_pac_cost_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Overall PAC cost MoM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Overall PAC cost MoM change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.pac_to_ip_readmission__mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "PAC to IP readmission % MoM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC to IP readmission % MoM change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.utilization_mom": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Utilization MoM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Visits/1000 MoM change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.overall_pac_cost_mom_card": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Overall PAC cost MoM Card"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "pac_view.out_of_network_flag": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_view",
+			          "ConceptualProperty": "out_of_network_flag"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Network Flag": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pac_view.alternate_pac_hospital_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_view",
+			          "ConceptualProperty": "alternate_pac_hospital_name"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "x_axis_scatter_plot.selected_x_axis_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "X Axis scatter plot",
+			          "ConceptualProperty": "Selected X Axis Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "X axis": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "y_axis_scatter_plot.selected_y_axis_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Y Axis scatter plot",
+			          "ConceptualProperty": "Selected Y Axis Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Y axis": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pac_view.pac_rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "pac_view",
+			          "ConceptualProperty": "pac_rating"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "all_dax_pac.random_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Random % demo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PAC to IP readmission %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.random_los": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "Random LOS demo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Avg LOS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "all_dax_pac.random_admits_demo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ALL_DAX_PAC",
+			          "ConceptualProperty": "random admits demo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Admits": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "snf_recommendation.pac_hospital_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "snf recommendation",
+			          "ConceptualProperty": "pac_hospital_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SNF": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "snf_recommendation.alternate_pac_hospital_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "snf recommendation",
+			          "ConceptualProperty": "alternate_pac_hospital_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Recommended SNFs": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
+			    "date_has_month_year": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month_year": {
+			          "Target": {
+			            "Entity": "date.month_year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month_year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_month_years"
+			        }
+			      ]
+			    },
+			    "date_has_updated_on": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.updated_on": {
+			          "Target": {
+			            "Entity": "date.updated_on"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.updated_on"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_updated_on"
+			        }
+			      ]
+			    },
+			    "date_has_month_of_year": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month_of_year": {
+			          "Target": {
+			            "Entity": "date.month_of_year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month_of_year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_month_of_year"
+			        }
+			      ]
+			    },
+			    "date_has_year": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.year": {
+			          "Target": {
+			            "Entity": "date.year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_years"
+			        }
+			      ]
+			    },
+			    "date_has_month": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month": {
+			          "Target": {
+			            "Entity": "date.month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_months"
+			        }
+			      ]
+			    },
+			    "date_has_month_of_date": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.month_of_date": {
+			          "Target": {
+			            "Entity": "date.month_of_date"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date"
+			            },
+			            "Object": {
+			              "Role": "date.month_of_date"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dates_have_month_of_date"
+			        }
+			      ]
+			    },
+			    "date_is_updated_on_updated_on": {
+			      "Binding": {
+			        "ConceptualEntity": "date"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date": {
+			          "Target": {
+			            "Entity": "date"
+			          }
+			        },
+			        "date.updated_on": {
+			          "Target": {
+			            "Entity": "date.updated_on"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "When": {
+			          "Role": "date.updated_on"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Verb": {
+			            "Verbs": [
+			              {
+			                "update": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "date"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.9,
+			          "ID": "dates_are_updated_on_updated_on"
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

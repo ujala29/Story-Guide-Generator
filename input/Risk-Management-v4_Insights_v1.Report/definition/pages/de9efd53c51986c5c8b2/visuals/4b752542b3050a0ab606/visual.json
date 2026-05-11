@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "4b752542b3050a0ab606",
+  "position": {
+    "x": 1322.1240377040533,
+    "y": 2418,
+    "z": 71000,
+    "height": 22.901140684410645,
+    "width": 89.345526299668052,
+    "tabOrder": 75000
+  },
+  "visualGroup": {
+    "displayName": "Overall Patient List button",
+    "groupMode": "ScaleMode"
+  }
+}

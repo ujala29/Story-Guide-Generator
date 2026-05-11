@@ -1,0 +1,42 @@
+table static_attribution_status
+	lineageTag: bd75793d-f1d9-4a82-8678-82eec2881b96
+
+	column attribution_status
+		dataType: string
+		lineageTag: c6504801-a13f-4044-80bd-b9a9a18efca0
+		summarizeBy: none
+		sourceColumn: attribution_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribution_status_join
+		dataType: string
+		lineageTag: a5c859dd-2d92-4105-ad18-fafa4762b2c7
+		summarizeBy: none
+		sourceColumn: attribution_status_join
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribution_status_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: dba146b7-523f-41e5-95cc-392bd4e0df68
+		summarizeBy: sum
+		sourceColumn: attribution_status_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_attribution_status = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WciwpKcpMKi1JTVHQVUjOzyvJzCtNTVHSUXJGYhspxeqgKc1LLQdKOKakgBUYghX45ZcoJMIVAYVBAo7FxZnpeWCusVJsLAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [attribution_status = _t, attribution_status_join = _t, attribution_status_sort = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"attribution_status", type text}, {"attribution_status_join", type text}, {"attribution_status_sort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

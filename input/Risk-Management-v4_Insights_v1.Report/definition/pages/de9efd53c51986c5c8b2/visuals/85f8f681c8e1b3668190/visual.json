@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "85f8f681c8e1b3668190",
+  "position": {
+    "x": 1322,
+    "y": 1857.6782731226156,
+    "z": 76000,
+    "height": 22.083650190114067,
+    "width": 89.743376393074541,
+    "tabOrder": 73000
+  },
+  "visualGroup": {
+    "displayName": "Risk breakdown Patient List button",
+    "groupMode": "ScaleMode"
+  }
+}

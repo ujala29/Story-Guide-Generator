@@ -1,0 +1,27 @@
+**Widget: PMPM (lineChart)**
+
+> 📷 *Insert: Cropped screenshot of the PMPM lineChart*
+
+**Definition**
+Monthly trend of PMPM comparing current year against prior year.
+
+**What it measures**
+
+| Element | Description |
+|---|---|
+| Visual type | Line chart |
+| Lines | Previous year, Current year |
+| X-axis | Month |
+| Comparison | Current year vs prior year |
+| Visual-level filters | None — responds to global filters only |
+
+**How to read it**
+[one paragraph]
+
+**Technical specification**
+
+**DAX measure(s):**
+[verbatim]
+
+**Tables and columns used:**
+| Table | Column | Role |

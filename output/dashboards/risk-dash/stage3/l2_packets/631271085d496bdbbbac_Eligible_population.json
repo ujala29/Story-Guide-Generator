@@ -1,0 +1,118 @@
+{
+  "visual_id": "631271085d496bdbbbac",
+  "title": "Eligible population",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [
+    {
+      "movement": "Eligible population increases year over year",
+      "signal": "Positive",
+      "interpretation": "A growing eligible population expands the risk adjustment opportunity and potential revenue base, but requires sufficient coding and care management capacity to capture it. Cross-check Potential risk"
+    },
+    {
+      "movement": "Eligible population decreases year over year",
+      "signal": "Negative",
+      "interpretation": "A shrinking eligible population reduces the total risk adjustment opportunity and may signal membership attrition or attribution losses that need immediate investigation. Cross-check Payer/plan details"
+    },
+    {
+      "movement": "Eligible population rises while RAF recapture rate falls",
+      "signal": "Investigate",
+      "interpretation": "More members are eligible but a smaller proportion of risk gaps are being closed, suggesting coding capacity or outreach is not scaling with membership growth. Cross-check RAF recapture rate"
+    }
+  ],
+  "drill_steps": [
+    {
+      "step": 1,
+      "visual_name": "Eligible population",
+      "question": "What is the overall year-over-year change in eligible population and is the trend accelerating or decelerating?"
+    },
+    {
+      "step": 2,
+      "visual_name": "Members",
+      "question": "Does the trend in total members mirror the eligible population trend, or is there a divergence suggesting attribution or eligibility rule changes?"
+    },
+    {
+      "step": 3,
+      "visual_name": "Risk breakdown by attribution status",
+      "question": "Which attribution segments are driving the change in eligible population — attributed, pending, or unattributed members?"
+    },
+    {
+      "step": 4,
+      "visual_name": "Payer/plan details",
+      "question": "Which specific plans or payers account for the largest gains or losses in eligible membership?"
+    },
+    {
+      "step": 5,
+      "visual_name": "PCP distribution (top 20 by members)",
+      "question": "Are eligible population changes concentrated among a small number of PCPs, indicating a panel-level attribution shift?"
+    },
+    {
+      "step": 6,
+      "visual_name": "% members with open coding gaps",
+      "question": "As eligible population changes, is the proportion of members with open coding gaps holding steady or worsening, signaling a capacity gap in risk capture? Drill-down ends here. For member-level detail — go to Patient List on the Risk Capture Potential page."
+    }
+  ],
+  "cross_read_combined": {
+    "primary_kpi": "Eligible population",
+    "partners": [
+      "Potential risk",
+      "Gap to potential risk",
+      "RAF recapture rate"
+    ],
+    "rows": [
+      {
+        "Eligible population": "High",
+        "Potential risk": "Low",
+        "Gap to potential risk": "Low",
+        "RAF recapture rate": "High",
+        "meaning": "Large membership with low overall risk complexity and gaps mostly closed — population is well-managed but monitor for under-coding of chronic conditions."
+      },
+      {
+        "Eligible population": "High",
+        "Potential risk": "High",
+        "Gap to potential risk": "High",
+        "RAF recapture rate": "Low",
+        "meaning": "Maximum uncaptured risk opportunity across a large population with poor recapture — urgent scaling of coding outreach and care management is needed."
+      },
+      {
+        "Eligible population": "High",
+        "Potential risk": "High",
+        "Gap to potential risk": "Low",
+        "RAF recapture rate": "High",
+        "meaning": "High-risk large population with gaps being closed effectively — sustain current coding workflows and monitor for new gap emergence."
+      },
+      {
+        "Eligible population": "Low",
+        "Potential risk": "High",
+        "Gap to potential risk": "High",
+        "RAF recapture rate": "Low",
+        "meaning": "Small but highly complex population with significant uncaptured risk and poor recapture — prioritize intensive coding intervention for this concentrated high-risk group."
+      },
+      {
+        "Eligible population": "Low",
+        "Potential risk": "Low",
+        "Gap to potential risk": "High",
+        "RAF recapture rate": "Low",
+        "meaning": "Small population with disproportionately large gaps and low recapture — investigate whether documentation practices or visit frequency are suppressing risk capture."
+      },
+      {
+        "Eligible population": "Low",
+        "Potential risk": "Low",
+        "Gap to potential risk": "Low",
+        "RAF recapture rate": "High",
+        "meaning": "Small, low-complexity population with gaps well-controlled — limited risk adjustment upside remains; focus resources on higher-opportunity segments."
+      }
+    ]
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

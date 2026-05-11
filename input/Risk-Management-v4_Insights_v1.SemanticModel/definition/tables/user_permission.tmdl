@@ -1,0 +1,37 @@
+table user_permission
+	lineageTag: 4e560b4c-5dc0-441a-bd77-405d61bb43e8
+
+	column prvid
+		dataType: string
+		lineageTag: 13f846b2-e79e-4030-bfe0-8f87a307937d
+		summarizeBy: none
+		sourceColumn: prvid
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_email
+		dataType: string
+		lineageTag: 4a68e0c5-f3f4-4673-b98f-8037fa4b3396
+		summarizeBy: none
+		sourceColumn: user_email
+
+		annotation SummarizationSetBy = Automatic
+
+	partition user_permission = m
+		mode: import
+		queryGroup: RLS
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    L5_TESTING_DB_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    public_Schema = L5_TESTING_DB_Database{[Name= SCHEMA_NAME,Kind="Schema"]}[Data],
+				    user_permission_Table = public_Schema{[Name= "USER_PERMISSION_FILTERED",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(user_permission_Table, Text.Lower),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Lowercased Text",{"prvid", "user_email"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

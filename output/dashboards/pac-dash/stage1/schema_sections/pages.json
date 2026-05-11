@@ -1,0 +1,23 @@
+[
+  {
+    "name": "2286e53fbd00010aa260",
+    "display_name": "Main page LM",
+    "order": 1,
+    "width": 1440,
+    "height": 2682
+  },
+  {
+    "name": "edc3dff25e8861b27168",
+    "display_name": "Data availability",
+    "order": 2,
+    "width": 1440,
+    "height": 732
+  },
+  {
+    "name": "fabece79c76e930cd1aa",
+    "display_name": "Main page LY",
+    "order": 3,
+    "width": 1440,
+    "height": 2992
+  }
+]

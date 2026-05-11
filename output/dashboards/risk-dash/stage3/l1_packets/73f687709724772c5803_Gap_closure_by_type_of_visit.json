@@ -1,0 +1,27 @@
+{
+  "visual_id": "73f687709724772c5803",
+  "title": "Gap closure by type of visit",
+  "visual_type": "donutChart",
+  "page": "Overview LY",
+  "comparison": "None",
+  "active_filters": [
+    "gap_closure_visit_type"
+  ],
+  "one_line_definition": "Displays the distribution of closed care gaps across different visit types such as office visits, telehealth, and annual wellness visits. Answers 'Through which type of visit are care gaps being closed?'",
+  "numerator_meaning": "",
+  "denominator_meaning": "",
+  "result_meaning": "[{\"pattern\": \"Annual Wellness Visits dominate gap closure, representing over 60% of the donut\", \"interpretation\": \"AWVs are the primary driver of risk gap closure, signaling strong preventive visit utilization but potential over-reliance on a single visit type.\"}, {\"pattern\": \"Telehealth accounts for the largest slice, surpassing in-person office visits\", \"interpretation\": \"Virtual care is effectively capturing gap closure opportunities, supporting expansion of telehealth outreach programs for hard-to-reach members.\"}, {\"pattern\": \"Gaps are evenly distributed across office visits, AWVs, and telehealth with no dominant slice\", \"interpretation\": \"A balanced multi-channel closure strategy reduces risk concentration but may indicate no single visit type is being fully optimized for gap closure efficiency.\"}]",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "count",
+  "measure_meanings": {},
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": true,
+  "is_scatter": false
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.2.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU02",
+      "reportVersionAtImport": {
+        "visual": "1.8.87",
+        "report": "2.0.87",
+        "page": "1.3.87"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Custom007439392999139427.json",
+      "reportVersionAtImport": {
+        "visual": "1.8.89",
+        "report": "2.0.89",
+        "page": "1.3.89"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "filterConfig": {
+    "filterSortOrder": "Custom"
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "ChicletSlicer1448559807354"
+  ],
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Custom007439392999139427.json",
+          "path": "Custom007439392999139427.json",
+          "type": "Image"
+        },
+        {
+          "name": "image_(11)9735320841832229.png",
+          "path": "image_(11)9735320841832229.png",
+          "type": "Image"
+        }
+      ]
+    },
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU02",
+          "path": "BaseThemes/CY24SU02.json",
+          "type": "BaseTheme"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": false,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isFieldWellButtonEnabled": false,
+    "isApplyAllButtonEnabled": false
+  }
+}

@@ -1,0 +1,312 @@
+{
+  "page": "Risk capture potential",
+  "page_slug": "risk_capture_potential",
+  "content_hash": "a23a03a32cc1",
+  "widgets": [
+    {
+      "widget_id": "w10",
+      "widget_type": "ACTION_TABLE",
+      "widget_name": "Payer/Plan Opportunity Summary",
+      "screenshot_label": "Payer/plan pivot table with recapture rates and RAF scores alongside column chart of targeted patients by LOB",
+      "group_intro": "This table enables care managers and risk coders to rank payers and plans by their untapped revenue potential, so outreach and coding resources can be directed where the financial return is highest. Use it to decide which payer/plan combinations to prioritize in the next risk execution cycle.",
+      "bar_chart": {
+        "name": "Across LOBs",
+        "visual_id": "4bea5bf0135eb3bc5ee8",
+        "definition": "This chart shows the volume of targeted patients distributed across lines of business, allowing the reader to spot which LOBs carry the heaviest patient load and may require proportionally more outreach capacity."
+      },
+      "column_table": [
+        {
+          "column": "Payer/Plan",
+          "what_to_look_for": "Identifies the specific payer and plan combination being evaluated. Look for rows where a single payer spans multiple plans with divergent performance — this signals that plan-level targeting, not just payer-level, is needed to focus outreach correctly."
+        },
+        {
+          "column": "Latest Risk Execution",
+          "what_to_look_for": "Indicates the most recent date a risk capture activity (e.g., HCC coding run or chart review) was completed for this payer/plan. Look for rows where this date is stale or significantly older than peers — these plans have had the least recent attention and are most likely to have accumulated unaddressed gaps."
+        },
+        {
+          "column": "Targeted Patients",
+          "what_to_look_for": "Shows the count of patients within this payer/plan who have been flagged for risk gap closure outreach. Look for rows where targeted patient volume is high but recapture rates remain low — this mismatch indicates outreach is happening but not converting, signaling a process or engagement problem worth investigating."
+        },
+        {
+          "column": "Targeted Gaps",
+          "what_to_look_for": "Reflects the total number of open risk gaps identified across targeted patients for this payer/plan. Look for rows where targeted gaps are disproportionately high relative to targeted patients — a high gaps-per-patient ratio means each outreach touch carries more revenue potential and should be prioritized."
+        },
+        {
+          "column": "Risk Recapture Rate",
+          "what_to_look_for": "Measures the percentage of targeted risk gaps that have already been successfully closed and documented for this payer/plan. Look for rows where this rate is low — they represent plans where the majority of identified opportunity remains uncaptured and action is still possible."
+        },
+        {
+          "column": "Potential Risk Recapture Rate",
+          "what_to_look_for": "Estimates the maximum achievable risk recapture rate for this payer/plan if all remaining open gaps were closed. Look for rows where the gap between the current recapture rate and this potential rate is widest — that spread is the actionable upside and defines the ceiling of what focused outreach can still recover."
+        },
+        {
+          "column": "RAF Recapture Rate",
+          "what_to_look_for": "Shows the proportion of Risk Adjustment Factor score that has been recaptured to date for this payer/plan, reflecting actual coding impact on reimbursement. Look for rows where the RAF recapture rate lags behind the risk recapture rate — this indicates that the gaps being closed are lower-acuity and higher-value HCC conditions are still being missed."
+        },
+        {
+          "column": "Potential RAF Recapture Rate",
+          "what_to_look_for": "Projects the total RAF score recovery achievable if all remaining open gaps for this payer/plan are addressed. Look for rows where this value is high in absolute terms — these plans represent the largest dollar-denominated revenue opportunity and should anchor the prioritization decision."
+        }
+      ],
+      "italic_callout": "Prioritize payers and plans where the gap between Potential RAF Recapture Rate and current RAF Recapture Rate is largest — this spread, not patient volume alone, defines where closing one more gap delivers the greatest reimbursement impact."
+    },
+    {
+      "widget_id": "w11",
+      "widget_type": "SEGMENTATION",
+      "widget_name": "Member Segment Outreach Structure",
+      "screenshot_label": "Collection of bar, clustered bar, and donut charts segmenting targeted gaps by coding gap bucket, risk bucket, wellness visit status, PCP-member distance, PCP visit frequency, care gap bucket, cost of care, days since last PCP visit, and ED utilization",
+      "group_intro": "These nine charts distribute targeted care gap patients across key member characteristics — from risk level and visit history to geography and ED utilization — so care teams can match outreach channel, message urgency, and intervention type to each subgroup's specific situation. Together they move the team from a single undifferentiated outreach list to a structured, segment-aware action plan.",
+      "charts": [
+        {
+          "name": "Across coding gaps bucket",
+          "visual_id": "2bec109c492076c504ee",
+          "definition": "Segments targeted gap members by the number of open coding gaps they carry, revealing which members represent the greatest risk-capture opportunity and warrant the most intensive clinical documentation outreach.",
+          "segment_table": [
+            {
+              "segment": "1 coding gap",
+              "interpretation": "Member has a single unresolved coding gap; likely a straightforward documentation miss that can be resolved in one encounter.",
+              "outreach_action": "Send automated portal message or SMS prompting member to schedule next available PCP visit for gap closure."
+            },
+            {
+              "segment": "2–3 coding gaps",
+              "interpretation": "Member has multiple unresolved conditions that may be under-documented, suggesting moderate risk-capture opportunity.",
+              "outreach_action": "Phone outreach by care coordinator to schedule a dedicated visit; brief PCP on gaps to address before appointment."
+            },
+            {
+              "segment": "4+ coding gaps",
+              "interpretation": "Member carries a high volume of unresolved coding gaps, indicating significant potential HCC recapture and possible care complexity.",
+              "outreach_action": "Assign to care manager for chart review, then schedule an extended or AWV-combined visit with pre-visit gap summary sent to PCP."
+            }
+          ]
+        },
+        {
+          "name": "Across risk bucket",
+          "visual_id": "56a827525a4c01ddba80",
+          "definition": "Segments targeted gap members by their overall risk tier (e.g., low, moderate, high, very high), which determines the clinical intensity and urgency of outreach needed to close gaps safely.",
+          "segment_table": [
+            {
+              "segment": "Low risk",
+              "interpretation": "Member has few active conditions and low predicted utilization; gaps are likely preventive or administrative in nature.",
+              "outreach_action": "Mail or automated digital outreach with self-scheduling link for preventive visit or AWV."
+            },
+            {
+              "segment": "Moderate risk",
+              "interpretation": "Member has emerging chronic conditions or moderate HCC burden; gaps may reflect care drift or missed follow-up.",
+              "outreach_action": "Phone outreach by care coordinator to schedule PCP visit; include gap checklist in pre-visit prep."
+            },
+            {
+              "segment": "High / Very high risk",
+              "interpretation": "Member has complex, multi-condition profile with high predicted cost; unresolved gaps represent both clinical and financial risk.",
+              "outreach_action": "Assign to dedicated care manager; initiate warm phone outreach within 48 hours and coordinate multi-gap closure visit with PCP."
+            }
+          ]
+        },
+        {
+          "name": "Across wellness visit status",
+          "visual_id": "5a2a01403d9d1480aa45",
+          "definition": "Segments targeted gap members by their Annual Wellness Visit (AWV) completion status, since the AWV is a high-yield encounter for closing multiple gaps simultaneously.",
+          "segment_table": [
+            {
+              "segment": "AWV completed",
+              "interpretation": "Member has had a recent AWV, so gaps remaining open likely require a separate focused clinical encounter or documentation update.",
+              "outreach_action": "Send PCP a gap closure alert for chart addendum or schedule a brief follow-up telehealth visit to address outstanding gaps."
+            },
+            {
+              "segment": "AWV due / overdue",
+              "interpretation": "Member has not completed their AWV this year; scheduling one creates an immediate opportunity to address multiple gaps in a single visit.",
+              "outreach_action": "Phone or SMS outreach to schedule AWV; provide member with a plain-language explanation of AWV benefits to improve show rate."
+            },
+            {
+              "segment": "AWV never completed",
+              "interpretation": "Member has no AWV history, suggesting low preventive engagement and potentially significant unaddressed care gaps.",
+              "outreach_action": "Assign to outreach coordinator for personal phone call; offer flexible scheduling options including telehealth AWV to reduce access barriers."
+            }
+          ]
+        },
+        {
+          "name": "Across PCP - member distance",
+          "visual_id": "5dc0ab2a0d3878053a78",
+          "definition": "Segments targeted gap members by the geographic distance between their home and their attributed PCP, identifying members for whom travel is a likely barrier to in-person gap closure.",
+          "segment_table": [
+            {
+              "segment": "0–5 miles",
+              "interpretation": "Member lives close to their PCP; distance is not a barrier and in-person visits are the most efficient gap closure path.",
+              "outreach_action": "Standard phone or portal outreach to schedule in-person PCP or AWV appointment."
+            },
+            {
+              "segment": "6–20 miles",
+              "interpretation": "Moderate distance may create scheduling friction, especially for members without reliable transportation.",
+              "outreach_action": "Phone outreach offering both in-person and telehealth options; connect to transportation benefit if available."
+            },
+            {
+              "segment": "21+ miles",
+              "interpretation": "Member lives far from their PCP; travel burden is a significant barrier and may explain low visit frequency and open gaps.",
+              "outreach_action": "Prioritize telehealth visit for gap closure; explore PCP reassignment to a closer provider or refer to mobile health unit if available."
+            }
+          ]
+        },
+        {
+          "name": "Across PCP visits (rolling 12 months)",
+          "visual_id": "774c1ec504882ad61110",
+          "definition": "Segments targeted gap members by how many PCP visits they have had in the past 12 months, distinguishing engaged patients from those who are disengaged or relying on non-primary care settings.",
+          "segment_table": [
+            {
+              "segment": "0 PCP visits",
+              "interpretation": "Member has had no PCP contact in the past year; gaps are entirely unaddressed and the member may be disengaged from primary care.",
+              "outreach_action": "High-priority personal phone outreach by care manager; assess barriers to care and offer telehealth or home visit as first re-engagement step."
+            },
+            {
+              "segment": "1–2 PCP visits",
+              "interpretation": "Member has minimal PCP engagement; some care is occurring but not enough to address accumulating gaps.",
+              "outreach_action": "Phone outreach to schedule a gap-focused visit; share pre-visit gap summary with PCP to maximize the encounter."
+            },
+            {
+              "segment": "3–5 PCP visits",
+              "interpretation": "Member is regularly engaged with their PCP; gaps may be slipping through busy encounters rather than reflecting access issues.",
+              "outreach_action": "Send PCP a targeted gap alert for next scheduled visit; no additional member outreach needed unless gaps remain open after visit."
+            },
+            {
+              "segment": "6+ PCP visits",
+              "interpretation": "Member is a high utilizer of primary care; persistent gaps despite frequent visits suggest documentation or workflow issues at the practice level.",
+              "outreach_action": "Escalate to practice-level quality review; work with PCP office to embed gap closure into existing visit workflow or order sets."
+            }
+          ]
+        },
+        {
+          "name": "Across care gaps bucket",
+          "visual_id": "7a1b2eb3813381a04006",
+          "definition": "Segments targeted gap members by the total number of open care gaps they carry, enabling the care team to triage outreach effort toward members with the highest gap burden.",
+          "segment_table": [
+            {
+              "segment": "1 care gap",
+              "interpretation": "Member has a single open gap; a focused, low-touch outreach is likely sufficient to achieve closure.",
+              "outreach_action": "Automated SMS or portal message with a direct link to schedule the specific service needed to close the gap."
+            },
+            {
+              "segment": "2–3 care gaps",
+              "interpretation": "Member has several open gaps that could be addressed in one or two coordinated visits with some pre-planning.",
+              "outreach_action": "Phone outreach to schedule a combined gap closure visit; send PCP a pre-visit gap checklist."
+            },
+            {
+              "segment": "4+ care gaps",
+              "interpretation": "Member has a high gap burden indicating fragmented or absent preventive and chronic care management.",
+              "outreach_action": "Assign to care manager for a comprehensive care plan review; schedule an extended visit or series of visits with a prioritized gap closure sequence."
+            }
+          ]
+        },
+        {
+          "name": "Across cost of care (rolling 12 months)",
+          "visual_id": "7f48eb60bd6c390190d9",
+          "definition": "Segments targeted gap members by their total cost of care over the past 12 months, helping the team identify whether high-cost members have unresolved gaps that may be driving avoidable utilization.",
+          "segment_table": [
+            {
+              "segment": "Low cost (bottom quartile)",
+              "interpretation": "Member has minimal recent utilization; gaps may reflect low engagement with the health system rather than active disease.",
+              "outreach_action": "Low-touch digital or mail outreach to schedule preventive visit; focus messaging on wellness and gap closure benefits."
+            },
+            {
+              "segment": "Moderate cost",
+              "interpretation": "Member has typical utilization patterns; gaps are likely addressable through standard PCP visit coordination.",
+              "outreach_action": "Phone outreach to schedule PCP visit with gap closure agenda; no escalation needed unless gaps remain open after contact."
+            },
+            {
+              "segment": "High cost (top quartile)",
+              "interpretation": "Member is a high utilizer; open gaps alongside high cost suggest potential for care management intervention to reduce avoidable spend.",
+              "outreach_action": "Assign to care manager for utilization review and care plan development; coordinate gap closure within a broader cost-reduction strategy."
+            }
+          ]
+        },
+        {
+          "name": "Across days since last PCP visit bucket",
+          "visual_id": "b0818358c5b0a810d526",
+          "definition": "Segments targeted gap members by how recently they last visited their PCP, indicating how urgent re-engagement outreach needs to be and how long gaps have likely been accumulating.",
+          "segment_table": [
+            {
+              "segment": "0–90 days",
+              "interpretation": "Member had a recent PCP visit; gaps may have been missed during the encounter or require a short follow-up.",
+              "outreach_action": "Send PCP a gap alert for chart addendum or schedule a brief telehealth follow-up to close remaining gaps."
+            },
+            {
+              "segment": "91–180 days",
+              "interpretation": "Member is overdue for a follow-up visit; gaps have been open for several months and are at risk of further drift.",
+              "outreach_action": "Phone outreach to schedule a PCP visit within 30 days; include gap summary in appointment reminder."
+            },
+            {
+              "segment": "181–365 days",
+              "interpretation": "Member has not seen their PCP in over six months; care continuity is disrupted and multiple gaps are likely accumulating.",
+              "outreach_action": "Priority phone outreach by care coordinator; assess barriers and offer telehealth or same-week appointment to re-establish care."
+            },
+            {
+              "segment": "365+ days",
+              "interpretation": "Member has been absent from primary care for over a year; significant disengagement and high risk of unmanaged conditions.",
+              "outreach_action": "Assign to care manager for personal outreach; conduct a social determinants screening call and offer a home visit or community health worker connection to re-engage."
+            }
+          ]
+        },
+        {
+          "name": "Across ED visit bucket (last 6 months)",
+          "visual_id": "dd8c8c2cb4d8585c03e6",
+          "definition": "Segments targeted gap members by their emergency department utilization in the past six months, identifying members whose ED use may signal unmet primary care needs that are driving both gaps and avoidable costs.",
+          "segment_table": [
+            {
+              "segment": "0 ED visits",
+              "interpretation": "Member has not used the ED recently; gaps are not associated with acute crisis and can be addressed through routine outreach.",
+              "outreach_action": "Standard phone or digital outreach to schedule PCP or AWV visit for gap closure."
+            },
+            {
+              "segment": "1 ED visit",
+              "interpretation": "Member had one recent ED visit, which may indicate an acute episode that could have been managed in primary care.",
+              "outreach_action": "Phone outreach within 7 days of ED visit to schedule PCP follow-up; use visit as an opportunity to address open gaps."
+            },
+            {
+              "segment": "2–3 ED visits",
+              "interpretation": "Member is a frequent ED user, suggesting unmanaged chronic conditions or significant access barriers to primary care.",
+              "outreach_action": "Assign to care manager; conduct a care needs assessment call and develop a care plan that addresses both ED avoidance and gap closure."
+            },
+            {
+              "segment": "4+ ED visits",
+              "interpretation": "Member is a high ED utilizer with likely complex social and clinical needs; open gaps in this context represent both clinical risk and avoidable cost.",
+              "outreach_action": "Escalate to complex care management program; coordinate with ED case manager for warm handoff and schedule urgent PCP visit with full gap closure agenda."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "widget_id": "w12",
+      "widget_type": "ACTION_TABLE",
+      "widget_name": "Practice and PCP Prioritization",
+      "screenshot_label": "Pivot table ranking practices and PCPs by targeted gaps",
+      "group_intro": "This table directs outreach resources by surfacing which practices and individual PCPs carry the highest volume of unaddressed risk capture opportunities. Use it to decide where to focus care management engagement, provider outreach, or coding support efforts first.",
+      "column_table": [
+        {
+          "column": "Practice Name",
+          "what_to_look_for": "Identifies the practice group associated with each row. Look for practices that appear repeatedly across multiple PCPs with high gap counts — these sites represent systemic documentation or coding gaps that may benefit from a practice-level intervention rather than individual provider outreach."
+        },
+        {
+          "column": "PCP Name",
+          "what_to_look_for": "Identifies the individual primary care provider within the practice. Look for PCPs whose targeted gap count is disproportionately high relative to their peers within the same practice — these providers are the highest-priority targets for one-on-one coding education, chart review support, or care manager assignment."
+        },
+        {
+          "column": "Targeted Gaps",
+          "what_to_look_for": "Measures the total number of open, actionable risk capture gaps attributed to each PCP and their associated practice. Look for rows where this number is highest — a large targeted gap count signals the greatest potential for HCC recapture, risk score improvement, and quality-of-care alignment, making these PCPs the most impactful starting point for any outreach campaign."
+        }
+      ],
+      "italic_callout": "Always sort by Targeted Gaps descending before beginning outreach planning — the top rows represent the highest return-on-effort opportunities and should be contacted first."
+    },
+    {
+      "widget_id": "w13",
+      "widget_type": "ACTION_TABLE",
+      "widget_name": "Member-Level Targeting List",
+      "screenshot_label": "Patient-level pivot table listing individual members by EMPI for direct outreach",
+      "group_intro": "This table translates population-level risk signals into a concrete, actionable roster of individual members ready for direct outreach. Use it to assign specific members to care managers, prioritize outreach queues, and ensure no high-risk individual is overlooked in your risk capture workflow.",
+      "column_table": [
+        {
+          "column": "EMPI",
+          "what_to_look_for": "This column is the unique enterprise master patient index identifier for each member, serving as the primary key to pull the individual into your outreach workflow. Every row represents one actionable person — use this ID to cross-reference the member in your care management system, EHR, or outreach platform. There is no filtering signal on this column itself; its presence in the table means the member has already met upstream criteria for inclusion in the risk capture cohort and warrants contact."
+        }
+      ],
+      "italic_callout": "Every member appearing in this list has already been flagged by upstream risk criteria — do not wait for additional confirmation before initiating outreach, as delay directly translates to missed risk capture opportunity."
+    }
+  ]
+}

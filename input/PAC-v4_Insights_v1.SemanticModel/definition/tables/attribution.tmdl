@@ -1,0 +1,98 @@
+table attribution
+	lineageTag: f21b6773-da41-4c60-a003-cc449d278343
+
+	column month_of_attribution
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 964767bb-07e8-4dc6-a4d6-dbe46082931b
+		summarizeBy: none
+		sourceColumn: month_of_attribution
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column payer_master_id_index
+		dataType: double
+		lineageTag: db5d28b0-f9ee-4330-8c74-01282f3e4668
+		summarizeBy: none
+		sourceColumn: payer_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column org_hierarchy_master_id
+		dataType: string
+		lineageTag: 307f9a60-2610-4d6f-96c8-290409cdd884
+		summarizeBy: none
+		sourceColumn: org_hierarchy_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ytd_pcp_visit_count
+		dataType: double
+		lineageTag: 276b9d0f-4dd8-4946-a4ee-83cdba858840
+		summarizeBy: sum
+		sourceColumn: ytd_pcp_visit_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pcp_visit_count
+		dataType: double
+		lineageTag: 51cc1108-8d7d-4984-b88c-58d760073fc7
+		summarizeBy: sum
+		sourceColumn: pcp_visit_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ytd_member_count
+		dataType: double
+		lineageTag: 6ac112ea-91c6-47b7-b639-eb2f724a80ed
+		summarizeBy: sum
+		sourceColumn: ytd_member_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column member_count
+		dataType: double
+		lineageTag: 21bddb49-8375-4359-8c02-083f684b8a99
+		summarizeBy: sum
+		sourceColumn: member_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custom_segment_master_id
+		dataType: double
+		lineageTag: 4eb2dd2f-c21f-47d7-80b6-13076078f353
+		summarizeBy: sum
+		sourceColumn: custom_segment_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition attribution = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    DAP_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_PAC_Schema = DAP_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PAC_OPP_PATIENT_VIEW_View = L5_PAC_Schema{[Name="PCP_VISITS_VIEW",Kind="View"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PAC_OPP_PATIENT_VIEW_View, Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

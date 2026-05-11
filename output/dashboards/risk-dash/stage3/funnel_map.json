@@ -1,0 +1,214 @@
+{
+  "dashboard": "risk-dash",
+  "dashboard_name": "Risk Management",
+  "domain_context": "This dashboard tracks risk capture performance across a managed care population, measuring how well documented risk scores align with potential risk and where gaps remain. It helps risk management teams understand recapture rates, PMPM costs, and open coding gaps across payers, models, attribution statuses, providers, and disease categories. The reader should first understand the overall population size and risk score landscape before drilling into why gaps exist and who is driving them.",
+  "funnel_question_top": "What is the current state of the population's risk capture — how large is the eligible population, what is documented vs. potential risk, and how do rates and costs look today?",
+  "funnel_question_middle": "Why do risk capture gaps exist — how are metrics trending over time, and how do they break down by payer/plan, risk model/sub-model, and attribution status?",
+  "funnel_question_bottom": "Who and what specifically is driving risk gaps — which practices, PCPs, disease categories, and operational channels (visit type, network, provider type) are responsible?",
+  "funnel_question_action": "Which members and providers should be prioritized for outreach and risk recapture interventions based on open coding gaps and recapture rate performance?",
+  "widgets": [
+    {
+      "widget_id": "w01",
+      "funnel_position": "TOP",
+      "widget_name": "Population & Risk Landscape KPI Cards",
+      "sub_question": "What is the size of the eligible population and where do documented risk, potential risk, and gap to potential risk stand today?",
+      "visual_ids": [
+        "631271085d496bdbbbac",
+        "87a9a27d2b4d0536cac2",
+        "25202f411037e99b20a0",
+        "3474debe316c15996847",
+        "24d11fd978eed3be5524",
+        "5a969a11d8a88a07826c",
+        "b4d6dd4a4208dd65c080",
+        "7f2a7a7c031ab700e919",
+        "c367dbf506a6e5ea00ed",
+        "bf084acba1ed653a9909"
+      ],
+      "screenshot_label": "KPI cards — Eligible population, #Members, Documented risk, Potential risk, Gap to potential risk, Dropped+Suspected, with their YoY multiRowCard indicators",
+      "reading_order": 1,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w02",
+      "funnel_position": "TOP",
+      "widget_name": "Performance Rate & Cost KPI Cards",
+      "sub_question": "What are the current recapture rates, PMPM cost, and share of members with open coding gaps?",
+      "visual_ids": [
+        "e360958956e0b0c7209a",
+        "9962fe345800729a2d8d",
+        "f264f3d0767620698bbd",
+        "f7fcba6a7ec53cb7ba73",
+        "38f35b7408b903224e59",
+        "31e7c180104090ab0052",
+        "5b65519b0bee63d03671",
+        "ba9434287d000d08d103"
+      ],
+      "screenshot_label": "KPI cards — Risk recapture rate, RAF recapture rate, PMPM, % members with open coding gaps, with their YoY multiRowCard indicators",
+      "reading_order": 2,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w03",
+      "funnel_position": "TOP",
+      "widget_name": "Payer/Plan Segmentation",
+      "sub_question": "How do population size, risk scores, recapture rates, and PMPM break down across payers and plans?",
+      "visual_ids": [
+        "05e9df54beb029872e81"
+      ],
+      "screenshot_label": "Payer/plan details pivot table — Members, Documented risk, Gap to potential risk, PMPM, RAF recapture rate, Risk recapture rate by Payer/plan",
+      "reading_order": 3,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w04",
+      "funnel_position": "MIDDLE",
+      "widget_name": "Metric Trends Over Time",
+      "sub_question": "How are eligible population, documented vs. potential risk, risk recapture rate, RAF recapture rate, and PMPM trending compared to the prior year?",
+      "visual_ids": [
+        "9abf502c11e556d9e2d7",
+        "8b466b34dd95dce0c830",
+        "802a9022603841eb76e8",
+        "c66f260c02e3dd49194e",
+        "bd8b863804459c86c306",
+        "34d88e4ee7089675aaba"
+      ],
+      "screenshot_label": "All line charts — Eligible population, Documented risk vs potential risk, Risk recapture rate, RAF recapture rate, PMPM, Members trends (current year vs previous year)",
+      "reading_order": 4,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w05",
+      "funnel_position": "MIDDLE",
+      "widget_name": "Risk Model / Sub-Model Breakdown",
+      "sub_question": "How do eligible population, documented risk, gap to potential risk, and recapture rates differ across risk models and sub-models?",
+      "visual_ids": [
+        "d6a09014822674970e10"
+      ],
+      "screenshot_label": "Risk model/sub-models pivot table — Eligible population, Documented risk, Gap to potential risk, RAF recapture rate, Risk recapture rate, Open gaps by Model/sub-model",
+      "reading_order": 5,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w06",
+      "funnel_position": "MIDDLE",
+      "widget_name": "Attribution Status Breakdown",
+      "sub_question": "How do risk capture metrics and open gaps vary by member attribution status?",
+      "visual_ids": [
+        "084f71d8429b0350670b"
+      ],
+      "screenshot_label": "Risk breakdown by attribution status pivot table — Eligible population, Documented risk, Gap to potential risk, Recapture rates, Open gaps by Attribution status",
+      "reading_order": 6,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w07",
+      "funnel_position": "BOTTOM",
+      "widget_name": "Risk Recapture Rate by Disease / Risk Factor",
+      "sub_question": "Which disease categories and risk factors have the lowest recapture rates and the most open coding gaps?",
+      "visual_ids": [
+        "b1da1e9d538558bae49a",
+        "9d9ac6c304e38ae62d4c"
+      ],
+      "screenshot_label": "Risk recapture rate by disease bar chart and Risk factor details table — recapture rate, open gaps (Dropped/Suspected) by disease/risk factor",
+      "reading_order": 7,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w08",
+      "funnel_position": "BOTTOM",
+      "widget_name": "Practice / PCP Entity Performance",
+      "sub_question": "Which practices and PCPs are driving the largest risk gaps, lowest recapture rates, and most open coding gaps?",
+      "visual_ids": [
+        "baffab4c98decbe6c574",
+        "0d2248de2c29bc8010ac"
+      ],
+      "screenshot_label": "Practice/PCP details pivot table and scatter chart — Members, risk metrics, recapture rates, open gaps by Practice/PCP with scatter plot of same entity population",
+      "reading_order": 8,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w09",
+      "funnel_position": "BOTTOM",
+      "widget_name": "Gap Closure Operational Breakdown",
+      "sub_question": "How are gaps being closed across visit types, network status, and provider types — and where are operational channel gaps?",
+      "visual_ids": [
+        "73f687709724772c5803",
+        "9068713b8e4013904c27",
+        "bb7d8bdebed000a2d37a"
+      ],
+      "screenshot_label": "Gap closure by type of visit donut, Gap closure by network status donut, Gap closure by provider type donut",
+      "reading_order": 9,
+      "page": "Overview LY"
+    },
+    {
+      "widget_id": "w10",
+      "funnel_position": "ACTION",
+      "widget_name": "Payer/Plan Opportunity Summary",
+      "sub_question": "Which payers/plans have the most targetable revenue opportunity?",
+      "visual_ids": [
+        "a3ed9fb5ba697ba8d564",
+        "4bea5bf0135eb3bc5ee8"
+      ],
+      "screenshot_label": "Payer/plan pivot table with recapture rates and RAF scores alongside column chart of targeted patients by LOB",
+      "reading_order": 10,
+      "page": "Risk capture potential"
+    },
+    {
+      "widget_id": "w11",
+      "funnel_position": "ACTION",
+      "widget_name": "Member Segment Outreach Structure",
+      "sub_question": "How should outreach be structured across member segments?",
+      "visual_ids": [
+        "2bec109c492076c504ee",
+        "56a827525a4c01ddba80",
+        "5a2a01403d9d1480aa45",
+        "5dc0ab2a0d3878053a78",
+        "774c1ec504882ad61110",
+        "7a1b2eb3813381a04006",
+        "7f48eb60bd6c390190d9",
+        "b0818358c5b0a810d526",
+        "dd8c8c2cb4d8585c03e6"
+      ],
+      "screenshot_label": "Collection of bar, clustered bar, and donut charts segmenting targeted gaps by coding gap bucket, risk bucket, wellness visit status, PCP-member distance, PCP visit frequency, care gap bucket, cost of care, days since last PCP visit, and ED utilization",
+      "reading_order": 11,
+      "page": "Risk capture potential"
+    },
+    {
+      "widget_id": "w12",
+      "funnel_position": "ACTION",
+      "widget_name": "Practice and PCP Prioritization",
+      "sub_question": "Which practices and PCPs should be prioritized?",
+      "visual_ids": [
+        "ac0cfaab7862b60be106"
+      ],
+      "screenshot_label": "Pivot table ranking practices and PCPs by targeted gaps",
+      "reading_order": 12,
+      "page": "Risk capture potential"
+    },
+    {
+      "widget_id": "w13",
+      "funnel_position": "ACTION",
+      "widget_name": "Member-Level Targeting List",
+      "sub_question": "Which specific members should be contacted?",
+      "visual_ids": [
+        "3d63dcab30ee9c4000e5"
+      ],
+      "screenshot_label": "Patient-level pivot table listing individual members by EMPI for direct outreach",
+      "reading_order": 13,
+      "page": "Risk capture potential"
+    }
+  ],
+  "_meta": {
+    "dashboard": "risk-dash",
+    "content_hash": "a23a03a32cc1",
+    "total_widgets": 13,
+    "total_visuals": 80,
+    "pages_processed": [
+      "Overview LY",
+      "Risk capture potential"
+    ],
+    "pages_mirrored": [
+      "Overview LM"
+    ]
+  }
+}

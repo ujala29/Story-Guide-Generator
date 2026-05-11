@@ -1,0 +1,28 @@
+{
+  "visual_id": "e360958956e0b0c7209a",
+  "title": "Risk recapture rate",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "The proportion of recaptured risk out of the total eligible recapture opportunity, expressed as a percentage.",
+  "numerator_meaning": "The sum of recapture_numerator values, representing the HCC risk weight that has been successfully recaptured (i.e., previously undocumented or gap conditions that have now been coded).",
+  "denominator_meaning": "The sum of recapture_denominator values, representing the total HCC risk weight eligible for recapture across all applicable conditions.",
+  "result_meaning": "Shows what percentage of the total recapture opportunity has been successfully acted upon, indicating how effectively the organisation is closing coding gaps.",
+  "scope_note": "",
+  "direction": "higher_is_better",
+  "metric_type": "rate",
+  "measure_meanings": {
+    "Risk recapture rate": "The percentage of eligible HCC risk weight that has been recaptured, calculated as recaptured risk divided by total recapturable risk.",
+    "Risk recapture rate YoY Card": "Displays the year-over-year percentage change in the risk recapture rate compared to the same period last year, shown as an upward or downward arrow with the percentage difference."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

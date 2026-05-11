@@ -1,0 +1,75 @@
+{
+  "total_tables": 13,
+  "total_measures": 124,
+  "total_relationships": 10,
+  "total_pages": 3,
+  "total_visuals": 89,
+  "total_filters": 29,
+  "total_bookmarks": 12,
+  "total_toggle_groups": 3,
+  "table_classification": {
+    "measure_container": [
+      "ALL_DAX_PAC"
+    ],
+    "source": [
+      "attribution",
+      "date",
+      "pac_opp_patient_view",
+      "pac_view",
+      "payer",
+      "pcp",
+      "snf recommendation",
+      "user_permission"
+    ],
+    "parameter": [
+      "Parameter",
+      "static_observation_window_table",
+      "X Axis scatter plot",
+      "Y Axis scatter plot"
+    ]
+  },
+  "most_referenced_measures": [
+    {
+      "name": "IP to Pac Discharges",
+      "dependent_count": 14
+    },
+    {
+      "name": "IP Discharges",
+      "dependent_count": 14
+    },
+    {
+      "name": "Avg LOS",
+      "dependent_count": 9
+    },
+    {
+      "name": "Overall PAC cost",
+      "dependent_count": 9
+    },
+    {
+      "name": "PAC PMPM",
+      "dependent_count": 9
+    },
+    {
+      "name": "PAC to IP readmission %",
+      "dependent_count": 9
+    },
+    {
+      "name": "% IP discharges to PAC",
+      "dependent_count": 7
+    },
+    {
+      "name": "Cost/Admit",
+      "dependent_count": 7
+    },
+    {
+      "name": "Readmission % IP Admits",
+      "dependent_count": 7
+    },
+    {
+      "name": "Utilization",
+      "dependent_count": 7
+    }
+  ],
+  "max_dependency_depth": 3,
+  "measures_with_dependencies": 99
+}

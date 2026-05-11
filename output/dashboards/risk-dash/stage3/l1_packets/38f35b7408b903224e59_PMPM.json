@@ -1,0 +1,28 @@
+{
+  "visual_id": "38f35b7408b903224e59",
+  "title": "PMPM",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "Calculates the average visit amount per member per month by dividing total year-to-date visit amount by total year-to-date member count.",
+  "numerator_meaning": "Total year-to-date visit amount across all attributed members, with no flag filter applied.",
+  "denominator_meaning": "Total year-to-date member count across all attributed members, with no flag filter applied.",
+  "result_meaning": "The average dollar amount of visit costs incurred per attributed member per month in the current year-to-date period.",
+  "scope_note": "",
+  "direction": "context_dependent",
+  "metric_type": "rate",
+  "measure_meanings": {
+    "PMPM": "Calculates the average year-to-date visit amount per attributed member by dividing total visit amount by total member count.",
+    "PMPM YoY Card": "Displays the year-over-year percentage change in PMPM compared to the same period last year, formatted as an upward or downward arrow with percentage."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

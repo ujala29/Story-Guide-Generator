@@ -1,0 +1,44 @@
+relationship AutoDetected_9371058f-ae4b-4d4f-b9f9-beec76dd1e86
+	fromColumn: pac_opp_patient_view.org_hierarchy_master_id
+	toColumn: pcp.org_hierarchy_master_id
+
+relationship AutoDetected_ff1a0dfe-f23c-41d0-9e8f-9f4081c469b0
+	fromColumn: attribution.org_hierarchy_master_id
+	toColumn: pcp.org_hierarchy_master_id
+
+relationship AutoDetected_2e44e77a-f13a-475e-a15c-b6f0a756ff8f
+	fromColumn: pac_opp_patient_view.payer_master_id_index
+	toColumn: payer.payer_master_id_index
+
+relationship AutoDetected_9d9ef471-3f13-4b02-ae95-4859375133d3
+	fromColumn: attribution.payer_master_id_index
+	toColumn: payer.payer_master_id_index
+
+relationship 13e1d850-af79-6634-cbc4-1a3786a02b72
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: pac_view.window
+	toColumn: static_observation_window_table.observation_window_value
+
+relationship e40fc405-e1c2-d687-dbf5-30fe430ca703
+	fromColumn: pac_opp_patient_view.month_of_visit
+	toColumn: date.month_of_date
+
+relationship 4062568a-a21d-9930-6401-51d70ae3bb72
+	fromColumn: attribution.month_of_attribution
+	toColumn: date.month_of_date
+
+relationship 92a61175-247a-6831-51b2-a02abce275d8
+	fromColumn: pac_view.join_key
+	toColumn: pac_opp_patient_view.join_key
+
+relationship 652a99aa-9b5d-45c5-609c-9419d5778a06
+	isActive: false
+	toCardinality: many
+	fromColumn: pcp.org_hierarchy_master_id
+	toColumn: user_permission.prvid
+
+relationship AutoDetected_b3d40a8f-cbd7-4750-a79f-8c8e5c141701
+	fromColumn: 'snf recommendation'.plan_name
+	toColumn: payer.plan_name
+

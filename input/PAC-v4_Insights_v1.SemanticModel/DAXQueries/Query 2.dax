@@ -1,0 +1,9 @@
+DEFINE VAR __DS0FilterTable = 
+	TREATAS({2024}, 'date'[year])
+
+EVALUATE
+	SUMMARIZECOLUMNS(
+		__DS0FilterTable,
+		"Total_Cost_of_Care_YoY_color", IGNORE('ALL_DAX_Overview'[Total Cost of Care YoY color]),
+		"Attributed_Lives_Overview_YoY_card", IGNORE('ALL_DAX_Overview'[Attributed Lives Overview YoY card])
+	)

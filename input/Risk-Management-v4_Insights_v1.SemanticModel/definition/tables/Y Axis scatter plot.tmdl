@@ -1,0 +1,97 @@
+table 'Y Axis scatter plot'
+	lineageTag: 065027bb-b5c0-40c2-9662-40a3a1d03a5f
+
+	measure 'Formatted Y Tooltip' =
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('Y Axis scatter plot'[Y axis])
+			
+			RETURN
+			SWITCH(
+			    SelectedMetric,
+			
+			    "Members",
+			        FORMAT([#Members], "#,##0"),
+			
+			    "Documented risk",
+			        FORMAT([Documented risk], "0.000"),
+			
+			    "Gap to potential risk",
+			        FORMAT([Gap to potential risk], "0.000"),
+			
+			    "PMPM",
+			        FORMAT([PMPM], "$#,##0"),
+			
+			    "RAF recapture rate",
+			        FORMAT([RAF recapture rate], "0.0%"),
+			
+			    "Risk recapture rate",
+			        FORMAT([Risk recapture rate], "0.0%"),
+			
+			    "% members with open coding gaps",
+			        FORMAT([% members with open coding gaps], "0.0%"),
+			
+			    "Open gaps (Dropped)",
+			        FORMAT([Open gaps (Dropped)], "#,##0"),
+			
+			    "Open gaps (Suspected)",
+			        FORMAT([Open gaps (Suspected)], "#,##0"),
+			
+			    "Eligible",
+			        FORMAT([Eligible population], "#,##0"),
+			
+			    BLANK()
+			)
+		lineageTag: bed95acf-50a5-489e-9d22-d66450b2859e
+
+	measure 'Selected Y Axis Value' =
+			SWITCH(SELECTEDVALUE('Y Axis scatter plot'[Y axis]),
+			"Members",[#Members],
+			"Documented risk",[Documented risk],
+			"Gap to potential risk",[Gap to potential risk],
+			"PMPM",[PMPM],
+			"RAF recapture rate",[RAF recapture rate],
+			"Risk recapture rate",[Risk recapture rate],
+			"% members with open coding gaps",[% members with open coding gaps],
+			"Open gaps (Dropped)",[Open gaps (Dropped)],
+			"Open gaps (Suspected)",[Open gaps (Suspected)],
+			"Eligible",[Eligible population],
+			BLANK())
+		lineageTag: 762815df-b243-4243-b779-67d16d2353c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Y Axis Title' =
+			
+			SELECTEDVALUE(
+			    'Y Axis scatter plot'[Y Axis],
+			    "Select Y Metric"
+			)
+		lineageTag: 80a1f4fe-c6e3-4bc9-85d7-716c37f71a8d
+
+	column 'Y axis'
+		lineageTag: fca1131b-2ab8-4adb-a5b6-76d4650cd280
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Y axis]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Y Axis scatter plot' = calculated
+		mode: import
+		source =
+				DATATABLE("Y axis",STRING,{
+				{"Members"},
+				{"Documented risk"},
+				{"Gap to potential risk"},
+				{"PMPM"},
+				{"RAF recapture rate"},
+				{"Risk recapture rate"},
+				{"% members with open coding gaps"},
+				{"Open gaps (Dropped)"},
+				{"Open gaps (Suspected)"},
+				{"Eligible"}
+				})
+
+	annotation PBI_Id = eecea3a96ac34d5ca6168551228349fe
+

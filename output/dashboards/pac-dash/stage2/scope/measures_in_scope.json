@@ -1,0 +1,2202 @@
+[
+  {
+    "measure_name": "% IP discharges to Home Health",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Home Health\"\n)\nlineageTag: cea8d181-5e4f-4ab6-b1dd-1a4d188b0107\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Home Health\"\n)\nlineageTag: cea8d181-5e4f-4ab6-b1dd-1a4d188b0107\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to Hospice",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Hospice\"\n)\nlineageTag: 4dde7c91-b962-4847-89c8-f29ed5c9bdd5\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Hospice\"\n)\nlineageTag: 4dde7c91-b962-4847-89c8-f29ed5c9bdd5\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to LTCH",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"LTCH\"\n)\nlineageTag: ff543370-272c-4b78-8f9e-7ca2ded961d5\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"LTCH\"\n)\nlineageTag: ff543370-272c-4b78-8f9e-7ca2ded961d5\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to PAC",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+    "clean_dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to PAC MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([% IP discharges to PAC] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: dd819955-5184-4195-be0a-90f701107f1c",
+    "clean_dax": "var pm = CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([% IP discharges to PAC] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: dd819955-5184-4195-be0a-90f701107f1c",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "% IP discharges to PAC",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [],
+        "depends_on": [
+          {
+            "measure_name": "IP to Pac Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_view[join_key]"
+            ],
+            "depends_on": []
+          },
+          {
+            "measure_name": "IP Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_opp_patient_view[visit_id]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to PAC PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([% IP discharges to PAC], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "% IP discharges to PAC",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [],
+        "depends_on": [
+          {
+            "measure_name": "IP to Pac Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_view[join_key]"
+            ],
+            "depends_on": []
+          },
+          {
+            "measure_name": "IP Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_opp_patient_view[visit_id]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to PAC PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "% IP discharges to PAC",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [],
+        "depends_on": [
+          {
+            "measure_name": "IP to Pac Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_view[join_key]"
+            ],
+            "depends_on": []
+          },
+          {
+            "measure_name": "IP Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_opp_patient_view[visit_id]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to PAC YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([% IP discharges to PAC] - py, py)\nlineageTag: 550f9117-4425-4f3c-9062-edd34a292f7e\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var py = CALCULATE([% IP discharges to PAC], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([% IP discharges to PAC] - py, py)\nlineageTag: 550f9117-4425-4f3c-9062-edd34a292f7e\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "% IP discharges to PAC",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [],
+        "depends_on": [
+          {
+            "measure_name": "IP to Pac Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_view[join_key]"
+            ],
+            "depends_on": []
+          },
+          {
+            "measure_name": "IP Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_opp_patient_view[visit_id]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to Rehab",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Rehab\"\n)\nlineageTag: 48c13276-91da-4c42-903e-7fbcf3975f97\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Rehab\"\n)\nlineageTag: 48c13276-91da-4c42-903e-7fbcf3975f97\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to SNF",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"SNF\"\n)\nlineageTag: 7bb0c8e1-5de1-403e-8609-bf90cea09666\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"SNF\"\n)\nlineageTag: 7bb0c8e1-5de1-403e-8609-bf90cea09666\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "% IP discharges to Swing Beds",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Swing Beds\"\n)\nlineageTag: 4040491e-9cac-4d05-b033-d19f081c1a47\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE (\nDIVIDE ([IP to Pac Discharges], [IP Discharges]),\npac_view[pac_visit_type] = \"Swing Beds\"\n)\nlineageTag: 4040491e-9cac-4d05-b033-d19f081c1a47\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      },
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "7 day followup %",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var a = CALCULATE(COUNT(pac_view[join_key]),KEEPFILTERS(pac_view[pcp_follow_up_flag_7_days]=\"True\"))\nvar b = COUNTROWS(pac_view)\nRETURN\nDIVIDE(a,b)+0\nformatString: 0\nlineageTag: 322d8536-36b2-45bb-b478-faeba18e5976",
+    "clean_dax": "var a = CALCULATE(COUNT(pac_view[join_key]),KEEPFILTERS(pac_view[pcp_follow_up_flag_7_days]=\"True\"))\nvar b = COUNTROWS(pac_view)\nRETURN\nDIVIDE(a,b)+0\nformatString: 0\nlineageTag: 322d8536-36b2-45bb-b478-faeba18e5976",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pcp_follow_up_flag_7_days]",
+      "pac_view[join_key]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Avg LOS",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+    "clean_dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_length_of_stay]",
+      "pac_view[pac_visit_type]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Avg LOS MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Avg LOS] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 689b82c6-eb9a-47c9-b8bf-e38f46e7712a",
+    "clean_dax": "var pm = CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Avg LOS] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 689b82c6-eb9a-47c9-b8bf-e38f46e7712a",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Avg LOS",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_length_of_stay]",
+          "pac_view[pac_visit_type]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Avg LOS PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Avg LOS], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Avg LOS",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_length_of_stay]",
+          "pac_view[pac_visit_type]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Avg LOS PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Avg LOS",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_length_of_stay]",
+          "pac_view[pac_visit_type]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Avg LOS YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Avg LOS] - py, py)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 7d86e35d-6511-415c-bde5-f0a7391b4089",
+    "clean_dax": "var py = CALCULATE([Avg LOS], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Avg LOS] - py, py)\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: 7d86e35d-6511-415c-bde5-f0a7391b4089",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Avg LOS",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_length_of_stay]",
+          "pac_view[pac_visit_type]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Cost/Admit",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))",
+    "clean_dax": "DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Cost/Admit MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Cost/Admit] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 7c7a6ecf-210c-481b-8f15-b256a6e15950",
+    "clean_dax": "var pm = CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Cost/Admit] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 7c7a6ecf-210c-481b-8f15-b256a6e15950",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Cost/Admit",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Cost/Admit PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Cost/Admit], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Cost/Admit",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Cost/Admit PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Cost/Admit",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Cost/Admit YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Cost/Admit] - py, py)\nlineageTag: f64f59bf-a64d-4d5e-9177-8fb21f50bc61\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var py = CALCULATE([Cost/Admit], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Cost/Admit] - py, py)\nlineageTag: f64f59bf-a64d-4d5e-9177-8fb21f50bc61\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Cost/Admit",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]), COUNTROWS(pac_view))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Formatted % IP discharges to PAC",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR x = [% IP discharges to PAC]\nRETURN FORMAT(x, \"0.0%\")\nlineageTag: a647c143-c6c4-4de3-bc41-a77ccd5b1486",
+    "clean_dax": "VAR x = [% IP discharges to PAC]\nRETURN FORMAT(x, \"0.0%\")\nlineageTag: a647c143-c6c4-4de3-bc41-a77ccd5b1486",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 2,
+    "depends_on": [
+      {
+        "measure_name": "% IP discharges to PAC",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE([IP to Pac Discharges],[IP Discharges])",
+        "depth": 1,
+        "is_leaf": false,
+        "referenced_columns": [],
+        "depends_on": [
+          {
+            "measure_name": "IP to Pac Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_view[join_key]"
+            ],
+            "depends_on": []
+          },
+          {
+            "measure_name": "IP Discharges",
+            "table": "ALL_DAX_PAC",
+            "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+            "depth": 0,
+            "is_leaf": true,
+            "referenced_columns": [
+              "pac_opp_patient_view[visit_id]"
+            ],
+            "depends_on": []
+          }
+        ]
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Formatted Avg LOS",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR x = [Avg LOS]\nRETURN FORMAT(x, \"0\")\nlineageTag: af9a4990-4af8-494e-a4c5-60ec3ed26a2c",
+    "clean_dax": "VAR x = [Avg LOS]\nRETURN FORMAT(x, \"0\")\nlineageTag: af9a4990-4af8-494e-a4c5-60ec3ed26a2c",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Avg LOS",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(AVERAGE(pac_view[pac_length_of_stay]),KEEPFILTERS(pac_view[pac_visit_type] <> \"Home Health\")) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_length_of_stay]",
+          "pac_view[pac_visit_type]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Formatted PAC to IP readmission %",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR x = [PAC to IP readmission %]\nRETURN FORMAT(x, \"0.0%\")\nlineageTag: f7e17b1e-e1b0-4f84-8652-24da38581f30",
+    "clean_dax": "VAR x = [PAC to IP readmission %]\nRETURN FORMAT(x, \"0.0%\")\nlineageTag: f7e17b1e-e1b0-4f84-8652-24da38581f30",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC to IP readmission %",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[readmission_index_visit_flag]",
+          "pac_view[join_key]",
+          "pac_view[last_transfer]",
+          "pac_view[readmission_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Formatted Readmission % IP Admits",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR x = [Readmission % IP Admits]\nRETURN FORMAT(x, \"0.0%\")\nlineageTag: 645d46f4-fda5-4215-ad41-86c35b6d7953",
+    "clean_dax": "VAR x = [Readmission % IP Admits]\nRETURN FORMAT(x, \"0.0%\")\nlineageTag: 645d46f4-fda5-4215-ad41-86c35b6d7953",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Readmission % IP Admits",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[readmission_flag]",
+          "pac_opp_patient_view[readmission_index_visit_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Formatted Utilization",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR x = [Utilization]\nRETURN FORMAT(x, \"0.0\")\nlineageTag: 1111bd68-dd7e-4490-ae9b-7a00c2a35a64",
+    "clean_dax": "VAR x = [Utilization]\nRETURN FORMAT(x, \"0.0\")\nlineageTag: 1111bd68-dd7e-4490-ae9b-7a00c2a35a64",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Utilization",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]",
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Home Health PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Home Health\")\nlineageTag: 4acee88c-4c9f-4470-b87b-d7cc305ba51c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Home Health\")\nlineageTag: 4acee88c-4c9f-4470-b87b-d7cc305ba51c\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]",
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Hospice PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Hospice\")\nlineageTag: 73d8edd9-ce1b-41d0-962b-1fd547d291a1\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Hospice\")\nlineageTag: 73d8edd9-ce1b-41d0-962b-1fd547d291a1\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]",
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP Discharges",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+    "clean_dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_opp_patient_view[visit_id]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP Discharges MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([IP Discharges] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 3e53570b-c222-441f-8682-af21c830618f",
+    "clean_dax": "var pm = CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([IP Discharges] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 3e53570b-c222-441f-8682-af21c830618f",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP Discharges PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([IP Discharges], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP Discharges PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP Discharges YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([IP Discharges] - py, py)\nlineageTag: 50194e02-fd8b-4459-a5b3-772975d6cc07\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var py = CALCULATE([IP Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([IP Discharges] - py, py)\nlineageTag: 50194e02-fd8b-4459-a5b3-772975d6cc07\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(count(pac_opp_patient_view[visit_id])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[visit_id]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP to Pac Discharges",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+    "clean_dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[join_key]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP to Pac Discharges MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([IP to Pac Discharges] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: a2b38d95-ce90-4e1b-b7d0-3fed603f84d6",
+    "clean_dax": "var pm = CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([IP to Pac Discharges] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: a2b38d95-ce90-4e1b-b7d0-3fed603f84d6",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP to Pac Discharges PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([IP to Pac Discharges], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP to Pac Discharges PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "IP to Pac Discharges YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([IP to Pac Discharges] - py, py)\nlineageTag: 1a455893-3531-4e6d-9f83-574284bfa9f7\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var py = CALCULATE([IP to Pac Discharges], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([IP to Pac Discharges] - py, py)\nlineageTag: 1a455893-3531-4e6d-9f83-574284bfa9f7\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "IP to Pac Discharges",
+        "table": "ALL_DAX_PAC",
+        "dax": "CALCULATE(DISTINCTCOUNT(pac_view[join_key])) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "LTCH PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"LTCH\")\nlineageTag: f4549a77-d134-497d-b057-4f590a552e74\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"LTCH\")\nlineageTag: f4549a77-d134-497d-b057-4f590a552e74\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]",
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Latest attribution date",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "MAX(attribution[month_of_attribution])",
+    "clean_dax": "MAX(attribution[month_of_attribution])",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[month_of_attribution]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall PAC cost",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "sum(pac_view[pac_visit_amount]) +0",
+    "clean_dax": "sum(pac_view[pac_visit_amount]) +0",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall PAC cost MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Overall PAC cost] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: ac9c5041-5f40-4c90-a99a-daac1ca4193b",
+    "clean_dax": "var pm = CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Overall PAC cost] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: ac9c5041-5f40-4c90-a99a-daac1ca4193b",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall PAC cost",
+        "table": "ALL_DAX_PAC",
+        "dax": "sum(pac_view[pac_visit_amount]) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall PAC cost PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Overall PAC cost], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall PAC cost",
+        "table": "ALL_DAX_PAC",
+        "dax": "sum(pac_view[pac_visit_amount]) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall PAC cost PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall PAC cost",
+        "table": "ALL_DAX_PAC",
+        "dax": "sum(pac_view[pac_visit_amount]) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Overall PAC cost YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Overall PAC cost] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: cbbe34d4-c147-412e-bbef-c55ff16c0b93",
+    "clean_dax": "var py = CALCULATE([Overall PAC cost], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Overall PAC cost] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: cbbe34d4-c147-412e-bbef-c55ff16c0b93",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Overall PAC cost",
+        "table": "ALL_DAX_PAC",
+        "dax": "sum(pac_view[pac_visit_amount]) +0",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))",
+    "clean_dax": "DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC PMPM MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([PAC PMPM] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 3f99b4aa-8d41-4842-bc6b-c7af9fd457d3",
+    "clean_dax": "var pm = CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([PAC PMPM] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 3f99b4aa-8d41-4842-bc6b-c7af9fd457d3",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC PMPM",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]",
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC PMPM PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([PAC PMPM], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC PMPM",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]",
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC PMPM PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC PMPM",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]",
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC PMPM YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([PAC PMPM] - py, py)\nlineageTag: fde1430a-5ad1-41cb-8156-afdb8124b9d3\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var py = CALCULATE([PAC PMPM], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([PAC PMPM] - py, py)\nlineageTag: fde1430a-5ad1-41cb-8156-afdb8124b9d3\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC PMPM",
+        "table": "ALL_DAX_PAC",
+        "dax": "DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count]))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "attribution[member_count]",
+          "pac_view[pac_visit_amount]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC to IP readmission %",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+    "clean_dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[readmission_index_visit_flag]",
+      "pac_view[join_key]",
+      "pac_view[last_transfer]",
+      "pac_view[readmission_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC to IP readmission % MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([PAC to IP readmission %] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: e618e44b-5002-4570-86de-279300044160",
+    "clean_dax": "var pm = CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([PAC to IP readmission %] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: e618e44b-5002-4570-86de-279300044160",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC to IP readmission %",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[readmission_index_visit_flag]",
+          "pac_view[join_key]",
+          "pac_view[last_transfer]",
+          "pac_view[readmission_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC to IP readmission % PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([PAC to IP readmission %], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC to IP readmission %",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[readmission_index_visit_flag]",
+          "pac_view[join_key]",
+          "pac_view[last_transfer]",
+          "pac_view[readmission_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC to IP readmission % PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC to IP readmission %",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[readmission_index_visit_flag]",
+          "pac_view[join_key]",
+          "pac_view[last_transfer]",
+          "pac_view[readmission_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC to IP readmission % YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([PAC to IP readmission %] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 0590fe73-e8a9-4a57-aeac-49a4281e8c95",
+    "clean_dax": "var py = CALCULATE([PAC to IP readmission %], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([PAC to IP readmission %] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 0590fe73-e8a9-4a57-aeac-49a4281e8c95",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "PAC to IP readmission %",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\"\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_index_visit_flag] = \"true\"\n)\n\nRETURN\nCALCULATE(DIVIDE(TotalReadmissions, TotalIndexVisits), KEEPFILTERS(pac_view[last_transfer] = \"true\"))",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[readmission_index_visit_flag]",
+          "pac_view[join_key]",
+          "pac_view[last_transfer]",
+          "pac_view[readmission_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "PAC to IP readmits",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\",\npac_view[last_transfer] = \"true\"\n)",
+    "clean_dax": "CALCULATE(\nDISTINCTCOUNT(pac_view[join_key]),\npac_view[readmission_flag] = \"true\",\npac_view[last_transfer] = \"true\"\n)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[join_key]",
+      "pac_view[last_transfer]",
+      "pac_view[readmission_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Readmission % IP Admits",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+    "clean_dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_opp_patient_view[readmission_flag]",
+      "pac_opp_patient_view[readmission_index_visit_flag]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Readmission % IP Admits MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Readmission % IP Admits] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: c7c9a51a-e4c7-4d65-9980-f1b3f2503238",
+    "clean_dax": "var pm = CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Readmission % IP Admits] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: c7c9a51a-e4c7-4d65-9980-f1b3f2503238",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Readmission % IP Admits",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[readmission_flag]",
+          "pac_opp_patient_view[readmission_index_visit_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Readmission % IP Admits PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Readmission % IP Admits], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Readmission % IP Admits",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[readmission_flag]",
+          "pac_opp_patient_view[readmission_index_visit_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Readmission % IP Admits PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Readmission % IP Admits",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[readmission_flag]",
+          "pac_opp_patient_view[readmission_index_visit_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Readmission % IP Admits YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Readmission % IP Admits] - py, py)\nlineageTag: 581d5620-1367-41fb-be64-9fac2d8f7590\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "var py = CALCULATE([Readmission % IP Admits], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Readmission % IP Admits] - py, py)\nlineageTag: 581d5620-1367-41fb-be64-9fac2d8f7590\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Readmission % IP Admits",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR TotalReadmissions =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_flag] = TRUE\n)\n\nVAR TotalIndexVisits =\nCALCULATE(\nCOUNTROWS(pac_opp_patient_view),\npac_opp_patient_view[readmission_index_visit_flag] = TRUE\n)\n\nRETURN\nDIVIDE(TotalReadmissions, TotalIndexVisits)",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_opp_patient_view[readmission_flag]",
+          "pac_opp_patient_view[readmission_index_visit_flag]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Rehab PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Rehab\")\nlineageTag: 4543a193-8376-40c9-b7c6-10c532e77899\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Rehab\")\nlineageTag: 4543a193-8376-40c9-b7c6-10c532e77899\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]",
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "SNF PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"SNF\")\nlineageTag: 2d37702f-4d70-4a30-94c5-57206a8de554\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"SNF\")\nlineageTag: 2d37702f-4d70-4a30-94c5-57206a8de554\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]",
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Swing Beds PMPM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Swing Beds\")\nlineageTag: 0dc990c3-e481-470c-8696-980a172fafe4\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "clean_dax": "CALCULATE(DIVIDE(sum(pac_view[pac_visit_amount]),sum(attribution[member_count])),\npac_view[pac_visit_type] = \"Swing Beds\")\nlineageTag: 0dc990c3-e481-470c-8696-980a172fafe4\nannotation PBI_FormatHint = {\"isGeneralNumber\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[pac_visit_type]",
+      "attribution[member_count]",
+      "pac_view[pac_visit_amount]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Utilization",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+    "clean_dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[join_key]",
+      "attribution[member_count]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Utilization MoM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var pm = CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Utilization] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 4453250f-e7fa-4eb7-814e-facd139df2de",
+    "clean_dax": "var pm = CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))\nRETURN\nDIVIDE([Utilization] - pm, pm)\nformatString: 0%;-0%;0%\nlineageTag: 4453250f-e7fa-4eb7-814e-facd139df2de",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Utilization",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]",
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Utilization PM",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Utilization], PREVIOUSMONTH('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Utilization",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]",
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Utilization PY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "clean_dax": "CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Utilization",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]",
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "Utilization YoY",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var py = CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Utilization] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 94f5e454-68c8-4737-a781-d53de6b27b4f",
+    "clean_dax": "var py = CALCULATE([Utilization], SAMEPERIODLASTYEAR('date'[month_of_date]))\nRETURN\nDIVIDE([Utilization] - py, py)\nformatString: 0%;-0%;0%\nlineageTag: 94f5e454-68c8-4737-a781-d53de6b27b4f",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": false,
+    "depth": 1,
+    "depends_on": [
+      {
+        "measure_name": "Utilization",
+        "table": "ALL_DAX_PAC",
+        "dax": "VAR Num =\nCALCULATE(\ncount(pac_view[join_key])\n)\nVAR Denom = SUM(attribution[member_count])\nRETURN\nDIVIDE(Num, Denom) * 12000\nformatString: #,0\nlineageTag: b2578648-acf9-4fdc-bbed-91cd7da4cc15\nannotation PBI_FormatHint = {\"isDecimal\":true}",
+        "depth": 0,
+        "is_leaf": true,
+        "referenced_columns": [
+          "pac_view[join_key]",
+          "attribution[member_count]"
+        ],
+        "depends_on": []
+      }
+    ],
+    "referenced_columns": [
+      "'date'[month_of_date]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  },
+  {
+    "measure_name": "initial_assessment_%",
+    "table": "ALL_DAX_PAC",
+    "raw_dax": "var a = CALCULATE(COUNT(pac_view[join_key]),KEEPFILTERS(pac_view[initial_assessment]=\"true\"))\nvar b = COUNTROWS(pac_view)\nRETURN\nDIVIDE(a,b)+0\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: f07d706d-96c5-4b0f-a18b-b036b48a20a2",
+    "clean_dax": "var a = CALCULATE(COUNT(pac_view[join_key]),KEEPFILTERS(pac_view[initial_assessment]=\"true\"))\nvar b = COUNTROWS(pac_view)\nRETURN\nDIVIDE(a,b)+0\nformatString: 0.0%;-0.0%;0.0%\nlineageTag: f07d706d-96c5-4b0f-a18b-b036b48a20a2",
+    "scope": "IN_SCOPE",
+    "scope_reason": "Compiler will attempt parse + SQL generation",
+    "is_leaf": true,
+    "depth": 0,
+    "depends_on": [],
+    "referenced_columns": [
+      "pac_view[initial_assessment]",
+      "pac_view[join_key]"
+    ],
+    "all_referenced_columns": [],
+    "sql_applicable": true,
+    "sql_query": null,
+    "parse_status": null,
+    "verified": false
+  }
+]

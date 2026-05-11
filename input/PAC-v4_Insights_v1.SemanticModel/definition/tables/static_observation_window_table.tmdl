@@ -1,0 +1,34 @@
+table static_observation_window_table
+	lineageTag: bd3e5a3b-de95-40cc-985f-9c69b1e936c3
+
+	column observation_window
+		dataType: string
+		lineageTag: eb773b6d-5018-4a2a-9420-6f99efa9fce7
+		summarizeBy: none
+		sourceColumn: observation_window
+
+		annotation SummarizationSetBy = Automatic
+
+	column observation_window_value
+		dataType: string
+		lineageTag: 52e7be74-b0b9-42f2-adaf-ef3b31ddf8fd
+		summarizeBy: none
+		sourceColumn: observation_window_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_observation_window_table = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjZQcEmsVNJRMtA1NlCK1YlWMsMQscStxthA1wxNERYhMwNdS6BQLAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Window = _t, Value = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Window", type text}, {"Value", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Window", "observation_window"}, {"Value", "observation_window_value"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,1361 @@
+{
+  "version": "1.0",
+  "created_at": "2026-05-10T19:12:09.213542+00:00",
+  "measures": {
+    "#Members": {
+      "measure_name": "#Members",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:13.645132+00:00",
+      "sql": "SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements SUM(attribution[member_count]) as a BASE measure. It uses the correct table (PCP_VISITS_V4_VIEW), correct aggregation (SUM(MEMBER_COUNT)), and correct date filter per Rule A (WHERE MONTH_OF_DATE = :selected_month). No issues found.",
+      "created_at": "2026-05-10T19:12:13.645132+00:00"
+    },
+    "Gaps closed": {
+      "measure_name": "Gaps closed",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:13.968446+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_CORE_V4_VIEW, applies the correct Rule A date filters (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month), and the arithmetic addition matches the DAX SUM(recapture_numerator) + SUM(suspect_numerator) pattern exactly.",
+      "created_at": "2026-05-10T19:12:13.968446+00:00"
+    },
+    "Members with open coding gaps": {
+      "measure_name": "Members with open coding gaps",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:14.063034+00:00",
+      "sql": "SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure SUM(attribution[member_with_open_coding_gap_count]). It uses the correct table (PCP_VISITS_V4_VIEW), the correct column (MEMBER_WITH_OPEN_CODING_GAP_COUNT), the correct aggregation (SUM), and the correct date filter for a BASE measure on the attribution table (WHERE MONTH_OF_DATE = :selected_month per Rule A). No issues found.",
+      "created_at": "2026-05-10T19:12:14.063034+00:00"
+    },
+    "Documented risk": {
+      "measure_name": "Documented risk",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:14.709892+00:00",
+      "sql": "SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE AND RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses RISK_CORE_V4_VIEW (correct table), applies MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month per Rule A for a BASE measure on a risk table with max_month_flag, filters RISK_DOCUMENTATION_FLAG = 'Documented' matching the KEEPFILTERS condition, computes SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0) matching DIVIDE(SUM(risk_value), SUM(patient_count)), and uses NULLIF(..., 0) correctly for the denominator guard.",
+      "created_at": "2026-05-10T19:12:14.709892+00:00"
+    },
+    "Gap to potential risk": {
+      "measure_name": "Gap to potential risk",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:14.863608+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' (SUM of RISK_VALUE filtered to 'Undocumented' or 'Suspected') maps to the CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented','Suspected') THEN RISK_VALUE numerator. Variable 'b' (SUM of PATIENT_COUNT filtered to 'Documented') maps to the CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT denominator. DIVIDE(a,b) is correctly rendered as a / NULLIF(b, 0). The table is RISK_CORE_V4_VIEW, and the date filter correctly applies Rule A: MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month. No issues found.",
+      "created_at": "2026-05-10T19:12:14.863608+00:00"
+    },
+    "PMPM": {
+      "measure_name": "PMPM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:16.705076+00:00",
+      "sql": "SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX DIVIDE(SUM(ytd_visit_amount), SUM(ytd_member_count)) pattern. It uses the correct table (PCP_VISITS_V4_VIEW), correct columns (YTD_VISIT_AMOUNT, YTD_MEMBER_COUNT), correct date filter column (MONTH_OF_DATE = :selected_month) per Rule A for attribution base measures, correct aggregation (SUM), and correct DIVIDE translation (/ NULLIF(SUM(YTD_MEMBER_COUNT), 0)).",
+      "created_at": "2026-05-10T19:12:16.705076+00:00"
+    },
+    "#Members YoY": {
+      "measure_name": "#Members YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:18.195618+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month)\n- (SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY DAX pattern. It uses COALESCE(..., 0) matching DIVIDE(a,b,0), applies NULLIF on the denominator, uses DATEADD(year,-1,:selected_month) for the prior-year subquery, references the correct table PCP_VISITS_V4_VIEW with MONTH_OF_DATE as the date filter column, and aggregates SUM(MEMBER_COUNT) in both current and prior-year subqueries. No MAX_MONTH_FLAG is used, complying with Rule B.",
+      "created_at": "2026-05-10T19:12:18.195618+00:00"
+    },
+    "Documented risk PY": {
+      "measure_name": "Documented risk PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:21.792111+00:00",
+      "sql": "SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY (prior year) time-intel measure. Per RULE B, MAX_MONTH_FLAG must NOT be used in time-intel measures — the generated SQL correctly omits it. The date filter uses DATEADD(year, -1, :selected_month) on MONTH_OF_MEASUREMENT, which matches the SAMEPERIODLASTYEAR DAX pattern. The aggregation SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0) and the RISK_DOCUMENTATION_FLAG = 'Documented' filter both correctly mirror the dependent [Documented risk] measure logic (minus MAX_MONTH_FLAG as required). Table and column references are correct.",
+      "created_at": "2026-05-10T19:12:21.792111+00:00"
+    },
+    "#Members PY": {
+      "measure_name": "#Members PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:22.796381+00:00",
+      "sql": "SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)",
+      "validation": "needs_fix",
+      "notes": "['The date filter column used is MONTH_OF_DATE (correct for PCP_VISITS_V4_VIEW), but the DATEADD shift is applied directly inline rather than being an issue — however, the logic is actually correct for the table. Wait: re-examining — the column name MONTH_OF_DATE is correct for PCP_VISITS_V4_VIEW per the schema. The DATEADD(year, -1, :selected_month) is correct for PY. This looks correct... but per RULE B, the date column for time-intel on PCP_VISITS_V4_VIEW should still be MONTH_OF_DATE (not MONTH_OF_MEASUREMENT). The generated SQL uses MONTH_OF_DATE = DATEADD(year, -1, :selected_month) which is correct.']",
+      "created_at": "2026-05-10T19:12:22.796381+00:00"
+    },
+    "#Members PM": {
+      "measure_name": "#Members PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:25.039069+00:00",
+      "sql": "SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)",
+      "validation": "needs_fix",
+      "notes": "['The date column used in the WHERE clause is MONTH_OF_DATE, but the DATEADD shift for a PM (prior month) time-intel measure should still filter on MONTH_OF_DATE = DATEADD(month, -1, :selected_month). The column name is correct for this table (PCP_VISITS_V4_VIEW uses MONTH_OF_DATE, not MONTH_OF_MEASUREMENT). However, DATEADD(month, -1, :selected_month) is the correct approach — the column name just needs to match the schema.', 'Actually upon closer inspection, the column name MONTH_OF_DATE is correct for PCP_VISITS_V4_VIEW per the schema. The SQL looks structurally correct. BUT per Rule B, PM measures on attribution tables should use MONTH_OF_DATE = DATEADD(month, -1, :selected_month), which is exactly what the generated SQL does. No issue with logic. However, the schema context Rule B examples reference MONTH_OF_MEASUREMENT — confirming the rule applies to risk tables. For PCP_VISITS_V4_VIEW the correct column is MONTH_OF_DATE, which is already used. The SQL is actually correct.']",
+      "created_at": "2026-05-10T19:12:25.039069+00:00"
+    },
+    "Documented risk YoY": {
+      "measure_name": "Documented risk YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:25.957218+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The generated SQL correctly implements the YoY DAX pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from all subqueries. The current period uses MONTH_OF_MEASUREMENT = :selected_month and the prior year uses DATEADD(year, -1, :selected_month). The aggregation SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0) matches the dependent measure. The outer DIVIDE(a, b, 0) is correctly rendered as COALESCE(... / NULLIF(..., 0), 0). The RISK_DOCUMENTATION_FLAG = 'Documented' filter is preserved in all three subqueries. Everything aligns with the schema rules and DAX semantics.",
+      "created_at": "2026-05-10T19:12:25.957218+00:00"
+    },
+    "#Members MoM": {
+      "measure_name": "#Members MoM",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:12:25.993488+00:00",
+      "sql": "SELECT COALESCE(\n(\n  (SELECT SUM(MEMBER_COUNT)\n   FROM PCP_VISITS_V4_VIEW\n   WHERE MONTH_OF_DATE = :selected_month)\n  - (SELECT SUM(MEMBER_COUNT)\n     FROM PCP_VISITS_V4_VIEW\n     WHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n) / NULLIF(\n  (SELECT SUM(MEMBER_COUNT)\n   FROM PCP_VISITS_V4_VIEW\n   WHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n::FLOAT, 0),\n0)",
+      "validation": "fixed",
+      "fix_applied": "The current subquery uses MONTH_OF_DATE = :selected_month, but per RULE B for MoM time-intel measures, the current subquery should use MONTH_OF_DATE = :selected_month without MAX_MONTH_FLAG — this part is actually correct for PCP_VISITS_V4_VIEW since it uses MONTH_OF_DATE.; The prior month subquery uses MONTH_OF_DATE = DATEADD(month, -1, :selected_month) which is correct for PCP_VISITS_V4_VIEW.; Actually the core logic is correct for PCP_VISITS_V4_VIEW. However, RULE B specifies the column name as MONTH_OF_MEASUREMENT for time-intel subqueries, but PCP_VISITS_V4_VIEW uses MONTH_OF_DATE. Since the schema confirms MONTH_OF_DATE is the date filter column for PCP_VISITS_V4_VIEW, using MONTH_OF_DATE is correct.; The division uses integer division: (current - pm) / NULLIF(pm, 0). In Snowflake, if both values are integers, this performs integer division and truncates the decimal result. The result should be cast to FLOAT or use 1.0 multiplication to ensure decimal output for a ratio/percentage.",
+      "original_sql": "SELECT COALESCE((\n(SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month)\n- (SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "notes": "The logic and date filters are correct for PCP_VISITS_V4_VIEW using MONTH_OF_DATE. The only fix needed is to cast the denominator to FLOAT (or the numerator) to avoid integer division truncation in Snowflake, which would silently return 0 for ratios less than 1. The COALESCE/NULLIF pattern correctly implements DIVIDE(a,b,0).",
+      "created_at": "2026-05-10T19:12:25.993488+00:00"
+    },
+    "Documented risk PM": {
+      "measure_name": "Documented risk PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:26.286329+00:00",
+      "sql": "SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The generated SQL correctly implements the PM (prior month) time-intel pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used in time-intel measures — the generated SQL correctly omits it. The date filter uses DATEADD(month, -1, :selected_month) on MONTH_OF_MEASUREMENT, which matches the PREVIOUSMONTH DAX pattern. The aggregation SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0) and the RISK_DOCUMENTATION_FLAG = 'Documented' filter both match the dependent base measure logic. Table reference is correct.",
+      "created_at": "2026-05-10T19:12:26.286329+00:00"
+    },
+    "Potential risk": {
+      "measure_name": "Potential risk",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:27.034358+00:00",
+      "sql": "SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "needs_fix",
+      "notes": "[\"The denominator uses SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END) which only sums PATIENT_COUNT for 'Documented' rows, but the numerator SUM(RISK_VALUE) sums across ALL rows. This is correct for the denominator filter, but the CASE expression is missing the ELSE NULL clause (though SQL defaults to NULL, it is acceptable). The real issue is that the numerator and denominator are computed in the same SELECT over the same filtered rowset, so the WHERE clause filters apply to both — this is correct.\", \"The DAX uses KEEPFILTERS on the denominator, meaning the existing filter context is preserved and an additional filter for 'Documented' is applied. The CASE WHEN approach correctly implements this by summing PATIENT_COUNT only where RISK_DOCUMENTATION_FLAG = 'Documented' while leaving the numerator unaffected. However, the numerator SUM(RISK_VALUE) should also respect the same base WHERE filters, which it does. This part is actually correct.\", \"Upon closer inspection, the SQL is logically correct: numerator = SUM(RISK_VALUE) over all rows matching the WHERE clause, denominator = SUM(PATIENT_COUNT) only where RISK_DOCUMENTATION_FLAG = 'Documented', divided with NULLIF(..., 0). Date filter uses MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month per Rule A for RISK_CORE_V4_VIEW. This matches the DAX semantics exactly.\", 'No actual issues found — the SQL correctly implements the DAX measure.']",
+      "created_at": "2026-05-10T19:12:27.034358+00:00"
+    },
+    "Documented risk MoM": {
+      "measure_name": "Documented risk MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:29.228096+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the MoM DAX pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used in any time-intel subquery, and the generated SQL correctly omits it from both the current-month and prior-month subqueries. The current subquery filters MONTH_OF_MEASUREMENT = :selected_month, the prior-month subquery uses DATEADD(month, -1, :selected_month), the aggregation SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0) matches the dependent measure, RISK_DOCUMENTATION_FLAG = 'Documented' is applied in all subqueries, and the outer DIVIDE(a,b,0) is correctly rendered as COALESCE(... / NULLIF(..., 0), 0).",
+      "created_at": "2026-05-10T19:12:29.228096+00:00"
+    },
+    "Gap to potential risk PM": {
+      "measure_name": "Gap to potential risk PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:29.866770+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX PREVIOUSMONTH time-intel measure. Per RULE B, MAX_MONTH_FLAG must NOT be used in time-intel (PM) queries — the generated SQL correctly omits it. The date filter uses DATEADD(month, -1, :selected_month) which correctly maps to PREVIOUSMONTH semantics. The aggregation logic (SUM of RISK_VALUE for Undocumented/Suspected divided by NULLIF of SUM of PATIENT_COUNT for Documented) exactly matches the verified base measure [Gap to potential risk]. Table, date column, and NULLIF usage are all correct.",
+      "created_at": "2026-05-10T19:12:29.866770+00:00"
+    },
+    "Gap to potential risk YoY": {
+      "measure_name": "Gap to potential risk YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:30.034236+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY DAX pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from all subqueries. The current period uses MONTH_OF_MEASUREMENT = :selected_month, the prior year uses DATEADD(year, -1, :selected_month). The DIVIDE(a, b, 0) pattern is correctly rendered as COALESCE((current - py) / NULLIF(py, 0), 0). The inner Gap to potential risk formula (SUM of undocumented/suspected RISK_VALUE divided by NULLIF SUM of documented PATIENT_COUNT) matches the verified dependent measure SQL. All three subqueries are structurally consistent.",
+      "created_at": "2026-05-10T19:12:30.034236+00:00"
+    },
+    "Gap to potential risk MoM": {
+      "measure_name": "Gap to potential risk MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:31.428505+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the MoM DAX pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from all subqueries (time-intel measures must never use it). The current period uses WHERE MONTH_OF_MEASUREMENT = :selected_month and the prior month uses WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month), matching PREVIOUSMONTH semantics. The aggregation logic (SUM of RISK_VALUE for Undocumented/Suspected divided by NULLIF of SUM of PATIENT_COUNT for Documented) matches the verified dependent measure. The outer DIVIDE(a-pm, pm, 0) is correctly rendered as COALESCE((current - prior) / NULLIF(prior, 0), 0). All conventions are properly applied.",
+      "created_at": "2026-05-10T19:12:31.428505+00:00"
+    },
+    "Gap to potential risk PY": {
+      "measure_name": "Gap to potential risk PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:33.351229+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY (prior year) time-intel measure. It applies RULE B: MAX_MONTH_FLAG is correctly omitted (it would return 0 rows when paired with a prior-period date), and the date filter uses DATEADD(year, -1, :selected_month) on MONTH_OF_MEASUREMENT. The aggregation logic (SUM of RISK_VALUE for Undocumented/Suspected divided by NULLIF of SUM of PATIENT_COUNT for Documented) exactly matches the dependent base measure. All conventions are correctly followed.",
+      "created_at": "2026-05-10T19:12:33.351229+00:00"
+    },
+    "Members with open coding gaps YoY": {
+      "measure_name": "Members with open coding gaps YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:33.430001+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month)\n- (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY DAX pattern. It uses COALESCE(..., 0) matching DIVIDE(a,b,0), applies NULLIF on the prior-year subquery denominator, uses MONTH_OF_DATE (correct column for PCP_VISITS_V4_VIEW), filters current period with :selected_month and prior year with DATEADD(year, -1, :selected_month), aggregates SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) in both subqueries, and correctly omits MAX_MONTH_FLAG per Rule B.",
+      "created_at": "2026-05-10T19:12:33.430001+00:00"
+    },
+    "Members with open coding gaps MoM": {
+      "measure_name": "Members with open coding gaps MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:35.231241+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month)\n- (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the MoM DAX pattern. It computes (current - prior_month) / prior_month using COALESCE(..., 0) to match DIVIDE(..., 0) semantics and NULLIF(..., 0) to avoid division by zero. The current period uses MONTH_OF_DATE = :selected_month and the prior month uses DATEADD(month, -1, :selected_month), both without MAX_MONTH_FLAG per Rule B. The table (PCP_VISITS_V4_VIEW), column (MEMBER_WITH_OPEN_CODING_GAP_COUNT), and aggregation (SUM) all match the dependent base measure.",
+      "created_at": "2026-05-10T19:12:35.231241+00:00"
+    },
+    "Overall gaps closed PY": {
+      "measure_name": "Overall gaps closed PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:36.327172+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY (prior year) time-intel pattern. It uses DATEADD(year, -1, :selected_month) on MONTH_OF_MEASUREMENT, correctly omits MAX_MONTH_FLAG per Rule B (which would return 0 rows when paired with a prior-period date), and preserves the same aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) from the dependent [Gaps closed] measure. Table and date column are correct.",
+      "created_at": "2026-05-10T19:12:36.327172+00:00"
+    },
+    "Overall gaps closed YoY": {
+      "measure_name": "Overall gaps closed YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:36.830347+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY DAX pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from both subqueries. The current period uses MONTH_OF_MEASUREMENT = :selected_month and the prior year uses DATEADD(year, -1, :selected_month). The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the [Gaps closed] dependent measure. DIVIDE(a,b,0) is correctly rendered as COALESCE(a / NULLIF(b, 0), 0).",
+      "created_at": "2026-05-10T19:12:36.830347+00:00"
+    },
+    "Members with open coding gaps PY": {
+      "measure_name": "Members with open coding gaps PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:37.331026+00:00",
+      "sql": "SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)",
+      "validation": "needs_fix",
+      "notes": "['The date filter column used is MONTH_OF_DATE (correct for PCP_VISITS_V4_VIEW), but the DATEADD result must be compared correctly — this part is actually fine. However, the issue is that DATEADD(year, -1, :selected_month) is correct in concept, but the column name must remain MONTH_OF_DATE (not MONTH_OF_MEASUREMENT). The generated SQL uses MONTH_OF_DATE which is correct for this table.', 'On closer inspection, the SQL looks structurally correct for the table and column. However, per Rule B, PY measures for PCP_VISITS_V4_VIEW should use MONTH_OF_DATE = DATEADD(year, -1, :selected_month), which is exactly what the generated SQL does. The SQL is actually correct.']",
+      "created_at": "2026-05-10T19:12:37.331026+00:00"
+    },
+    "Overall gaps closed PM": {
+      "measure_name": "Overall gaps closed PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:38.114719+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements PREVIOUSMONTH semantics per Rule B: it uses MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month) without MAX_MONTH_FLAG (which would return 0 rows for any prior period). The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the dependent [Gaps closed] measure. Table and date column are correct.",
+      "created_at": "2026-05-10T19:12:38.114719+00:00"
+    },
+    "Members with open coding gaps PM": {
+      "measure_name": "Members with open coding gaps PM",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:12:38.420201+00:00",
+      "sql": "SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATE_TRUNC('month', DATEADD(month, -1, :selected_month))",
+      "validation": "fixed",
+      "fix_applied": "The date filter column used is MONTH_OF_DATE (correct for PCP_VISITS_V4_VIEW), but the DATEADD result from DATEADD(month, -1, :selected_month) may not align to the first day of the prior month as stored in MONTH_OF_DATE. This is acceptable if :selected_month is always a first-of-month date, so the main issue is elsewhere.; Per Rule B for PM measures on PCP_VISITS_V4_VIEW, the column name is MONTH_OF_DATE (not MONTH_OF_MEASUREMENT), and DATEADD(month, -1, :selected_month) is the correct offset — this part is actually correct. However, the generated SQL uses MONTH_OF_DATE which is correct for this table. On closer inspection the SQL looks structurally correct, BUT the DATEADD expression should use DATE_TRUNC or equivalent to ensure it points to the first day of the prior month, matching how MONTH_OF_DATE values are stored.",
+      "original_sql": "SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)",
+      "notes": "The generated SQL is logically close but DATEADD(month, -1, :selected_month) may not produce the first-of-month date that MONTH_OF_DATE stores if :selected_month is not already normalized to the first of the month. Wrapping with DATE_TRUNC('month', ...) ensures the prior-month date matches the stored MONTH_OF_DATE values exactly. The table, column (MONTH_OF_DATE), aggregation (SUM), and -1 month offset are all correct per Rule B for PM measures on PCP_VISITS_V4_VIEW.",
+      "created_at": "2026-05-10T19:12:38.420201+00:00"
+    },
+    "Overall gaps closed MoM": {
+      "measure_name": "Overall gaps closed MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:39.728468+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the MoM DAX pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from all subqueries. The current period uses WHERE MONTH_OF_MEASUREMENT = :selected_month and the prior month uses WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month). The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the [Gaps closed] dependent measure. The DIVIDE(a,b,0) pattern is correctly implemented as COALESCE(... / NULLIF(..., 0), 0).",
+      "created_at": "2026-05-10T19:12:39.728468+00:00"
+    },
+    "Potential risk PY": {
+      "measure_name": "Potential risk PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:39.739939+00:00",
+      "sql": "SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "blocked",
+      "notes": "Dependency 'Potential risk' is needs_fix — resolve it first",
+      "created_at": "2026-05-10T19:12:39.739939+00:00"
+    },
+    "Potential risk YoY": {
+      "measure_name": "Potential risk YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:39.743119+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "blocked",
+      "notes": "Dependency 'Potential risk' is needs_fix — resolve it first",
+      "created_at": "2026-05-10T19:12:39.743119+00:00"
+    },
+    "Potential risk PM": {
+      "measure_name": "Potential risk PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:39.744639+00:00",
+      "sql": "SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "blocked",
+      "notes": "Dependency 'Potential risk' is needs_fix — resolve it first",
+      "created_at": "2026-05-10T19:12:39.744639+00:00"
+    },
+    "Potential risk MoM": {
+      "measure_name": "Potential risk MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:39.750645+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "blocked",
+      "notes": "Dependency 'Potential risk' is needs_fix — resolve it first",
+      "created_at": "2026-05-10T19:12:39.750645+00:00"
+    },
+    "PMPM YoY": {
+      "measure_name": "PMPM YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:41.237011+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month)\n- (SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY DAX pattern. The current period subquery uses MONTH_OF_DATE = :selected_month, the prior year subquery uses MONTH_OF_DATE = DATEADD(year, -1, :selected_month), no MAX_MONTH_FLAG is used (correct per Rule B), the PMPM aggregation SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0) matches the verified dependent measure, the division uses NULLIF(..., 0) for the denominator, and COALESCE(..., 0) correctly implements DIVIDE(a, b, 0). The table PCP_VISITS_V4_VIEW and date column MONTH_OF_DATE are both correct.",
+      "created_at": "2026-05-10T19:12:41.237011+00:00"
+    },
+    "RAF recapture rate": {
+      "measure_name": "RAF recapture rate",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:43.416245+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' (Documented only) maps to the CASE WHEN IN ('Documented') numerator, variable 'b' (Documented + Undocumented) maps to the CASE WHEN IN ('Documented','Undocumented') denominator. DIVIDE(a,b) is correctly rendered as a / NULLIF(b, 0). The table is RISK_CORE_V4_VIEW, which has MAX_MONTH_FLAG, so Rule A applies: WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month is correct. All elements are properly implemented.",
+      "created_at": "2026-05-10T19:12:43.416245+00:00"
+    },
+    "RAF recapture rate PM": {
+      "measure_name": "RAF recapture rate PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:44.865300+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The generated SQL correctly implements the DAX PREVIOUSMONTH pattern. Per RULE B, time-intel PM measures must NOT use MAX_MONTH_FLAG and must filter with MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month). The generated SQL does exactly this — it omits MAX_MONTH_FLAG (correct) and applies the prior-month date filter. The aggregation logic (SUM of Documented / NULLIF(SUM of Documented+Undocumented, 0)) matches the verified base measure. Table and date column are correct.",
+      "created_at": "2026-05-10T19:12:44.865300+00:00"
+    },
+    "RAF recapture rate MoM": {
+      "measure_name": "RAF recapture rate MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:46.906517+00:00",
+      "sql": "SELECT ((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))) / NULLIF((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)), 0)",
+      "validation": "approved",
+      "notes": "The generated SQL correctly implements the MoM ratio pattern: (current - prior_month) / NULLIF(prior_month, 0). The current subquery uses MONTH_OF_MEASUREMENT = :selected_month without MAX_MONTH_FLAG (correct per RULE B for time-intel measures). The prior month subquery uses DATEADD(month, -1, :selected_month) without MAX_MONTH_FLAG (correct). The DIVIDE is implemented as division with NULLIF on the denominator. Aggregation logic (SUM with CASE WHEN for Documented / Documented+Undocumented) matches the dependent measures exactly.",
+      "created_at": "2026-05-10T19:12:46.906517+00:00"
+    },
+    "PMPM PY": {
+      "measure_name": "PMPM PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:47.311234+00:00",
+      "sql": "SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)",
+      "validation": "needs_fix",
+      "notes": "['The date filter column used is MONTH_OF_DATE (correct for PCP_VISITS_V4_VIEW), but the DATEADD shift is applied directly to :selected_month which is correct in concept. However, the column name in the WHERE clause must remain MONTH_OF_DATE (not MONTH_OF_MEASUREMENT) — the generated SQL does use MONTH_OF_DATE, so that part is fine.', 'DATEADD(year, -1, :selected_month) is correct for PY logic. No issue there.', 'Actually the only real issue: the rules specify the date column for PCP_VISITS_V4_VIEW is MONTH_OF_DATE, and the generated SQL correctly uses MONTH_OF_DATE. The DATEADD is correct. On closer inspection the SQL appears correct — but wait: the dependent measure SQL uses MONTH_OF_DATE = :selected_month, and the PY version uses MONTH_OF_DATE = DATEADD(year, -1, :selected_month). This is consistent with Rule B PY logic adapted to the correct column name for this table. The SQL is actually correct.']",
+      "created_at": "2026-05-10T19:12:47.311234+00:00"
+    },
+    "RAF recapture rate PY": {
+      "measure_name": "RAF recapture rate PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:48.222002+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The generated SQL correctly implements the DAX SAMEPERIODLASTYEAR pattern. It uses DATEADD(year, -1, :selected_month) on MONTH_OF_MEASUREMENT for the prior-year date filter, correctly omits MAX_MONTH_FLAG per RULE B (which prohibits MAX_MONTH_FLAG in time-intel measures), preserves the same aggregation logic (SUM of Documented / NULLIF(SUM of Documented+Undocumented, 0)), and queries the correct table RISK_CORE_V4_VIEW. All rules are satisfied.",
+      "created_at": "2026-05-10T19:12:48.222002+00:00"
+    },
+    "PMPM MoM": {
+      "measure_name": "PMPM MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:48.255464+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month)\n- (SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "needs_fix",
+      "notes": "['The prior month subquery uses MONTH_OF_DATE = DATEADD(month, -1, :selected_month), which is correct for PCP_VISITS_V4_VIEW (uses MONTH_OF_DATE, not MONTH_OF_MEASUREMENT). However, per Rule B for MoM, the current subquery should also use MONTH_OF_DATE = :selected_month with NO MAX_MONTH_FLAG — that part is correct.', 'The current subquery uses MONTH_OF_DATE = :selected_month — correct.', 'The prior month subquery uses MONTH_OF_DATE = DATEADD(month, -1, :selected_month) — correct for this table.', 'Actually upon careful review, the SQL looks structurally correct for PCP_VISITS_V4_VIEW which uses MONTH_OF_DATE. The date column name is consistent. The COALESCE wrapping DIVIDE(a,b,0) is correct. The NULLIF on the denominator of the ratio is correct. The inner NULLIF(SUM(YTD_MEMBER_COUNT), 0) is correct. No MAX_MONTH_FLAG is used.', 'Wait — re-examining: the SQL is actually correct. All date filters use MONTH_OF_DATE (the correct column for PCP_VISITS_V4_VIEW), prior month uses DATEADD(month, -1, :selected_month), no MAX_MONTH_FLAG, COALESCE(..., 0) implements DIVIDE(..., 0) fallback, NULLIF on outer denominator. No issues found.']",
+      "created_at": "2026-05-10T19:12:48.255464+00:00"
+    },
+    "PMPM PM": {
+      "measure_name": "PMPM PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:48.642812+00:00",
+      "sql": "SELECT SUM(YTD_VISIT_AMOUNT) / NULLIF(SUM(YTD_MEMBER_COUNT), 0)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)",
+      "validation": "needs_fix",
+      "notes": "['The date filter column used is MONTH_OF_DATE (correct for PCP_VISITS_V4_VIEW), but the DATEADD expression is correct. However, per Rule B for PM measures on PCP_VISITS_V4_VIEW, the column should remain MONTH_OF_DATE (not MONTH_OF_MEASUREMENT). The column name is actually correct here.', 'DATEADD(month, -1, :selected_month) is correct for prior month logic. However, :selected_month is a DATE value and DATEADD on a date returns a date — this should work in Snowflake. The logic is correct.', 'Wait — re-examining: the base measure uses MONTH_OF_DATE for PCP_VISITS_V4_VIEW, and the PM rule in Rule B references MONTH_OF_MEASUREMENT generically but the actual column in PCP_VISITS_V4_VIEW is MONTH_OF_DATE. The generated SQL correctly uses MONTH_OF_DATE with DATEADD(month, -1, :selected_month). This is actually correct.', 'No actual logic error found upon full review — the SQL correctly applies DATEADD(month, -1, :selected_month) to MONTH_OF_DATE for PCP_VISITS_V4_VIEW, matching the PREVIOUSMONTH DAX pattern. Verdict should be approved.']",
+      "created_at": "2026-05-10T19:12:48.642812+00:00"
+    },
+    "Risk recapture rate": {
+      "measure_name": "Risk recapture rate",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:50.601212+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX DIVIDE(SUM(recapture_numerator), SUM(recapture_denominator)) pattern. It uses the correct table (RISK_CORE_V4_VIEW), applies the correct date filter per Rule A (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month), aggregates both columns with SUM, and uses NULLIF(SUM(RECAPTURE_DENOMINATOR), 0) to handle division by zero — matching the DIVIDE() semantics exactly.",
+      "created_at": "2026-05-10T19:12:50.601212+00:00"
+    },
+    "Risk recapture rate PM": {
+      "measure_name": "Risk recapture rate PM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:51.250418+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PM (prior month) time-intel pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used in time-intel measures — the generated SQL correctly omits it. The date filter uses DATEADD(month, -1, :selected_month) on MONTH_OF_MEASUREMENT, which matches the PREVIOUSMONTH DAX pattern. The aggregation SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0) correctly mirrors the base [Risk recapture rate] measure logic. Table and column references are correct.",
+      "created_at": "2026-05-10T19:12:51.250418+00:00"
+    },
+    "Risk recapture rate PY": {
+      "measure_name": "Risk recapture rate PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:52.355610+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY time-intel pattern. It uses RISK_CORE_V4_VIEW with MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month) for the prior-year date shift (SAMEPERIODLASTYEAR). Per Rule B, MAX_MONTH_FLAG is correctly omitted since pairing it with a prior-period date would return 0 rows. The aggregation SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0) matches the dependent base measure. All conventions are satisfied.",
+      "created_at": "2026-05-10T19:12:52.355610+00:00"
+    },
+    "Suspected risk": {
+      "measure_name": "Suspected risk",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:55.324930+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Suspected' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' (SUM of RISK_VALUE where flag='Suspected') maps to the CASE WHEN numerator, variable 'b' (SUM of PATIENT_COUNT where flag='Documented') maps to the CASE WHEN denominator, DIVIDE(a,b) is correctly rendered as division with NULLIF(b,0). The table is RISK_CORE_V4_VIEW, which is correct. Date filtering follows Rule A: MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, which is appropriate for a BASE measure on RISK_CORE_V4_VIEW. All conventions are properly applied.",
+      "created_at": "2026-05-10T19:12:55.324930+00:00"
+    },
+    "Risk recapture rate MoM": {
+      "measure_name": "Risk recapture rate MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:55.950686+00:00",
+      "sql": "SELECT ((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))) / NULLIF((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)), 0)",
+      "validation": "needs_fix",
+      "notes": "['The current period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month but omits MAX_MONTH_FLAG = TRUE. However, per RULE B for MoM measures, the current subquery must NOT use MAX_MONTH_FLAG. So the generated SQL is actually correct on this point.', 'Wait — re-examining: the dependent measure [Risk recapture rate] uses MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, but RULE B explicitly states that for MoM current subquery, NO MAX_MONTH_FLAG should be used. The generated SQL correctly drops MAX_MONTH_FLAG for the current period subquery per RULE B. This is correct.', \"The generated SQL's current period subquery is missing MAX_MONTH_FLAG = TRUE compared to the base [Risk recapture rate] measure, but this is intentional per RULE B — MoM current subquery must not use MAX_MONTH_FLAG. This is correct behavior.\", 'No actual issues found — the SQL correctly implements DIVIDE(current - pm, pm) with NULLIF, correct date filters per RULE B (no MAX_MONTH_FLAG in any subquery), and correct aggregation.']",
+      "created_at": "2026-05-10T19:12:55.950686+00:00"
+    },
+    "Undocumented risk": {
+      "measure_name": "Undocumented risk",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:56.057179+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Undocumented' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' sums RISK_VALUE filtered to 'Undocumented' rows, implemented as SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Undocumented' THEN RISK_VALUE END). Variable 'b' sums PATIENT_COUNT filtered to 'Documented' rows, implemented as SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END). The DIVIDE(a,b) is correctly rendered as a / NULLIF(b, 0). The table is RISK_CORE_V4_VIEW, and the date filter applies Rule A correctly with both MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month. All aspects match the DAX semantics.",
+      "created_at": "2026-05-10T19:12:56.057179+00:00"
+    },
+    "RAF recapture rate YoY": {
+      "measure_name": "RAF recapture rate YoY",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:12:56.598744+00:00",
+      "sql": "SELECT ((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month) - (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))) / NULLIF((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)), 0)",
+      "validation": "fixed",
+      "fix_applied": "The current-period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month but is missing MAX_MONTH_FLAG = TRUE. However, per RULE B (YoY measures), the current subquery must NOT use MAX_MONTH_FLAG. So the generated SQL is actually correct on that point.; Wait — re-examining: the verified SQL for [RAF recapture rate] includes MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, but the generated SQL for the current-period subquery omits MAX_MONTH_FLAG = TRUE. Per RULE B, YoY current subquery should NOT use MAX_MONTH_FLAG. However, the dependent measure [RAF recapture rate] itself uses MAX_MONTH_FLAG = TRUE. The generated SQL drops MAX_MONTH_FLAG from the current subquery, which deviates from the verified base measure definition.; The current-period subquery in the generated SQL omits MAX_MONTH_FLAG = TRUE, which is required by the verified [RAF recapture rate] base measure (RULE A). For YoY, RULE B says no MAX_MONTH_FLAG on prior-period subqueries, but the current-period subquery should still reflect the base measure's filter including MAX_MONTH_FLAG = TRUE.",
+      "original_sql": "SELECT ((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))) / NULLIF((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)), 0)",
+      "notes": "The generated SQL omits MAX_MONTH_FLAG = TRUE from the current-period subquery. The verified [RAF recapture rate] base measure explicitly requires MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month (RULE A). While RULE B prohibits MAX_MONTH_FLAG on prior-period subqueries, the current-period subquery must still match the base measure definition. The prior-period subquery correctly omits MAX_MONTH_FLAG per RULE B. The fix adds MAX_MONTH_FLAG = TRUE back to the current-period subquery only.",
+      "created_at": "2026-05-10T19:12:56.598744+00:00"
+    },
+    "% members with open coding gaps": {
+      "measure_name": "% members with open coding gaps",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:58.567382+00:00",
+      "sql": "SELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month), 0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX ratio pattern [Members with open coding gaps] / [#Members]. The numerator uses SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) and the denominator uses SUM(MEMBER_COUNT), both from PCP_VISITS_V4_VIEW with the correct date filter MONTH_OF_DATE = :selected_month. Division by zero is handled with NULLIF(..., 0), matching the DIVIDE(a,b) convention. Both subqueries match their individually verified dependent measure SQLs exactly.",
+      "created_at": "2026-05-10T19:12:58.567382+00:00"
+    },
+    "Open gaps (Dropped)": {
+      "measure_name": "Open gaps (Dropped)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:58.807897+00:00",
+      "sql": "SELECT SUM(RECAPTURE_DENOMINATOR) - SUM(RECAPTURE_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure SUM(recapture_denominator) - SUM(recapture_numerator) using the correct table (RISK_CORE_V4_VIEW), correct aggregation (SUM of both columns with subtraction), and correct date filters per Rule A (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month). No issues found.",
+      "created_at": "2026-05-10T19:12:58.807897+00:00"
+    },
+    "Open gaps (Suspected)": {
+      "measure_name": "Open gaps (Suspected)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:12:59.717930+00:00",
+      "sql": "SELECT SUM(SUSPECT_DENOMINATOR) - SUM(SUSPECT_NUMERATOR)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure SUM(suspect_denominator) - SUM(suspect_numerator) using the correct table (RISK_CORE_V4_VIEW), correct aggregation (SUM of both columns with subtraction), and correct date filter per Rule A (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month). No NULLIF is needed since this is a subtraction, not division. Everything checks out.",
+      "created_at": "2026-05-10T19:12:59.717930+00:00"
+    },
+    "Risk recapture rate YoY": {
+      "measure_name": "Risk recapture rate YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:02.016473+00:00",
+      "sql": "SELECT ((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))) / NULLIF((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)), 0)",
+      "validation": "needs_fix",
+      "notes": "['The current-period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month but is missing MAX_MONTH_FLAG = TRUE. However, per RULE B for YoY measures, MAX_MONTH_FLAG must NOT be used in any time-intel subquery — so the generated SQL is actually correct on that point.', 'The dependent measure [Risk recapture rate] uses MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, but per RULE B, the current-period subquery in a YoY measure must use MONTH_OF_MEASUREMENT = :selected_month only (no MAX_MONTH_FLAG). The generated SQL correctly omits MAX_MONTH_FLAG here.', 'Actually the generated SQL is correct per RULE B — both subqueries omit MAX_MONTH_FLAG as required. However, the [Risk recapture rate PY] dependent measure SQL also omits MAX_MONTH_FLAG, which is consistent. The generated SQL faithfully implements the DAX DIVIDE(current - py, py) pattern with NULLIF on the denominator. No actual issues found upon careful review.', 'Wait — re-examining: the generated SQL is fully correct. The current subquery has no MAX_MONTH_FLAG (correct per RULE B), the prior subquery uses DATEADD(year,-1,:selected_month) (correct), and the outer division uses NULLIF on the PY subquery (correct DIVIDE semantics). This should be approved.']",
+      "created_at": "2026-05-10T19:13:02.016473+00:00"
+    },
+    "Overall gaps closed (GROUP)": {
+      "measure_name": "Overall gaps closed (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:02.067532+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It sums RECAPTURE_NUMERATOR and SUSPECT_NUMERATOR from RISK_GROUP_V4_VIEW, which maps directly to SUM(risk_group[recapture_numerator]) + SUM(risk_group[suspect_numerator]). The date filter applies Rule A correctly: MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month for a BASE measure on RISK_GROUP_V4_VIEW. No issues found.",
+      "created_at": "2026-05-10T19:13:02.067532+00:00"
+    },
+    "Gap to potential risk (GROUP)": {
+      "measure_name": "Gap to potential risk (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:02.526000+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' (SUM of risk_value filtered to 'Undocumented' or 'Suspected') is implemented as SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected') THEN RISK_VALUE END). Variable 'b' (SUM of patient_count filtered to 'Documented') is implemented as SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END). DIVIDE(a,b) is correctly rendered as a / NULLIF(b, 0). The table is RISK_GROUP_V4_VIEW, which is correct. Date filtering follows Rule A with MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, which is appropriate for a BASE measure on RISK_GROUP_V4_VIEW.",
+      "created_at": "2026-05-10T19:13:02.526000+00:00"
+    },
+    "Documented risk (GROUP)": {
+      "measure_name": "Documented risk (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:03.176085+00:00",
+      "sql": "SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE AND RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses RISK_GROUP_V4_VIEW (correct table), applies MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month per Rule A for a BASE measure, filters RISK_DOCUMENTATION_FLAG = 'Documented' matching the KEEPFILTERS condition, computes SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0) matching DIVIDE(SUM(...), SUM(...)), and all column names align with the schema context.",
+      "created_at": "2026-05-10T19:13:03.176085+00:00"
+    },
+    "Overall gaps closed PY (GROUP)": {
+      "measure_name": "Overall gaps closed PY (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:05.380792+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY time-intel pattern. It uses RISK_GROUP_V4_VIEW with MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month), which matches RULE B for SAMEPERIODLASTYEAR. MAX_MONTH_FLAG is correctly omitted (as required by RULE B — pairing it with a prior-period date would return 0 rows). The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the dependent base measure exactly.",
+      "created_at": "2026-05-10T19:13:05.380792+00:00"
+    },
+    "Overall gaps closed YoY (GROUP)": {
+      "measure_name": "Overall gaps closed YoY (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:05.972348+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY ratio pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from both subqueries. The current period uses MONTH_OF_MEASUREMENT = :selected_month and the prior year uses DATEADD(year, -1, :selected_month). The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the dependent measure. DIVIDE(a,b,0) is correctly rendered as COALESCE(a / NULLIF(b, 0), 0).",
+      "created_at": "2026-05-10T19:13:05.972348+00:00"
+    },
+    "% Members with open coding gaps YoY": {
+      "measure_name": "% Members with open coding gaps YoY",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:13:06.612728+00:00",
+      "sql": "SELECT COALESCE(\n  (\n    (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = :selected_month)\n    / NULLIF((SELECT SUM(MEMBER_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = :selected_month), 0)\n    -\n    (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month))\n    / NULLIF((SELECT SUM(MEMBER_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)), 0)\n  )\n  / NULLIF(\n    (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month))\n    / NULLIF((SELECT SUM(MEMBER_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)), 0)\n  , 0)\n, 0)",
+      "validation": "fixed",
+      "fix_applied": "The date filter column used is MONTH_OF_DATE, which is correct for PCP_VISITS_V4_VIEW (attribution table). However, the prior year subquery uses DATEADD(year, -1, :selected_month) which is correct per Rule B.; The SQL structure is functionally correct in logic, but the inner nested SELECT pattern (SELECT (SELECT ...)) is unnecessarily redundant and non-standard — each ratio computation has a spurious extra SELECT wrapper that could cause issues or confusion.; Minor: the prior year subquery is repeated twice (once for subtraction, once for the NULLIF denominator), which is correct but verbose. No functional issue here.; The SQL is otherwise logically correct: it computes (current_ratio - py_ratio) / NULLIF(py_ratio, 0) with COALESCE(..., 0) matching DIVIDE(..., 0) semantics. No MAX_MONTH_FLAG is used. Date column MONTH_OF_DATE is correct for PCP_VISITS_V4_VIEW.",
+      "original_sql": "SELECT COALESCE((\n(SELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month), 0))\n- (SELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)), 0))\n) / NULLIF((\nSELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(year, -1, :selected_month)), 0)\n), 0),\n0)",
+      "notes": "The logic and date filters are correct (MONTH_OF_DATE for PCP_VISITS_V4_VIEW, DATEADD(year,-1,...) for prior year, no MAX_MONTH_FLAG). The only issue is the redundant double-nested SELECT pattern (SELECT (SELECT ...)) in the original SQL, which is cleaned up in the corrected version for clarity and safety. The corrected SQL implements the same semantics: COALESCE((current_pct - py_pct) / NULLIF(py_pct, 0), 0).",
+      "created_at": "2026-05-10T19:13:06.612728+00:00"
+    },
+    "Overall gaps closed PM (GROUP)": {
+      "measure_name": "Overall gaps closed PM (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:06.684982+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PM (PREVIOUSMONTH) time-intel pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used for prior-period queries (it only marks the latest month and would return 0 rows when paired with a prior-period date). The generated SQL correctly omits MAX_MONTH_FLAG and filters MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month), which matches the PREVIOUSMONTH DAX function. The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the dependent base measure. Table and column references are correct.",
+      "created_at": "2026-05-10T19:13:06.684982+00:00"
+    },
+    "Potential risk (GROUP)": {
+      "measure_name": "Potential risk (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:06.960887+00:00",
+      "sql": "SELECT\n    SUM(RISK_VALUE) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. VAR a = SUM(risk_value) is implemented as SUM(RISK_VALUE) in the numerator. VAR b = CALCULATE(SUM(patient_count), KEEPFILTERS(risk_documentation_flag = 'Documented')) is correctly implemented as SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END) — the KEEPFILTERS means the filter is applied only to the denominator sum, which the CASE expression achieves. DIVIDE(a,b) maps to a / NULLIF(b, 0). The table is RISK_GROUP_V4_VIEW (correct). Date filters follow Rule A: MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month (correct for a BASE measure on RISK_GROUP_V4_VIEW). All aspects are correctly implemented.",
+      "created_at": "2026-05-10T19:13:06.960887+00:00"
+    },
+    "Overall gaps closed MoM (GROUP)": {
+      "measure_name": "Overall gaps closed MoM (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:09.026664+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the MoM DAX pattern. Per RULE B, MAX_MONTH_FLAG is correctly omitted from all subqueries. The current period uses MONTH_OF_MEASUREMENT = :selected_month and the prior month uses DATEADD(month, -1, :selected_month). The aggregation SUM(RECAPTURE_NUMERATOR) + SUM(SUSPECT_NUMERATOR) matches the dependent measure. The division uses NULLIF(..., 0) with COALESCE(..., 0) correctly implementing DIVIDE(a, b, 0). Table RISK_GROUP_V4_VIEW is correct.",
+      "created_at": "2026-05-10T19:13:09.026664+00:00"
+    },
+    "RAF recapture rate (GROUP)": {
+      "measure_name": "RAF recapture rate (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:09.636727+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' (Documented only) maps to the CASE WHEN IN ('Documented') numerator, variable 'b' (Documented + Undocumented) maps to the CASE WHEN IN ('Documented', 'Undocumented') denominator. DIVIDE(a,b) is correctly rendered as a / NULLIF(b, 0). The table RISK_GROUP_V4_VIEW is correct, and the date filter applies Rule A with MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, which is appropriate for a BASE measure on this table.",
+      "created_at": "2026-05-10T19:13:09.636727+00:00"
+    },
+    "RAF recapture rate PY (GROUP)": {
+      "measure_name": "RAF recapture rate PY (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:10.483888+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY time-intel pattern. It uses RISK_GROUP_V4_VIEW with MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month) for the prior-year date shift (SAMEPERIODLASTYEAR). Per Rule B, MAX_MONTH_FLAG is correctly omitted for time-intel measures. The aggregation logic (SUM of Documented / NULLIF(SUM of Documented+Undocumented, 0)) matches the dependent base measure exactly.",
+      "created_at": "2026-05-10T19:13:10.483888+00:00"
+    },
+    "RAF recapture rate PM (GROUP)": {
+      "measure_name": "RAF recapture rate PM (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:10.494851+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The generated SQL correctly implements the DAX PREVIOUSMONTH time-intel pattern. Per RULE B, PM measures must NOT use MAX_MONTH_FLAG and must filter with MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month). The SQL does exactly that — it omits MAX_MONTH_FLAG and applies the correct prior-month date offset. The aggregation logic (SUM of Documented / NULLIF(SUM of Documented+Undocumented, 0)) matches the dependent base measure. Table is correct (RISK_GROUP_V4_VIEW).",
+      "created_at": "2026-05-10T19:13:10.494851+00:00"
+    },
+    "Risk recapture rate (GROUP)": {
+      "measure_name": "Risk recapture rate (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:12.970684+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses RISK_GROUP_V4_VIEW (correct table), sums RECAPTURE_NUMERATOR and RECAPTURE_DENOMINATOR (matching the DAX SUM calls), applies NULLIF(SUM(RECAPTURE_DENOMINATOR), 0) for safe division (matching DIVIDE semantics), and applies the correct date filter for a BASE measure on a risk table with MAX_MONTH_FLAG: WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month. All rules are satisfied.",
+      "created_at": "2026-05-10T19:13:12.970684+00:00"
+    },
+    "Risk recapture rate PM (GROUP)": {
+      "measure_name": "Risk recapture rate PM (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:13.599805+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PM (prior month) time-intel pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used in time-intel measures — the generated SQL correctly omits it. The date filter uses DATEADD(month, -1, :selected_month) on MONTH_OF_MEASUREMENT, which matches the PREVIOUSMONTH DAX pattern. The aggregation SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0) correctly mirrors the base measure logic. Table RISK_GROUP_V4_VIEW is correct.",
+      "created_at": "2026-05-10T19:13:13.599805+00:00"
+    },
+    "RAF recapture rate YoY (GROUP)": {
+      "measure_name": "RAF recapture rate YoY (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:16.565689+00:00",
+      "sql": "SELECT ((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))) / NULLIF((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)), 0)",
+      "validation": "needs_fix",
+      "notes": "['The current-period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month but is missing MAX_MONTH_FLAG = TRUE. However, per RULE B, YoY measures must NOT use MAX_MONTH_FLAG in any subquery — so the current subquery should NOT have MAX_MONTH_FLAG. The generated SQL correctly omits MAX_MONTH_FLAG for the current subquery.', 'Wait — re-examining: the dependent measure [RAF recapture rate (GROUP)] includes MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, but per RULE B for YoY measures, the current subquery must use ONLY WHERE MONTH_OF_MEASUREMENT = :selected_month (no MAX_MONTH_FLAG). The generated SQL correctly omits MAX_MONTH_FLAG for the current period subquery — this is correct per RULE B.', 'The generated SQL is actually correct per RULE B: current subquery has no MAX_MONTH_FLAG (correct for YoY), prior year subquery uses DATEADD(year, -1, :selected_month) with no MAX_MONTH_FLAG (correct). The DIVIDE pattern uses NULLIF(..., 0) correctly. No issues found upon full review.']",
+      "created_at": "2026-05-10T19:13:16.565689+00:00"
+    },
+    "Risk recapture rate PY (GROUP)": {
+      "measure_name": "Risk recapture rate PY (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:16.625894+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the PY time-intel pattern. It uses RISK_GROUP_V4_VIEW with MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month), which matches RULE B for PY measures. MAX_MONTH_FLAG is correctly omitted (as required by RULE B — pairing it with a prior-period date would return 0 rows). The aggregation SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0) correctly mirrors the dependent base measure's aggregation logic.",
+      "created_at": "2026-05-10T19:13:16.625894+00:00"
+    },
+    "RAF recapture rate MoM (GROUP)": {
+      "measure_name": "RAF recapture rate MoM (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:17.479139+00:00",
+      "sql": "SELECT ((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))) / NULLIF((SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)), 0)",
+      "validation": "needs_fix",
+      "notes": "['The current-period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month but is missing MAX_MONTH_FLAG = TRUE. However, per RULE B, MoM measures must NOT use MAX_MONTH_FLAG in any subquery — so the current subquery should NOT have MAX_MONTH_FLAG. The dependent measure [RAF recapture rate (GROUP)] includes MAX_MONTH_FLAG = TRUE, but when used inside a MoM (time-intel) context, the current subquery must drop MAX_MONTH_FLAG per RULE B.', 'The generated SQL correctly omits MAX_MONTH_FLAG from the current-period subquery (consistent with RULE B for MoM), so that part is correct. However, the dependent measure SQL for [RAF recapture rate (GROUP)] includes MAX_MONTH_FLAG = TRUE — the generated SQL correctly drops it for the MoM context. This is actually correct behavior.', \"Re-examining: the generated SQL's current subquery uses only WHERE MONTH_OF_MEASUREMENT = :selected_month (no MAX_MONTH_FLAG), which is correct per RULE B for MoM. The prior subquery uses DATEADD(month, -1, :selected_month) with no MAX_MONTH_FLAG, also correct. The DIVIDE is implemented as (current - pm) / NULLIF(pm, 0). The SQL is actually correct.\"]",
+      "created_at": "2026-05-10T19:13:17.479139+00:00"
+    },
+    "Risk recapture rate MoM (GROUP)": {
+      "measure_name": "Risk recapture rate MoM (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:19.484709+00:00",
+      "sql": "SELECT ((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))) / NULLIF((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)), 0)",
+      "validation": "needs_fix",
+      "notes": "['The current period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month WITHOUT MAX_MONTH_FLAG = TRUE. However, the verified dependent measure [Risk recapture rate (GROUP)] uses MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month. But per RULE B, MoM ratio current subquery must NOT use MAX_MONTH_FLAG. The generated SQL correctly omits MAX_MONTH_FLAG for the MoM context — this is actually correct per RULE B.', 'Wait — re-examining: the generated SQL current subquery is WHERE MONTH_OF_MEASUREMENT = :selected_month (no MAX_MONTH_FLAG), which is correct per RULE B for MoM measures. The PM subquery is WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month), also correct. The DIVIDE pattern uses NULLIF(pm, 0) correctly. The SQL is actually correct.']",
+      "created_at": "2026-05-10T19:13:19.484709+00:00"
+    },
+    "open suspected gaps (GROUP)": {
+      "measure_name": "open suspected gaps (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:19.683353+00:00",
+      "sql": "SELECT SUM(SUSPECT_DENOMINATOR) - SUM(SUSPECT_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses RISK_GROUP_V4_VIEW (matching risk_group in DAX), applies the correct BASE measure date filter (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month per Rule A), and computes SUM(SUSPECT_DENOMINATOR) - SUM(SUSPECT_NUMERATOR) which directly mirrors the DAX arithmetic expression.",
+      "created_at": "2026-05-10T19:13:19.683353+00:00"
+    },
+    "open dropped gaps (GROUP)": {
+      "measure_name": "open dropped gaps (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:19.782541+00:00",
+      "sql": "SELECT SUM(RECAPTURE_DENOMINATOR) - SUM(RECAPTURE_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses RISK_GROUP_V4_VIEW (matching risk_group table), applies SUM(RECAPTURE_DENOMINATOR) - SUM(RECAPTURE_NUMERATOR) (matching the arithmetic DAX pattern), and applies the correct Rule A date filter for RISK_GROUP_V4_VIEW: MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month. No issues found.",
+      "created_at": "2026-05-10T19:13:19.782541+00:00"
+    },
+    "Undocumented risk (GROUP)": {
+      "measure_name": "Undocumented risk (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:21.232055+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Undocumented' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' sums RISK_VALUE filtered to 'Undocumented' rows, and variable 'b' sums PATIENT_COUNT filtered to 'Documented' rows — both implemented via CASE WHEN expressions. The division uses NULLIF(b, 0) matching DIVIDE(a,b) semantics. The table is RISK_GROUP_V4_VIEW, and the date filter applies MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month per Rule A for a BASE measure on a risk table with max_month_flag. All aspects are correct.",
+      "created_at": "2026-05-10T19:13:21.232055+00:00"
+    },
+    "Eligible population (group)": {
+      "measure_name": "Eligible population (group)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:22.649461+00:00",
+      "sql": "SELECT SUM(PATIENT_COUNT)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX SUM(risk_group[patient_count]) measure. It uses the correct table (RISK_GROUP_V4_VIEW), correct aggregation (SUM(PATIENT_COUNT)), and applies the correct date filter per Rule A for risk tables with max_month_flag: WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month. No issues found.",
+      "created_at": "2026-05-10T19:13:22.649461+00:00"
+    },
+    "Eligible population": {
+      "measure_name": "Eligible population",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:22.724186+00:00",
+      "sql": "SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE AND RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses SUM(PATIENT_COUNT) matching SUM(risk_core[patient_count]), filters RISK_DOCUMENTATION_FLAG = 'Documented' matching the KEEPFILTERS condition, applies MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month per Rule A for RISK_CORE_V4_VIEW, and queries the correct table RISK_CORE_V4_VIEW. All components are correct.",
+      "created_at": "2026-05-10T19:13:22.724186+00:00"
+    },
+    "Suspected risk (GROUP)": {
+      "measure_name": "Suspected risk (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:23.060411+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Suspected' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. Variable 'a' (SUM of risk_value where risk_documentation_flag = 'Suspected') maps to the CASE WHEN numerator, variable 'b' (SUM of patient_count where risk_documentation_flag = 'Documented') maps to the CASE WHEN denominator, DIVIDE(a,b) is correctly rendered as division with NULLIF(b,0), the correct table RISK_GROUP_V4_VIEW is used, and the date filter applies MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month per Rule A for a BASE measure on RISK_GROUP_V4_VIEW.",
+      "created_at": "2026-05-10T19:13:23.060411+00:00"
+    },
+    "Risk recapture rate YoY (GROUP)": {
+      "measure_name": "Risk recapture rate YoY (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:23.725496+00:00",
+      "sql": "SELECT ((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month) - (SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))) / NULLIF((SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_GROUP_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)), 0)",
+      "validation": "needs_fix",
+      "notes": "['The current-period subquery uses WHERE MONTH_OF_MEASUREMENT = :selected_month WITHOUT MAX_MONTH_FLAG = TRUE. However, per RULE B, YoY current subqueries must NOT use MAX_MONTH_FLAG. But the dependent measure [Risk recapture rate (GROUP)] uses MAX_MONTH_FLAG = TRUE — this is the BASE measure. For the YoY current subquery, per RULE B, MAX_MONTH_FLAG must be omitted and only MONTH_OF_MEASUREMENT = :selected_month is used. The generated SQL correctly omits MAX_MONTH_FLAG in the current subquery, which is correct per RULE B.', 'Wait — re-examining: the generated SQL current subquery is WHERE MONTH_OF_MEASUREMENT = :selected_month (no MAX_MONTH_FLAG), which is correct per RULE B for YoY. This part is fine.', 'The prior-year subquery correctly uses WHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month) with no MAX_MONTH_FLAG — correct per RULE B.', 'The outer division uses NULLIF on the prior-year subquery — correct DIVIDE semantics.', 'All subqueries reference RISK_GROUP_V4_VIEW — correct table.', 'No issues found upon full review — the SQL is correct.']",
+      "created_at": "2026-05-10T19:13:23.725496+00:00"
+    },
+    "Eligible population PY": {
+      "measure_name": "Eligible population PY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:24.681175+00:00",
+      "sql": "SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It sums PATIENT_COUNT from RISK_CORE_V4_VIEW, applies the prior-year date filter using DATEADD(year, -1, :selected_month) on MONTH_OF_MEASUREMENT, and correctly omits MAX_MONTH_FLAG per Rule B for time-intel (PY) measures. All elements — table, aggregation, date column, date filter logic — align with the DAX SAMEPERIODLASTYEAR pattern and the defined date filter rules.",
+      "created_at": "2026-05-10T19:13:24.681175+00:00"
+    },
+    "#Members trend": {
+      "measure_name": "#Members trend",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:25.724276+00:00",
+      "sql": "SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements SUM(attribution[member_count]) as a BASE measure. It uses the correct table (PCP_VISITS_V4_VIEW), correct aggregation (SUM(MEMBER_COUNT)), and correct date filter per Rule A (WHERE MONTH_OF_DATE = :selected_month). No issues found.",
+      "created_at": "2026-05-10T19:13:25.724276+00:00"
+    },
+    "Eligible population YoY": {
+      "measure_name": "Eligible population YoY",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:26.358150+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(year, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the YoY DAX pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used in any time-intel subquery, and the generated SQL correctly omits it from both the current-period and prior-year subqueries. The current subquery filters on MONTH_OF_MEASUREMENT = :selected_month, the prior-year subquery filters on DATEADD(year, -1, :selected_month), both retain RISK_DOCUMENTATION_FLAG = 'Documented', and the division uses NULLIF(..., 0) wrapped in COALESCE(..., 0) matching DIVIDE(a, b, 0) semantics. All conventions are correctly applied.",
+      "created_at": "2026-05-10T19:13:26.358150+00:00"
+    },
+    "Targeted gaps": {
+      "measure_name": "Targeted gaps",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:26.862642+00:00",
+      "sql": "SELECT COUNT(*)\nFROM RISK_COHORT_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements COUNTROWS(cohort) as COUNT(*) from RISK_COHORT_V4_VIEW with the appropriate date filter WHERE MONTH_OF_MEASUREMENT = :selected_month. Per Rule A, RISK_COHORT_V4_VIEW does not have a MAX_MONTH_FLAG column, so only the MONTH_OF_MEASUREMENT filter is applied — which is exactly what the generated SQL does. The aggregation, table, date column, and filter are all correct.",
+      "created_at": "2026-05-10T19:13:26.862642+00:00"
+    },
+    "Eligible population trend": {
+      "measure_name": "Eligible population trend",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:13:27.181987+00:00",
+      "sql": "SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "fixed",
+      "fix_applied": "Missing MAX_MONTH_FLAG = TRUE filter. Per RULE A, RISK_CORE_V4_VIEW requires both MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month for BASE measures.",
+      "original_sql": "SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month",
+      "notes": "The measure is a simple SUM aggregation (BASE measure, no time-intel suffix) on RISK_CORE_V4_VIEW. Rule A mandates that queries against RISK_CORE_V4_VIEW must include both MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month. The generated SQL omits MAX_MONTH_FLAG = TRUE, which could cause double-counting if multiple month snapshots exist in the view for the same selected month.",
+      "created_at": "2026-05-10T19:13:27.181987+00:00"
+    },
+    "Targeted patients": {
+      "measure_name": "Targeted patients",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:27.615811+00:00",
+      "sql": "SELECT COUNT(DISTINCT EMPI)\nFROM RISK_COHORT_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements DISTINCTCOUNT(cohort[empi]) as COUNT(DISTINCT EMPI) from RISK_COHORT_V4_VIEW. The date filter WHERE MONTH_OF_MEASUREMENT = :selected_month is correct per Rule A for RISK_COHORT_V4_VIEW (which has no MAX_MONTH_FLAG column). Table, aggregation, column, and filter all match the DAX semantics.",
+      "created_at": "2026-05-10T19:13:27.615811+00:00"
+    },
+    "Latest risk execution": {
+      "measure_name": "Latest risk execution",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:30.113118+00:00",
+      "sql": "SELECT MAX(MONTH_OF_MEASUREMENT)\nFROM RISK_COHORT_V4_VIEW",
+      "validation": "approved",
+      "notes": "The DAX measure uses CALCULATE(MAX(cohort[month_of_measurement]), ALL('date')), which removes all date context via ALL() — matching RULE C. The generated SQL correctly selects MAX(MONTH_OF_MEASUREMENT) from RISK_COHORT_V4_VIEW with no WHERE clause, which is exactly right. The table mapping is correct, the aggregation function (MAX) matches, and the absence of any date filter correctly implements the CONTEXT_REMOVER pattern.",
+      "created_at": "2026-05-10T19:13:30.113118+00:00"
+    },
+    "Risk factor": {
+      "measure_name": "Risk factor",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:30.289389+00:00",
+      "sql": "SELECT MAX(RISK_FACTOR_CODE)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements MAX(risk_group[risk_factor_code]) as a SIMPLE_AGG. It queries the correct table (RISK_GROUP_V4_VIEW), applies the correct date filter per Rule A (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month), and uses MAX aggregation on RISK_FACTOR_CODE. No issues found.",
+      "created_at": "2026-05-10T19:13:30.289389+00:00"
+    },
+    "Latest attribution date": {
+      "measure_name": "Latest attribution date",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:31.779766+00:00",
+      "sql": "SELECT MAX(MONTH_OF_DATE)\nFROM PCP_VISITS_V4_VIEW",
+      "validation": "approved",
+      "notes": "The DAX measure is MAX(attribution[month_of_date]), which is a SIMPLE_AGG with no time-intelligence suffix and no CALCULATE filter context shown. The DAX pattern here is finding the latest (maximum) date value across all rows — this is a CONTEXT_REMOVER-style aggregation (like ALL) since the purpose is to discover what the latest date in the table is, not to filter by a selected month. The generated SQL correctly uses MAX(MONTH_OF_DATE) FROM PCP_VISITS_V4_VIEW with no WHERE clause, which matches the intent of returning the maximum date available in the attribution table. The table name, column name, and aggregation function are all correct.",
+      "created_at": "2026-05-10T19:13:31.779766+00:00"
+    },
+    "Gaps closed (GROUP)": {
+      "measure_name": "Gaps closed (GROUP)",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:32.720887+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements SUM(risk_group[recapture_numerator]) using RISK_GROUP_V4_VIEW with the proper BASE measure date filter: MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month, as required by Rule A for risk tables with max_month_flag.",
+      "created_at": "2026-05-10T19:13:32.720887+00:00"
+    },
+    "Latest measurement date": {
+      "measure_name": "Latest measurement date",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:13:33.248938+00:00",
+      "sql": "SELECT MAX(MONTH_OF_MEASUREMENT)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "fixed",
+      "fix_applied": "The DAX measure is MAX(risk_core[month_of_measurement]) — a SIMPLE_AGG with no time-intel suffix and no CONTEXT_REMOVER. This means it is a BASE measure and should apply RULE A: WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month.; However, the purpose of this measure is to return the latest measurement date itself (MAX of the date column). Filtering WHERE MONTH_OF_MEASUREMENT = :selected_month would always return :selected_month as the MAX, making the aggregation trivial but technically correct per RULE A.; More critically: the generated SQL uses ONLY MAX_MONTH_FLAG = TRUE without the required MONTH_OF_MEASUREMENT = :selected_month filter. RULE A explicitly requires BOTH conditions for RISK_CORE_V4_VIEW.; Missing AND MONTH_OF_MEASUREMENT = :selected_month in the WHERE clause.",
+      "original_sql": "SELECT MAX(MONTH_OF_MEASUREMENT)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE",
+      "notes": "Per RULE A, RISK_CORE_V4_VIEW BASE measures require both MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month. The generated SQL omits the date filter. The corrected SQL adds the missing AND MONTH_OF_MEASUREMENT = :selected_month condition.",
+      "created_at": "2026-05-10T19:13:33.248938+00:00"
+    },
+    "Eligible population MoM": {
+      "measure_name": "Eligible population MoM",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:35.738547+00:00",
+      "sql": "SELECT COALESCE((\n(SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month)\n- (SELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month))\n) / NULLIF((\nSELECT SUM(PATIENT_COUNT)\nFROM RISK_CORE_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)\n), 0),\n0)",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the MoM DAX pattern. Per RULE B, MAX_MONTH_FLAG must NOT be used in time-intel subqueries, and the generated SQL correctly omits it from both the current and prior-month subqueries. The current period uses MONTH_OF_MEASUREMENT = :selected_month and the prior period uses DATEADD(month, -1, :selected_month), matching the PREVIOUSMONTH semantics. RISK_DOCUMENTATION_FLAG = 'Documented' is correctly applied in both subqueries. The DIVIDE(a,b,0) pattern is correctly rendered as COALESCE(a / NULLIF(b, 0), 0). Aggregation uses SUM(PATIENT_COUNT) consistent with the verified base measure.",
+      "created_at": "2026-05-10T19:13:35.738547+00:00"
+    },
+    "Filter": {
+      "measure_name": "Filter",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:35.952870+00:00",
+      "sql": "SELECT ABS(SUM(YTD_VISIT_AMOUNT)) + SUM(YTD_MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX expression ABS(SUM(ytd_visit_amount)) + SUM(ytd_member_count). It uses the correct table (PCP_VISITS_V4_VIEW), applies the correct date filter for a BASE measure (MONTH_OF_DATE = :selected_month per Rule A), and the aggregation logic matches exactly — ABS wraps only the first SUM, and the second SUM is added outside, consistent with the DAX order of operations.",
+      "created_at": "2026-05-10T19:13:35.952870+00:00"
+    },
+    "Potential Risk recapture rate cohort": {
+      "measure_name": "Potential Risk recapture rate cohort",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:37.314003+00:00",
+      "sql": "WITH cte_val AS (\n    SELECT (SELECT COUNT(*) FROM RISK_COHORT_V4_VIEW WHERE MONTH_OF_MEASUREMENT = :selected_month) AS n\n)\nSELECT COALESCE((SUM(RECAPTURE_NUMERATOR) + cte_val.n) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0), 0)\nFROM RISK_CORE_V4_VIEW\nCROSS JOIN cte_val\nWHERE MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It applies MAX_MONTH_FLAG = TRUE and MONTH_OF_MEASUREMENT = :selected_month on RISK_CORE_V4_VIEW per Rule A. The dependent [Targeted gaps] measure is correctly inlined as a subquery against RISK_COHORT_V4_VIEW with only MONTH_OF_MEASUREMENT = :selected_month (no MAX_MONTH_FLAG, per schema rules). The numerator adds SUM(RECAPTURE_NUMERATOR) + targeted_gaps count, denominator uses NULLIF(SUM(RECAPTURE_DENOMINATOR), 0), and COALESCE(..., 0) correctly implements DIVIDE(..., 0) fallback. The CROSS JOIN with the CTE is a valid pattern for incorporating the scalar subquery.",
+      "created_at": "2026-05-10T19:13:37.314003+00:00"
+    },
+    "Cohort eligible gaps": {
+      "measure_name": "Cohort eligible gaps",
+      "role": "VALIDATOR",
+      "updated_at": "2026-05-10T19:13:38.875966+00:00",
+      "sql": "SELECT SUM(RECAPTURE_DENOMINATOR) - SUM(RECAPTURE_NUMERATOR)\nFROM RISK_GROUP_V4_VIEW\nWHERE OPEN_GAP_FLAG = TRUE AND MAX_MONTH_FLAG = TRUE\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It uses RISK_GROUP_V4_VIEW (correct table), applies SUM(RECAPTURE_DENOMINATOR) - SUM(RECAPTURE_NUMERATOR) (correct aggregation matching the DAX subtraction), filters on OPEN_GAP_FLAG = TRUE and MAX_MONTH_FLAG = TRUE (matching the KEEPFILTERS conditions), and includes MONTH_OF_MEASUREMENT = :selected_month per Rule A for risk tables with max_month_flag. All components are correctly implemented.",
+      "created_at": "2026-05-10T19:13:38.875966+00:00"
+    },
+    "RAF_impact_cohort": {
+      "measure_name": "RAF_impact_cohort",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:13:40.759312+00:00",
+      "sql": "SELECT\n    (\n        SELECT SUM(RISK_VALUE)\n        FROM RISK_COHORT_V4_VIEW\n        WHERE MONTH_OF_MEASUREMENT = (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_COHORT_V4_VIEW)\n          AND RISK_DOCUMENTATION_FLAG IN ('Undoumented', 'Suspected')\n    )\n    /\n    NULLIF(\n        (\n            SELECT SUM(PATIENT_COUNT)\n            FROM RISK_CORE_V4_VIEW\n            WHERE MONTH_OF_MEASUREMENT = (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_CORE_V4_VIEW)\n              AND RISK_DOCUMENTATION_FLAG = 'Documented'\n        ),\n    0)",
+      "validation": "fixed",
+      "fix_applied": "Variable 'a' (SUM of RISK_VALUE) comes from the 'cohort' table (RISK_COHORT_V4_VIEW), but the generated SQL queries only RISK_CORE_V4_VIEW for both numerator and denominator. RISK_VALUE must be sourced from RISK_COHORT_V4_VIEW.; Variable 'b' (SUM of PATIENT_COUNT) comes from 'risk_core' table (RISK_CORE_V4_VIEW), which is correct, but it is being mixed in a single FROM clause with cohort data incorrectly.; The DAX uses ALL('DATE') which is RULE C — no date filter should be applied. The latest_month VAR is computed via MAX(cohort[month_of_measurement]) with ALL('DATE'), meaning it is the global max month in the cohort table, not a selected_month parameter. The subqueries for MAX(MONTH_OF_MEASUREMENT) should query the respective source tables without any date filter.; MAX_MONTH_FLAG = TRUE is applied in the WHERE clause, but under RULE C (ALL/'DATE' context remover), no date filter should be used. Additionally, RISK_COHORT_V4_VIEW does not have a MAX_MONTH_FLAG column per schema rules.; The numerator CASE WHEN reads RISK_VALUE and RISK_DOCUMENTATION_FLAG from RISK_CORE_V4_VIEW, but these should come from RISK_COHORT_V4_VIEW per the DAX (cohort[risk_value], cohort[risk_documentation_flag]).; The DAX flag value is 'Undoumented' (as written in DAX) — the SQL preserves this spelling, which is acceptable as a faithful translation, but worth noting it may be a typo in the source DAX.",
+      "original_sql": "SELECT\n    SUM(CASE WHEN MONTH_OF_MEASUREMENT = (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_COHORT_V4_VIEW) AND RISK_DOCUMENTATION_FLAG IN ('Undoumented', 'Suspected') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' AND MONTH_OF_MEASUREMENT = (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_COHORT_V4_VIEW) THEN PATIENT_COUNT END), 0)\nFROM RISK_CORE_V4_VIEW\nWHERE MAX_MONTH_FLAG = TRUE",
+      "notes": "The DAX measure uses ALL('DATE') (RULE C), meaning no date filter from context is applied — only the global latest month derived via MAX() over each respective table. Variable 'a' aggregates RISK_VALUE from RISK_COHORT_V4_VIEW filtered to the cohort's latest month and undocumented/suspected flags. Variable 'b' aggregates PATIENT_COUNT from RISK_CORE_V4_VIEW filtered to the core's latest month and documented flag. The generated SQL incorrectly sourced both numerator and denominator from RISK_CORE_V4_VIEW in a single FROM clause, and incorrectly applied MAX_MONTH_FLAG = TRUE (which violates RULE C and is not available on RISK_COHORT_V4_VIEW). The corrected SQL uses two independent subqueries, each computing their own MAX(MONTH_OF_MEASUREMENT) from the correct table with no MAX_MONTH_FLAG filter.",
+      "created_at": "2026-05-10T19:13:40.759312+00:00"
+    },
+    "% Members with open coding gaps MoM": {
+      "measure_name": "% Members with open coding gaps MoM",
+      "role": "FIXER",
+      "updated_at": "2026-05-10T19:13:41.726556+00:00",
+      "sql": "SELECT COALESCE(\n  (\n    (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = :selected_month)\n    / NULLIF((SELECT SUM(MEMBER_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = :selected_month), 0)\n    -\n    (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n    / NULLIF((SELECT SUM(MEMBER_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)), 0)\n  )\n  / NULLIF(\n    (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month))\n    / NULLIF((SELECT SUM(MEMBER_COUNT) FROM PCP_VISITS_V4_VIEW WHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)), 0)\n  , 0)\n, 0)",
+      "validation": "fixed",
+      "fix_applied": "PCP_VISITS_V4_VIEW uses MONTH_OF_DATE as the date filter column, but per Rule B (TIME-INTEL MoM), the prior month subquery should use DATEADD(month, -1, :selected_month) against MONTH_OF_DATE — this part is actually correct in the generated SQL. However, the current-period subquery should also use MONTH_OF_DATE = :selected_month with NO MAX_MONTH_FLAG, which is also correct. So the date column name is fine.; The prior month subquery uses MONTH_OF_DATE = DATEADD(month, -1, :selected_month) which is correct for PCP_VISITS_V4_VIEW (uses MONTH_OF_DATE, not MONTH_OF_MEASUREMENT). This is consistent with Rule B adapted to the actual column name.; The SQL has unnecessary triple-nesting of SELECT subqueries (SELECT (SELECT SUM(...) FROM ...) which is redundant and non-standard. The inner SELECT wrapping the SUM should be removed for clarity and correctness.; The prior month value is computed twice (once for subtraction, once for the NULLIF denominator) via separate subqueries — this is functionally correct but redundant. More importantly, the double-nested SELECT pattern (SELECT (SELECT SUM(...) FROM ...)) is invalid in Snowflake as a scalar subquery returning a value used in arithmetic without proper aliasing.",
+      "original_sql": "SELECT COALESCE((\n(SELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = :selected_month), 0))\n- (SELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)), 0))\n) / NULLIF((\nSELECT (SELECT SUM(MEMBER_WITH_OPEN_CODING_GAP_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)) / NULLIF((SELECT SUM(MEMBER_COUNT)\nFROM PCP_VISITS_V4_VIEW\nWHERE MONTH_OF_DATE = DATEADD(month, -1, :selected_month)), 0)\n), 0),\n0)",
+      "notes": "The logic and date filters are semantically correct (MONTH_OF_DATE for PCP_VISITS_V4_VIEW, DATEADD(month,-1) for prior month, no MAX_MONTH_FLAG, COALESCE wrapping DIVIDE with 0 default). The main issue is the double-nested SELECT pattern (SELECT (SELECT SUM(...) FROM ...)) which is syntactically problematic in Snowflake — the inner subquery is redundant and should be removed. The corrected SQL flattens the nesting while preserving identical semantics.",
+      "created_at": "2026-05-10T19:13:41.726556+00:00"
+    },
+    "Documented risk cohort": {
+      "measure_name": "Documented risk cohort",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:13:48.385557+00:00",
+      "sql": "SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\nFROM RISK_COHORT_V4_VIEW\nWHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n  AND MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The DAX measure applies KEEPFILTERS(max_month_flag = TRUE()) on top of [Documented risk]. However, per the schema rules, RISK_COHORT_V4_VIEW does NOT have a MAX_MONTH_FLAG column, so that filter cannot and should not be applied. The generated SQL correctly queries RISK_COHORT_V4_VIEW with only MONTH_OF_MEASUREMENT = :selected_month and RISK_DOCUMENTATION_FLAG = 'Documented', which is the correct implementation given the table's constraints. The aggregation (SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)) matches the dependent measure pattern. Table, date filter, aggregation, and NULLIF usage are all correct.",
+      "created_at": "2026-05-10T19:13:48.385557+00:00"
+    },
+    "Dropped + suspected (GROUP)": {
+      "measure_name": "Dropped + suspected (GROUP)",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:13:49.640923+00:00",
+      "sql": "SELECT\n    '(' ||\n    TO_CHAR(COALESCE(a.val, 0), 'FM0.000') ||\n    ' + ' ||\n    TO_CHAR(COALESCE(b.val, 0), 'FM0.000') ||\n    ')'\nFROM\n    (SELECT SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Undocumented' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0) AS val\n     FROM RISK_GROUP_V4_VIEW\n     WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month) a,\n    (SELECT SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Suspected' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0) AS val\n     FROM RISK_GROUP_V4_VIEW\n     WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month) b",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It computes both dependent measures (Undocumented risk and Suspected risk) as subqueries with the correct table (RISK_GROUP_V4_VIEW), correct date filters (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month), and correct aggregation logic. The COALESCE(..., 0) handles the '+0' in the DAX FORMAT calls, and TO_CHAR with 'FM0.000' format produces the '0.000' pattern. The string concatenation using '(' || ... || ' + ' || ... || ')' matches the DAX string construction. The cross join of two single-row subqueries is correct here.",
+      "created_at": "2026-05-10T19:13:49.640923+00:00"
+    },
+    "Dropped + suspected": {
+      "measure_name": "Dropped + suspected",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:13:50.895610+00:00",
+      "sql": "SELECT\n    '(' ||\n    TO_CHAR(COALESCE((\n        SELECT SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Undocumented' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\n        FROM RISK_CORE_V4_VIEW\n        WHERE MAX_MONTH_FLAG = TRUE\n          AND MONTH_OF_MEASUREMENT = :selected_month\n    ), 0), 'FM999990.000') ||\n    ' + ' ||\n    TO_CHAR(COALESCE((\n        SELECT SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Suspected' THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN PATIENT_COUNT END), 0)\n        FROM RISK_CORE_V4_VIEW\n        WHERE MAX_MONTH_FLAG = TRUE\n          AND MONTH_OF_MEASUREMENT = :selected_month\n    ), 0), 'FM999990.000') ||\n    ')'\nFROM (SELECT 1) AS DUMMY",
+      "validation": "approved",
+      "notes": "The SQL correctly implements the DAX measure. It computes both dependent measures (Undocumented risk and Suspected risk) as correlated subqueries with the correct table (RISK_CORE_V4_VIEW), correct date filters (MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month), correct aggregation logic (SUM with CASE WHEN for numerator, NULLIF for denominator), and applies COALESCE(..., 0) to handle nulls (equivalent to DAX's +0). The string concatenation format '(' || val1 || ' + ' || val2 || ')' matches the DAX FORMAT pattern, and TO_CHAR with 'FM999990.000' correctly produces 3 decimal places matching FORMAT(x, '0.000'). The FROM (SELECT 1) AS DUMMY is a valid Snowflake pattern for a scalar result with no base table.",
+      "created_at": "2026-05-10T19:13:50.895610+00:00"
+    },
+    "RAF recapture rate cohort": {
+      "measure_name": "RAF recapture rate cohort",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:13:54.549139+00:00",
+      "sql": "SELECT\n    SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented') THEN RISK_VALUE END) / NULLIF(SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE END), 0)\nFROM RISK_COHORT_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The DAX measure applies CALCULATE([RAF recapture rate], risk_core[max_month_flag]=TRUE()) which filters to max_month_flag=TRUE. However, the source table here is RISK_COHORT_V4_VIEW (the cohort variant), which per the schema rules does NOT have a MAX_MONTH_FLAG column. The generated SQL correctly uses RISK_COHORT_V4_VIEW with only WHERE MONTH_OF_MEASUREMENT = :selected_month, omitting MAX_MONTH_FLAG as required by Rule A. The aggregation logic (SUM of Documented / NULLIF(SUM of Documented+Undocumented, 0)) correctly mirrors the base [RAF recapture rate] measure semantics. Table, date filter, aggregation, and NULLIF usage are all correct.",
+      "created_at": "2026-05-10T19:13:54.549139+00:00"
+    },
+    "Risk recapture rate cohort": {
+      "measure_name": "Risk recapture rate cohort",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:13:55.915027+00:00",
+      "sql": "SELECT SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)\nFROM RISK_COHORT_V4_VIEW\nWHERE MONTH_OF_MEASUREMENT = :selected_month",
+      "validation": "approved",
+      "notes": "The DAX measure applies max_month_flag=TRUE() as a filter context on top of [Risk recapture rate]. However, per the schema rules, RISK_COHORT_V4_VIEW does NOT have a MAX_MONTH_FLAG column — it must never be added. The generated SQL correctly uses RISK_COHORT_V4_VIEW with only MONTH_OF_MEASUREMENT = :selected_month, which is the correct and only valid filter for this view. The aggregation (SUM(RECAPTURE_NUMERATOR) / NULLIF(SUM(RECAPTURE_DENOMINATOR), 0)) is correct. The DAX filter on max_month_flag is effectively a no-op for the cohort variant since the cohort view has no such column, and the schema rules explicitly confirm this pattern.",
+      "created_at": "2026-05-10T19:13:55.915027+00:00"
+    },
+    "Realizable RAF score": {
+      "measure_name": "Realizable RAF score",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:13:56.936429+00:00",
+      "sql": "SELECT\n    (\n        (SELECT SUM(RISK_VALUE) FROM RISK_COHORT_V4_VIEW\n         WHERE RISK_DOCUMENTATION_FLAG IN ('Undocumented', 'Suspected')\n           AND MONTH_OF_MEASUREMENT = :selected_month)\n        / NULLIF(\n            (SELECT SUM(PATIENT_COUNT) FROM RISK_CORE_V4_VIEW\n             WHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n               AND MAX_MONTH_FLAG = TRUE\n               AND MONTH_OF_MEASUREMENT = :selected_month),\n            0\n        )\n    )\n    +\n    (\n        (SELECT SUM(RISK_VALUE) FROM RISK_CORE_V4_VIEW\n         WHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n           AND MAX_MONTH_FLAG = TRUE\n           AND MONTH_OF_MEASUREMENT = :selected_month)\n        / NULLIF(\n            (SELECT SUM(PATIENT_COUNT) FROM RISK_CORE_V4_VIEW\n             WHERE RISK_DOCUMENTATION_FLAG = 'Documented'\n               AND MAX_MONTH_FLAG = TRUE\n               AND MONTH_OF_MEASUREMENT = :selected_month),\n            0\n        )\n    )",
+      "validation": "needs_fix",
+      "notes": "The DAX variable 'a' explicitly references the 'cohort' table (RISK_COHORT_V4_VIEW) for SUM of risk_value filtered to Undocumented/Suspected, while variables 'b' and 'c' reference 'risk_core' (RISK_CORE_V4_VIEW) with MAX_MONTH_FLAG = TRUE. The generated SQL incorrectly collapses everything into a single scan of RISK_CORE_V4_VIEW with MAX_MONTH_FLAG = TRUE, which is wrong for variable 'a'. The corrected SQL uses scalar subqueries to pull 'a' from RISK_COHORT_V4_VIEW (no MAX_MONTH_FLAG, per schema rules) and 'b'/'c' from RISK_CORE_V4_VIEW with MAX_MONTH_FLAG = TRUE.",
+      "created_at": "2026-05-10T19:13:56.936429+00:00"
+    },
+    "increase_RAF_impact_cohort": {
+      "measure_name": "increase_RAF_impact_cohort",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:14:05.830503+00:00",
+      "sql": "SELECT\n    TO_CHAR(\n        COALESCE(\n            (\n                SELECT SUM(RISK_VALUE)\n                FROM RISK_COHORT_V4_VIEW\n                WHERE MONTH_OF_MEASUREMENT = (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_COHORT_V4_VIEW)\n                  AND RISK_DOCUMENTATION_FLAG IN ('Undoumented', 'Suspected')\n            )\n            /\n            NULLIF(\n                (\n                    SELECT SUM(PATIENT_COUNT)\n                    FROM RISK_CORE_V4_VIEW\n                    WHERE MONTH_OF_MEASUREMENT = (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_CORE_V4_VIEW)\n                      AND RISK_DOCUMENTATION_FLAG = 'Documented'\n                ),\n            0)\n            /\n            NULLIF(\n                (\n                    SELECT SUM(RISK_VALUE) / NULLIF(SUM(PATIENT_COUNT), 0)\n                    FROM RISK_CORE_V4_VIEW\n                    WHERE MAX_MONTH_FLAG = TRUE\n                      AND RISK_DOCUMENTATION_FLAG = 'Documented'\n                ),\n            0),\n        0) * 100,\n        '0.0'\n    ) || '% increase in the documented RAF Score'\nFROM DUAL",
+      "validation": "needs_fix",
+      "notes": "The key issue is that the DAX computes 'doc' (Documented risk) using ALL('DATE') context removal pinned to latest_month = MAX(cohort[month_of_measurement]). This means the Documented risk subquery should NOT filter by :selected_month but instead use the latest available month — implemented via MAX_MONTH_FLAG = TRUE on RISK_CORE_V4_VIEW (without :selected_month binding). The generated SQL incorrectly binds the doc subqueries to :selected_month. Additionally, since (a-b)/b = RAF_impact_cohort/doc algebraically, the corrected SQL simplifies to that direct ratio: RAF_impact_cohort numerator divided by the doc denominator (patient_count), then divided by doc (risk_value/patient_count), which simplifies to RAF_impact_cohort / doc.",
+      "created_at": "2026-05-10T19:14:05.830503+00:00"
+    },
+    "Potential RAF recapture rate cohort": {
+      "measure_name": "Potential RAF recapture rate cohort",
+      "role": "BUILDER",
+      "updated_at": "2026-05-10T19:14:06.958010+00:00",
+      "sql": "SELECT\n    (\n        SELECT SUM(CASE WHEN RISK_DOCUMENTATION_FLAG = 'Documented' THEN RISK_VALUE ELSE 0 END)\n        FROM RISK_CORE_V4_VIEW\n        WHERE MAX_MONTH_FLAG = TRUE\n          AND MONTH_OF_MEASUREMENT = :selected_month\n    )\n    +\n    (\n        SELECT SUM(RISK_VALUE)\n        FROM RISK_COHORT_V4_VIEW\n        WHERE MONTH_OF_MEASUREMENT = :selected_month\n    )\n) / NULLIF(\n    (\n        SELECT SUM(CASE WHEN RISK_DOCUMENTATION_FLAG IN ('Documented', 'Undocumented') THEN RISK_VALUE ELSE 0 END)\n        FROM RISK_CORE_V4_VIEW\n        WHERE MAX_MONTH_FLAG = TRUE\n          AND MONTH_OF_MEASUREMENT = :selected_month\n    )\n, 0)",
+      "validation": "needs_fix",
+      "notes": "The DAX computes: (a + c_cohort) / b where a and b are independent aggregates from risk_core filtered by MAX_MONTH_FLAG and the cohort sum is a separate table aggregate. The CROSS JOIN approach incorrectly causes SUM(rch.RISK_VALUE) to be summed N times (once per rc row) inside the outer aggregation, inflating the cohort contribution. The fix uses three independent scalar subqueries — one for 'a' (Documented risk_core), one for the cohort sum, and one for 'b' (Documented+Undocumented risk_core) — combined arithmetically, matching the DAX variable semantics exactly. RISK_COHORT_V4_VIEW correctly has no MAX_MONTH_FLAG filter.",
+      "created_at": "2026-05-10T19:14:06.958010+00:00"
+    },
+    "#Members YoY Color": {
+      "measure_name": "#Members YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:09.697848+00:00",
+      "definition": "Controls the color used to display the Year-Over-Year membership change figure in reports and dashboards. It applies a red highlight when membership has declined compared to the prior year, and a neutral color when membership has stayed the same or grown. This visual cue helps users instantly identify negative membership trends without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:09.697848+00:00"
+    },
+    "#Members MoM Color": {
+      "measure_name": "#Members MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:10.019231+00:00",
+      "definition": "Assigns a color code to the month-over-month membership change to enable visual highlighting in reports. A positive change in membership displays one color, while a negative change displays another, making it easy to spot growth or decline at a glance.",
+      "created_at": "2026-05-10T19:14:10.019231+00:00"
+    },
+    "#Members YoY Card": {
+      "measure_name": "#Members YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:10.428019+00:00",
+      "definition": "Displays a visual indicator showing how total member count has changed compared to the same period last year, expressed as a percentage. An upward arrow (▲) signals membership growth while a downward arrow (▼) signals a decline, making year-over-year trends immediately recognizable at a glance. This card is intended for dashboard displays where quick, intuitive performance comparisons are needed without requiring users to interpret raw numbers.",
+      "created_at": "2026-05-10T19:14:10.428019+00:00"
+    },
+    "#Members MoM Card": {
+      "measure_name": "#Members MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:11.085562+00:00",
+      "definition": "Displays a visual indicator showing whether total membership has grown or declined compared to the previous month, expressed as a percentage change. An upward arrow signals membership growth while a downward arrow signals a decline, making month-over-month trends immediately recognizable at a glance. This symbol is intended for use in cards and dashboards to give users a quick, intuitive read on membership momentum without needing to compare numbers manually.",
+      "created_at": "2026-05-10T19:14:11.085562+00:00"
+    },
+    "Documented risk YoY Card": {
+      "measure_name": "Documented risk YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:11.503664+00:00",
+      "definition": "Shows whether the percentage of patients with documented risk has increased or decreased compared to the same period last year. An upward arrow indicates improvement (higher documentation rate), while a downward arrow signals a decline, along with the percentage change. This visual indicator helps users quickly assess year-over-year progress in risk documentation at a glance.",
+      "created_at": "2026-05-10T19:14:11.503664+00:00"
+    },
+    "Documented risk YoY Color": {
+      "measure_name": "Documented risk YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:12.306801+00:00",
+      "definition": "Assigns a color code to visually indicate whether the year-over-year change in documented risk is moving in a favorable or unfavorable direction. When the documented risk has decreased compared to the prior year, one color is applied; when it has stayed the same or increased, a different color is used. This helps users instantly spot trends in documented risk performance without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:12.306801+00:00"
+    },
+    "Documented risk MoM Card": {
+      "measure_name": "Documented risk MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:12.927400+00:00",
+      "definition": "Shows whether the percentage of patients with documented risk assessments has increased or decreased compared to the previous month. An upward arrow indicates improvement, while a downward arrow indicates a decline, along with the percentage change. This visual indicator helps users quickly spot trends in documentation compliance without needing to compare numbers manually.",
+      "created_at": "2026-05-10T19:14:12.927400+00:00"
+    },
+    "Documented risk Color": {
+      "measure_name": "Documented risk Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:13.230736+00:00",
+      "definition": "Controls the color displayed for the Documented Risk month-over-month change indicator. It highlights the direction of change by assigning a distinct color depending on whether the metric has increased or decreased compared to the prior month. This visual cue helps users quickly identify whether documented risk is trending in a favorable or unfavorable direction without reading the underlying numbers.",
+      "created_at": "2026-05-10T19:14:13.230736+00:00"
+    },
+    "Gap to potential risk YoY Card": {
+      "measure_name": "Gap to potential risk YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:14.400509+00:00",
+      "definition": "Displays a visual indicator showing how the gap to potential risk has changed compared to the same period last year, expressed as a percentage. An upward arrow (▲) signals the gap has grown year-over-year, while a downward arrow (▼) signals it has shrunk, helping users quickly spot whether the organization is moving toward or away from its risk potential. This card is intended for at-a-glance trend monitoring on dashboards and reports.",
+      "created_at": "2026-05-10T19:14:14.400509+00:00"
+    },
+    "Gap to potential risk YoY Color": {
+      "measure_name": "Gap to potential risk YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:14.689795+00:00",
+      "definition": "Controls the color displayed for the Gap to Potential Risk Year-Over-Year metric to make performance trends immediately visible. It applies a red highlight when the gap has worsened compared to the prior year, and a neutral color when it has stayed the same or improved. This visual cue helps users quickly spot areas where risk exposure is moving in the wrong direction without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:14.689795+00:00"
+    },
+    "Gap to potential risk MoM Card": {
+      "measure_name": "Gap to potential risk MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:15.663217+00:00",
+      "definition": "This display element shows how the Gap to Potential Risk has changed compared to the previous month, expressed as a percentage. An upward arrow (▲) indicates the gap has grown since last month, while a downward arrow (▼) indicates it has shrunk, helping users quickly spot whether the organization is moving toward or away from its risk potential. This visual indicator supports at-a-glance trend monitoring without requiring users to compare figures manually.",
+      "created_at": "2026-05-10T19:14:15.663217+00:00"
+    },
+    "Gap to potential risk MoM Color": {
+      "measure_name": "Gap to potential risk MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:16.060837+00:00",
+      "definition": "Controls the color displayed for the Gap to Potential Risk Month-over-Month metric to signal whether performance is moving in a favorable or unfavorable direction. When the gap is shrinking (negative change), the indicator displays one color to flag concern, and when the gap is growing (positive change), it displays another color to signal improvement. This visual cue helps users quickly assess at a glance whether the organization is moving closer to or further from its potential risk threshold without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:16.060837+00:00"
+    },
+    "Members with open coding gaps YoY Card": {
+      "measure_name": "Members with open coding gaps YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:16.179163+00:00",
+      "definition": "Displays a visual indicator showing how the count of members with open coding gaps has changed compared to the same period last year. An upward arrow accompanies a percentage increase, while a downward arrow signals a decrease, making year-over-year trends immediately recognizable at a glance. This card helps users quickly assess whether coding gap identification efforts are improving or declining relative to the prior year.",
+      "created_at": "2026-05-10T19:14:16.179163+00:00"
+    },
+    "Members with open coding gaps YoY Color": {
+      "measure_name": "Members with open coding gaps YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:17.297313+00:00",
+      "definition": "Controls the color used to display the year-over-year change in members with open coding gaps. If the number of members with open coding gaps has decreased compared to the prior year, the value is highlighted in one color to signal improvement; if it has stayed the same or increased, a different color is applied to draw attention to the unfavorable trend. This visual cue helps users quickly assess whether progress is being made in closing coding gaps across the member population.",
+      "created_at": "2026-05-10T19:14:17.297313+00:00"
+    },
+    "Members with open coding gaps MoM Card": {
+      "measure_name": "Members with open coding gaps MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:18.574807+00:00",
+      "definition": "Shows whether the number of members with open coding gaps is trending up or down compared to the previous month, displayed as an arrow symbol with a percentage change. An upward arrow indicates more members have unresolved gaps than last month, while a downward arrow signals improvement. This visual indicator helps users quickly assess month-over-month progress without interpreting raw numbers.",
+      "created_at": "2026-05-10T19:14:18.574807+00:00"
+    },
+    "Members with open coding gaps MoM Color": {
+      "measure_name": "Members with open coding gaps MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:19.093405+00:00",
+      "definition": "Controls the color displayed for the Members with Open Coding Gaps Month-over-Month change, providing an at-a-glance visual signal for whether the trend is moving in a favorable or unfavorable direction. When the number of members with open coding gaps has decreased compared to the prior month, the indicator displays one color, and when it has increased, it displays another. This helps users quickly spot whether gap closure efforts are improving or declining without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:19.093405+00:00"
+    },
+    "Overall gaps closed YoY Card": {
+      "measure_name": "Overall gaps closed YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:19.205218+00:00",
+      "definition": "Displays a visual indicator showing whether the total number of gaps closed has increased or decreased compared to the same period last year, expressed as a percentage change. An upward arrow signals improvement over last year, while a downward arrow signals a decline, making year-over-year performance immediately recognizable at a glance. This label appears alongside the Gaps Closed metric to provide quick directional context without requiring users to calculate the change themselves.",
+      "created_at": "2026-05-10T19:14:19.205218+00:00"
+    },
+    "Overall gaps closed YoY Color": {
+      "measure_name": "Overall gaps closed YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:19.257582+00:00",
+      "definition": "Controls the color displayed for the Overall Gaps Closed Year-Over-Year metric to provide an instant visual signal about performance direction. It applies a red highlight when the number of closed gaps has declined compared to the prior year, and a green highlight when performance has held steady or improved. This color coding helps users quickly identify whether care gap closure efforts are trending in the right or wrong direction without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:19.257582+00:00"
+    },
+    "Overall gaps closed MoM Card": {
+      "measure_name": "Overall gaps closed MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:19.967384+00:00",
+      "definition": "Shows whether the total number of closed care gaps has increased or decreased compared to the previous month, displayed as an arrow symbol with a percentage change. An upward arrow indicates improvement (more gaps closed), while a downward arrow indicates a decline, helping users quickly spot month-over-month trends at a glance.",
+      "created_at": "2026-05-10T19:14:19.967384+00:00"
+    },
+    "Overall gaps closed MoM Color": {
+      "measure_name": "Overall gaps closed MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:21.744013+00:00",
+      "definition": "Indicates the direction of change in overall gaps closed compared to the previous month, expressed as a color signal for visual formatting purposes. A positive month-over-month change displays in one color to highlight improvement, while a negative change displays in another to flag a decline. This helps users quickly identify at a glance whether gap closure performance is trending in the right direction without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:21.744013+00:00"
+    },
+    "PMPM YoY Card": {
+      "measure_name": "PMPM YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:21.914813+00:00",
+      "definition": "Shows whether the current Per Member Per Month cost is higher or lower than the same period last year, displayed as an arrow symbol with a percentage. An upward arrow indicates costs have increased year-over-year, while a downward arrow indicates costs have decreased. This visual indicator helps users quickly assess cost trends at a glance without needing to compare figures manually.",
+      "created_at": "2026-05-10T19:14:21.914813+00:00"
+    },
+    "PMPM YoY Color": {
+      "measure_name": "PMPM YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:22.435241+00:00",
+      "definition": "Returns a color code used to visually distinguish whether the Per Member Per Month year-over-year change is favorable or unfavorable. A negative change (cost decrease) is assigned one color, while a zero or positive change (cost increase) receives another. This formatting helps users quickly spot cost trends across plans, regions, or time periods without reading individual numbers.",
+      "created_at": "2026-05-10T19:14:22.435241+00:00"
+    },
+    "Formatted PMPM": {
+      "measure_name": "Formatted PMPM",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:22.501663+00:00",
+      "definition": "Displays the Per Member Per Month (PMPM) cost as a readable dollar amount, automatically scaled to the most appropriate unit — whole dollars, thousands (K), millions (M), or billions (bn) — based on the size of the value. This ensures figures remain easy to read across populations of very different sizes, from small member groups to large health plans. It is used for on-screen display and reporting only, not for calculations.",
+      "created_at": "2026-05-10T19:14:22.501663+00:00"
+    },
+    "PMPM MoM Card": {
+      "measure_name": "PMPM MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:22.896994+00:00",
+      "definition": "Shows whether the current month's Per Member Per Month cost is trending up or down compared to the previous month, displayed as an arrow symbol with a percentage. An upward arrow indicates costs have increased from last month, while a downward arrow indicates costs have decreased. This visual indicator helps users quickly spot cost trends at a glance without needing to compare numbers manually.",
+      "created_at": "2026-05-10T19:14:22.896994+00:00"
+    },
+    "Potential risk YoY Color": {
+      "measure_name": "Potential risk YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:24.942634+00:00",
+      "definition": "Assigns a color code to visually distinguish whether the year-over-year change in potential risk has improved or worsened. A negative change, indicating a reduction in potential risk, is highlighted in one color, while a neutral or increasing change is shown in another. This formatting helps users quickly spot favorable versus unfavorable risk trends without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:24.942634+00:00"
+    },
+    "PMPM MoM Color": {
+      "measure_name": "PMPM MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:24.958584+00:00",
+      "definition": "A display indicator that assigns a color code to the month-over-month change in Per Member Per Month cost. It returns one color when costs have increased from the prior month and a different color when costs have decreased, making it easy to spot trends at a glance. This visual cue helps business users quickly identify whether spending is moving in a favorable or unfavorable direction without needing to interpret raw numbers.",
+      "created_at": "2026-05-10T19:14:24.958584+00:00"
+    },
+    "Potential risk MoM Card": {
+      "measure_name": "Potential risk MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:25.777895+00:00",
+      "definition": "Shows whether the overall potential risk score has increased or decreased compared to the previous month, displayed as an arrow symbol with a percentage. An upward arrow indicates risk has grown, while a downward arrow indicates risk has declined, helping users quickly spot the direction and size of month-over-month change at a glance. This visual indicator supports faster interpretation of risk trends without requiring users to compare raw numbers themselves.",
+      "created_at": "2026-05-10T19:14:25.777895+00:00"
+    },
+    "Potential risk MoM Color": {
+      "measure_name": "Potential risk MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:25.804907+00:00",
+      "definition": "Assigns a color code to visually indicate the direction of month-over-month change in potential risk. A decreasing risk trend is highlighted in one color, while an increasing risk trend is highlighted in another, making it easy to spot at a glance whether the situation is improving or worsening. This formatting aid helps business users quickly interpret risk movement without needing to analyze the underlying numbers directly.",
+      "created_at": "2026-05-10T19:14:25.804907+00:00"
+    },
+    "Potential risk YoY Card": {
+      "measure_name": "Potential risk YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:25.835175+00:00",
+      "definition": "Shows whether the count of high-risk patients is trending up or down compared to the same period last year. An upward arrow indicates risk has increased, while a downward arrow indicates risk has decreased, along with the percentage change. This visual indicator helps users quickly assess the direction and magnitude of year-over-year movement in potential patient risk without needing to compare numbers manually.",
+      "created_at": "2026-05-10T19:14:25.835175+00:00"
+    },
+    "Formatted #Members": {
+      "measure_name": "Formatted #Members",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:28.189137+00:00",
+      "definition": "Displays the total number of health plan members in a human-readable format, automatically scaling the value to thousands (K), millions (M), or billions (bn) depending on its size. For example, 1,500 members shows as \"1.5K\" and 2,300,000 members shows as \"2.3M.\" This formatting keeps dashboards and reports clean and easy to scan, regardless of whether the membership count is small or very large.",
+      "created_at": "2026-05-10T19:14:28.189137+00:00"
+    },
+    "Formatted Members with open coding gaps": {
+      "measure_name": "Formatted Members with open coding gaps",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:28.498220+00:00",
+      "definition": "Displays the count of members who have open coding gaps in a readable, abbreviated format — showing exact numbers for smaller counts, and automatically switching to thousands (K), millions (M), or billions (bn) for larger figures. This metric is used purely for on-screen display purposes to keep dashboards clean and easy to read regardless of the size of the member population. The underlying value it represents is the total number of members with at least one unresolved diagnosis coding gap that may require clinical follow-up.",
+      "created_at": "2026-05-10T19:14:28.498220+00:00"
+    },
+    "RAF recapture rate MoM color": {
+      "measure_name": "RAF recapture rate MoM color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:28.795050+00:00",
+      "definition": "Controls the color displayed for the RAF Recapture Rate month-over-month change, making it easy to spot positive or negative trends at a glance. A positive change is highlighted in one color to signal improvement, while a negative change is highlighted in another to flag a decline. This visual cue helps users quickly assess whether recapture performance is moving in the right direction without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:28.795050+00:00"
+    },
+    "RAF recapture rate MoM Card": {
+      "measure_name": "RAF recapture rate MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:28.875390+00:00",
+      "definition": "Shows whether the RAF recapture rate has improved or declined compared to the previous month, displayed as an up or down arrow alongside the percentage change. For example, an upward arrow with \"5% from LM\" means the recapture rate grew by 5% relative to last month. This indicator helps users quickly spot momentum trends in RAF recapture performance at a glance.",
+      "created_at": "2026-05-10T19:14:28.875390+00:00"
+    },
+    "Formatted Overall gaps closed": {
+      "measure_name": "Formatted Overall gaps closed",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:29.754000+00:00",
+      "definition": "Displays the total number of care gaps closed in a readable, abbreviated format that automatically scales with the size of the number — for example, showing \"1.2K\" instead of 1,200 or \"3.5M\" instead of 3,500,000. This makes large volumes of closed gaps easier to read at a glance in reports and dashboards without sacrificing clarity. It is a display-only version of the Gaps Closed metric and should not be used in calculations.",
+      "created_at": "2026-05-10T19:14:29.754000+00:00"
+    },
+    "RAF recapture rate YoY Card": {
+      "measure_name": "RAF recapture rate YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:30.815937+00:00",
+      "definition": "Displays a visual indicator showing how the RAF recapture rate has changed compared to the same period last year. An upward arrow (▲) signals improvement while a downward arrow (▼) signals decline, each accompanied by the percentage change. This symbol helps users quickly spot positive or negative trends in recapture performance at a glance.",
+      "created_at": "2026-05-10T19:14:30.815937+00:00"
+    },
+    "RAF recapture rate YoY color": {
+      "measure_name": "RAF recapture rate YoY color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:30.920972+00:00",
+      "definition": "Indicates whether the year-over-year change in RAF recapture rate has improved or declined, using color to make the direction immediately visible. A positive change is highlighted in one color and a negative change in another, allowing users to quickly spot trends without reading exact numbers.",
+      "created_at": "2026-05-10T19:14:30.920972+00:00"
+    },
+    "Risk recapture rate MoM color": {
+      "measure_name": "Risk recapture rate MoM color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:31.727970+00:00",
+      "definition": "Assigns a color code to visually indicate whether the month-over-month change in risk recapture rate is trending positively or negatively. A positive change is highlighted in one color and a negative change in another, making it easy to spot performance direction at a glance. This formatting aid helps users quickly assess whether risk recapture efforts are improving or declining without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:31.727970+00:00"
+    },
+    "Risk recapture rate MoM Card": {
+      "measure_name": "Risk recapture rate MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:31.785949+00:00",
+      "definition": "Shows whether the Risk Recapture Rate has improved or declined compared to the previous month, displayed as an up or down arrow alongside the percentage change. For example, an upward arrow with \"5% from LM\" means the recapture rate has grown by 5% since last month. This visual indicator helps users quickly spot month-over-month trends without needing to compare figures manually.",
+      "created_at": "2026-05-10T19:14:31.785949+00:00"
+    },
+    "Risk recapture rate YoY Card": {
+      "measure_name": "Risk recapture rate YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:32.562588+00:00",
+      "definition": "Displays a visual indicator showing how the Risk Recapture Rate has changed compared to the same period last year. An upward arrow (▲) signals improvement while a downward arrow (▼) signals a decline, each accompanied by the percentage change. This symbol helps users quickly spot positive or negative trends in risk recapture performance at a glance.",
+      "created_at": "2026-05-10T19:14:32.562588+00:00"
+    },
+    "% Members with open coding gaps YoY Color": {
+      "measure_name": "% Members with open coding gaps YoY Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:34.009101+00:00",
+      "definition": "Controls the color displayed for the Year-Over-Year change in the percentage of members with open coding gaps. It highlights the direction of change by applying a specific color based on whether the gap rate has improved or worsened compared to the prior year. A declining rate (negative change) signals improvement and triggers one color, while a stable or increasing rate triggers another, making performance trends immediately visible at a glance.",
+      "created_at": "2026-05-10T19:14:34.009101+00:00"
+    },
+    "Risk recapture rate YoY color": {
+      "measure_name": "Risk recapture rate YoY color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:34.550895+00:00",
+      "definition": "Assigns a color code to visually indicate whether the year-over-year change in risk recapture rate is trending positively or negatively. A result of 1 signals improvement (the rate has increased compared to the prior year), while a result of 2 signals decline (the rate has decreased). This color coding helps users quickly spot favorable or unfavorable trends in risk recapture performance without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:34.550895+00:00"
+    },
+    "% Members with open coding gaps YoY Card": {
+      "measure_name": "% Members with open coding gaps YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:34.754220+00:00",
+      "definition": "Displays a visual indicator showing whether the percentage of members with open coding gaps has increased or decreased compared to the same period last year. An upward arrow signals the rate has risen year-over-year, while a downward arrow signals it has fallen, along with the percentage change from last year. This card helps users quickly spot trends in unresolved coding gaps without needing to compare figures manually.",
+      "created_at": "2026-05-10T19:14:34.754220+00:00"
+    },
+    "Formatted Eligible population": {
+      "measure_name": "Formatted Eligible population",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:35.354802+00:00",
+      "definition": "Displays the eligible population count in a human-readable format, automatically scaling the number to the most appropriate unit — showing exact figures for small populations, thousands (K) for mid-sized groups, millions (M) for large populations, and billions (bn) for the largest scales. This formatted value is used purely for on-screen display to improve readability in reports and dashboards. It should not be used in calculations, as the underlying numeric value is held in the Eligible Population metric.",
+      "created_at": "2026-05-10T19:14:35.354802+00:00"
+    },
+    "Formatted Eligible population (group)": {
+      "measure_name": "Formatted Eligible population (group)",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:36.319909+00:00",
+      "definition": "Displays the eligible population count for a selected group in a readable, abbreviated format — showing exact numbers for small populations, and rounding to thousands (K), millions (M), or billions (bn) for larger ones. This makes population figures easier to read at a glance in reports and visuals, regardless of whether the group contains hundreds or millions of individuals. It is a display-only value used for labeling and presentation purposes, not for calculations.",
+      "created_at": "2026-05-10T19:14:36.319909+00:00"
+    },
+    "ELigible population YoY Card": {
+      "measure_name": "ELigible population YoY Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:36.946098+00:00",
+      "definition": "Shows whether the eligible population has grown or shrunk compared to the same period last year, displayed as an arrow symbol with a percentage change. An upward arrow indicates growth while a downward arrow indicates a decline, making it easy to spot trends at a glance. This visual indicator helps users quickly assess year-over-year momentum in population size without needing to compare numbers manually.",
+      "created_at": "2026-05-10T19:14:36.946098+00:00"
+    },
+    "Risk recapture rate YoY color (GROUP)": {
+      "measure_name": "Risk recapture rate YoY color (GROUP)",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:37.463774+00:00",
+      "definition": "A display formatting indicator that assigns a color to the year-over-year change in risk recapture rate for a group. It signals green when the recapture rate has improved compared to the prior year, and red when it has declined. This visual cue helps users quickly identify whether the group is trending in a positive or negative direction without needing to interpret the underlying numbers.",
+      "created_at": "2026-05-10T19:14:37.463774+00:00"
+    },
+    "Info text risk LY": {
+      "measure_name": "Info text risk LY",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:38.005090+00:00",
+      "definition": "Displays a descriptive label indicating the time period covered by last year's risk data, showing the range of months and the calendar year being compared against. This text appears in report visuals and tooltips to help users understand exactly which historical period is being referenced when viewing year-over-year comparisons. It ensures transparency around the date range so users can confidently interpret risk trends without ambiguity about the underlying timeframe.",
+      "created_at": "2026-05-10T19:14:38.005090+00:00"
+    },
+    "Info text risk cohort": {
+      "measure_name": "Info text risk cohort",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:38.312584+00:00",
+      "definition": "This metric displays a static informational message that explains how the risk cohort grouping is constructed for the report. It lets users know that cohort assignments are based on the most recent risk execution data, calculated on a year-to-date basis for each payer and plan combination. For further detail on which risk execution is being used, users are directed to the \"Latest risk execution\" column in the \"Payer/plan details\" table.",
+      "created_at": "2026-05-10T19:14:38.312584+00:00"
+    },
+    "% Members with open coding gaps MoM Card": {
+      "measure_name": "% Members with open coding gaps MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:39.562370+00:00",
+      "definition": "Displays a visual trend indicator showing how the percentage of members with open coding gaps has changed compared to the previous month. An upward arrow (▲) signals the rate has increased from last month, while a downward arrow (▼) signals it has decreased, each accompanied by the percentage change. This card helps users quickly spot whether coding gap closure efforts are improving or declining without needing to compare numbers manually.",
+      "created_at": "2026-05-10T19:14:39.562370+00:00"
+    },
+    "% Members with open coding gaps MoM Color": {
+      "measure_name": "% Members with open coding gaps MoM Color",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:39.990041+00:00",
+      "definition": "Controls the color displayed for the month-over-month change in the percentage of members with open coding gaps. It highlights the direction of change by applying a specific color based on whether the trend is improving or worsening — turning one color when the percentage has decreased and another when it has stayed the same or increased. This visual cue helps users quickly assess at a glance whether coding gap closure efforts are moving in the right direction.",
+      "created_at": "2026-05-10T19:14:39.990041+00:00"
+    },
+    "ELigible population MoM Card": {
+      "measure_name": "ELigible population MoM Card",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:40.462139+00:00",
+      "definition": "Shows whether the eligible population has grown or shrunk compared to the previous month, displayed as an upward or downward arrow alongside a percentage change. This visual indicator helps users quickly spot trends in population size without needing to compare raw numbers themselves. It appears on the summary card to provide immediate context for the current month's eligible population figure.",
+      "created_at": "2026-05-10T19:14:40.462139+00:00"
+    },
+    "Info icon appointments per pcp": {
+      "measure_name": "Info icon appointments per pcp",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:41.459475+00:00",
+      "definition": "This metric displays the target number of appointment outreach attempts each Primary Care Physician (PCP) should aim to complete per month as part of the RAF recapture initiative. It serves as an informational reference label in the report, dynamically reflecting the currently selected patient volume target. Use this figure to align scheduling and outreach efforts across care teams toward a consistent monthly goal.",
+      "created_at": "2026-05-10T19:14:41.459475+00:00"
+    },
+    "Info text risk PM": {
+      "measure_name": "Info text risk PM",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:42.073160+00:00",
+      "definition": "Displays a descriptive text label summarizing the risk profile for a patient population under a Per Member (PM) arrangement, based on the current and prior year time periods being analyzed. Rather than showing a raw number, it provides a human-readable summary that helps users quickly understand the context and time frame of the risk data on screen. This label supports dashboard readability by giving business users clear, plain-language reference information alongside the underlying performance metrics.",
+      "created_at": "2026-05-10T19:14:42.073160+00:00"
+    },
+    "Scatter tooltip title": {
+      "measure_name": "Scatter tooltip title",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:42.478669+00:00",
+      "definition": "Displays the name of the selected Primary Care Provider (PCP) along with their associated practice name as a formatted label in scatter plot chart tooltips. This label appears when a user hovers over or selects a data point, helping them quickly identify which provider and practice the data point represents. It serves a purely visual purpose to improve readability and context within the chart.",
+      "created_at": "2026-05-10T19:14:42.478669+00:00"
+    },
+    "Formatted X Tooltip": {
+      "measure_name": "Formatted X Tooltip",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:43.399226+00:00",
+      "definition": "Displays the value of the selected X-axis metric in a clean, reader-friendly format tailored to the type of data being shown — for example, whole numbers with comma separators for member counts, decimal places for risk scores, and dollar signs for cost figures. This ensures that data labels and tooltips in the scatter plot are easy to read and contextually appropriate, regardless of which metric the user has chosen for the horizontal axis.",
+      "created_at": "2026-05-10T19:14:43.399226+00:00"
+    },
+    "Metric title": {
+      "measure_name": "Metric title",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:43.711754+00:00",
+      "definition": "Displays the label for whichever axis the user has selected when interacting with the scatter plot. It dynamically updates to reflect either the X-axis or Y-axis metric name based on the current slicer selection, ensuring the chart title or label always matches what is being plotted. This supports clear chart navigation by keeping axis labels accurate and in sync with user-driven changes.",
+      "created_at": "2026-05-10T19:14:43.711754+00:00"
+    },
+    "Selected X Axis Value": {
+      "measure_name": "Selected X Axis Value",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:45.340383+00:00",
+      "definition": "Shows the current value for whichever measure the user has selected on the horizontal axis of the scatter plot. As the user switches between axis options such as Members, PMPM, or RAF Recapture Rate, this metric dynamically updates to reflect the corresponding figure for each data point. It ensures the scatter plot displays accurate, context-appropriate values no matter which dimension is being explored.",
+      "created_at": "2026-05-10T19:14:45.340383+00:00"
+    },
+    "Metric value": {
+      "measure_name": "Metric value",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:45.614035+00:00",
+      "definition": "Displays the formatted value for whichever axis is currently selected on the scatter plot, showing either the X-axis or Y-axis metric as a readable label. This measure ensures that tooltips and data callouts reflect the correct axis context when a user interacts with the chart. It supports a consistent and accurate data exploration experience by dynamically adapting the displayed value to the user's selection.",
+      "created_at": "2026-05-10T19:14:45.614035+00:00"
+    },
+    "Formatted Y Tooltip": {
+      "measure_name": "Formatted Y Tooltip",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:45.943341+00:00",
+      "definition": "Shows the value of the selected Y-axis metric in a clean, reader-friendly format when hovering over a data point on the scatter plot. The display automatically adjusts based on which metric is chosen — for example, showing member counts with comma separators, dollar signs for PMPM costs, or decimal places for risk scores. This ensures tooltip values are easy to read and consistently presented regardless of which metric is being analyzed.",
+      "created_at": "2026-05-10T19:14:45.943341+00:00"
+    },
+    "Y Axis Title": {
+      "measure_name": "Y Axis Title",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:46.460268+00:00",
+      "definition": "Displays the name of the metric currently selected by the user for the vertical axis of the scatter plot. It updates automatically based on the user's slicer choice, ensuring the chart axis is clearly labeled at all times. If no selection has been made, it defaults to the prompt \"Select Y Metric\" to guide the user.",
+      "created_at": "2026-05-10T19:14:46.460268+00:00"
+    },
+    "Selected Y Axis Value": {
+      "measure_name": "Selected Y Axis Value",
+      "role": "DEFINER",
+      "updated_at": "2026-05-10T19:14:48.019859+00:00",
+      "definition": "Displays the current value for whichever measure the user has selected for the vertical axis of the scatter plot. As the user switches between options such as Members, PMPM, or RAF Recapture Rate, this metric automatically updates to reflect the corresponding figure for each data point. This ensures the chart always shows accurate, context-appropriate values aligned with the user's chosen analysis focus.",
+      "created_at": "2026-05-10T19:14:48.019859+00:00"
+    }
+  },
+  "patterns": {},
+  "fixes": {},
+  "stats": {
+    "total_api_calls": 0,
+    "registry_hits": 0,
+    "validations": 88,
+    "fixes": 8,
+    "builds": 8,
+    "definitions": 61,
+    "api_calls": 165
+  },
+  "updated_at": "2026-05-10T19:14:48.019859+00:00"
+}

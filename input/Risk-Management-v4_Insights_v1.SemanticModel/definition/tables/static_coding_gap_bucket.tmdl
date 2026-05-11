@@ -1,0 +1,38 @@
+table static_coding_gap_bucket
+	lineageTag: dff1ed08-a927-4e6b-8f2b-4d3aaf78f157
+
+	column coding_gap_bucket
+		dataType: string
+		lineageTag: 3685e9d1-c60f-4192-9fc4-b5042f8c424d
+		summarizeBy: none
+		sourceColumn: coding_gap_bucket
+		sortByColumn: sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column sort
+		dataType: int64
+		formatString: 0
+		lineageTag: ea6229c2-ed96-4401-ae40-c9fdb3a36243
+		summarizeBy: none
+		sourceColumn: sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_coding_gap_bucket = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMtQ1UtJRMlSK1YlWMtY1BbKNwGwzXQsg2xjM9ssvUXAsLs5Mz0tNAQqaKMXGAgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [coding_gap_bucket = _t, Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"coding_gap_bucket", type text}, {"Column1", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "sort"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

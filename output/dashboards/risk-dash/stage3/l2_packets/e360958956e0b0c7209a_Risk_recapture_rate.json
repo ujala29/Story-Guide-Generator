@@ -1,0 +1,67 @@
+{
+  "visual_id": "e360958956e0b0c7209a",
+  "title": "Risk recapture rate",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "directional_rows": [
+    {
+      "movement": "Risk recapture rate goes UP",
+      "signal": "Positive",
+      "interpretation": "A higher proportion of eligible coding gaps are being successfully closed, improving RAF accuracy and revenue integrity — Cross-check Documented risk vs potential risk"
+    },
+    {
+      "movement": "Risk recapture rate goes DOWN",
+      "signal": "Negative",
+      "interpretation": "Fewer eligible conditions are being recaptured, indicating deteriorating coding outreach effectiveness and potential revenue leakage — Cross-check Gap to potential risk"
+    },
+    {
+      "movement": "Risk recapture rate rises while % members with open coding gaps also rises",
+      "signal": "Investigate",
+      "interpretation": "Recapture is improving on existing work but new gaps are accumulating faster than they are being closed, masking a growing unaddressed opportunity — Cross-check % members with open coding gaps"
+    }
+  ],
+  "drill_steps": [
+    {
+      "step": 1,
+      "visual_name": "Risk recapture rate",
+      "question": "What is the current recapture rate and how does it compare to the same period last year?"
+    },
+    {
+      "step": 2,
+      "visual_name": "Documented risk vs potential risk",
+      "question": "Is the gap between documented and potential risk narrowing over time, consistent with the recapture rate trend?"
+    },
+    {
+      "step": 3,
+      "visual_name": "Risk recapture rate by disease",
+      "question": "Which disease categories are driving the strongest or weakest recapture performance?"
+    },
+    {
+      "step": 4,
+      "visual_name": "Gap closure by type of visit",
+      "question": "Which visit types are most effective at closing gaps and contributing to recapture?"
+    },
+    {
+      "step": 5,
+      "visual_name": "Practice/PCP details",
+      "question": "Which practices or PCPs have the lowest recapture rates and represent the highest intervention priority?"
+    },
+    {
+      "step": 6,
+      "visual_name": "Gap closure by provider type",
+      "question": "Are specific provider types consistently underperforming on gap closure, warranting targeted outreach or education — Drill-down ends here. For member-level detail — go to Patient List on the Risk Capture Potential page."
+    }
+  ],
+  "cross_read_combined": null,
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "key_patterns": [],
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

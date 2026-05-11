@@ -1,0 +1,25 @@
+table static_scatter_plot
+	lineageTag: 5aabda67-2091-447a-9f77-32f910e160a1
+
+	column scatter_plot_axis
+		dataType: string
+		lineageTag: bf336822-1a66-45f8-9f40-71bf8d522237
+		summarizeBy: none
+		sourceColumn: scatter_plot_axis
+
+		annotation SummarizationSetBy = Automatic
+
+	partition static_scatter_plot = m
+		mode: import
+		queryGroup: 'Static Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WilCK1YlWilSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [scatter_plot_axis = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"scatter_plot_axis", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

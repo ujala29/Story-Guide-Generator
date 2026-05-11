@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "2b3ca4af5a61c972698e",
+  "position": {
+    "x": 376.93559209123106,
+    "y": 2251.1102176590339,
+    "z": 61000,
+    "height": 22.5962910128388,
+    "width": 89.781776598652755,
+    "tabOrder": 15000
+  },
+  "visualGroup": {
+    "displayName": "Patient List button",
+    "groupMode": "ScaleMode"
+  }
+}

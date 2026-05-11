@@ -1,0 +1,163 @@
+table payer
+	lineageTag: 00021b57-0b10-4ffb-b1eb-e559b36bea43
+
+	column payer_master_id
+		dataType: string
+		lineageTag: 4652c228-c6fa-4420-91dc-9f0e6fee4f3f
+		summarizeBy: none
+		sourceColumn: payer_master_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_id
+		dataType: string
+		lineageTag: 6cd2561e-2ac5-4316-8a65-d614b46e82eb
+		summarizeBy: none
+		sourceColumn: payer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_name
+		dataType: string
+		lineageTag: 73908872-0934-4271-91dd-ca965aac4fed
+		summarizeBy: none
+		sourceColumn: payer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_id
+		dataType: string
+		lineageTag: 40fa6eed-d31b-4a00-954c-948e94928eb6
+		summarizeBy: none
+		sourceColumn: plan_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_name
+		dataType: string
+		lineageTag: 406c949e-ea37-4c67-b6a2-128fb71f8592
+		summarizeBy: none
+		sourceColumn: plan_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_paid_through
+		dataType: dateTime
+		formatString: Mmmm yy
+		lineageTag: 821bcaef-7977-4b57-a4fc-661f1ae064f7
+		summarizeBy: none
+		sourceColumn: date_paid_through
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column date_incurred_through
+		dataType: dateTime
+		formatString: Mmmm yy
+		lineageTag: a49acb58-da97-47bd-802c-4bd47179e81f
+		summarizeBy: none
+		sourceColumn: date_incurred_through
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column updated_on
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 47d84413-2cd3-4dd4-a630-f226f401677d
+		summarizeBy: none
+		sourceColumn: updated_on
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_key
+		dataType: string
+		lineageTag: 766610e7-9748-46bf-a450-295e0a4ef22a
+		summarizeBy: none
+		sourceColumn: updated_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_processed_through
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c4a857a6-ff61-4db7-9939-e399dcbf6767
+		summarizeBy: none
+		sourceColumn: date_processed_through
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column contract_name
+		dataType: string
+		lineageTag: 24a3c559-ecf7-4b9a-b031-cc1780f51433
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_id
+		dataType: string
+		lineageTag: 8a5e613a-252d-4946-ad98-c1821a82e4c7
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_plan_concat
+		dataType: string
+		lineageTag: 26d53d46-872d-4e30-8583-2abb994d035d
+		summarizeBy: none
+		sourceColumn: payer_plan_concat
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_type
+		dataType: string
+		lineageTag: 924b7bad-d67c-44dd-87c3-9170d836e479
+		summarizeBy: none
+		sourceColumn: contract_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_type_id
+		dataType: string
+		lineageTag: 880eba47-6aac-415a-acb5-3edd7f5b458b
+		summarizeBy: none
+		sourceColumn: contract_type_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_master_id_index
+		dataType: double
+		lineageTag: 84df0820-3299-481e-9eee-da5db2aec16e
+		summarizeBy: none
+		sourceColumn: payer_master_id_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition payer = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(DB_HOST_STRING,WAREHOUSE,[Role=ROLE]),
+				    DAP_Database = Source{[Name=L5_DB_NAME,Kind="Database"]}[Data],
+				    L5_PAC_Schema = DAP_Database{[Name=SCHEMA_NAME,Kind="Schema"]}[Data],
+				    PAYER_Table = L5_PAC_Schema{[Name="PAYER",Kind="Table"]}[Data],
+				    #"Lowercased Text" = Table.TransformColumnNames(PAYER_Table, Text.Lower)
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

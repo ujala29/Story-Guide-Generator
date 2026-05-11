@@ -1,0 +1,48 @@
+table Parameter
+	lineageTag: fc2fdae7-0de7-4e97-abc7-ee5159d4aeda
+
+	column Parameter
+		lineageTag: 4ff167c9-3e64-477f-8a33-d01711d65003
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: bd7e3e48-46cc-4a01-b35e-9cb008ddecf1
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 50e634b6-5207-497f-a5fc-7489c7fc4654
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter = calculated
+		mode: import
+		source =
+				{
+				    ("PAC PMPM", NAMEOF('ALL_DAX_PAC'[PAC PMPM]), 0),
+				    ("Utilization/1000", NAMEOF('ALL_DAX_PAC'[Utilization]), 1)
+				}
+
+	annotation PBI_Id = 3ba5bc5b936a45239a0f1e56c827975d
+

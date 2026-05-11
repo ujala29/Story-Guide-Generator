@@ -1,0 +1,473 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 7577.0415504167986,
+        "y": 1850.4985964714292
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 344.46205038435943,
+            "y": 3780.9993287263705
+          },
+          "nodeIndex": "date",
+          "nodeLineageTag": "6092267e-5693-46e2-811d-03732d9b1f3d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1175.1770477833884,
+            "y": 3745.2202390633392
+          },
+          "nodeIndex": "payer",
+          "nodeLineageTag": "4bc8104f-67cb-4c98-a743-ebb40b061022",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 732.5416557053569,
+            "y": 4755.3802240638506
+          },
+          "nodeIndex": "pcp",
+          "nodeLineageTag": "c7585ddb-0db3-483d-b387-65d4cabc36e3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 7753.52783476043,
+            "y": 4407.8406093406575
+          },
+          "nodeIndex": "user_permission",
+          "nodeLineageTag": "4e560b4c-5dc0-441a-bd77-405d61bb43e8",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10383.884258615624,
+            "y": 3530.3071103134675
+          },
+          "nodeIndex": "measure",
+          "nodeLineageTag": "dd989708-7969-4d13-ba02-b50c9807f58f",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10444.346308999984,
+            "y": 3897.3314815635954
+          },
+          "nodeIndex": "risk_core",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10383.884258615624,
+            "y": 3720.8471065635954
+          },
+          "nodeIndex": "risk_group",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10667.884258615624,
+            "y": 3192.6738309384032
+          },
+          "nodeIndex": "attribution",
+          "nodeLineageTag": "595206c6-abb7-471c-bbbf-7f22e67f3765",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10607.422208231264,
+            "y": 2951.4055525008075
+          },
+          "nodeIndex": "static_churn_status",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10607.422208231264,
+            "y": 2431.7289542194453
+          },
+          "nodeIndex": "cohort",
+          "nodeLineageTag": "4dea37fe-0c0f-47a4-a7a2-29d842a63493",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10941.422208231264,
+            "y": 2016.7352863286847
+          },
+          "nodeIndex": "static_care_gap_bucket",
+          "nodeLineageTag": "f6b965f8-8c68-4d91-bf62-2ff087530880",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10657.422208231264,
+            "y": 2016.7352863286847
+          },
+          "nodeIndex": "static_coding_gap_bucket",
+          "nodeLineageTag": "dff1ed08-a927-4e6b-8f2b-4d3aaf78f157",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11175.422208231264,
+            "y": 2066.7352863286847
+          },
+          "nodeIndex": "static_days_since_last_pcp_visit_bucket",
+          "nodeLineageTag": "e3578af4-ce1d-4f52-9cdb-26e4dc72aa05",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11459.422208231264,
+            "y": 2066.7352863286847
+          },
+          "nodeIndex": "static_patients_called_per_pcp",
+          "nodeLineageTag": "95809636-9a0b-4541-8138-d49d9c885ae5",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "zip",
+          "nodeLineageTag": "12f39654-08e1-477a-b9f9-dd8d674f60c8",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "static_risk_bucket",
+          "nodeLineageTag": "6824fac2-35f9-4f44-960e-c28479ac5447",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "static_attribution_status",
+          "nodeLineageTag": "bd75793d-f1d9-4a82-8678-82eec2881b96",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "pcp_2",
+          "nodeLineageTag": "3629ae59-cdfb-4a16-a537-8fb4bc2a257d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "static_patient_seen_bucket",
+          "nodeLineageTag": "2c789a54-2118-43f1-b36a-2edde78811d8",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "static_visit_amount_rolling_bucket",
+          "nodeLineageTag": "9a81350b-73bd-41e5-b04b-e5a5cd0ea249",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "static_pcp_member_distance_bucket",
+          "nodeLineageTag": "765f2020-45d5-4d46-b35c-d1a036940ef7",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "X Axis scatter plot",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "static_scatter_plot",
+          "nodeLineageTag": "5aabda67-2091-447a-9f77-32f910e160a1",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "Y Axis scatter plot",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10383.884258615624,
+            "y": 3276.6738309384032
+          },
+          "nodeIndex": "ALL DAX",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 27.99245570830119,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 355,
+            "y": 244
+          },
+          "nodeIndex": "cohort",
+          "nodeLineageTag": "4dea37fe-0c0f-47a4-a7a2-29d842a63493",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3,
+            "y": -22
+          },
+          "nodeIndex": "static_coding_gap_bucket",
+          "nodeLineageTag": "dff1ed08-a927-4e6b-8f2b-4d3aaf78f157",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 749,
+            "y": 517
+          },
+          "nodeIndex": "static_care_gap_bucket",
+          "nodeLineageTag": "f6b965f8-8c68-4d91-bf62-2ff087530880",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 896,
+            "y": 119
+          },
+          "nodeIndex": "static_patients_called_per_pcp",
+          "nodeLineageTag": "95809636-9a0b-4541-8138-d49d9c885ae5",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 354,
+            "y": 176
+          },
+          "nodeIndex": "cohort",
+          "nodeLineageTag": "4dea37fe-0c0f-47a4-a7a2-29d842a63493",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 764,
+            "y": 1
+          },
+          "nodeIndex": "zip",
+          "nodeLineageTag": "12f39654-08e1-477a-b9f9-dd8d674f60c8",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 2",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 3,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 92,
+            "y": 197
+          },
+          "nodeIndex": "cohort",
+          "nodeLineageTag": "4dea37fe-0c0f-47a4-a7a2-29d842a63493",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 752,
+            "y": 84
+          },
+          "nodeIndex": "static_days_since_last_pcp_visit_bucket",
+          "nodeLineageTag": "e3578af4-ce1d-4f52-9cdb-26e4dc72aa05",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 436,
+            "y": 556
+          },
+          "nodeIndex": "static_risk_bucket",
+          "nodeLineageTag": "6824fac2-35f9-4f44-960e-c28479ac5447",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 3",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Layout 3",
+  "defaultDiagram": "All tables"
+}

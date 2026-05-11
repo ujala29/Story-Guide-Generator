@@ -1,0 +1,18 @@
+{
+  "dashboard_name": "Risk Management Dashboard",
+  "domain": "Healthcare risk adjustment — HCC coding, RAF scores, gap closure, value-based care",
+  "users": [
+    "Care Manager",
+    "Medical Director", 
+    "Payer Analyst",
+    "Practice Manager"
+  ],
+  "common_pain_points": [
+    "Numbers differ from colleague",
+    "Which filter to set first",
+    "YoY or MoM showing blank or zero",
+    "Last month looks lower than expected",
+    "Data has not updated",
+    "How to find a specific PCP or practice"
+  ]
+}

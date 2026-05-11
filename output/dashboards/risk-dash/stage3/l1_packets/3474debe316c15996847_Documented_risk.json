@@ -1,0 +1,28 @@
+{
+  "visual_id": "3474debe316c15996847",
+  "title": "Documented risk",
+  "visual_type": "cardVisual",
+  "page": "Overview LY",
+  "comparison": "YoY % change",
+  "active_filters": [],
+  "one_line_definition": "The average HCC risk weight per patient for conditions that have been coded at a clinical encounter, calculated as total documented risk value divided by total patient count, restricted to Documented records only.",
+  "numerator_meaning": "Total HCC risk value (risk_value) summed only for rows where the documentation flag is 'Documented', representing conditions coded at a clinical encounter.",
+  "denominator_meaning": "Total patient count (patient_count) summed only for rows where the documentation flag is 'Documented', applying the same Documented-only filter as the numerator.",
+  "result_meaning": "The average documented HCC risk weight per patient, indicating how much risk has been formally captured through clinical coding for the selected population.",
+  "scope_note": "Only rows flagged as 'Documented' are included; Undocumented and Suspected conditions are fully excluded from both numerator and denominator.",
+  "direction": "higher_is_better",
+  "metric_type": "rate",
+  "measure_meanings": {
+    "Documented risk": "Average HCC risk weight per patient for conditions coded at a clinical encounter, restricted to Documented records only.",
+    "Documented risk YoY Card": "Displays the year-over-year percentage change in the Documented risk measure compared to the same period last year, shown as an upward or downward arrow with a formatted percentage."
+  },
+  "warnings": [],
+  "skip": false,
+  "skip_reason": "",
+  "is_table": false,
+  "column_definitions": {},
+  "is_linechart": false,
+  "is_barchart": false,
+  "is_donut": false,
+  "is_scatter": false
+}

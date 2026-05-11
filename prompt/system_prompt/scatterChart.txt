@@ -1,0 +1,36 @@
+**Widget: [Title] (Scatter Plot)**
+
+> 📷 *Insert: Cropped screenshot*
+
+**Definition**
+[2-3 sentences — what axes represent, what bubble size means]
+
+**What it measures**
+
+| Element | Description |
+|---|---|
+| Visual type | Scatter plot with configurable axes |
+| Primary metric | Y-axis: selectable via dropdown |
+| Secondary metric | X-axis: selectable via dropdown |
+| Bubble size | #Members — panel size |
+| Category | PCP name — each bubble = one PCP |
+| Comparison | None — point-in-time distribution |
+| Visual-level filters | None — responds to global filters only |
+
+**How to read it**
+
+| Position | Interpretation |
+|---|---|
+| Upper-right (high X, high Y) | ... |
+| Upper-left (low X, high Y) | ... |
+| Lower-right (high X, low Y) | ... |
+| Lower-left (low X, low Y) | ... |
+| Outlier far above cluster | ... |
+
+**Technical specification**
+
+**DAX measure(s):**
+[verbatim — SWITCH measure + #Members]
+
+**Tables and columns used:**
+| Table | Column | Role |

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Risk-Management-v4_Insights_v1"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "08e19aae-1365-47ff-b72c-2be5b09de206"
+  }
+}
