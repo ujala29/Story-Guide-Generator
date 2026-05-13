@@ -62,14 +62,21 @@ def _run(label: str, script: Path, args: list[str]) -> int:
     """Run a script sequentially, stream output, return exit code."""
     cmd = [sys.executable, str(script)] + args
     print(f"\n  $ {' '.join(str(c) for c in cmd)}")
+    proc = subprocess.Popen(cmd)
     try:
-        result = subprocess.run(cmd, check=False, timeout=1800)
+        proc.wait(timeout=1800)
     except subprocess.TimeoutExpired:
+        proc.terminate()
+        proc.wait()
         print(f"\n[main] TIMEOUT — {label} did not finish within 30 minutes")
         return 1
-    if result.returncode != 0:
-        print(f"\n[main] FAILED — {label} exited with code {result.returncode}")
-    return result.returncode
+    except KeyboardInterrupt:
+        proc.terminate()
+        proc.wait()
+        raise
+    if proc.returncode != 0:
+        print(f"\n[main] FAILED — {label} exited with code {proc.returncode}")
+    return proc.returncode
 
 
 def _stream(proc: subprocess.Popen, prefix: str, lock: threading.Lock) -> None:
@@ -143,10 +150,23 @@ def _run_parallel(steps: list[tuple[str, Path, list[str]]]) -> int:
     )
     hb.start()
 
-    for t in threads:
-        t.join(timeout=1800)
-        if t.is_alive():
-            print(f"[main] WARNING: a parallel stage thread is still running after 30min timeout")
+    def _kill_all() -> None:
+        for _, proc in procs:
+            if proc.poll() is None:
+                proc.terminate()
+        for _, proc in procs:
+            proc.wait()
+
+    try:
+        for t in threads:
+            t.join(timeout=1800)
+            if t.is_alive():
+                print(f"[main] WARNING: a parallel stage thread is still running after 30min timeout")
+    except KeyboardInterrupt:
+        print("\n[main] Ctrl+C — terminating all parallel processes...", flush=True)
+        _kill_all()
+        stop_heartbeat.set()
+        raise
 
     stop_heartbeat.set()
 
@@ -379,4 +399,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n[main] Interrupted. Exiting.", flush=True)
+        sys.exit(1)

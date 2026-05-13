@@ -1,4 +1,4 @@
-"""
+﻿"""
 multi_chart_processor.py
 ========================
 Processor for MULTI_CHART widget type.
@@ -7,13 +7,13 @@ Multiple donut/bar/pie charts that each segment the same metric by a
 different operational dimension (visit type, network status, provider type,
 channel, geography).
 
-Template structure (from Risk story guide — gap closure patterns):
-  group_intro       — what these charts collectively reveal (operational intelligence)
-  charts[]          — per chart:
-    name            — chart title
-    visual_id       — visual ID
-    definition      — what dimension this chart segments by (1 sentence)
-    segment_table[] — per segment: {segment, interpretation}
+Template structure (from Risk story guide â€” gap closure patterns):
+  group_intro       â€” what these charts collectively reveal (operational intelligence)
+  charts[]          â€” per chart:
+    name            â€” chart title
+    visual_id       â€” visual ID
+    definition      â€” what dimension this chart segments by (1 sentence)
+    segment_table[] â€” per segment: {segment, interpretation}
 """
 
 import json
@@ -34,13 +34,13 @@ You are writing a multi-chart operational breakdown section. This widget contain
 multiple donut or bar charts, each segmenting the same underlying metric by a
 different operational dimension.
 
-These charts are NOT diagnostic trend charts — they are operational intelligence.
+These charts are NOT diagnostic trend charts â€” they are operational intelligence.
 They answer: "Through what channel / in what setting / by what type is this happening?"
 
 For the group_intro:
-- Explain what these charts collectively reveal — the operational picture of how
+- Explain what these charts collectively reveal â€” the operational picture of how
   the metric is distributed across channels, settings, or types
-- Note that these charts are descriptive, not prescriptive — they show the current
+- Note that these charts are descriptive, not prescriptive â€” they show the current
   pattern, not what the target should be
 
 For each chart:
@@ -48,7 +48,7 @@ For each chart:
 - Write a segment interpretation table: for each possible dominant segment pattern,
   what does it mean operationally? What should the reader investigate or act on?
 - Segments should be patterns (e.g. "Outpatient dominant", "Significant out-of-network")
-  not just literal segment names — describe the meaningful pattern, not just enumerate values
+  not just literal segment names â€” describe the meaningful pattern, not just enumerate values
 
 Output valid JSON only. No explanation, no markdown fences."""
 
@@ -137,7 +137,7 @@ def process_multi_chart(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=3000,
+            max_completion_tokens=6000,
             messages=[
                 {"role": "system", "content": MULTI_CHART_SYSTEM},
                 {"role": "user",   "content": prompt},
@@ -169,7 +169,7 @@ def process_multi_chart(
             continue
 
         chart_count = len(result["charts"])
-        print(f"    ok — {chart_count} charts")
+        print(f"    ok â€” {chart_count} charts")
         return result
 
     raise RuntimeError(

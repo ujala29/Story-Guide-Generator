@@ -1,17 +1,17 @@
-"""
+﻿"""
 trend_lines_processor.py
 ========================
 Processor for TREND_LINES widget type.
 
 Template structure (from Risk story guide):
-  group_intro      — what the time dimension adds (1-2 sentences)
-  charts[]         — per line chart:
-    name           — chart title (e.g. "Members and Eligible Population trends")
-    definition     — what this chart tracks and why it matters
-    patterns[]     — only for charts with meaningful visual patterns (optional)
-      pattern      — what visual shape/movement to look for
-      interpretation — what it means operationally
-    italic_callout — optional connecting insight (only on most important charts)
+  group_intro      â€” what the time dimension adds (1-2 sentences)
+  charts[]         â€” per line chart:
+    name           â€” chart title (e.g. "Members and Eligible Population trends")
+    definition     â€” what this chart tracks and why it matters
+    patterns[]     â€” only for charts with meaningful visual patterns (optional)
+      pattern      â€” what visual shape/movement to look for
+      interpretation â€” what it means operationally
+    italic_callout â€” optional connecting insight (only on most important charts)
 
 Charts are grouped by theme when multiple charts cover the same topic
 (e.g. Members + Eligible Population -> one sub-section together).
@@ -32,14 +32,14 @@ TREND_SYSTEM = """You are a technical documentation writer producing content for
 Your audience is a healthcare analyst reading this guide to understand the dashboard.
 
 You are writing the "Trends over time" section. This section covers ALL trend line charts
-on the dashboard page — each chart compares current year vs previous year, month by month.
+on the dashboard page â€” each chart compares current year vs previous year, month by month.
 
 For each chart or chart group:
 - Write a 1-2 sentence definition explaining what this chart tracks and what analytical
   context it provides. Be specific about what the two lines represent and why the comparison matters.
 - For the most analytically important charts, include a pattern table showing what
   specific visual shapes or movements mean operationally (e.g. "Current line rising toward
-  potential line" = gaps narrowing). Not every chart needs a pattern table — only include
+  potential line" = gaps narrowing). Not every chart needs a pattern table â€” only include
   one when there are genuinely meaningful visual patterns to interpret.
 - Include an italic_callout only for the single most important chart in the group
   (the one that has the most diagnostic value). This is a 1-sentence insight that
@@ -93,7 +93,7 @@ def build_trend_prompt(widget: dict, visuals: list, funnel_context: dict) -> str
           "interpretation": "what it means operationally"
         }
       ],
-      "italic_callout": "optional 1-sentence connecting insight — null if not the most important chart"
+      "italic_callout": "optional 1-sentence connecting insight â€” null if not the most important chart"
     }
   ]
 }"""
@@ -122,7 +122,7 @@ Rules:
 - All visual_ids must appear in the charts array (distributed across chart groups)
 - Pattern tables only for charts with genuinely meaningful visual patterns to interpret
 - italic_callout only on the single most analytically important chart group
-- Group charts by theme — do not list each chart separately if they cover the same topic
+- Group charts by theme â€” do not list each chart separately if they cover the same topic
 - JSON only"""
 
 
@@ -144,7 +144,7 @@ def process_trend_lines(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=3000,
+            max_completion_tokens=6000,
             messages=[
                 {"role": "system", "content": TREND_SYSTEM},
                 {"role": "user",   "content": prompt},
@@ -172,11 +172,11 @@ def process_trend_lines(
         output_ids = {vid for c in result["charts"] for vid in c.get("visual_ids", [])}
         missing    = input_ids - output_ids
         if missing:
-            print(f"    missing visual_ids: {missing} — retrying")
+            print(f"    missing visual_ids: {missing} â€” retrying")
             continue
 
         chart_count = len(result["charts"])
-        print(f"    ok — {chart_count} chart groups")
+        print(f"    ok â€” {chart_count} chart groups")
         return result
 
     raise RuntimeError(

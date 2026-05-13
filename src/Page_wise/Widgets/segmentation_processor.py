@@ -143,7 +143,7 @@ def process_segmentation(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=4000,
+            max_completion_tokens=8000,
             messages=[
                 {"role": "system", "content": SEGMENTATION_SYSTEM},
                 {"role": "user",   "content": prompt},

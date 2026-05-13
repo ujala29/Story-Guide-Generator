@@ -133,7 +133,7 @@ def collect_faq_signals(dashboard: str, root: Path) -> dict:
 
     # ── Source D: sub_questions from funnel_map ───────────────
     sub_questions: list[dict] = []   # [{page, widget, question}]
-    funnel_path = stage3 / "funnel_map.json"
+    funnel_path = page_wise / "funnel_map.json"
     domain_context = ""
     if funnel_path.exists():
         with open(funnel_path, encoding="utf-8") as f:

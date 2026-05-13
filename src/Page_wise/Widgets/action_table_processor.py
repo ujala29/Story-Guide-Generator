@@ -1,4 +1,4 @@
-"""
+﻿"""
 action_table_processor.py
 =========================
 Processor for ACTION_TABLE widget type.
@@ -9,10 +9,10 @@ Used for tables on action/targeting pages:
   - Member-level targeting list
 
 Template structure (from Risk story guide page 14, 17):
-  page_intro        — what shift this page represents (only for first widget on page)
-  group_intro       — what this specific table does
-  column_table[]    — per column: {column, what_to_look_for}
-  italic_callout    — the single most important prioritization insight
+  page_intro        â€” what shift this page represents (only for first widget on page)
+  group_intro       â€” what this specific table does
+  column_table[]    â€” per column: {column, what_to_look_for}
+  italic_callout    â€” the single most important prioritization insight
 """
 
 import json
@@ -34,7 +34,7 @@ to "who do we target." Tables on this page are operational prioritization tools.
 
 For each table:
 - group_intro: 1-2 sentences explaining what this table enables operationally.
-  Be action-oriented — what decision does the reader make using this table?
+  Be action-oriented â€” what decision does the reader make using this table?
 - column_table: for each column, explain what it measures AND what signal makes
   a row a high-priority target. Frame as "look for rows where X..."
 - italic_callout: the single most important prioritization rule for this table.
@@ -145,7 +145,7 @@ Fill in:
 
 Rules:
 - column_table: cover ALL columns listed above
-- Frame everything action-oriented — what does the reader DO with this?
+- Frame everything action-oriented â€” what does the reader DO with this?
 - italic_callout: one sentence, the most important prioritization rule
 - If bar_chart slot is in the schema, fill it with the companion chart details
 - JSON only"""
@@ -168,7 +168,7 @@ def process_action_table(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=3000,
+            max_completion_tokens=6000,
             messages=[
                 {"role": "system", "content": ACTION_TABLE_SYSTEM},
                 {"role": "user",   "content": prompt},
@@ -192,7 +192,7 @@ def process_action_table(
             continue
 
         col_count = len(result["column_table"])
-        print(f"    ok — {col_count} columns")
+        print(f"    ok â€” {col_count} columns")
         return result
 
     raise RuntimeError(

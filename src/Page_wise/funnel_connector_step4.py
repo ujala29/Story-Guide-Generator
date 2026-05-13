@@ -68,7 +68,7 @@ def call_llm(system: str, user: str) -> str:
             {"role": "user",   "content": user},
         ],
         temperature=0.1,
-        max_tokens=2000,
+        max_completion_tokens=6000,
     )
 
 

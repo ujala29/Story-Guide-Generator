@@ -1,4 +1,4 @@
-"""
+﻿"""
 clinical_pair_processor.py
 ==========================
 Processor for CLINICAL_PAIR widget type.
@@ -8,15 +8,15 @@ A clinical pair is a bar/horizontal chart ranking items by a clinical dimension
 items with full metric columns.
 
 Template structure (from Risk story guide):
-  group_intro       — what shift these visuals represent ("from which practice -> to which HCC")
+  group_intro       â€” what shift these visuals represent ("from which practice -> to which HCC")
   bar_chart:
-    name            — chart title
-    definition      — what it ranks and what position means
-    patterns[]      — what high/low/chronic conditions signal
+    name            â€” chart title
+    definition      â€” what it ranks and what position means
+    patterns[]      â€” what high/low/chronic conditions signal
   detail_table:
-    name            — table title
-    column_table[]  — per column: {column, what_to_look_for}
-  italic_callout    — most important combined insight
+    name            â€” table title
+    column_table[]  â€” per column: {column, what_to_look_for}
+  italic_callout    â€” most important combined insight
 """
 
 import json
@@ -50,7 +50,7 @@ For the detail table:
   and what signal should the reader look for in it?
 
 For the italic_callout:
-- Write the single most important combined insight — what should a reader
+- Write the single most important combined insight â€” what should a reader
   prioritize when they look at these two visuals together?
 
 Output valid JSON only. No explanation, no markdown fences."""
@@ -92,7 +92,7 @@ def build_clinical_pair_prompt(
   "widget_type": "CLINICAL_PAIR",
   "widget_name": "<widget_name>",
   "screenshot_label": "<screenshot_label>",
-  "group_intro": "1-2 sentences: what analytical shift this section represents — moving from entity-level to condition-level detail",
+  "group_intro": "1-2 sentences: what analytical shift this section represents â€” moving from entity-level to condition-level detail",
   "bar_chart": {
     "name": "chart title",
     "visual_id": "<bar_visual_id>",
@@ -173,7 +173,7 @@ def process_clinical_pair(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=3000,
+            max_completion_tokens=6000,
             messages=[
                 {"role": "system", "content": CLINICAL_PAIR_SYSTEM},
                 {"role": "user",   "content": prompt},
@@ -198,7 +198,7 @@ def process_clinical_pair(
 
         bar_pats = len(result["bar_chart"].get("patterns", []))
         col_cols = len(result["detail_table"].get("column_table", []))
-        print(f"    ok — bar_patterns={bar_pats}  table_columns={col_cols}")
+        print(f"    ok â€” bar_patterns={bar_pats}  table_columns={col_cols}")
         return result
 
     raise RuntimeError(

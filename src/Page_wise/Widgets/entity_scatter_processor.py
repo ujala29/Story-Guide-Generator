@@ -1,4 +1,4 @@
-"""
+﻿"""
 entity_scatter_processor.py
 ============================
 Processor for ENTITY_SCATTER widget type.
@@ -8,16 +8,16 @@ An entity scatter widget contains:
 2. A scatter plot showing the same entities on two axes (volume vs performance)
 
 Template structure (from Risk story guide):
-  group_intro       — what this section does (translates story to specific entity names)
+  group_intro       â€” what this section does (translates story to specific entity names)
   entity_table:
-    name            — table title
-    definition      — what this table shows and what analytical shift it represents
-    column_table[]  — per column: {column, what_to_look_for}
-    reading_patterns[] — patterns across entity rows
+    name            â€” table title
+    definition      â€” what this table shows and what analytical shift it represents
+    column_table[]  â€” per column: {column, what_to_look_for}
+    reading_patterns[] â€” patterns across entity rows
   scatter_plot:
-    name            — scatter title
-    definition      — what the axes represent and what quadrant position means
-    position_table[] — quadrant/position interpretations
+    name            â€” scatter title
+    definition      â€” what the axes represent and what quadrant position means
+    position_table[] â€” quadrant/position interpretations
 """
 
 import json
@@ -40,7 +40,7 @@ You are writing the entity-level accountability section. This widget contains:
 2. A scatter plot showing the same entities distributed across two axes
 
 For the entity table:
-- Write what this table does — it translates the aggregate story into specific accountable names
+- Write what this table does â€” it translates the aggregate story into specific accountable names
 - Write a column interpretation table: for each column, what does it measure and
   what specific signal should the reader look for?
 - Write reading patterns: what combinations of column values across rows signal
@@ -80,7 +80,7 @@ def build_entity_scatter_prompt(
     scatter_measure_lines = "\n".join(
         f"  - {m['display_name_in_visual'] or m['name']}: {m.get('definition','')[:100]}"
         for m in scatter_measures
-    ) if scatter_measures else "  (no measures — uses same entity dimension as table)"
+    ) if scatter_measures else "  (no measures â€” uses same entity dimension as table)"
     scatter_cols = ", ".join(scatter_visual.get("columns_used", [])) if scatter_visual else ""
 
     scatter_section = f"""SCATTER PLOT:
@@ -95,7 +95,7 @@ def build_entity_scatter_prompt(
   "widget_type": "ENTITY_SCATTER",
   "widget_name": "<widget_name>",
   "screenshot_label": "<screenshot_label>",
-  "group_intro": "1-2 sentences: what this section does — translates aggregate performance into specific entity names",
+  "group_intro": "1-2 sentences: what this section does â€” translates aggregate performance into specific entity names",
   "entity_table": {
     "name": "table title",
     "visual_id": "<table_visual_id>",
@@ -174,7 +174,7 @@ def process_entity_scatter(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=3000,
+            max_completion_tokens=6000,
             messages=[
                 {"role": "system", "content": ENTITY_SCATTER_SYSTEM},
                 {"role": "user",   "content": prompt},
@@ -200,7 +200,7 @@ def process_entity_scatter(
         col_count  = len(result["entity_table"].get("column_table", []))
         pat_count  = len(result["entity_table"].get("reading_patterns", []))
         has_scatter = "scatter_plot" in result
-        print(f"    ok — columns={col_count}  patterns={pat_count}  scatter={has_scatter}")
+        print(f"    ok â€” columns={col_count}  patterns={pat_count}  scatter={has_scatter}")
         return result
 
     raise RuntimeError(

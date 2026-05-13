@@ -1,4 +1,4 @@
-"""
+﻿"""
 detail_table_processor.py
 =========================
 Processor for DETAIL_TABLE widget type.
@@ -12,15 +12,15 @@ Used for segmentation/classification tables broken down by:
 Template structure (from Risk story guide):
 
   FOR STANDARD COLUMN TABLE (payer/plan, risk model):
-    group_intro      — what dimension this table introduces and why it matters (1-2 sentences)
-    column_table[]   — per column: {column, what_to_look_for}
-    patterns[]       — critical patterns across rows
-    italic_callout   — most important watch-out
+    group_intro      â€” what dimension this table introduces and why it matters (1-2 sentences)
+    column_table[]   â€” per column: {column, what_to_look_for}
+    patterns[]       â€” critical patterns across rows
+    italic_callout   â€” most important watch-out
 
-  FOR SEGMENT TABLE (attribution status — rows have meaningful behavioral expectations):
-    group_intro      — what segmentation this table reveals
-    segment_table[]  — per row segment: {segment, expected_behavior, red_flag}
-    italic_callout   — most time-sensitive signal
+  FOR SEGMENT TABLE (attribution status â€” rows have meaningful behavioral expectations):
+    group_intro      â€” what segmentation this table reveals
+    segment_table[]  â€” per row segment: {segment, expected_behavior, red_flag}
+    italic_callout   â€” most time-sensitive signal
 """
 
 import json
@@ -42,13 +42,13 @@ the population by a specific dimension and shows performance metrics for each se
 
 There are two formats depending on the table type:
 
-FORMAT A — Column-focused table (payer/plan, risk model, geographic region):
+FORMAT A â€” Column-focused table (payer/plan, risk model, geographic region):
   The table has many columns of metrics. The reader needs to know what each column
   measures and what to watch for in it. Write a column interpretation table.
-  Also write critical cross-row patterns — what combinations of values across rows
+  Also write critical cross-row patterns â€” what combinations of values across rows
   signal important states.
 
-FORMAT B — Segment-focused table (attribution status, enrollment cohort, member category):
+FORMAT B â€” Segment-focused table (attribution status, enrollment cohort, member category):
   The rows themselves have meaningful behavioral expectations. Write a segment
   interpretation table showing: for each row segment, what is the expected behavior
   and what is the red flag to watch for.
@@ -93,7 +93,7 @@ def build_detail_table_prompt(
         for kw in segment_keywords
     )
 
-    # known segment values for common table types — helps LLM use correct names
+    # known segment values for common table types â€” helps LLM use correct names
     known_segments_hint = ""
     if "attribution" in row_dim_str.lower() or "attribution" in cols_str.lower():
         known_segments_hint = (
@@ -105,11 +105,11 @@ def build_detail_table_prompt(
         )
 
     format_hint = (
-        "Use FORMAT B (segment-focused) — this table segments by a status/cohort "
+        "Use FORMAT B (segment-focused) â€” this table segments by a status/cohort "
         "dimension where each row has meaningful behavioral expectations."
         + known_segments_hint
         if is_segment else
-        "Use FORMAT A (column-focused) — this table segments by a classification "
+        "Use FORMAT A (column-focused) â€” this table segments by a classification "
         "dimension where the columns carry the interpretation."
     )
 
@@ -132,7 +132,7 @@ def build_detail_table_prompt(
       "interpretation": "what it means operationally"
     }
   ],
-  "italic_callout": "most important insight or watch-out — null if none"
+  "italic_callout": "most important insight or watch-out â€” null if none"
 }"""
 
     schema_b = """{
@@ -149,7 +149,7 @@ def build_detail_table_prompt(
       "red_flag": "what would be alarming and what it would signal operationally"
     }
   ],
-  "italic_callout": "most time-sensitive signal — null if none"
+  "italic_callout": "most time-sensitive signal â€” null if none"
 }"""
 
     schema = schema_b if is_segment else schema_a
@@ -203,7 +203,7 @@ def process_detail_table(
         response = client.chat.completions.create(
             model=model,
             temperature=0.1,
-            max_tokens=3000,
+            max_completion_tokens=6000,
             messages=[
                 {"role": "system", "content": DETAIL_TABLE_SYSTEM},
                 {"role": "user",   "content": prompt},
@@ -234,7 +234,7 @@ def process_detail_table(
             print(f"    missing group_intro")
             continue
 
-        print(f"    ok — format={fmt}")
+        print(f"    ok â€” format={fmt}")
         return result
 
     raise RuntimeError(

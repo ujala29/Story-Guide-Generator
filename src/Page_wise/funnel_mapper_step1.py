@@ -486,7 +486,7 @@ def call_llm(system: str, user: str) -> str:
     response = client.chat.completions.create(
         model=TF_MODEL,
         temperature=0.1,
-        max_tokens=6000,
+        max_tokens=16000,
         messages=[
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
