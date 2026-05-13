@@ -1,7 +1,7 @@
 # pipeline/stage1_extraction/dependency_graph.py
 #
 # PURPOSE:
-#   Builds and analyzes the measure→measure dependency graph (DAG).
+#   Builds and analyzes the measure->measure dependency graph (DAG).
 #   Answers questions like:
 #     - Which measures call other measures?
 #     - What is the safe evaluation order (topological sort)?
@@ -9,7 +9,7 @@
 #     - Which measures are referenced most often?
 #
 # WHY THIS MATTERS:
-#   DAX measures often build on each other. Before any DAX→SQL conversion
+#   DAX measures often build on each other. Before any DAX->SQL conversion
 #   or story guide generation, we need to know the dependency structure
 #   so we process measures in the correct order (leaves first, roots last).
 #
@@ -18,7 +18,7 @@
 #   Cycle protection is included in get_depth() via a visited set.
 #
 # CALLED BY:
-#   pipeline/stage1_extraction/extractor.py → run_extraction()
+#   pipeline/stage1_extraction/extractor.py -> run_extraction()
 
 import re
 from collections import defaultdict, deque
@@ -31,10 +31,10 @@ class MeasureDependencyGraph:
     Directed Acyclic Graph (DAG) of measure-to-measure dependencies.
 
     After construction, call:
-      enrich_measures()    → adds depends_on / depth / is_leaf to each MeasureSchema
-      topological_order()  → returns measure names sorted leaf-first
-      build_edges()        → returns DependencyEdge list for the JSON output
-      build_summary()      → returns aggregate stats (depth, top referenced)
+      enrich_measures()    -> adds depends_on / depth / is_leaf to each MeasureSchema
+      topological_order()  -> returns measure names sorted leaf-first
+      build_edges()        -> returns DependencyEdge list for the JSON output
+      build_summary()      -> returns aggregate stats (depth, top referenced)
 
     Usage:
         graph    = MeasureDependencyGraph(all_measures)
@@ -48,8 +48,8 @@ class MeasureDependencyGraph:
         Builds the dependency map by scanning each measure's DAX for
         [MeasureName] references to other known measures.
 
-        self.deps       → {measure_name: [direct_dependencies]}
-        self.dependents → {measure_name: [measures_that_call_it]}
+        self.deps       -> {measure_name: [direct_dependencies]}
+        self.dependents -> {measure_name: [measures_that_call_it]}
         """
         self.measures    = measures
         self.measure_map = {m.name: m for m in measures}
@@ -145,9 +145,9 @@ class MeasureDependencyGraph:
     def enrich_measures(self, measures: list[MeasureSchema]) -> list[MeasureSchema]:
         """
         Mutates each MeasureSchema in-place to add dependency metadata:
-          - depends_on  → list of direct measure dependencies
-          - depth       → recursive chain depth (0 = leaf)
-          - is_leaf     → True when depends_on is empty
+          - depends_on  -> list of direct measure dependencies
+          - depth       -> recursive chain depth (0 = leaf)
+          - is_leaf     -> True when depends_on is empty
 
         Called AFTER extract_tables() so measures already exist.
         Returns the same list (mutated in place, but returned for chaining).
@@ -164,9 +164,9 @@ class MeasureDependencyGraph:
         Used in ExtractionSummary and for LLM context in story guide generation.
 
         Returns:
-          measures_with_dependencies  → count of measures that call other measures
-          max_dependency_depth        → deepest chain across all measures
-          most_referenced_measures    → top-10 measures by how many others depend on them
+          measures_with_dependencies  -> count of measures that call other measures
+          max_dependency_depth        -> deepest chain across all measures
+          most_referenced_measures    -> top-10 measures by how many others depend on them
         """
         ref_counts = {n: len(d) for n, d in self.dependents.items()}
         top_refs   = sorted(ref_counts.items(), key=lambda x: x[1], reverse=True)[:10]

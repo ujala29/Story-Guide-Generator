@@ -26,9 +26,11 @@ USAGE:
     python snowflake_verifier.py --dry-run         (SQL print karo, run mat)
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import os
-import sys
 import time
 import argparse
 from pathlib import Path
@@ -57,8 +59,8 @@ except ImportError:
 # ══════════════════════════════════════════════════════════════
 
 BASE_DIR    = Path(__file__).resolve().parent.parent.parent
-FINAL_JSON  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2" / "final_measures.json"
-OUTPUT_DIR  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2"
+FINAL_JSON  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "final_measures.json"
+OUTPUT_DIR  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary"
 REPORT_PATH = OUTPUT_DIR / "verification_report.json"
 
 
@@ -125,7 +127,7 @@ def get_connection():
     # If host is full URL, extract account from it
     if not account and host:
         # e.g. scb87951.innova3.us-east-1.a.p1.satoricyber.net
-        # → account = scb87951.innova3.us-east-1
+        # -> account = scb87951.innova3.us-east-1
         parts   = host.replace(".snowflakecomputing.com", "").split(".")
         account = ".".join(parts[:3])   # first 3 segments
 
@@ -200,9 +202,9 @@ def run_sql(cursor, sql: str, measure_name: str) -> dict:
         # First column of first row is the metric value
         raw_value = rows[0][0]
         # Handle different return types:
-        # float/int   → numeric metric (normal case)
-        # datetime    → date measure (Latest attribution date etc.)
-        # str         → string measure (Risk factor etc.)
+        # float/int   -> numeric metric (normal case)
+        # datetime    -> date measure (Latest attribution date etc.)
+        # str         -> string measure (Risk factor etc.)
         if raw_value is None:
             value = None
         elif isinstance(raw_value, (int, float)):

@@ -52,7 +52,7 @@
 #   Section 4: BookmarkExtractor  ← reads bookmarks + builds toggle groups
 #
 # CALLED BY:
-#   pipeline/stage1_extraction/extractor.py → run_extraction()
+#   pipeline/stage1_extraction/extractor.py -> run_extraction()
 
 import json
 from pathlib import Path
@@ -65,7 +65,7 @@ from models import VisualSchema, FilterSchema, ReportMeta
 # SECTION 1 — MODULE-LEVEL HELPERS
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Maps Power BI queryState role names → semantic axis keys.
+# Maps Power BI queryState role names -> semantic axis keys.
 ROLE_TO_AXIS = {
     "Category":        "x_axis",
     "Axis":            "x_axis",
@@ -88,7 +88,7 @@ ROLE_TO_AXIS = {
 def build_visual_map(pages_dir: Path) -> dict:
     """
     Reads ALL visual.json files across all pages in one pass.
-    Returns a dict: visual_id (folder name) → info dict.
+    Returns a dict: visual_id (folder name) -> info dict.
 
     WHY ONCE:
       Both ReportLayoutParser and BookmarkExtractor need visual metadata.
@@ -181,7 +181,7 @@ def build_visual_map(pages_dir: Path) -> dict:
 def _extract_title(visual_node: dict) -> str:
     """
     Extracts visual title from two possible storage locations.
-    Priority: visualContainerObjects.title → objects.title
+    Priority: visualContainerObjects.title -> objects.title
     Returns empty string on any failure.
     """
     try:
@@ -201,13 +201,13 @@ def _extract_fields_with_roles(visual_node: dict) -> tuple[dict, list, list]:
     """
     Role-aware field extraction.
 
-    Reads queryState and maps each role → semantic axis key using ROLE_TO_AXIS.
+    Reads queryState and maps each role -> semantic axis key using ROLE_TO_AXIS.
 
     Returns:
-        axis_bindings  → { "x_axis": [...], "y_axis": [...], "legend": [...], … }
+        axis_bindings  -> { "x_axis": [...], "y_axis": [...], "legend": [...], … }
                           (empty keys omitted)
-        measures_used  → flat deduplicated list (for bookmark extractor compat)
-        columns_used   → flat deduplicated list (for bookmark extractor compat)
+        measures_used  -> flat deduplicated list (for bookmark extractor compat)
+        columns_used   -> flat deduplicated list (for bookmark extractor compat)
 
     Each field entry in axis_bindings:
         {
@@ -659,10 +659,10 @@ class ReportLayoutParser:
         Main entry point. Reads all pages and their visuals.
 
         Returns: (pages, visuals, filters, interactions)
-          pages        → list of page metadata dicts
-          visuals      → list of VisualSchema (only MEANINGFUL_VISUAL_TYPES)
-          filters      → list of FilterSchema (slicers only)
-          interactions → dict keyed by page name → cross-filter rules
+          pages        -> list of page metadata dicts
+          visuals      -> list of VisualSchema (only MEANINGFUL_VISUAL_TYPES)
+          filters      -> list of FilterSchema (slicers only)
+          interactions -> dict keyed by page name -> cross-filter rules
         """
         pages   = []
         visuals = []
@@ -789,7 +789,7 @@ class ReportLayoutParser:
     def _make_filter(self, data: dict, v: VisualSchema, page_name: str) -> Optional[FilterSchema]:
         """
         Builds a FilterSchema from a slicer visual's queryState.
-        Tries role names in priority order: Values → Field → Category → Y.
+        Tries role names in priority order: Values -> Field -> Category -> Y.
         Reads slicer_meta and sync_group directly from raw data — these are
         NOT stored on VisualSchema (cosmetic/behavioral, belong only in FilterSchema).
         Returns None if no bound column/measure is found.
@@ -838,7 +838,7 @@ class ReportLayoutParser:
     def _parse_interactions(self, visual_map: dict) -> dict:
         """
         Reads visualInteractions from each page.json.
-        Maps source/target visual IDs → titles using visual_map.
+        Maps source/target visual IDs -> titles using visual_map.
         Returns per-page cross-filter rules with LLM-ready descriptions.
         """
         all_pages  = {}

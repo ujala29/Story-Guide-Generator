@@ -33,6 +33,7 @@ _PROJECT_ROOT = _HERE.parent.parent.resolve()
 
 sys.path.insert(0, str(_HERE.parent))  # src/ — for paths.py
 from paths import get_paths as _get_paths
+from utils.llm_client import llm_chat
 
 _DASHBOARD    = os.environ.get("STORY_DASHBOARD", "risk-dash")
 L1_OUTPUT_DIR = str(_get_paths(_DASHBOARD).l1_packets_dir)
@@ -635,18 +636,14 @@ def _call_layer1_table(l0: L0Packet, llm_client) -> L1Packet:
         columns_list  = columns_list
     )
 
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL", "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": TABLE_L1_SYSTEM},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.1,
+        temperature=0.1,
+        client=llm_client,
     )
-
-    raw     = response.choices[0].message.content.strip()
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -750,18 +747,14 @@ def _call_layer1_linechart(l0: L0Packet, llm_client) -> L1Packet:
         measures   = measures_str
     )
 
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL", "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": LINECHART_L1_SYSTEM},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.1,
+        temperature=0.1,
+        client=llm_client,
     )
-
-    raw     = response.choices[0].message.content.strip()
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -867,18 +860,14 @@ def _call_layer1_barchart(l0: L0Packet, llm_client) -> L1Packet:
         comparison     = l0.comparison,
     )
 
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL", "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": BARCHART_L1_SYSTEM},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.1,
+        temperature=0.1,
+        client=llm_client,
     )
-
-    raw     = response.choices[0].message.content.strip()
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -980,18 +969,14 @@ def _call_layer1_donut(l0: L0Packet, llm_client) -> L1Packet:
         active_filters  = l0.active_filters or "None"
     )
 
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL", "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": DONUT_L1_SYSTEM},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.1,
+        temperature=0.1,
+        client=llm_client,
     )
-
-    raw     = response.choices[0].message.content.strip()
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -1114,18 +1099,14 @@ def _call_layer1_scatter(l0: L0Packet, llm_client) -> L1Packet:
         comparison       = l0.comparison
     )
 
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL", "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": SCATTER_L1_SYSTEM},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.1,
+        temperature=0.1,
+        client=llm_client,
     )
-
-    raw     = response.choices[0].message.content.strip()
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -1239,19 +1220,14 @@ def call_layer1(l0: L0Packet, llm_client) -> L1Packet:
     system_prompt, user_prompt = build_layer1_prompts(l0)
 
     # ── LLM call ────────────────────────────────────────────
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL",
-            "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": system_prompt},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.1,   # Low — factual extraction only
+        temperature=0.1,
+        client=llm_client,
     )
-
-    raw = response.choices[0].message.content.strip()
 
     # ── Parse + validate ─────────────────────────────────────
     packet = _parse_l1_response(raw, l0)
@@ -1263,7 +1239,7 @@ def call_layer1(l0: L0Packet, llm_client) -> L1Packet:
 
 
 # ============================================================
-# SAVE  (L1Packet → disk)
+# SAVE  (L1Packet -> disk)
 # ============================================================
 
 def save_l1_packet(
@@ -1304,7 +1280,7 @@ def save_l1_packet(
 
 
 # ============================================================
-# SERIALISER  (L1Packet → plain dict)
+# SERIALISER  (L1Packet -> plain dict)
 # ============================================================
 
 def l1_to_dict(packet: L1Packet) -> dict:
@@ -1371,7 +1347,7 @@ def print_l1_packet(packet: L1Packet):
     print(f"\n  measure_meanings ({len(packet.measure_meanings)}):")
     for name, meaning in packet.measure_meanings.items():
         print(f"    [{name}]")
-        print(f"      → {meaning}")
+        print(f"      -> {meaning}")
 
     print("=" * 60 + "\n")
 
@@ -1495,7 +1471,7 @@ if __name__ == "__main__":
             raw = json.load(f)
 
         l0 = _l0_from_dict(raw)
-        print(f"\n→ [{l0.visual_type}] {l0.title}  |  page: {l0.page}")
+        print(f"\n-> [{l0.visual_type}] {l0.title}  |  page: {l0.page}")
 
         try:
             l1 = call_layer1(l0, llm_client)
@@ -1510,5 +1486,5 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 60)
     print(f"  Done — OK: {ok_count}  Skipped: {skip_count}  Errors: {err_count}")
-    print(f"  L1 packets saved → {L1_OUTPUT_DIR}")
+    print(f"  L1 packets saved -> {L1_OUTPUT_DIR}")
     print("=" * 60)

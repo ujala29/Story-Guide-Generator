@@ -36,6 +36,7 @@ _HERE = Path(__file__).parent.resolve()
 
 sys.path.insert(0, str(_HERE.parent))  # src/ — for paths.py
 from paths import get_paths as _get_paths
+from utils.llm_client import llm_chat
 
 _DASHBOARD    = os.environ.get("STORY_DASHBOARD", "risk-dash")
 L2_OUTPUT_DIR = str(_get_paths(_DASHBOARD).l2_packets_dir)
@@ -185,18 +186,14 @@ def _call_layer2_table(
         columns_list  = columns_list
     )
 
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL", "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": TABLE_L2_SYSTEM},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.2,
+        temperature=0.2,
+        client=llm_client,
     )
-
-    raw     = response.choices[0].message.content.strip()
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -271,9 +268,9 @@ OUTPUT RULES
 - Every field = one sentence maximum
 
 DIRECTIONAL ROWS — exactly 3:
-  Row 1: metric goes UP   → what it signals
-  Row 2: metric goes DOWN → what it signals
-  Row 3: unusual pattern  → Investigate signal
+  Row 1: metric goes UP   -> what it signals
+  Row 2: metric goes DOWN -> what it signals
+  Row 3: unusual pattern  -> Investigate signal
          (e.g. rate rises while population falls,
           large YoY spike, divergence from related metric)
   signal must be one of: Positive, Negative, Investigate
@@ -284,7 +281,7 @@ DRILL STEPS — 5 to 6 steps:
   Each step = one specific visual from page_visuals
   Each step = one diagnostic question the analyst asks
   Steps must be in logical investigation order:
-    broad → specific → action
+    broad -> specific -> action
   Last step must always end with:
     "Drill-down ends here. For member-level detail —
      go to Patient List on the Risk Capture Potential page."
@@ -786,19 +783,14 @@ def call_layer2(
     system_prompt, user_prompt = build_layer2_prompts(l0, l1)
 
     # ── LLM call ────────────────────────────────────────────
-    response = llm_client.chat.completions.create(
-        model = os.environ.get(
-            "TF_MODEL",
-            "internal-bedrock/sonnet-46"
-        ),
-        messages = [
+    raw = llm_chat(
+        [
             {"role": "system", "content": system_prompt},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
-        temperature = 0.2,
+        temperature=0.2,
+        client=llm_client,
     )
-
-    raw = response.choices[0].message.content.strip()
 
     # ── Parse + validate ─────────────────────────────────────
     packet = _parse_l2_response(raw, l0, l1)
@@ -809,7 +801,7 @@ def call_layer2(
     return packet
 
 # ============================================================
-# SAVE  (L2Packet → disk)
+# SAVE  (L2Packet -> disk)
 # ============================================================
 
 def save_l2_packet(
@@ -921,12 +913,12 @@ def print_l2_packet(packet: L2Packet):
     print(f"\n  Directional rows ({len(packet.directional_rows)}):")
     for r in packet.directional_rows:
         print(f"    [{r.signal}] {r.movement}")
-        print(f"      → {r.interpretation}")
+        print(f"      -> {r.interpretation}")
 
     print(f"\n  Drill steps ({len(packet.drill_steps)}):")
     for s in packet.drill_steps:
         print(f"    {s.step}. {s.visual_name}")
-        print(f"       → {s.question}")
+        print(f"       -> {s.question}")
 
     if packet.cross_read_combined:
         cr = packet.cross_read_combined
@@ -937,7 +929,7 @@ def print_l2_packet(packet: L2Packet):
         for row in cr.rows:
             states = {k: v for k, v in row.items() if k != "meaning"}
             print(f"      {states}")
-            print(f"        → {row.get('meaning','')}")
+            print(f"        -> {row.get('meaning','')}")
     else:
         print(f"\n  Cross-read combined: None")
 
@@ -945,7 +937,7 @@ def print_l2_packet(packet: L2Packet):
 
 
 # ============================================================
-# DESERIALISER  (plain dict → L2Packet)
+# DESERIALISER  (plain dict -> L2Packet)
 # ============================================================
 
 def _l2_from_dict(d: dict) -> "L2Packet":

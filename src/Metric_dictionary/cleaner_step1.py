@@ -8,7 +8,7 @@ PURPOSE:
     Downstream steps (lexer, parser) only ever see clean_dax — never raw.
 
 INPUT:
-    raw DAX string  (from measures_resolved.json → measure["dax"])
+    raw DAX string  (from measures_resolved.json -> measure["dax"])
 
 OUTPUT:
     CleanResult dataclass  (always returned, never raises)
@@ -17,7 +17,7 @@ WHAT THIS FILE DOES:
     1. Strip formatString / lineageTag metadata lines
     2. Strip // comment lines  (log them — may reveal hidden intent, EC6/EC15)
     3. Strip +0 suffix         (EC1)
-    4. Normalize DAX keywords to UPPERCASE  (sum → SUM, var → VAR, etc.)
+    4. Normalize DAX keywords to UPPERCASE  (sum -> SUM, var -> VAR, etc.)
     5. Normalize whitespace    (collapse blank lines, strip trailing spaces)
     6. Detect hardcoded string measures  (INFO_TEXT pattern)
     7. Detect known typos in string values  (EC22, EC20 — warn, pass through)
@@ -26,30 +26,30 @@ WHAT THIS FILE DOES NOT DO:
     - Does NOT parse. Does NOT build AST nodes.
     - Does NOT touch depends_on recursion (that was step1's concern —
       stage2 gets clean deps from measures_resolved.json already)
-    - Does NOT fail silently. Every issue → warning in CleanResult.warnings.
+    - Does NOT fail silently. Every issue -> warning in CleanResult.warnings.
 
 REUSE FROM step1_cleaner.py:
-    remove_metadata_lines()   → direct copy
-    remove_commented_lines()  → direct copy + captures comments
-    remove_trailing_plus_zero()→ direct copy
-    normalize_keywords()      → direct copy
-    normalize_whitespace()    → direct copy
-    is_hardcoded_string()     → direct copy
-    NORMALIZE_KEYWORDS list   → direct copy
+    remove_metadata_lines()   -> direct copy
+    remove_commented_lines()  -> direct copy + captures comments
+    remove_trailing_plus_zero()-> direct copy
+    normalize_keywords()      -> direct copy
+    normalize_whitespace()    -> direct copy
+    is_hardcoded_string()     -> direct copy
+    NORMALIZE_KEYWORDS list   -> direct copy
 
 ADDITIONS vs step1_cleaner.py:
-    CleanResult dataclass     → structured output instead of raw string
-    detect_typos()            → EC22, EC20 — warn on known bad values
-    clean()                   → single entry point returning CleanResult
+    CleanResult dataclass     -> structured output instead of raw string
+    detect_typos()            -> EC22, EC20 — warn on known bad values
+    clean()                   -> single entry point returning CleanResult
 
 EDGE CASES HANDLED:
-    EC1   +0 suffix            → stripped
-    EC5   formatString lines   → stripped
-    EC6   // comments          → stripped, captured in CleanResult.stripped_comments
-    EC14  lineageTag lines      → stripped
-    EC15  commented-out DAX    → stripped, captured, flagged for human review
-    EC22  "Undoumented" typo   → pass through, warning added
-    EC20  "comparision" typo   → pass through, warning added
+    EC1   +0 suffix            -> stripped
+    EC5   formatString lines   -> stripped
+    EC6   // comments          -> stripped, captured in CleanResult.stripped_comments
+    EC14  lineageTag lines      -> stripped
+    EC15  commented-out DAX    -> stripped, captured, flagged for human review
+    EC22  "Undoumented" typo   -> pass through, warning added
+    EC20  "comparision" typo   -> pass through, warning added
 """
 
 import re
@@ -107,7 +107,7 @@ NORMALIZE_KEYWORDS = [
 # KNOWN TYPOS  (EC22, EC20)
 # ══════════════════════════════════════════════════════════════
 
-# Maps known bad value → correct spelling
+# Maps known bad value -> correct spelling
 # These appear inside string literals in DAX.
 # We do NOT correct them — SQL would then not match the database.
 # We WARN so a human can check whether DB has the typo or correct spelling.
@@ -190,9 +190,9 @@ def remove_trailing_plus_zero(dax: str) -> tuple[str, bool]:
 
     EC1:
         SUM(attribution[member_count]) + 0
-            → SUM(attribution[member_count])
+            -> SUM(attribution[member_count])
 
-        In DAX, +0 forces BLANK → 0 (numeric coercion).
+        In DAX, +0 forces BLANK -> 0 (numeric coercion).
         In SQL, SUM already returns 0 on empty result (or NULL if no rows,
         which COALESCE handles). The +0 is noise for SQL generation.
 
@@ -212,7 +212,7 @@ def normalize_keywords(dax: str) -> str:
     like "true" or "format" inside quotes are not uppercased.
 
     EC8 partial:
-        true → TRUE    (keyword form — BoolLiteral later)
+        true -> TRUE    (keyword form — BoolLiteral later)
         "true" stays "true"  (string form — StringLiteral later)
 
     Strategy:
@@ -265,10 +265,10 @@ def is_hardcoded_string(dax: str) -> bool:
     These are INFO_TEXT measures — no SQL equivalent exists.
 
     Examples:
-        "The cohort is built on latest risk execution data..."  → True
-        ""                                                       → True
-        SUM(attribution[member_count])                          → False
-        CALCULATE(SUM(...), ...)                                → False
+        "The cohort is built on latest risk execution data..."  -> True
+        ""                                                       -> True
+        SUM(attribution[member_count])                          -> False
+        CALCULATE(SUM(...), ...)                                -> False
     """
     s = dax.strip()
     return s.startswith('"') or s.startswith("'")
@@ -279,8 +279,8 @@ def detect_typos(dax: str) -> list[str]:
     Scan DAX string for known value typos.
     Returns list of warning strings — one per typo found.
 
-    EC22: "Undoumented" in DAX → will match no rows in DB silently
-    EC20: "comparision" column name → will cause column-not-found in SQL
+    EC22: "Undoumented" in DAX -> will match no rows in DB silently
+    EC20: "comparision" column name -> will cause column-not-found in SQL
 
     We do NOT correct the typos. Reasons:
         1. DB might also have the typo (matches correctly)
@@ -319,14 +319,14 @@ def clean(measure_name: str, raw_dax: str) -> CleanResult:
         CleanResult — always. Never raises. Never returns None.
 
     Pipeline order (matters — each step feeds the next):
-        1. remove_metadata_lines   → strip formatString/lineageTag
-        2. remove_commented_lines  → strip // comments, capture them
-        3. normalize_whitespace    → clean up blank lines
-        4. remove_trailing_plus_zero → strip +0
-        5. normalize_keywords      → uppercase DAX keywords (skip quoted strings)
-        6. normalize_whitespace    → final pass after keyword normalization
-        7. is_hardcoded_string     → detect INFO_TEXT pattern
-        8. detect_typos            → warn on EC22/EC20 typos
+        1. remove_metadata_lines   -> strip formatString/lineageTag
+        2. remove_commented_lines  -> strip // comments, capture them
+        3. normalize_whitespace    -> clean up blank lines
+        4. remove_trailing_plus_zero -> strip +0
+        5. normalize_keywords      -> uppercase DAX keywords (skip quoted strings)
+        6. normalize_whitespace    -> final pass after keyword normalization
+        7. is_hardcoded_string     -> detect INFO_TEXT pattern
+        8. detect_typos            -> warn on EC22/EC20 typos
 
     NOTE on step order:
         Metadata must be stripped BEFORE keyword normalization.

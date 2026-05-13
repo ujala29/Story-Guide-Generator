@@ -24,11 +24,11 @@ OUTPUT:
 
 WHY THIS MATTERS:
     DAX measures build on each other. Example:
-        #Members            → SUM(attribution[member_count])
-        #Members PY         → CALCULATE([#Members], SAMEPERIODLASTYEAR(...))
-        #Members YoY        → VAR py = [#Members PY] ... RETURN DIVIDE(...)
+        #Members            -> SUM(attribution[member_count])
+        #Members PY         -> CALCULATE([#Members], SAMEPERIODLASTYEAR(...))
+        #Members YoY        -> VAR py = [#Members PY] ... RETURN DIVIDE(...)
 
-    Processing order must be: #Members → #Members PY → #Members YoY
+    Processing order must be: #Members -> #Members PY -> #Members YoY
     Otherwise when we generate SQL for #Members YoY, we don't yet
     have the SQL for its dependencies.
 
@@ -38,8 +38,8 @@ VAR BINDINGS — why we collect them:
     or is it a real table name?"
 
     var_bindings["#Members YoY"] = ["py"]
-    → semantic_resolver sees ColumnRef("py","*") → checks var_bindings
-    → "py" is in bindings → upgrade to VarRef("py")
+    -> semantic_resolver sees ColumnRef("py","*") -> checks var_bindings
+    -> "py" is in bindings -> upgrade to VarRef("py")
 
 ALGORITHM:
     Kahn's BFS topological sort (same as stage1/dependency_graph.py).
@@ -100,7 +100,7 @@ def collect_measure_refs(ast: Any, found: set[str] = None) -> set[str]:
     Walk an AST recursively and collect all MeasureRef.name values.
 
     These are the OTHER measures this measure depends on.
-    e.g. [#Members PY] → adds "#Members PY" to found set.
+    e.g. [#Members PY] -> adds "#Members PY" to found set.
 
     Args:
         ast   : any AST node (root of the tree)
@@ -184,7 +184,7 @@ def collect_var_bindings(ast: Any) -> list[str]:
         VAR delta = [#Members] - py
         RETURN DIVIDE(delta, py, 0)
 
-        → ["py", "delta"]
+        -> ["py", "delta"]
 
     Returns:
         list of var binding name strings (in declaration order)
@@ -221,7 +221,7 @@ def resolve(parse_results: dict[str, ParseSuccess]) -> DepResult:
     all_names    = set(parse_results.keys())
     deps         = {}
     var_bindings = {}
-    dependents   = defaultdict(list)   # reverse map: dep → [measures that use it]
+    dependents   = defaultdict(list)   # reverse map: dep -> [measures that use it]
 
     # ── Step 1 & 2: collect deps and var bindings ────────────
     for name, result in parse_results.items():
@@ -238,7 +238,7 @@ def resolve(parse_results: dict[str, ParseSuccess]) -> DepResult:
             if r in all_names: return r
             found = lower_names.get(r.lower())
             if found: return found
-            # Normalize spaces around operators: "Cost / Admit" → "Cost/Admit"
+            # Normalize spaces around operators: "Cost / Admit" -> "Cost/Admit"
             r_norm = _norm_name(r)
             if r_norm in all_names: return r_norm
             return lower_names.get(r_norm.lower())
@@ -262,7 +262,7 @@ def resolve(parse_results: dict[str, ParseSuccess]) -> DepResult:
     #   - append current to order
     #   - for each measure that depends on current:
     #       decrement its in_degree
-    #       if in_degree reaches 0 → add to queue
+    #       if in_degree reaches 0 -> add to queue
 
     in_degree = {name: len(deps[name]) for name in all_names}
     queue     = deque(n for n, d in in_degree.items() if d == 0)
@@ -304,7 +304,7 @@ def get_var_bindings(dep_result: DepResult, measure_name: str) -> list[str]:
     """
     Return VAR binding names for a specific measure.
     Returns [] if measure has no VAR block.
-    Used by semantic_resolver to upgrade ColumnRef("py","*") → VarRef("py").
+    Used by semantic_resolver to upgrade ColumnRef("py","*") -> VarRef("py").
     """
     return dep_result.var_bindings.get(measure_name, [])
 
@@ -353,7 +353,7 @@ if __name__ == "__main__":
     # Leaf measure — no MeasureRefs
     ast_leaf = FunctionCall("SUM", [ColumnRef("attribution", "member_count")])
     refs = collect_measure_refs(ast_leaf)
-    check("leaf SUM → no refs",               refs == set())
+    check("leaf SUM -> no refs",               refs == set())
 
     # Single MeasureRef
     ast_one = FunctionCall("CALCULATE", [
@@ -361,7 +361,7 @@ if __name__ == "__main__":
         FunctionCall("SAMEPERIODLASTYEAR", [ColumnRef("date", "month_of_date")])
     ])
     refs = collect_measure_refs(ast_one)
-    check("CALCULATE([#Members],...) → {#Members}", refs == {"#Members"})
+    check("CALCULATE([#Members],...) -> {#Members}", refs == {"#Members"})
 
     # VarBlock with two MeasureRefs
     ast_yoy = VarBlock(
@@ -378,7 +378,7 @@ if __name__ == "__main__":
         )
     )
     refs = collect_measure_refs(ast_yoy)
-    check("YoY block → {#Members}",            refs == {"#Members"})
+    check("YoY block -> {#Members}",            refs == {"#Members"})
 
     # BinaryOp MeasureRef / MeasureRef
     ast_ratio = BinaryOp("/",
@@ -386,7 +386,7 @@ if __name__ == "__main__":
         MeasureRef("#Members")
     )
     refs = collect_measure_refs(ast_ratio)
-    check("[A]/[B] → {A, B}",                  refs == {
+    check("[A]/[B] -> {A, B}",                  refs == {
         "Members with open coding gaps", "#Members"
     })
 
@@ -399,7 +399,7 @@ if __name__ == "__main__":
         )
     ])
     refs = collect_measure_refs(ast_filt)
-    check("CALCULATE+KEEPFILTERS → no refs",    refs == set())
+    check("CALCULATE+KEEPFILTERS -> no refs",    refs == set())
 
     # ScalarMultiplier wrapping DivideNode
     ast_scalar = ScalarMultiplier(
@@ -407,14 +407,14 @@ if __name__ == "__main__":
         multiplier = 12000.0
     )
     refs = collect_measure_refs(ast_scalar)
-    check("ScalarMultiplier → {A, B}",          refs == {"A", "B"})
+    check("ScalarMultiplier -> {A, B}",          refs == {"A", "B"})
 
     # ── collect_var_bindings ─────────────────────────────────
     print("\ncollect_var_bindings:")
 
-    # Non-VAR measure → empty
+    # Non-VAR measure -> empty
     bindings = collect_var_bindings(FunctionCall("SUM", [ColumnRef("t","c")]))
-    check("SUM measure → []",                  bindings == [])
+    check("SUM measure -> []",                  bindings == [])
 
     # VAR block with one binding
     ast_one_var = VarBlock(
@@ -422,7 +422,7 @@ if __name__ == "__main__":
         return_expr = DivideNode(ColumnRef("py","*"), ColumnRef("py","*"), 0.0)
     )
     bindings = collect_var_bindings(ast_one_var)
-    check("1-binding VAR → ['py']",            bindings == ["py"])
+    check("1-binding VAR -> ['py']",            bindings == ["py"])
 
     # VAR block with two bindings (order preserved)
     ast_two_var = VarBlock(
@@ -439,9 +439,9 @@ if __name__ == "__main__":
     print("\nresolve() — topological sort:")
 
     # Build a simple 3-measure chain:
-    #   #Members       → leaf (SUM)
-    #   #Members PY    → depends on #Members
-    #   #Members YoY   → depends on #Members PY and #Members
+    #   #Members       -> leaf (SUM)
+    #   #Members PY    -> depends on #Members
+    #   #Members YoY   -> depends on #Members PY and #Members
 
     results = {
         "#Members": make_success(

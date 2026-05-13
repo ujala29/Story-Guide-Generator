@@ -5,8 +5,8 @@ Stage 2 — Pre-Step (runs BEFORE lexer/parser)
 
 PURPOSE:
     Reads cleaned measures and splits them into two groups:
-      measures_in_scope.json     → compiler will process these (lexer → parser → SQL)
-      measures_out_of_scope.json → LLM definitions only, no SQL generation
+      measures_in_scope.json     -> compiler will process these (lexer -> parser -> SQL)
+      measures_out_of_scope.json -> LLM definitions only, no SQL generation
 
     Also writes scope_summary.json — counts + reason breakdown for reporting.
 
@@ -22,16 +22,16 @@ OUTPUT:
 SCOPE DECISION RULES (priority order — first match wins):
 
     OUT OF SCOPE:
-      HARDCODED_STRING    → entire DAX is a string literal
-      DISPLAY_SYMBOL      → UNICHAR present
-      COLOR_CODE          → SWITCH(TRUE(), x < 0, 1, 2)
-      DISPLAY_FORMAT      → FORMAT + SWITCH (without KEEPFILTERS)
-      RUNTIME_ROUTER      → SELECTEDVALUE present
-      ROW_ITERATOR        → SUMX, AVERAGEX, CONCATENATEX, MINX, MAXX
-      DEMO_MEASURE        → RANDBETWEEN present
+      HARDCODED_STRING    -> entire DAX is a string literal
+      DISPLAY_SYMBOL      -> UNICHAR present
+      COLOR_CODE          -> SWITCH(TRUE(), x < 0, 1, 2)
+      DISPLAY_FORMAT      -> FORMAT + SWITCH (without KEEPFILTERS)
+      RUNTIME_ROUTER      -> SELECTEDVALUE present
+      ROW_ITERATOR        -> SUMX, AVERAGEX, CONCATENATEX, MINX, MAXX
+      DEMO_MEASURE        -> RANDBETWEEN present
 
     IN SCOPE:
-      Everything else → compiler attempts parse + SQL generation
+      Everything else -> compiler attempts parse + SQL generation
 """
 
 import json
@@ -47,10 +47,10 @@ from collections import defaultdict
 
 BASE_DIR    = Path(__file__).resolve().parent.parent.parent
 INPUT_PATHS = [
-    BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "measures_resolved.json",
-    BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "measures.json",
+    BASE_DIR / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures_resolved.json",
+    BASE_DIR / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures.json",
 ]
-OUTPUT_DIR  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2" / "scope"
+OUTPUT_DIR  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "scope"
 
 
 # ══════════════════════════════════════════════════════════════

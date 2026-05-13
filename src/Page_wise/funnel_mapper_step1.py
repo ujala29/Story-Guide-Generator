@@ -12,9 +12,9 @@ GENERIC PAGE DEDUPLICATION:
   or by order) is sent to the LLM. Others are recorded in mirror_map.
 
   Examples:
-    "Overview LY" + "Overview LM"     → representative: "Overview LY"
-    "Summary YTD" + "Summary MTD"     → representative: "Summary YTD"
-    "Detail Q1"  + "Detail Q2" + ...  → representative: "Detail Q1"
+    "Overview LY" + "Overview LM"     -> representative: "Overview LY"
+    "Summary YTD" + "Summary MTD"     -> representative: "Summary YTD"
+    "Detail Q1"  + "Detail Q2" + ...  -> representative: "Detail Q1"
 
   This works for ANY dashboard without hardcoding page names.
 
@@ -27,6 +27,9 @@ Run:
   python -m app.story.funnel_mapper --force
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import os
 import re
@@ -70,11 +73,11 @@ def get_page_base_name(page_name: str) -> str:
     """
     Extract the base name of a page by stripping time-period suffixes.
 
-    "Overview LY"      → "Overview"
-    "Summary YTD"      → "Summary"
-    "Detail Q1"        → "Detail"
-    "Performance MTD"  → "Performance"
-    "Risk capture potential" → "Risk capture potential"  (no suffix)
+    "Overview LY"      -> "Overview"
+    "Summary YTD"      -> "Summary"
+    "Detail Q1"        -> "Detail"
+    "Performance MTD"  -> "Performance"
+    "Risk capture potential" -> "Risk capture potential"  (no suffix)
 
     Works by checking if the last word(s) of the name match a known suffix.
     """
@@ -191,10 +194,10 @@ def _is_action_page(page_name: str) -> bool:
 SYSTEM_PROMPT = """You are a dashboard analyst who understands the analytical story BI dashboards tell.
 
 Every dashboard tells a story through a funnel of four questions:
-  TOP    → What is the current state? (KPI cards + first segment breakdown by LOB/region/payer)
-  MIDDLE → Why is it this way? (trends over time, deeper segmentation by model/cohort/attribution)
-  BOTTOM → Who and what specifically is driving it? (entity tables by provider/practice/facility, clinical breakdowns, operational gap patterns)
-  ACTION → What do I do about it? (targeting lists, outreach segments, prioritization — always on a separate page)
+  TOP    -> What is the current state? (KPI cards + first segment breakdown by LOB/region/payer)
+  MIDDLE -> Why is it this way? (trends over time, deeper segmentation by model/cohort/attribution)
+  BOTTOM -> Who and what specifically is driving it? (entity tables by provider/practice/facility, clinical breakdowns, operational gap patterns)
+  ACTION -> What do I do about it? (targeting lists, outreach segments, prioritization — always on a separate page)
 
 GROUPING RULES — these apply to every dashboard:
 
@@ -216,8 +219,8 @@ Rule 2 — Trend charts: ALL lineChart visuals on a page MUST form EXACTLY ONE w
 Rule 3 — Bar chart + detail table on same dimension: When a bar/column chart ranks items by
   a category dimension AND a detail table shows the same items with more columns, they form
   ONE widget. The chart gives ranking, the table gives the detail. Same sub-question.
-  If the dimension is clinical/disease/condition/HCC → BOTTOM position (identifies what is driving gaps).
-  If the dimension is LOB/payer/region → TOP position (first segment breakdown).
+  If the dimension is clinical/disease/condition/HCC -> BOTTOM position (identifies what is driving gaps).
+  If the dimension is LOB/payer/region -> TOP position (first segment breakdown).
 
 Rule 4 — Entity table + scatter plot: When a pivot table has rows broken down by an entity
   (provider, practice, PCP, facility, physician) AND a scatter plot shows the same entity
@@ -226,23 +229,23 @@ Rule 4 — Entity table + scatter plot: When a pivot table has rows broken down 
 
 Rule 5 — Table position depends on TWO factors: row dimension type AND reading order on page:
 
-  FIRST classification breakdown after KPI cards → TOP:
+  FIRST classification breakdown after KPI cards -> TOP:
     The first table/chart that breaks the headline KPIs down by an external segment
     (payer, plan, LOB, line of business, region, geography) = TOP position.
     It is the immediate "first decomposition" of the headline numbers.
     Group it with any bar/column chart that segments the same dimension.
 
-  DEEPER classification breakdowns further down the page → MIDDLE:
+  DEEPER classification breakdowns further down the page -> MIDDLE:
     Tables breaking down by model type, risk model, cohort, attribution status,
     enrollment status = MIDDLE position. These explain WHY the headline looks the way it does.
 
-  ACCOUNTABLE ENTITY tables → always BOTTOM:
+  ACCOUNTABLE ENTITY tables -> always BOTTOM:
     Tables whose rows are providers, practices, PCPs, physicians, facilities, hospitals
     = BOTTOM position regardless of where they appear on the page.
     Never put a classification table and an entity table in the same widget.
 
 Rule 6 — Operational breakdown charts (donut, pie) showing distribution by visit type,
-  network status, channel, or provider type → BOTTOM position. Not MIDDLE.
+  network status, channel, or provider type -> BOTTOM position. Not MIDDLE.
 
 Rule 7 — If any page in ALL PAGES has a name suggesting action/targeting/outreach,
   funnel_question_action must be a real sentence. Never return null when such a page exists.
@@ -258,7 +261,7 @@ def build_first_call_prompt(
     visuals: list,
 ) -> str:
     """
-    First LLM call: representative page → funnel questions + widgets.
+    First LLM call: representative page -> funnel questions + widgets.
     """
     pages_block = "\n".join(
         f"  - {p['display_name']} (order: {p['order']})"
@@ -313,17 +316,17 @@ Return JSON with this exact structure:
 Grouping rules — apply these strictly:
 - All {len(visuals)} visual_ids above must appear — each in exactly one widget
 - reading_order starts at 1
-- KPI cards → EXACTLY TWO widgets: Widget A = landscape row (population + risk scores), Widget B = performance row (rates + cost + gaps)
+- KPI cards -> EXACTLY TWO widgets: Widget A = landscape row (population + risk scores), Widget B = performance row (rates + cost + gaps)
 - Each multiRowCard YoY/MoM indicator goes IN THE SAME widget as its parent KPI card
-- ALL lineCharts on this page → EXACTLY ONE single widget. Do not split by metric. One widget, all line chart visual_ids together.
-- bar/column chart + detail table on same dimension → ONE widget
-- FIRST classification table after KPI cards (payer, LOB, plan, region) → TOP
-- DEEPER classification tables further down (model, cohort, attribution) → MIDDLE
-- entity table (rows by provider/practice/PCP/facility) → BOTTOM
-- entity table + scatter plot showing same entity population → ONE widget, BOTTOM
+- ALL lineCharts on this page -> EXACTLY ONE single widget. Do not split by metric. One widget, all line chart visual_ids together.
+- bar/column chart + detail table on same dimension -> ONE widget
+- FIRST classification table after KPI cards (payer, LOB, plan, region) -> TOP
+- DEEPER classification tables further down (model, cohort, attribution) -> MIDDLE
+- entity table (rows by provider/practice/PCP/facility) -> BOTTOM
+- entity table + scatter plot showing same entity population -> ONE widget, BOTTOM
 - never group a classification table with an entity table
-- donut/pie operational breakdown (by visit type, network, channel) → BOTTOM
-- If any page in ALL PAGES suggests action/targeting → funnel_question_action must be a real sentence
+- donut/pie operational breakdown (by visit type, network, channel) -> BOTTOM
+- If any page in ALL PAGES suggests action/targeting -> funnel_question_action must be a real sentence
 - JSON only, no other text"""
 
 
@@ -595,16 +598,16 @@ def mirror_widgets_for_page(
     We map source visual IDs to target visual IDs by matching title + type.
 
     Matching strategy:
-      source visual title + type  →  target visual title + type
+      source visual title + type  ->  target visual title + type
     Unmatched target visuals get their own single-visual widget at the end.
     """
-    # build lookup: (title, type) → visual_id for target page
+    # build lookup: (title, type) -> visual_id for target page
     target_lookup: dict[tuple, str] = {}
     for v in target_visuals:
         key = (v["title"], v["type"])
         target_lookup[key] = v["visual_id"]
 
-    # build lookup for source: visual_id → (title, type)
+    # build lookup for source: visual_id -> (title, type)
     # We need the source enriched visuals — use the input data
     # Since we only have widget visual_ids, we build a reverse map
     # from the funnel_llm_input visuals array (passed in via closure)
@@ -622,7 +625,7 @@ def _do_mirror(
     """
     Build mirrored widget list for the target page.
     """
-    # source visual_id → (title, type) needs source visuals
+    # source visual_id -> (title, type) needs source visuals
     # We don't have them here easily — so we use a simpler approach:
     # match by position within each widget (same order of visual_ids).
     # This works because LY and LM have the same visuals in the same order.
@@ -632,7 +635,7 @@ def _do_mirror(
     # we don't know source order, so we match by widget structure:
     # for each source widget, find target visuals by title+type matching
 
-    # build source visual id → (title, type) from target_visuals
+    # build source visual id -> (title, type) from target_visuals
     # We can't directly, so we rely on title matching across pages.
     # Build target: (title, type) -> id
     used_target_ids = set()
@@ -710,7 +713,7 @@ def run_funnel_mapper(llm_input: dict) -> dict:
         mirror_str = (
             f" (mirrors: {step['mirrors']})" if step["mirrors"] else ""
         )
-        print(f"  → '{step['representative']}'{mirror_str}")
+        print(f"  -> '{step['representative']}'{mirror_str}")
 
     all_widgets      = []
     funnel_questions = {}
@@ -852,7 +855,7 @@ def main():
     args = parser.parse_args()
 
     root     = get_project_root()
-    stage3   = root / "output" / "dashboards" / args.dashboard / "stage3"
+    stage3   = root / "output" / "dashboards" / args.dashboard / "page_wise"
     in_path  = stage3 / "funnel_llm_input.json"
     out_path = stage3 / "funnel_map.json"
 

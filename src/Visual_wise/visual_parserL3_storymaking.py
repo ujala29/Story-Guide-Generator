@@ -68,7 +68,7 @@ def _get_leaf_deps(measure_name: str, seen: set = None) -> list[str]:
     Recursively get all upstream leaf measures
     that this measure depends on.
     e.g. "% members with open coding gaps"
-      → ["#Members", "Members with open coding gaps"]
+      -> ["#Members", "Members with open coding gaps"]
     """
     if seen is None:
         seen = set()
@@ -110,6 +110,8 @@ try:
         _MEASURES_RESOLVED = json.load(_f)
 except FileNotFoundError:
     print(f"  [WARN] measures_resolved.json not found: {_RESOLVED_PATH}")
+except json.JSONDecodeError as e:
+    print(f"  [WARN] Malformed JSON in measures_resolved.json: {e}")
 
 
 def _get_related_measures(primary_name: str) -> list[tuple[str, str, str]]:
@@ -211,7 +213,7 @@ def _fmt_dax(all_dax: list[DaxEntry], paired_dax: list[DaxEntry]) -> str:
                     blocks.append((dep_name, dep_dax, "dep"))
 
     # ── Build output — primary first, then cards ─────────────
-    # Sort: primary/dep → yoy_card → mom_card → other
+    # Sort: primary/dep -> yoy_card -> mom_card -> other
     role_order = {"primary": 0, "yoy_card": 1, "mom_card": 2, "dep": 0, "other": 3}
     blocks.sort(key=lambda x: role_order.get(x[2], 3))
 
@@ -269,7 +271,7 @@ def _fmt_columns(
                 (v for k, v in role_map.items() if k in col_lower),
                 "Source column — contributes to measure calculation"
             )
-        # Clean table name — remove Power BI quotes e.g. "'date'" → "date"
+        # Clean table name — remove Power BI quotes e.g. "'date'" -> "date"
         clean_table = col.table.strip("'\"")
         rows.append(f"| {clean_table} | {col.column} | {role} |")
     return "\n".join(rows)
@@ -1190,7 +1192,7 @@ if __name__ == "__main__":
     ok = skip = err = 0
 
     for vid in matched:
-        print(f"→ {l0_map[vid].title}")
+        print(f"-> {l0_map[vid].title}")
         try:
             l3 = call_layer3(l0_map[vid], l1_map[vid], l2_map[vid])
             print_l3_packet(l3)
@@ -1204,5 +1206,5 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 60)
     print(f"  Done — OK: {ok}  Skipped: {skip}  Errors: {err}")
-    print(f"  Output → {L3_OUTPUT_DIR}")
+    print(f"  Output -> {L3_OUTPUT_DIR}")
     print("=" * 60)

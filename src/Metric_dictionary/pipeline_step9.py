@@ -8,25 +8,25 @@ PURPOSE:
     final_measures.json + run_report.json.
 
 PIPELINE ORDER:
-    Step 0  scope_classifier   → split in-scope / out-of-scope
-    Step 1  cleaner            → raw DAX → CleanResult
-    Step 2a lexer              → clean DAX → tokens
-    Step 2b parser             → tokens → AST
-    Step 3  dep_resolver       → dependency graph + topo order
-    Step 4  semantic_resolver  → BI names → SF names + VarRef upgrade
-    Step 5  classifier         → dax_pattern label
-    Step 6  sql_generator      → AST → SQL (bottom-up, uses sql_cache)
-    [Step 7 verifier]          → Snowflake run (optional — requires DB conn)
-    [Step 8 llm_fallback]      → COMPLEX/out-of-scope (optional — requires API key)
+    Step 0  scope_classifier   -> split in-scope / out-of-scope
+    Step 1  cleaner            -> raw DAX -> CleanResult
+    Step 2a lexer              -> clean DAX -> tokens
+    Step 2b parser             -> tokens -> AST
+    Step 3  dep_resolver       -> dependency graph + topo order
+    Step 4  semantic_resolver  -> BI names -> SF names + VarRef upgrade
+    Step 5  classifier         -> dax_pattern label
+    Step 6  sql_generator      -> AST -> SQL (bottom-up, uses sql_cache)
+    [Step 7 verifier]          -> Snowflake run (optional — requires DB conn)
+    [Step 8 llm_fallback]      -> COMPLEX/out-of-scope (optional — requires API key)
 
 INPUT FILES (auto-detected from common paths):
-    measures_resolved.json     → raw measures from stage1
-    bi_snowflakes_naming_matching.json → BI → SF mapping
-    relationships.json         → table join paths
+    measures_resolved.json     -> raw measures from stage1
+    bi_snowflakes_naming_matching.json -> BI -> SF mapping
+    relationships.json         -> table join paths
 
 OUTPUT FILES:
-    output/stage2/final_measures.json   → all measures with SQL
-    output/stage2/run_report.json       → summary + stats
+    output/stage2/final_measures.json   -> all measures with SQL
+    output/stage2/run_report.json       -> summary + stats
 
 USAGE:
     python pipeline.py
@@ -51,7 +51,7 @@ import json
 import sys
 import time
 
-# Force UTF-8 stdout so Unicode chars (→, ✅, ─) work on Windows cp1252 consoles
+# Force UTF-8 stdout so Unicode chars (->, ✅, ─) work on Windows cp1252 consoles
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 import argparse
@@ -95,24 +95,24 @@ SF_MAP_CANDIDATES = [
 ]
 
 REL_CANDIDATES = [
-    _BASE / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "relationships.json",
+    _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "relationships.json",
     _BASE / "input"  / "relationships.json",
 ]
 
 DASHBOARDS_DIR  = _BASE / "output" / "dashboards"
-OUTPUT_DIR      = DASHBOARDS_DIR / "risk-dash" / "stage2"   # default (latest run)
+OUTPUT_DIR      = DASHBOARDS_DIR / "risk-dash" / "metric_dictionary"   # default (latest run)
 
 # Per-dashboard input candidates
 # Add new dashboards here — key = dashboard name, value = candidate paths
 DASHBOARD_INPUTS = {
     "risk-dash": [
-        _BASE / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "measures_resolved.json",
-        _BASE / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "measures.json",
+        _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures_resolved.json",
+        _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures.json",
         _BASE / "input"  / "measures_resolved.json",
     ],
     "pac-dash": [
-        _BASE / "output" / "dashboards" / "pac-dash" / "stage1" / "schema_sections" / "measures_resolved.json",
-        _BASE / "output" / "dashboards" / "pac-dash" / "stage1" / "schema_sections" / "measures.json",
+        _BASE / "output" / "dashboards" / "pac-dash" / "extraction" / "schema_sections" / "measures_resolved.json",
+        _BASE / "output" / "dashboards" / "pac-dash" / "extraction" / "schema_sections" / "measures.json",
     ],
 }
 
@@ -129,10 +129,10 @@ DASHBOARD_SF_MAPS = {
 
 DASHBOARD_RELS = {
     "risk-dash": [
-        _BASE / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "relationships.json",
+        _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "relationships.json",
     ],
     "pac-dash": [
-        _BASE / "output" / "dashboards" / "pac-dash" / "stage1" / "schema_sections" / "relationships.json",
+        _BASE / "output" / "dashboards" / "pac-dash" / "extraction" / "schema_sections" / "relationships.json",
     ],
 }
 
@@ -373,7 +373,7 @@ def run_pipeline(
     # ── Load inputs ──────────────────────────────────────────
     if verbose:
         print("=" * 60)
-        print("  Stage 2 — DAX → SQL Pipeline")
+        print("  Stage 2 — DAX -> SQL Pipeline")
         print("=" * 60)
         print(f"\n  Input    : {input_path.name}")
         print(f"  SF map   : {sf_map_path.name}")
@@ -630,7 +630,7 @@ def run_pipeline(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Stage 2 — DAX → SQL Pipeline"
+        description="Stage 2 — DAX -> SQL Pipeline"
     )
     parser.add_argument(
         "--dashboard", type=str, default=None,
@@ -681,7 +681,7 @@ def main():
         if args.output and len(dashboards_to_run) == 1:
             output_dir = Path(args.output)
         else:
-            output_dir = DASHBOARDS_DIR / dash / "stage2"
+            output_dir = DASHBOARDS_DIR / dash / "metric_dictionary"
 
         # ── Resolve input paths ───────────────────────────────────
         try:

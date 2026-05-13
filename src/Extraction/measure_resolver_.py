@@ -12,7 +12,7 @@ from pathlib import Path
 # Script lives at:     L5assistant/pipeline/stage1/measure_resolver_.py
 # measures.json is at: L5assistant/output/schema_sections/measures.json
 SCRIPT_DIR            = Path(__file__).parent.resolve()
-DEFAULT_MEASURES_PATH = SCRIPT_DIR.parent.parent / "output" / "dashboards" / "risk-dash" / "stage1" / "schema_sections" / "measures.json"
+DEFAULT_MEASURES_PATH = SCRIPT_DIR.parent.parent / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures.json"
 
 
 # ─────────────────────────────────────────────

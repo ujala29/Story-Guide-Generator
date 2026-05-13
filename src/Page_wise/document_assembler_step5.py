@@ -61,6 +61,9 @@ Run:
   python document_assembler.py --dashboard risk-dash
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import argparse
 from pathlib import Path
@@ -511,7 +514,7 @@ LAYER_LABELS = {
 # ─────────────────────────────────────────────────────────────────────────────
 
 def assemble(dashboard: str, root: Path) -> str:
-    stage3  = root / "output" / "dashboards" / dashboard / "stage3"
+    stage3  = root / "output" / "dashboards" / dashboard / "page_wise"
 
     funnel_map  = load_json(stage3 / "funnel_map.json")
     connector   = load_json(stage3 / "funnel_connector.json")
@@ -523,7 +526,7 @@ def assemble(dashboard: str, root: Path) -> str:
 
     # load all widget content files
     content_dir   = stage3 / "widget_content"
-    widget_lookup = {}   # widget_id → content dict
+    widget_lookup = {}   # widget_id -> content dict
     for f in content_dir.glob("*.json"):
         page_data = load_json(f)
         if page_data:
@@ -538,7 +541,7 @@ def assemble(dashboard: str, root: Path) -> str:
     today           = date.today().strftime("%B %d, %Y")
 
     # ── Strip time-period suffixes from page display names for rendering ─────
-    # "Overview LY" → "Overview", "Overview LM" → "Overview"
+    # "Overview LY" -> "Overview", "Overview LM" -> "Overview"
     # Same logic as funnel_mapper.py get_page_base_name()
     TIME_SUFFIXES = {
         "ly","lm","ytd","mtd","qtd","q1","q2","q3","q4",
@@ -563,7 +566,7 @@ def assemble(dashboard: str, root: Path) -> str:
 
     # ── Title ─────────────────────────────────────────────────────────────────
     doc.append(f"# {dashboard_name} — Story Guide\n")
-    # Use display_name for all pages in header — deduplicate (LY and LM both → Overview)
+    # Use display_name for all pages in header — deduplicate (LY and LM both -> Overview)
     seen_display = []
     for p in all_page_names:
         dn = display_name(p)
@@ -580,12 +583,12 @@ def assemble(dashboard: str, root: Path) -> str:
     doc.append("## About this guide\n")
     doc.append(f"{funnel_map.get('domain_context','')}\n")
     doc.append("**The funnel:**\n")
-    doc.append(f"- **Top** → {funnel_map.get('funnel_question_top','')}")
-    doc.append(f"- **Middle** → {funnel_map.get('funnel_question_middle','')}")
-    doc.append(f"- **Bottom** → {funnel_map.get('funnel_question_bottom','')}")
+    doc.append(f"- **Top** -> {funnel_map.get('funnel_question_top','')}")
+    doc.append(f"- **Middle** -> {funnel_map.get('funnel_question_middle','')}")
+    doc.append(f"- **Bottom** -> {funnel_map.get('funnel_question_bottom','')}")
     action_q = funnel_map.get("funnel_question_action")
     if action_q:
-        doc.append(f"- **Action** → {action_q}")
+        doc.append(f"- **Action** -> {action_q}")
     doc.append(NL)
     doc.append(HR)
 
@@ -703,7 +706,7 @@ def main():
 
     root     = get_project_root()
     out_path = (root / "output" / "dashboards" / args.dashboard
-                / "stage3" / "page_wise_story.md")
+                / "page_wise" / "page_wise_story.md")
 
     print(f"[assembler] dashboard : {args.dashboard}")
     print(f"[assembler] assembling...")

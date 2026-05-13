@@ -11,6 +11,9 @@ Reads funnel_map.json and generates funnel_connector.json containing:
 2. closing_paragraph — 2-3 sentences connecting all pages into one narrative arc
 
 Single LLM call. No widget content files needed — sub_question per widget
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 from funnel_map is sufficient input.
 
 INPUT:
@@ -27,16 +30,17 @@ Run:
 
 import json
 import os
+import sys
 import argparse
 from pathlib import Path
-from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-TF_API_KEY  = os.getenv("TF_API_KEY")
-TF_BASE_URL = os.getenv("TF_BASE_URL")
-TF_MODEL    = os.getenv("TF_MODEL", "internal-bedrock/sonnet-46")
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -58,17 +62,14 @@ def load_json(path: Path):
 
 
 def call_llm(system: str, user: str) -> str:
-    client = OpenAI(api_key=TF_API_KEY, base_url=TF_BASE_URL)
-    response = client.chat.completions.create(
-        model=TF_MODEL,
-        temperature=0.1,
-        max_tokens=2000,
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
         ],
+        temperature=0.1,
+        max_tokens=2000,
     )
-    return response.choices[0].message.content.strip()
 
 
 def parse_json_response(raw: str) -> dict:
@@ -240,7 +241,7 @@ def main():
     args = parser.parse_args()
 
     root     = get_project_root()
-    stage3   = root / "output" / "dashboards" / args.dashboard / "stage3"
+    stage3   = root / "output" / "dashboards" / args.dashboard / "page_wise"
     in_path  = stage3 / "funnel_map.json"
     out_path = stage3 / "funnel_connector.json"
 
@@ -277,7 +278,7 @@ def main():
     print("── Cross-Page Patterns ─────────────────────────────────────")
     for p in result.get("cross_page_patterns", []):
         print(f"  {p['pattern'][:60]}")
-        print(f"    → {p['interpretation'][:70]}")
+        print(f"    -> {p['interpretation'][:70]}")
     print()
     print("── Funnel Table ────────────────────────────────────────────")
     for row in result["funnel_table"]:

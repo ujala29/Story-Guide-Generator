@@ -5,7 +5,7 @@ Runs all Metric_dictionary steps for one or all dashboards.
 
 Dependency graph
 ----------------
-  pipeline_step9        [sequential]  DAX → SQL compiler (calls steps 1-8 internally)
+  pipeline_step9        [sequential]  DAX -> SQL compiler (calls steps 1-8 internally)
        ↓
   llm_fallback_step10   [sequential]  LLM validate / fix / build / define
        ↓
@@ -28,13 +28,25 @@ Usage
   python runner.py --from-step 10          # resume from llm_fallback onwards
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import argparse
 import subprocess
 import sys
-import threading
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 HERE = Path(__file__).parent
+_SRC = str(HERE.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.env_check import assert_env
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -45,57 +57,16 @@ def _run(label: str, script: str, extra_args: list[str]) -> int:
     """Run a script sequentially, stream its output, return exit code."""
     cmd = [sys.executable, str(HERE / script)] + extra_args
     print(f"\n  $ {' '.join(cmd)}")
-    result = subprocess.run(cmd, check=False, cwd=str(HERE))
+    try:
+        result = subprocess.run(cmd, check=False, cwd=str(HERE), timeout=1800)
+    except subprocess.TimeoutExpired:
+        print(f"\n[runner] TIMEOUT — {script} did not finish within 30 minutes")
+        return 1
     if result.returncode != 0:
         print(f"\n[runner] FAILED — {script} exited with code {result.returncode}")
     return result.returncode
 
 
-def _stream(proc: subprocess.Popen, prefix: str) -> None:
-    """Forward a process's stdout line-by-line with a prefix tag."""
-    for line in proc.stdout:
-        print(f"[{prefix}] {line}", end="")
-
-
-def _run_parallel(steps: list[tuple[str, str, list[str]]]) -> int:
-    """
-    Run multiple scripts at the same time.
-    steps = [(label, script_name, extra_args), ...]
-    Returns 0 if all succeed, else the first non-zero exit code.
-    """
-    procs: list[tuple[str, subprocess.Popen]] = []
-
-    for label, script, extra_args in steps:
-        cmd = [sys.executable, str(HERE / script)] + extra_args
-        print(f"\n  $ {' '.join(cmd)}")
-        proc = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=1,
-            cwd=str(HERE),
-        )
-        procs.append((label, proc))
-
-    # stream each process's output on its own thread so lines don't interleave silently
-    threads = []
-    for label, proc in procs:
-        t = threading.Thread(target=_stream, args=(proc, label), daemon=True)
-        t.start()
-        threads.append(t)
-
-    for t in threads:
-        t.join()
-
-    first_fail = 0
-    for label, proc in procs:
-        proc.wait()
-        if proc.returncode != 0 and first_fail == 0:
-            first_fail = proc.returncode
-            print(f"\n[runner] FAILED — {label} exited with code {proc.returncode}")
-
-    return first_fail
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -104,7 +75,7 @@ def _run_parallel(steps: list[tuple[str, str, list[str]]]) -> int:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run the full Metric Dictionary pipeline (steps 9 → 10 → 11 ∥ 12)"
+        description="Run the full Metric Dictionary pipeline (steps 9 -> 10 -> 11 ∥ 12)"
     )
     parser.add_argument(
         "--dashboard", default="risk-dash",
@@ -115,8 +86,8 @@ def main() -> None:
         help="Skip steps before N and start from N — values: 9, 10, 11/12 (default: 9)"
     )
     parser.add_argument(
-        "--skip-verifier", action="store_true",
-        help="Skip snowflake_verifier_step11 (use when Snowflake creds are unavailable)"
+        "--skip-verifier", action="store_true", default=True,
+        help="Skip snowflake_verifier_step11 (default: True — enable with --no-skip-verifier)"
     )
     parser.add_argument(
         "--skip-catalog", action="store_true",
@@ -127,6 +98,8 @@ def main() -> None:
         help="Pass --dry-run to every step (no LLM calls, no Snowflake queries)"
     )
     args = parser.parse_args()
+    if not args.dry_run:
+        assert_env()
 
     dash     = args.dashboard
     dry_flag = ["--dry-run"] if args.dry_run else []
@@ -139,9 +112,9 @@ def main() -> None:
     print(f"  dry-run       : {args.dry_run}")
     print("=" * 62)
 
-    # ── Step 9 — DAX → SQL compiler (sequential) ─────────────────
+    # ── Step 9 — DAX -> SQL compiler (sequential) ─────────────────
     if args.from_step <= 9:
-        print("\n[step 9] pipeline — DAX → SQL compiler")
+        print("\n[step 9] pipeline — DAX -> SQL compiler")
         print("-" * 62)
         rc = _run(
             "pipeline",
@@ -163,43 +136,33 @@ def main() -> None:
         if rc != 0:
             sys.exit(rc)
 
-    # ── Steps 11 + 12 — parallel ─────────────────────────────────
-    parallel_steps: list[tuple[str, str, list[str]]] = []
-
-    if args.from_step <= 11 and not args.skip_verifier:
-        parallel_steps.append((
-            "verifier",
-            "snowflake_verifier_step11.py",
-            ["--dry-run"] if args.dry_run else [],
-        ))
-
+    # ── Step 12 — metric catalog (sequential, after step 10) ─────
     if args.from_step <= 12 and not args.skip_catalog:
-        parallel_steps.append((
+        print("\n[step 12] metric_catalog — tech + business definitions")
+        print("-" * 62)
+        rc = _run(
             "catalog",
             "metric_catalog_step12.py",
             ["--dashboard", dash] + dry_flag,
-        ))
-
-    if parallel_steps:
-        if len(parallel_steps) == 1:
-            label, script, extra = parallel_steps[0]
-            step_num = 11 if "verifier" in script else 12
-            print(f"\n[step {step_num}] {label}")
-            print("-" * 62)
-            rc = _run(label, script, extra)
-        else:
-            print("\n[steps 11 + 12] verifier ∥ catalog  (running in parallel)")
-            print("-" * 62)
-            rc = _run_parallel(parallel_steps)
-
+        )
         if rc != 0:
             sys.exit(rc)
-    else:
-        print("\n[runner] steps 11 and 12 both skipped.")
+
+    # ── Step 11 — Snowflake verifier (optional, skipped by default) ──
+    if args.from_step <= 11 and not args.skip_verifier:
+        print("\n[step 11] snowflake_verifier")
+        print("-" * 62)
+        rc = _run(
+            "verifier",
+            "snowflake_verifier_step11.py",
+            ["--dry-run"] if args.dry_run else [],
+        )
+        if rc != 0:
+            sys.exit(rc)
 
     print("\n" + "=" * 62)
     print("  ALL STEPS COMPLETE")
-    print(f"  Output → output/dashboards/{dash}/stage2/")
+    print(f"  Output -> output/dashboards/{dash}/metric_dictionary/")
     print("=" * 62)
 
 

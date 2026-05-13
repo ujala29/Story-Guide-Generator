@@ -11,10 +11,16 @@ questions, widget group intros, and metric names rather than bare lists.
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
+
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 load_dotenv()
 
@@ -27,10 +33,10 @@ PROMPT_DIR = _ROOT / "prompt" / "system_prompt"
 # ============================================================
 
 def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
-    stage3 = root / "output" / "dashboards" / dashboard / "stage3"
+    page_wise = root / "output" / "dashboards" / dashboard / "page_wise"
 
     # ── funnel_map.json ─────────────────────────────────────────
-    funnel_map_path = stage3 / "funnel_map.json"
+    funnel_map_path = page_wise / "funnel_map.json"
     funnel_map: dict = {}
     if funnel_map_path.exists():
         with open(funnel_map_path, encoding="utf-8") as f:
@@ -40,7 +46,7 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
         print("  Run Page_wise/runner.py (steps 0+1) first for best results.")
 
     # ── funnel_connector.json ────────────────────────────────────
-    connector_path = stage3 / "funnel_connector.json"
+    connector_path = page_wise / "funnel_connector.json"
     funnel_connector: dict = {}
     if connector_path.exists():
         with open(connector_path, encoding="utf-8") as f:
@@ -50,7 +56,7 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
         print("  Run Page_wise/runner.py (step 4) for richer overview.")
 
     # ── widget_content/<page>.json ───────────────────────────────
-    widget_content_dir = stage3 / "widget_content"
+    widget_content_dir = page_wise / "widget_content"
     widget_content: dict[str, dict] = {}
     if widget_content_dir.exists():
         for wf in sorted(widget_content_dir.glob("*.json")):
@@ -125,9 +131,16 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
 # ============================================================
 
 def load_overview_prompt() -> str:
-    base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
-    template = (PROMPT_DIR / "dashboard_overview.txt").read_text(encoding="utf-8")
-    return base + "\n\n" + template
+    try:
+        base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
+    except FileNotFoundError:
+        base = ""
+    try:
+        template = (PROMPT_DIR / "dashboard_overview.txt").read_text(encoding="utf-8")
+    except FileNotFoundError:
+        print(f"ERROR: Prompt file not found: {PROMPT_DIR / 'dashboard_overview.txt'}")
+        sys.exit(1)
+    return (base + "\n\n" + template).strip()
 
 
 # ============================================================
@@ -141,7 +154,7 @@ def _format_widgets_by_page(widgets_by_page: dict) -> str:
         for w in sorted(widgets, key=lambda x: x["reading_order"]):
             lines.append(
                 f"  [{w['funnel_position']}] {w['name']}\n"
-                f"    → {w['question']}"
+                f"    -> {w['question']}"
             )
     return "\n".join(lines)
 
@@ -175,7 +188,7 @@ def _format_cross_page_patterns(patterns: list) -> str:
     if not patterns:
         return "(not yet generated — run step 4)"
     return "\n".join(
-        f"- {p.get('pattern','')}\n  → {p.get('interpretation','')}"
+        f"- {p.get('pattern','')}\n  -> {p.get('interpretation','')}"
         for p in patterns
     )
 
@@ -250,15 +263,14 @@ def generate_dashboard_overview(info: dict, llm_client) -> str:
     system_prompt = load_overview_prompt()
     system_prompt, user_prompt = build_overview_prompt(info, system_prompt)
 
-    response = llm_client.chat.completions.create(
-        model=os.environ.get("TF_MODEL", "internal-bedrock/sonnet-46"),
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system_prompt},
             {"role": "user",   "content": user_prompt},
         ],
         temperature=0.3,
+        client=llm_client,
     )
-    return response.choices[0].message.content
 
 
 # ============================================================
@@ -266,7 +278,7 @@ def generate_dashboard_overview(info: dict, llm_client) -> str:
 # ============================================================
 
 def save_overview(content: str, dashboard: str, root: Path) -> Path:
-    out_dir = root / "output" / "dashboards" / dashboard / "stage3"
+    out_dir = root / "output" / "dashboards" / dashboard / "dashboard_overview"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "dashboard_overview.md"
     out_path.write_text(content, encoding="utf-8")
@@ -293,7 +305,7 @@ def main() -> None:
         base_url=os.environ["TF_BASE_URL"],
     )
 
-    filters_path = root / "output" / "dashboards" / args.dashboard / "stage1" / "schema_sections" / "filters.json"
+    filters_path = root / "output" / "dashboards" / args.dashboard / "extraction" / "schema_sections" / "filters.json"
     print(f"Loading filters from: {filters_path}")
     with open(filters_path, encoding="utf-8") as f:
         filters = json.load(f)

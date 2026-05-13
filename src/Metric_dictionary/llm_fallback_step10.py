@@ -33,7 +33,7 @@ USAGE:
 REGISTRY:
     output/stage2/registry.json
     - Stores all LLM outputs keyed by measure name
-    - On re-run: registry hit → skip API call → use cached result
+    - On re-run: registry hit -> skip API call -> use cached result
     - Tracks: sql, definition, validation verdict, fix history, timestamps
 """
 
@@ -74,6 +74,11 @@ if hasattr(_sys.stdout, "reconfigure"):
     except Exception:
         pass
 
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
+
 try:
     from openai import OpenAI
     OPENAI_AVAILABLE = True
@@ -107,7 +112,7 @@ def clean_llm_sql(sql: str) -> str:
 
 def resolve_placeholders(sql: str) -> tuple[str, list[str]]:
     """
-    Strip angle-bracket placeholders left by LLM (e.g. <PAC_TABLE> → PAC_TABLE).
+    Strip angle-bracket placeholders left by LLM (e.g. <PAC_TABLE> -> PAC_TABLE).
 
     Only strips tokens that look like valid SQL identifiers (word chars + dots).
     Returns (cleaned_sql, list_of_tokens_that_could_not_be_stripped).
@@ -191,12 +196,12 @@ PROMPTS_DIR  = BASE_DIR / "prompts"
 # Per-dashboard path configs
 DASHBOARD_LLM_CONFIGS = {
     "risk-dash": {
-        "final_json"   : BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2" / "final_measures.json",
-        "output_dir"   : BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2",
+        "final_json"   : BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "final_measures.json",
+        "output_dir"   : BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary",
     },
     "pac-dash": {
-        "final_json"   : BASE_DIR / "output" / "dashboards" / "pac-dash" / "stage2" / "final_measures.json",
-        "output_dir"   : BASE_DIR / "output" / "dashboards" / "pac-dash" / "stage2",
+        "final_json"   : BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary" / "final_measures.json",
+        "output_dir"   : BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary",
     },
 }
 
@@ -249,23 +254,13 @@ def call_llm(
         print(f"  [DRY RUN] User: {user[:200]}...")
         return "[DRY RUN — no API call made]"
 
-    model = model or os.getenv("TF_MODEL")
-
     try:
-        response = client.chat.completions.create(
-            model                = model,
-            max_completion_tokens = max_tokens,
-            messages             = [
-                {"role": "system", "content": system},
-                {"role": "user",   "content": user},
-            ],
-            temperature = 0.1,   # low temp for deterministic SQL
+        return llm_chat(
+            [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            temperature=0.1,
+            max_completion_tokens=max_tokens,
+            client=client,
         )
-        content       = response.choices[0].message.content
-        finish_reason = response.choices[0].finish_reason
-        if not content:
-            return f"ERROR: empty response (finish_reason={finish_reason})"
-        return content.strip()
     except Exception as e:
         return f"ERROR: {e}"
 
@@ -426,7 +421,7 @@ Snowflake tables available:
   RULE A — BASE measures (no time-intel suffix, e.g. "Documented risk", "#Members"):
     Attribution (PCP_VISITS_V4_VIEW)              : WHERE MONTH_OF_DATE = :selected_month
     Risk tables WITH max_month_flag               : WHERE MAX_MONTH_FLAG = TRUE AND MONTH_OF_MEASUREMENT = :selected_month
-      → applies to: RISK_CORE_V4_VIEW, RISK_GROUP_V4_VIEW
+      -> applies to: RISK_CORE_V4_VIEW, RISK_GROUP_V4_VIEW
     RISK_COHORT_V4_VIEW (NO max_month_flag col)   : WHERE MONTH_OF_MEASUREMENT = :selected_month only
       !! RISK_COHORT_V4_VIEW does NOT have a MAX_MONTH_FLAG column — never add it !!
 
@@ -438,18 +433,18 @@ Snowflake tables available:
     PY  (prior year,  SAMEPERIODLASTYEAR) : WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
     PM  (prior month, PREVIOUSMONTH)      : WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
     YoY ratio = (current − prior_year) / prior_year:
-        current subquery  → WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
-        prior   subquery  → WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
+        current subquery  -> WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
+        prior   subquery  -> WHERE MONTH_OF_MEASUREMENT = DATEADD(year,  -1, :selected_month)
     MoM ratio = (current − prior_month) / prior_month:
-        current subquery  → WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
-        prior   subquery  → WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
+        current subquery  -> WHERE MONTH_OF_MEASUREMENT = :selected_month          ← NO MAX_MONTH_FLAG
+        prior   subquery  -> WHERE MONTH_OF_MEASUREMENT = DATEADD(month, -1, :selected_month)
 
   RULE C — CONTEXT_REMOVER (ALL / ALL('DATE')):
     No date filter whatsoever — ALL() removes date context by design.
 
 ━━━ OTHER CONVENTIONS ━━━
-  - DIVIDE(a,b)   → a / NULLIF(b, 0)
-  - DIVIDE(a,b,0) → COALESCE(a / NULLIF(b, 0), 0)
+  - DIVIDE(a,b)   -> a / NULLIF(b, 0)
+  - DIVIDE(a,b,0) -> COALESCE(a / NULLIF(b, 0), 0)
   - Always use SELECT ... FROM ... (no CTEs unless necessary)
 """
 
@@ -496,8 +491,8 @@ Snowflake tables available:
     No date filter whatsoever.
 
 ━━━ OTHER CONVENTIONS ━━━
-  - DIVIDE(a,b)   → a / NULLIF(b, 0)
-  - DIVIDE(a,b,0) → COALESCE(a / NULLIF(b, 0), 0)
+  - DIVIDE(a,b)   -> a / NULLIF(b, 0)
+  - DIVIDE(a,b,0) -> COALESCE(a / NULLIF(b, 0), 0)
   - Always use SELECT ... FROM ... (no CTEs unless necessary)
 """
 
@@ -1080,7 +1075,7 @@ def run_llm_fallback(
                         if verdict == "approved":
                             print(f"  [{j:3}/{len(complex_measures)}] {_name[:45]:<45} ✅ BUILT")
                         elif verdict == "needs_fix":
-                            print(f"  [{j:3}/{len(complex_measures)}] {_name[:45]:<45} ✅ BUILT → auto-corrected")
+                            print(f"  [{j:3}/{len(complex_measures)}] {_name[:45]:<45} ✅ BUILT -> auto-corrected")
                         else:
                             print(f"  [{j:3}/{len(complex_measures)}] {_name[:45]:<45} ✅ BUILT ⚠️  manual review needed")
                 except Exception as exc:

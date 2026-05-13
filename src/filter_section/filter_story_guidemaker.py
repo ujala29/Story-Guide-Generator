@@ -7,9 +7,15 @@ Output: output/filter_guide/*.md
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
+
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 load_dotenv()
 
@@ -99,9 +105,16 @@ def print_filter_summary(page_filters: dict, global_filters: list):
 # ============================================================
 
 def load_filter_prompt() -> str:
-    base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
-    template = (PROMPT_DIR / "prompt_for_filter.txt").read_text(encoding="utf-8")
-    return base + "\n\n" + template
+    try:
+        base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
+    except FileNotFoundError:
+        base = ""
+    try:
+        template = (PROMPT_DIR / "prompt_for_filter.txt").read_text(encoding="utf-8")
+    except FileNotFoundError:
+        print(f"ERROR: Prompt file not found: {PROMPT_DIR / 'prompt_for_filter.txt'}")
+        sys.exit(1)
+    return (base + "\n\n" + template).strip()
 
 # ============================================================
 # STEP 3 — User Prompt
@@ -179,26 +192,21 @@ def generate_filter_guide(
         global_filters, page_filters, system_prompt
     )
 
-    response = llm_client.chat.completions.create(
-        model=os.environ.get(
-            "TF_MODEL",
-            "internal-bedrock/sonnet-46"
-        ),
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system_prompt},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
         temperature=0.3,
+        client=llm_client,
     )
-
-    return response.choices[0].message.content
 
 # ============================================================
 # STEP 5 — Save Output
 # ============================================================
 
 def save_filter_guide(content: str, dashboard: str) -> Path:
-    out_dir = _ROOT / "output" / "dashboards" / dashboard / "stage3"
+    out_dir = _ROOT / "output" / "dashboards" / dashboard / "filter_section"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "global_filters.md"
     out_path.write_text(content, encoding="utf-8")
@@ -223,7 +231,7 @@ def main():
     )
 
     filters_path = (_ROOT / "output" / "dashboards" / args.dashboard
-                    / "stage1" / "schema_sections" / "filters.json")
+                    / "extraction" / "schema_sections" / "filters.json")
     print(f"Loading filters from: {filters_path}")
     with open(filters_path, encoding="utf-8") as f:
         filters = json.load(f)

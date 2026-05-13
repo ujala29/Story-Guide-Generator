@@ -39,7 +39,7 @@ OUTPUT:
 
 WHAT THE OUTPUT CONTAINS PER VISUAL:
   visual_id, title, type, page
-  measures  → [{name, dax (leaf formula only), definition, display_name_in_visual}]
+  measures  -> [{name, dax (leaf formula only), definition, display_name_in_visual}]
   columns_used
   row_dimensions  (for tables — what the rows are broken down by)
 
@@ -49,6 +49,9 @@ Run:
   python -m app.story.funnel_input_builder --dashboard risk-dash --print
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import argparse
 import hashlib
@@ -337,9 +340,9 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
     """
     # ── paths ──────────────────────────────────────────────────────────────
     # NOTE: "visaul" is the actual folder name (typo in original codebase)
-    enricher_pages_dir = project_root / "output" / "dashboards" / dashboard / "stage3" / "enriched_pages"
-    stage1             = project_root / "output" / "dashboards" / dashboard / "stage1" / "schema_sections"
-    stage2             = project_root / "output" / "dashboards" / dashboard / "stage2"
+    enricher_pages_dir = project_root / "output" / "dashboards" / dashboard / "visual_wise" / "enriched_pages"
+    stage1             = project_root / "output" / "dashboards" / dashboard / "extraction" / "schema_sections"
+    stage2             = project_root / "output" / "dashboards" / dashboard / "metric_dictionary"
     config             = project_root / "config"
 
     # ── load ───────────────────────────────────────────────────────────────
@@ -515,7 +518,7 @@ def main():
     if args.output:
         out_path = Path(args.output)
     else:
-        out_dir = root / "output" / "dashboards" / args.dashboard / "stage3"
+        out_dir = root / "output" / "dashboards" / args.dashboard / "page_wise"
         out_dir.mkdir(parents=True, exist_ok=True)
         out_path = out_dir / "funnel_llm_input.json"
 

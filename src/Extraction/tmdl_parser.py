@@ -16,7 +16,7 @@
 #   TMDLExtractor   ← public API: extract_tables(), extract_relationships()
 #
 # CALLED BY:
-#   pipeline/stage1_extraction/extractor.py → run_extraction()
+#   pipeline/stage1_extraction/extractor.py -> run_extraction()
 
 import re
 from pathlib import Path
@@ -108,10 +108,10 @@ class TMDLExtractor:
         Assigns one of 4 table types based on name, content, and Power Query.
 
         Types:
-          "measure_container" → only DAX measures, no physical data rows
-          "parameter"         → slicer values / user-input parameters
-          "static_lookup"     → hardcoded reference data via #table() in Power Query
-          "source"            → real data table connected to a database (Snowflake etc.)
+          "measure_container" -> only DAX measures, no physical data rows
+          "parameter"         -> slicer values / user-input parameters
+          "static_lookup"     -> hardcoded reference data via #table() in Power Query
+          "source"            -> real data table connected to a database (Snowflake etc.)
 
         WHY THIS MATTERS:
           Story guide chapters treat each type differently.

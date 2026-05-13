@@ -1,6 +1,8 @@
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import os
-import sys
 import time
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -9,11 +11,11 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # ── Path setup (must precede layer imports so STORY_DASHBOARD is visible) ──
-os.environ.setdefault("STORY_DASHBOARD", "risk-dash")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # src/ — for paths.py
 sys.path.insert(0, str(Path(__file__).resolve().parent))          # Visual_wise/ — for layers
 from Visual_wise.visual_enricher_with_resolved_dax_adder_L0 import enrich_and_split
 from paths import get_paths, get_config
+from utils.llm_client import llm_chat
 
 # ── Layer imports ────────────────────────────────────────────
 from visual_parserL0 import (
@@ -45,7 +47,7 @@ _HERE         = Path(__file__).parent.resolve()
 _PROJECT_ROOT = _HERE.parent.parent.resolve()
 
 # ── Dashboard selection ───────────────────────────────────────
-DASHBOARD = os.environ["STORY_DASHBOARD"]
+DASHBOARD = os.environ.get("STORY_DASHBOARD", "risk-dash")
 _p        = get_paths(DASHBOARD)
 _cfg      = get_config()
 
@@ -68,9 +70,9 @@ L0_WORKERS     = 8
 LLM_CALL_DELAY = 0.5
 
 # ── TEST MODE ────────────────────────────────────────────────
-TEST_MODE        = True
-TEST_VISUAL_TYPE = "cardVisual"
-TEST_LIMIT       = 0
+TEST_MODE        = os.environ.get("STORY_TEST_MODE", "1") == "1"
+TEST_VISUAL_TYPE = os.environ.get("STORY_TEST_VISUAL_TYPE", "cardVisual")
+TEST_LIMIT       = int(os.environ.get("STORY_TEST_LIMIT", "0"))
 
 # ============================================================
 # PAGE CONFIG
@@ -156,15 +158,29 @@ VISUAL_TYPE_MAP = {
 # FIXES LOAD
 # ============================================================
 
-with open(FIXES_PATH, encoding="utf-8") as f:
-    FIXES = json.load(f)
+try:
+    with open(FIXES_PATH, encoding="utf-8") as f:
+        FIXES = json.load(f)
+except FileNotFoundError:
+    print(f"ERROR: fixes file not found: {FIXES_PATH}")
+    sys.exit(1)
+except json.JSONDecodeError as e:
+    print(f"ERROR: Malformed JSON in {FIXES_PATH}: {e}")
+    sys.exit(1)
 
 TITLE_OVERRIDES = FIXES["title_overrides"]
 GENERIC_TITLES  = set(FIXES["generic_titles"])
 SKIP_TYPES      = set(FIXES["skip_types"])
 
-with open(MEASURES_RESOLVED_PATH, encoding="utf-8") as f:
-    MEASURES_RESOLVED: dict = json.load(f)
+try:
+    with open(MEASURES_RESOLVED_PATH, encoding="utf-8") as f:
+        MEASURES_RESOLVED: dict = json.load(f)
+except FileNotFoundError:
+    print(f"ERROR: measures_resolved.json not found: {MEASURES_RESOLVED_PATH}")
+    sys.exit(1)
+except json.JSONDecodeError as e:
+    print(f"ERROR: Malformed JSON in {MEASURES_RESOLVED_PATH}: {e}")
+    sys.exit(1)
 
 
 # ============================================================
@@ -222,7 +238,11 @@ def discover_pages() -> list[dict]:
             continue
 
         # ── Load ─────────────────────────────────────────────
-        data = json.loads(fpath.read_text(encoding='utf-8'))
+        try:
+            data = json.loads(fpath.read_text(encoding='utf-8'))
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] Malformed JSON in {fpath.name}, skipping: {e}")
+            continue
         pages.append({
             'file'       : fname,
             'path'       : fpath,
@@ -562,15 +582,14 @@ def generate_story_guide(visual: dict, all_visuals: list,
     if user_prompt is None:
         return None
 
-    response = llm_client.chat.completions.create(
-        model=os.environ.get("TF_MODEL", "internal-bedrock/sonnet-46"),
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system_prompt},
-            {"role": "user",   "content": user_prompt}
+            {"role": "user",   "content": user_prompt},
         ],
         temperature=0.3,
+        client=llm_client,
     )
-    return response.choices[0].message.content
 
 
 # ============================================================

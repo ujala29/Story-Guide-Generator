@@ -21,17 +21,17 @@ OUTPUT:
         error        : str | None   — reason if needs_llm
 
 EDGE CASES HANDLED:
-    EC2   IN {} → IN ()            (InSetExpr → SQL IN clause)
-    EC3   <> → !=                  (BinaryOp op mapping)
-    EC4   ALL() → no date filter   (ClassifyResult.has_all)
-    EC8   TRUE/TRUE() → TRUE       (BoolLiteral → SQL TRUE/FALSE)
-    EC9   "true" string → 'true'   (StringLiteral → quoted)
-    EC10  * scalar after DIVIDE    (ScalarMultiplier → (...) * N)
+    EC2   IN {} -> IN ()            (InSetExpr -> SQL IN clause)
+    EC3   <> -> !=                  (BinaryOp op mapping)
+    EC4   ALL() -> no date filter   (ClassifyResult.has_all)
+    EC8   TRUE/TRUE() -> TRUE       (BoolLiteral -> SQL TRUE/FALSE)
+    EC9   "true" string -> 'true'   (StringLiteral -> quoted)
+    EC10  * scalar after DIVIDE    (ScalarMultiplier -> (...) * N)
     EC16  CALCULATE no filters     (plain aggregation)
-    EC18  AVERAGE → AVG()          (function name mapping)
-    EC19  DIVIDE 2-arg → NULLIF    (DivideNode.default_val=None)
-          DIVIDE 3-arg → COALESCE  (DivideNode.default_val=0.0)
-    EC24  inline filter = KEEPFILTERS → both → WHERE
+    EC18  AVERAGE -> AVG()          (function name mapping)
+    EC19  DIVIDE 2-arg -> NULLIF    (DivideNode.default_val=None)
+          DIVIDE 3-arg -> COALESCE  (DivideNode.default_val=0.0)
+    EC24  inline filter = KEEPFILTERS -> both -> WHERE
 
 SQL TEMPLATES (from step4_sql_builder.py — adapted):
     SIMPLE_AGG:
@@ -117,7 +117,7 @@ class GenerateResult:
 def _normalize_measure_name(name: str) -> str:
     """Normalize spaces around operators so 'Cost / Admit' matches 'Cost/Admit'."""
     return re.sub(r'\s*([/+\-*])\s*', r'\1', name)
-# A- B → A-B (also handles A -B, A- B, A / B → A/B etc.)
+# A- B -> A-B (also handles A -B, A- B, A / B -> A/B etc.)
 
 def _cache_get(name: str, sql_cache: dict) -> "str | None":
     """
@@ -138,19 +138,19 @@ def _cache_get(name: str, sql_cache: dict) -> "str | None":
     return None
 
 
-# DAX function → SQL function name mapping
+# DAX function -> SQL function name mapping
 FUNC_MAP = {
     "SUM"          : "SUM",
     "COUNT"        : "COUNT",
-    "COUNTROWS"    : "COUNT",   # COUNTROWS(table) → COUNT(*)
+    "COUNTROWS"    : "COUNT",   # COUNTROWS(table) -> COUNT(*)
     "DISTINCTCOUNT": "COUNT(DISTINCT {})",
     "MAX"          : "MAX",
     "MIN"          : "MIN",
-    "AVERAGE"      : "AVG",     # EC18: AVERAGE → AVG
+    "AVERAGE"      : "AVG",     # EC18: AVERAGE -> AVG
     "ABS"          : "ABS",
 }
 
-# Binary operator mapping (DAX → SQL)
+# Binary operator mapping (DAX -> SQL)
 OP_MAP = {
     "="  : "=",
     "<>" : "!=",   # EC3
@@ -238,7 +238,7 @@ def load_table_metadata(sf_map: dict) -> None:
 # Static CTE placeholder template
 STATIC_CTE_TEMPLATE = (
     "-- {table} (Power BI static table — not in Snowflake)\n"
-    "-- TODO: Replace with actual values from Power BI Desktop → Table view → '{table}'\n"
+    "-- TODO: Replace with actual values from Power BI Desktop -> Table view -> '{table}'\n"
     "{table} AS (\n"
     "    SELECT '<placeholder_value>' AS placeholder_col\n"
     "    -- UNION ALL SELECT '<value2>'\n"
@@ -367,16 +367,16 @@ class _Emitter:
         """Emit a function call."""
         name = node.name.upper()
 
-        # COUNTROWS(table) → COUNT(*)
+        # COUNTROWS(table) -> COUNT(*)
         if name == "COUNTROWS":
             return "COUNT(*)"
 
-        # DISTINCTCOUNT(col) → COUNT(DISTINCT col)
+        # DISTINCTCOUNT(col) -> COUNT(DISTINCT col)
         if name == "DISTINCTCOUNT" and node.args:
             col = self.emit(node.args[0])
             return f"COUNT(DISTINCT {col})"
 
-        # AVERAGE → AVG  (EC18)
+        # AVERAGE -> AVG  (EC18)
         if name == "AVERAGE":
             name = "AVG"
 
@@ -407,12 +407,12 @@ class _Emitter:
 
     def _emit_divide(self, node: DivideNode) -> str:
         """
-        EC19: DIVIDE(a, b)    → a / NULLIF(b, 0)
-              DIVIDE(a, b, 0) → COALESCE(a / NULLIF(b, 0), 0)
+        EC19: DIVIDE(a, b)    -> a / NULLIF(b, 0)
+              DIVIDE(a, b, 0) -> COALESCE(a / NULLIF(b, 0), 0)
 
         Fix 2: If numerator is BinaryOp (e.g. a - b), wrap in parens
         to ensure correct operator precedence.
-        Without: a - b / NULLIF(c, 0) → a - (b/c)  [WRONG]
+        Without: a - b / NULLIF(c, 0) -> a - (b/c)  [WRONG]
         With:    (a - b) / NULLIF(c, 0)             [CORRECT]
         """
         num = self.emit(node.numerator)
@@ -426,7 +426,7 @@ class _Emitter:
         return core
 
     def _emit_in_set(self, node: InSetExpr) -> str:
-        """EC2: IN {} → IN ()"""
+        """EC2: IN {} -> IN ()"""
         col    = self._emit_column(node.column)
         values = ", ".join(f"'{v}'" for v in node.values)
         return f"{col} IN ({values})"
@@ -451,7 +451,7 @@ def _collect_filters(args: list, emitter: _Emitter) -> list[str]:
         elif isinstance(arg, FunctionCall):
             if arg.name in ("KEEPFILTERS",):
                 conditions.append(emitter.emit(arg.args[0]) if arg.args else "")
-            # ALL, SAMEPERIODLASTYEAR etc. → skip (not WHERE conditions)
+            # ALL, SAMEPERIODLASTYEAR etc. -> skip (not WHERE conditions)
     return [c for c in conditions if c]
 
 
@@ -542,12 +542,12 @@ def _strip_date_filter(sql: str) -> str:
     Uses [^=\n]+? instead of \w+ so expression-based date columns are also matched,
     e.g. DATE_TRUNC('month', PAC_VISIT_START_DATE) = :selected_month.
     """
-    # WHERE expr = :selected_month  AND rest  →  WHERE rest
+    # WHERE expr = :selected_month  AND rest  ->  WHERE rest
     sql = re.sub(
         r'WHERE\s+[^=\n]+?\s*=\s*:selected_month\s*\n?\s*AND\s+',
         'WHERE ', sql, flags=re.IGNORECASE
     )
-    # rest  AND expr = :selected_month  →  rest
+    # rest  AND expr = :selected_month  ->  rest
     sql = re.sub(r'\s*AND\s+[^=\n]+?\s*=\s*:selected_month', '', sql, flags=re.IGNORECASE)
     # WHERE expr = :selected_month  (standalone — may be followed by ) — no $ anchor)
     sql = re.sub(
@@ -564,9 +564,9 @@ def _strip_max_month_flag(sql: str) -> str:
     the latest month — combining it with MONTH_OF_MEASUREMENT = prior_month
     produces 0 rows. The explicit date filter is sufficient.
     """
-    # WHERE MAX_MONTH_FLAG = TRUE AND other → WHERE other
+    # WHERE MAX_MONTH_FLAG = TRUE AND other -> WHERE other
     sql = re.sub(r'WHERE\s+MAX_MONTH_FLAG\s*=\s*TRUE\s+AND\s+', 'WHERE ', sql, flags=re.IGNORECASE)
-    # WHERE other AND MAX_MONTH_FLAG = TRUE → WHERE other
+    # WHERE other AND MAX_MONTH_FLAG = TRUE -> WHERE other
     sql = re.sub(r'\s+AND\s+MAX_MONTH_FLAG\s*=\s*TRUE', '', sql, flags=re.IGNORECASE)
     # WHERE MAX_MONTH_FLAG = TRUE (standalone — may be followed by ) from subquery)
     sql = re.sub(r'\s*WHERE\s+MAX_MONTH_FLAG\s*=\s*TRUE\s*', '', sql, flags=re.IGNORECASE)
@@ -682,7 +682,7 @@ def _gen_simple_divide(
 ) -> Optional[str]:
     """
     SIMPLE_DIVIDE: DIVIDE(SUM(col_a), SUM(col_b))
-    → SELECT SUM(col_a) / NULLIF(SUM(col_b), 0) FROM table
+    -> SELECT SUM(col_a) / NULLIF(SUM(col_b), 0) FROM table
     """
     emitter = _Emitter(sf_refs, sql_cache)
 
@@ -746,11 +746,11 @@ def _gen_filtered_agg(
 ) -> Optional[str]:
     """
     FILTERED_AGG: CALCULATE(AGG(col), KEEPFILTERS(condition))
-    → SELECT AGG(col) FROM table WHERE condition
+    -> SELECT AGG(col) FROM table WHERE condition
 
     Special case — DIVIDE inside CALCULATE with two DIFFERENT source tables:
         CALCULATE(DIVIDE(SUM(pac_view[amount]), SUM(attribution[members])), filter)
-    These tables have no join path → must use independent subqueries, NOT a
+    These tables have no join path -> must use independent subqueries, NOT a
     comma-join (which produces a Cartesian product and inflated numbers).
 
     Single-table measures are unaffected — they fall through to the original
@@ -833,7 +833,7 @@ def _gen_filtered_agg(
             # Date filters are now inside each subquery — _finalize_sql will see
             # :selected_month already present and skip the outer append.
             #
-            # EC19: DIVIDE 3-arg → COALESCE, 2-arg → plain NULLIF
+            # EC19: DIVIDE 3-arg -> COALESCE, 2-arg -> plain NULLIF
             if main_expr.default_val is not None:
                 return (
                     f"SELECT COALESCE(\n"
@@ -889,7 +889,7 @@ def _gen_filtered_agg(
 
     # ── P6 fix ────────────────────────────────────────────────
     # Snowflake cannot have a scalar subquery inside SUM() without GROUP BY.
-    # e.g. SUM(col) + (SELECT COUNT(*) FROM ...) → invalid group by expression
+    # e.g. SUM(col) + (SELECT COUNT(*) FROM ...) -> invalid group by expression
     # Rewrite: pre-compute scalar as CTE, reference in main query via CROSS JOIN.
     import re as _re_p6
     _p6_pat = r'[(]SELECT\s+COUNT[(][*][)][\s\S]*?FROM\s+[A-Z_0-9]+[\s\S]*?[)]'
@@ -921,7 +921,7 @@ def _gen_var_filtered_divide(
 ) -> Optional[str]:
     """
     VAR_FILTERED_DIVIDE: VAR a = CALCULATE(AGG, filter) VAR b = ... RETURN DIVIDE(a,b)
-    → SELECT
+    -> SELECT
         AGG(CASE WHEN filter_a THEN col_or_1 END)
         / NULLIF(AGG(CASE WHEN filter_b THEN col_or_1 END), 0)
       FROM table
@@ -947,7 +947,7 @@ def _gen_var_filtered_divide(
 
     # ── Pre-resolve scalar VAR bindings (MAX/MIN) as subqueries ──────────────
     # e.g. VAR latest_month = CALCULATE(MAX(cohort[month_of_measurement]), ALL('DATE'))
-    # → (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_COHORT_V4_VIEW)
+    # -> (SELECT MAX(MONTH_OF_MEASUREMENT) FROM RISK_COHORT_V4_VIEW)
     # Without this, unresolved VARs emit as /* comment */ breaking CASE WHEN syntax.
     scalar_vars = {}
     for vd in ast.bindings:
@@ -1019,10 +1019,10 @@ def _gen_var_filtered_divide(
                 # or args is empty — either way there is no metric column.
                 #
                 # WRONG (previous):  col = "*"
-                #   → COUNT(CASE WHEN flag = TRUE THEN * END)  ← invalid Snowflake
+                #   -> COUNT(CASE WHEN flag = TRUE THEN * END)  ← invalid Snowflake
                 #
                 # CORRECT (fix):     col = "1"
-                #   → COUNT(CASE WHEN flag = TRUE THEN 1 END)  ← counts matching rows
+                #   -> COUNT(CASE WHEN flag = TRUE THEN 1 END)  ← counts matching rows
                 #
                 # "1" is the standard SQL idiom for conditional row counting.
                 # No other aggregation (SUM/AVG/MAX/MIN/DISTINCTCOUNT) reaches
@@ -1065,7 +1065,7 @@ def _gen_var_filtered_divide(
 
     from_clause = ", ".join(tables)
 
-    # EC19: DIVIDE 3-arg → COALESCE, 2-arg → plain NULLIF
+    # EC19: DIVIDE 3-arg -> COALESCE, 2-arg -> plain NULLIF
     if ret.default_val is not None:
         divide_sql = f"COALESCE({num_sql} / NULLIF({den_sql}, 0), 0)"
     else:
@@ -1096,7 +1096,7 @@ def _gen_measure_ratio(
 ) -> Optional[str]:
     """
     MEASURE_RATIO: [A] / [B]
-    → (sql_A) / NULLIF((sql_B), 0)
+    -> (sql_A) / NULLIF((sql_B), 0)
     Both measures must be in sql_cache.
     """
     emitter = _Emitter(sf_refs, sql_cache)
@@ -1125,10 +1125,10 @@ def _gen_time_intel(
     """
     TIME_INTEL_YOY / TIME_INTEL_MOM:
     CALCULATE([Measure], SAMEPERIODLASTYEAR('date'[month_of_date]))
-    → SELECT AGG(col) FROM table
+    -> SELECT AGG(col) FROM table
       WHERE DATE_COL = DATEADD(year, -1, :selected_month)
 
-    If main expr is MeasureRef → use sql_cache SQL + add date filter.
+    If main expr is MeasureRef -> use sql_cache SQL + add date filter.
     """
     emitter = _Emitter(sf_refs, sql_cache)
 
@@ -1153,7 +1153,7 @@ def _gen_time_intel(
     # ── VarBlock: YoY/MoM = (current - prior) / prior ──────
     # e.g. VAR py = CALCULATE([#Members], SPILY(...))
     #      RETURN DIVIDE([#Members] - py, py, 0)
-    # → Need full (current_sql - prior_sql) / NULLIF(prior_sql, 0)
+    # -> Need full (current_sql - prior_sql) / NULLIF(prior_sql, 0)
     if isinstance(ast, VarBlock):
         # Find the VAR binding that has time intel (CALCULATE + SPILY/PREVMONTH)
         prior_measure_name = None
@@ -1168,7 +1168,7 @@ def _gen_time_intel(
         # Find current measure from return expression
         if isinstance(ast.return_expr, DivideNode):
             ret = ast.return_expr
-            # DIVIDE([current] - py, py) → numerator is BinaryOp(-, MeasureRef, VarRef/ColumnRef)
+            # DIVIDE([current] - py, py) -> numerator is BinaryOp(-, MeasureRef, VarRef/ColumnRef)
             if isinstance(ret.numerator, BinaryOp) and ret.numerator.op == "-":
                 left = ret.numerator.left
                 if isinstance(left, MeasureRef):
@@ -1300,7 +1300,7 @@ def _gen_time_intel(
                             return base_sql + f"\nWHERE {date_filter}"
         return None
 
-    # ── CALCULATE([Measure], SPILY/PREVMONTH) → prior period SQL ─
+    # ── CALCULATE([Measure], SPILY/PREVMONTH) -> prior period SQL ─
     main_expr = None
     if isinstance(ast, FunctionCall) and ast.name == "CALCULATE":
         main_expr = ast.args[0] if ast.args else None
@@ -1308,7 +1308,7 @@ def _gen_time_intel(
     if main_expr is None:
         return None
 
-    # If main expr is MeasureRef → use its cached SQL as base
+    # If main expr is MeasureRef -> use its cached SQL as base
     # Parser normalizes GROUP spacing — just need case-insensitive lookup
     _mref_cached = _cache_get(main_expr.name, sql_cache) if isinstance(main_expr, MeasureRef) else None
     if isinstance(main_expr, MeasureRef) and _mref_cached is not None:
@@ -1405,7 +1405,7 @@ def _gen_context_remover(
     """
     CONTEXT_REMOVER: CALCULATE(AGG(col), ALL('DATE'))
     EC4: NO date filter — ALL() removes it.
-    → SELECT AGG(col) FROM table  (no WHERE)
+    -> SELECT AGG(col) FROM table  (no WHERE)
     """
     emitter = _Emitter(sf_refs, sql_cache)
 
@@ -1444,7 +1444,7 @@ def _gen_complex_var_divide(
     for vd in ast.bindings:
         expr = vd.expr
         if isinstance(expr, FunctionCall) and expr.name == "CALCULATE":
-            # CALCULATE([Measure], time_intel) → time intel handled separately
+            # CALCULATE([Measure], time_intel) -> time intel handled separately
             var_sqls[vd.name] = emitter.emit(expr)
         else:
             var_sqls[vd.name] = emitter.emit(expr)
@@ -1469,7 +1469,7 @@ def _gen_complex_var_divide(
 
     tables = list({r.sf_object for r in sf_refs
                    if r.ref_type == "source" and r.sf_object})
-    # MeasureRef-only → no direct sf_refs, subqueries carry their own FROM
+    # MeasureRef-only -> no direct sf_refs, subqueries carry their own FROM
     if not tables:
         return f"SELECT {return_sql}"
 
@@ -1597,7 +1597,7 @@ def generate(
         MAX_MONTH_TABLES.clear()
 
     try:
-        # ── COMPLEX → LLM BUILDER ────────────────────────────
+        # ── COMPLEX -> LLM BUILDER ────────────────────────────
         if pattern == "COMPLEX":
             return _fail("Pattern COMPLEX — LLM will generate SQL directly.")
 
@@ -1722,7 +1722,7 @@ def generate_all(
         if result.sql:
             sql_cache[name] = result.sql
             # Also store normalized key for GROUP variants
-            # "Overall gaps closed (GROUP)" → also accessible as "Overall gaps closed ( GROUP )"
+            # "Overall gaps closed (GROUP)" -> also accessible as "Overall gaps closed ( GROUP )"
             # and vice versa
             normalized = name.replace("(GROUP)", "( GROUP )").replace("(group)", "( group )")
             if normalized != name:
@@ -1825,8 +1825,8 @@ if __name__ == "__main__":
     check("YTD_VISIT_AMOUNT",           r.sql and "YTD_VISIT_AMOUNT" in r.sql)
     print(f"  SQL: {r.sql}")
 
-    # ── EC19: DIVIDE 3-arg → COALESCE ────────────────────────
-    print("\nEC19 — DIVIDE 3-arg → COALESCE:")
+    # ── EC19: DIVIDE 3-arg -> COALESCE ────────────────────────
+    print("\nEC19 — DIVIDE 3-arg -> COALESCE:")
     r = pipeline("PMPM safe",
         "DIVIDE(SUM(attribution[ytd_visit_amount]), SUM(attribution[ytd_member_count]), 0)")
     check("ok",                         not r.needs_llm)
@@ -1852,7 +1852,7 @@ if __name__ == "__main__":
     check("'Documented' quoted",        r.sql and "'Documented'" in r.sql)
     print(f"  SQL: {r.sql}")
 
-    # ── EC3: <> → != ─────────────────────────────────────────
+    # ── EC3: <> -> != ─────────────────────────────────────────
     print("\nEC3 — <> not-equal:")
     dax3 = 'CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(risk_core[flag] <> "Documented"))'
     r = pipeline("Not Documented", dax3)
@@ -1860,7 +1860,7 @@ if __name__ == "__main__":
     check("!= present",                 r.sql and "!=" in r.sql)
     print(f"  SQL: {r.sql}")
 
-    # ── EC8: TRUE → SQL TRUE ─────────────────────────────────
+    # ── EC8: TRUE -> SQL TRUE ─────────────────────────────────
     print("\nEC8 — TRUE literal:")
     dax8 = "CALCULATE(SUM(risk_core[patient_count]), KEEPFILTERS(risk_core[max_month_flag] = TRUE()))"
     r = pipeline("current month", dax8)

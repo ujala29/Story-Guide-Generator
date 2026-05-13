@@ -36,34 +36,34 @@ WHY HAND-WRITTEN (not lark's built-in lexer):
         Two chars, must become one AND_AND token.
 
 TOKEN TYPES:
-    IDENT        → SUM, CALCULATE, VAR, RETURN, TRUE, FALSE, IN, ALL
+    IDENT        -> SUM, CALCULATE, VAR, RETURN, TRUE, FALSE, IN, ALL
                    unquoted identifiers and keywords
-    QUOTED_NAME  → 'date', 'Y Axis scatter plot'
+    QUOTED_NAME  -> 'date', 'Y Axis scatter plot'
                    single-quoted table names (quotes stripped from value)
-    STRING       → "Documented", "Home Health", "true", "Undoumented"
+    STRING       -> "Documented", "Home Health", "true", "Undoumented"
                    double-quoted string values (quotes stripped from value)
-                   EC9: "true" → STRING (not BOOL) — parser decides type later
-    NUMBER       → 0, 1, 12000, 0.5
-    LBRACKET     → [
-    RBRACKET     → ]
-    LPAREN       → (
-    RPAREN       → )
-    LBRACE       → {   (EC2: set delimiter)
-    RBRACE       → }   (EC2: set delimiter)
-    COMMA        → ,
-    DOT          → .
-    EQ           → =
-    NEQ          → <>  (EC3: not-equal, two chars, one token)
-    GT           → >
-    LT           → <
-    GTE          → >=
-    LTE          → <=
-    PLUS         → +
-    MINUS        → -
-    STAR         → *
-    SLASH        → /
-    AMP          → &   (string concat in DAX — for DISPLAY measures)
-    AND_AND      → &&  (compound filter — two chars, one token)
+                   EC9: "true" -> STRING (not BOOL) — parser decides type later
+    NUMBER       -> 0, 1, 12000, 0.5
+    LBRACKET     -> [
+    RBRACKET     -> ]
+    LPAREN       -> (
+    RPAREN       -> )
+    LBRACE       -> {   (EC2: set delimiter)
+    RBRACE       -> }   (EC2: set delimiter)
+    COMMA        -> ,
+    DOT          -> .
+    EQ           -> =
+    NEQ          -> <>  (EC3: not-equal, two chars, one token)
+    GT           -> >
+    LT           -> <
+    GTE          -> >=
+    LTE          -> <=
+    PLUS         -> +
+    MINUS        -> -
+    STAR         -> *
+    SLASH        -> /
+    AMP          -> &   (string concat in DAX — for DISPLAY measures)
+    AND_AND      -> &&  (compound filter — two chars, one token)
 
 WHAT GETS SKIPPED:
     Whitespace and newlines — DAX is whitespace-insensitive
@@ -151,7 +151,7 @@ def tokenize(dax: str) -> LexResult:
           5. Double-quoted string  "value"
           6. Number  (digits, optional decimal point)
           7. Identifier / keyword
-          8. Unknown character → LexResult with error
+          8. Unknown character -> LexResult with error
     """
     tokens = []
     pos    = 0
@@ -238,8 +238,8 @@ def tokenize(dax: str) -> LexResult:
                 continue
 
             # ── 5. Double-quoted string  "value" ─────────────
-            # EC9:  "true"        → STRING (not BOOL — parser decides)
-            # EC22: "Undoumented" → STRING (typo passed through as-is)
+            # EC9:  "true"        -> STRING (not BOOL — parser decides)
+            # EC22: "Undoumented" -> STRING (typo passed through as-is)
             # Value stored WITHOUT quotes.
             if ch == '"':
                 end = pos + 1
@@ -288,7 +288,7 @@ def tokenize(dax: str) -> LexResult:
                 tokens.append(Token("IDENT", dax[start:pos], start))
                 continue
 
-            # ── 8. Unknown character → error ─────────────────
+            # ── 8. Unknown character -> error ─────────────────
             return LexResult(
                 tokens = [],
                 error  = (f"Unexpected character {ch!r} at pos {pos} "
@@ -354,7 +354,7 @@ if __name__ == "__main__":
     # ── Basic tokens ─────────────────────────────────────────
     print("Basic tokens:")
     r = tokenize("SUM()")
-    check("SUM() → 3 tokens",           len(r.tokens) == 3)
+    check("SUM() -> 3 tokens",           len(r.tokens) == 3)
     check("token[0] IDENT:SUM",         r.tokens[0].type == "IDENT"
                                         and r.tokens[0].value == "SUM")
     check("token[1] LPAREN",            r.tokens[1].type == "LPAREN")
@@ -422,20 +422,20 @@ if __name__ == "__main__":
     # ── EC9: "true" string vs TRUE keyword ──────────────────
     print("\nEC9 — string true vs keyword TRUE:")
     r1 = tokenize('"true"')
-    check('"true" → STRING',            r1.tokens[0].type  == "STRING")
+    check('"true" -> STRING',            r1.tokens[0].type  == "STRING")
     check('"true" value = true',        r1.tokens[0].value == "true")
 
     r2 = tokenize("TRUE")
-    check("TRUE → IDENT",               r2.tokens[0].type  == "IDENT")
+    check("TRUE -> IDENT",               r2.tokens[0].type  == "IDENT")
     check("TRUE value = TRUE",          r2.tokens[0].value == "TRUE")
 
     # ── Numbers ──────────────────────────────────────────────
     print("\nNumbers:")
-    check("12000 → NUMBER",             types("12000") == ["NUMBER"])
+    check("12000 -> NUMBER",             types("12000") == ["NUMBER"])
     check("12000 value correct",        vals("12000")  == ["12000"])
-    check("0.5 → NUMBER",               types("0.5")   == ["NUMBER"])
+    check("0.5 -> NUMBER",               types("0.5")   == ["NUMBER"])
     check("0.5 value correct",          vals("0.5")    == ["0.5"])
-    check("0 → NUMBER",                 types("0")     == ["NUMBER"])
+    check("0 -> NUMBER",                 types("0")     == ["NUMBER"])
 
     # ── Double-quoted string ─────────────────────────────────
     print("\nDouble-quoted string:")
@@ -446,24 +446,24 @@ if __name__ == "__main__":
 
     # ── All single-char operators ─────────────────────────────
     print("\nSingle-char operators:")
-    check("= → EQ",      types("=")  == ["EQ"])
-    check("> → GT",      types(">")  == ["GT"])
-    check("< → LT",      types("<")  == ["LT"])
-    check("+ → PLUS",    types("+")  == ["PLUS"])
-    check("- → MINUS",   types("-")  == ["MINUS"])
-    check("* → STAR",    types("*")  == ["STAR"])
-    check("/ → SLASH",   types("/")  == ["SLASH"])
-    check("& → AMP",     types("&")  == ["AMP"])
-    check(", → COMMA",   types(",")  == ["COMMA"])
-    check("{ → LBRACE",  types("{")  == ["LBRACE"])
-    check("} → RBRACE",  types("}")  == ["RBRACE"])
+    check("= -> EQ",      types("=")  == ["EQ"])
+    check("> -> GT",      types(">")  == ["GT"])
+    check("< -> LT",      types("<")  == ["LT"])
+    check("+ -> PLUS",    types("+")  == ["PLUS"])
+    check("- -> MINUS",   types("-")  == ["MINUS"])
+    check("* -> STAR",    types("*")  == ["STAR"])
+    check("/ -> SLASH",   types("/")  == ["SLASH"])
+    check("& -> AMP",     types("&")  == ["AMP"])
+    check(", -> COMMA",   types(",")  == ["COMMA"])
+    check("{ -> LBRACE",  types("{")  == ["LBRACE"])
+    check("} -> RBRACE",  types("}")  == ["RBRACE"])
 
     # ── Two-char operators ────────────────────────────────────
     print("\nTwo-char operators:")
-    check(">= → GTE",    types(">=") == ["GTE"])
-    check("<= → LTE",    types("<=") == ["LTE"])
-    check("<> → NEQ",    types("<>") == ["NEQ"])
-    check("&& → AND_AND",types("&&") == ["AND_AND"])
+    check(">= -> GTE",    types(">=") == ["GTE"])
+    check("<= -> LTE",    types("<=") == ["LTE"])
+    check("<> -> NEQ",    types("<>") == ["NEQ"])
+    check("&& -> AND_AND",types("&&") == ["AND_AND"])
 
     # ── Whitespace ignored ───────────────────────────────────
     print("\nWhitespace:")

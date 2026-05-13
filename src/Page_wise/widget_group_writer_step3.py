@@ -24,8 +24,12 @@ Run:
   python widget_group_writer.py --page "Overview LY" --workers 9
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import os
+import sys
 import argparse
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -43,9 +47,12 @@ from Widgets.segmentation_processor import process_segmentation
 
 load_dotenv()
 
-TF_API_KEY  = os.getenv("TF_API_KEY")
-TF_BASE_URL = os.getenv("TF_BASE_URL")
-TF_MODEL    = os.getenv("TF_MODEL", "internal-bedrock/sonnet-46")
+TF_MODEL = os.getenv("TF_MODEL", "internal-bedrock/sonnet-46")
+
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat, get_client
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -76,22 +83,19 @@ def load_json(path: Path):
 
 
 def page_to_slug(page_name: str) -> str:
-    """'Overview LY' → 'overview_ly'"""
+    """'Overview LY' -> 'overview_ly'"""
     return page_name.lower().replace(" ", "_").replace("/", "_")
 
 
 def call_llm(system: str, user: str, max_tokens: int = 4000) -> str:
-    client = OpenAI(api_key=TF_API_KEY, base_url=TF_BASE_URL)
-    response = client.chat.completions.create(
-        model=TF_MODEL,
-        temperature=0.1,
-        max_tokens=max_tokens,
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
         ],
+        temperature=0.1,
+        max_tokens=max_tokens,
     )
-    return response.choices[0].message.content.strip()
 
 
 def parse_json_response(raw: str) -> dict | list:
@@ -360,9 +364,9 @@ def process_widget(
     widget_type = detect_widget_type(widget, visuals)
 
     print(f"  [{widget['widget_id']}] {widget['widget_name']} "
-          f"→ {widget_type} ({len(visuals)} visuals)")
+          f"-> {widget_type} ({len(visuals)} visuals)")
 
-    client = OpenAI(api_key=TF_API_KEY, base_url=TF_BASE_URL)
+    client = get_client()
 
     if widget_type == "KPI_CARD_ROW":
         return process_kpi_card_row(widget, visuals, funnel_context)
@@ -520,7 +524,7 @@ def main():
     args = parser.parse_args()
 
     root     = get_project_root()
-    stage3   = root / "output" / "dashboards" / args.dashboard / "stage3"
+    stage3   = root / "output" / "dashboards" / args.dashboard / "page_wise"
     out_dir  = stage3 / "widget_content"
 
     # load inputs
@@ -532,7 +536,7 @@ def main():
     if not llm_input:
         raise FileNotFoundError(f"funnel_llm_input.json not found at {stage3}")
 
-    # build visual lookup: visual_id → visual dict
+    # build visual lookup: visual_id -> visual dict
     visual_lookup = {v["visual_id"]: v for v in llm_input.get("visuals", [])}
     print(f"[widget_writer] dashboard   : {args.dashboard}")
     print(f"[widget_writer] visuals     : {len(visual_lookup)}")

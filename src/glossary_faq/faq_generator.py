@@ -2,10 +2,10 @@
 FAQ Generator
 =============
 Input:
-  - stage3/widget_content/*.json     → italic_callouts (watch-outs → FAQ answers)
-  - stage3/funnel_connector.json     → cross_page_patterns (navigation FAQs)
-  - stage1/schema_sections/filters.json → filter metadata (filter FAQs)
-  - stage3/funnel_map.json           → sub_questions + domain_context
+  - stage3/widget_content/*.json     -> italic_callouts (watch-outs -> FAQ answers)
+  - stage3/funnel_connector.json     -> cross_page_patterns (navigation FAQs)
+  - stage1/schema_sections/filters.json -> filter metadata (filter FAQs)
+  - stage3/funnel_map.json           -> sub_questions + domain_context
 
 Output:
   - stage3/faq.md
@@ -18,12 +18,18 @@ cross-page navigation, and "why does X look different" interpretation questions.
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
+
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 _ROOT      = Path(__file__).resolve().parent.parent.parent
 PROMPT_DIR = _ROOT / "prompt" / "system_prompt"
@@ -42,17 +48,21 @@ PERIOD_MAP   = {
 # ============================================================
 
 def collect_faq_signals(dashboard: str, root: Path) -> dict:
-    stage1 = root / "output" / "dashboards" / dashboard / "stage1" / "schema_sections"
-    stage3 = root / "output" / "dashboards" / dashboard / "stage3"
+    stage1 = root / "output" / "dashboards" / dashboard / "extraction" / "schema_sections"
+    page_wise = root / "output" / "dashboards" / dashboard / "page_wise"
 
     # ── Source A: italic_callouts from widget_content ─────────
     callouts: list[dict] = []    # [{page, widget, metric, callout}]
 
-    widget_dir = stage3 / "widget_content"
+    widget_dir = page_wise / "widget_content"
     if widget_dir.exists():
         for wf in sorted(widget_dir.glob("*.json")):
-            with open(wf, encoding="utf-8") as f:
-                data = json.load(f)
+            try:
+                with open(wf, encoding="utf-8") as f:
+                    data = json.load(f)
+            except json.JSONDecodeError as e:
+                print(f"  [WARN] Malformed JSON in {wf.name}, skipping: {e}")
+                continue
             page = data.get("page", "")
             if page.lower().replace(" ", "_") in SKIP_PAGES:
                 continue
@@ -72,10 +82,14 @@ def collect_faq_signals(dashboard: str, root: Path) -> dict:
 
     # ── Source B: cross_page_patterns from funnel_connector ───
     cross_page_patterns: list[dict] = []
-    connector_path = stage3 / "funnel_connector.json"
+    connector_path = page_wise / "funnel_connector.json"
     if connector_path.exists():
-        with open(connector_path, encoding="utf-8") as f:
-            connector = json.load(f)
+        try:
+            with open(connector_path, encoding="utf-8") as f:
+                connector = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] Malformed JSON in funnel_connector.json, skipping: {e}")
+            connector = {}
         cross_page_patterns = connector.get("cross_page_patterns", [])
     else:
         print(f"  [WARN] funnel_connector.json not found at {connector_path}")
@@ -84,8 +98,12 @@ def collect_faq_signals(dashboard: str, root: Path) -> dict:
     filters_raw: list[dict] = []
     filters_path = stage1 / "filters.json"
     if filters_path.exists():
-        with open(filters_path, encoding="utf-8") as f:
-            filters_raw = json.load(f)
+        try:
+            with open(filters_path, encoding="utf-8") as f:
+                filters_raw = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] Malformed JSON in filters.json, skipping: {e}")
+            filters_raw = []
     else:
         print(f"  [WARN] filters.json not found at {filters_path}")
 
@@ -196,7 +214,7 @@ def _format_callouts(callouts: list[dict]) -> str:
         return "  (none)"
     lines = []
     for c in callouts:
-        lines.append(f"  [{c['page']} → {c['widget']} → {c['metric']}]")
+        lines.append(f"  [{c['page']} -> {c['widget']} -> {c['metric']}]")
         lines.append(f"  Watch-out: {c['callout']}")
         lines.append("")
     return "\n".join(lines)
@@ -273,15 +291,14 @@ def generate_faq(data: dict, llm_client) -> str:
     system_prompt = load_faq_prompt()
     system_prompt, user_prompt = build_faq_prompt(data, system_prompt)
 
-    response = llm_client.chat.completions.create(
-        model=os.environ.get("TF_MODEL", "internal-bedrock/sonnet-46"),
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system_prompt},
             {"role": "user",   "content": user_prompt},
         ],
         temperature=0.3,
+        client=llm_client,
     )
-    return response.choices[0].message.content
 
 
 # ============================================================
@@ -289,7 +306,7 @@ def generate_faq(data: dict, llm_client) -> str:
 # ============================================================
 
 def save_faq(content: str, dashboard: str, root: Path) -> Path:
-    out_dir  = root / "output" / "dashboards" / dashboard / "stage3"
+    out_dir  = root / "output" / "dashboards" / dashboard / "glossary_faq"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "faq.md"
     out_path.write_text(content, encoding="utf-8")

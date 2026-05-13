@@ -6,8 +6,8 @@ Stage 2 — Step 5
 PURPOSE:
     Inspect an AnnotatedAST and assign:
       - dax_pattern  : which SQL pattern this measure maps to
-      - sql_applicable: True → sql_generator will attempt SQL
-                        False → llm_fallback (definitions only)
+      - sql_applicable: True -> sql_generator will attempt SQL
+                        False -> llm_fallback (definitions only)
       - llm_role     : DEFINER | BUILDER | None
 
 INPUT:
@@ -19,28 +19,28 @@ OUTPUT:
 PATTERN LABELS (priority order — first match wins):
 
     OUT-OF-SCOPE (sql_applicable=False):
-        INFO_TEXT          → hardcoded string literal
-        DISPLAY            → UNICHAR / color SWITCH / FORMAT+SWITCH
-        UNSUPPORTED        → SELECTEDVALUE, RANDBETWEEN, row iterators
+        INFO_TEXT          -> hardcoded string literal
+        DISPLAY            -> UNICHAR / color SWITCH / FORMAT+SWITCH
+        UNSUPPORTED        -> SELECTEDVALUE, RANDBETWEEN, row iterators
 
     IN-SCOPE (sql_applicable=True):
-        SIMPLE_AGG         → SUM / COUNT / COUNTROWS / MAX / MIN / AVERAGE / DISTINCTCOUNT
-        SIMPLE_DIVIDE      → DIVIDE(SUM, SUM) — leaf, no VAR
-        ARITHMETIC         → ABS(SUM) + SUM, or similar arithmetic on aggregations
-        FILTERED_AGG       → CALCULATE + KEEPFILTERS (single or multi filter)
-        VAR_FILTERED_DIVIDE→ VAR + CALCULATE + DIVIDE (Gap to potential risk pattern)
-        TIME_INTEL_YOY     → SAMEPERIODLASTYEAR
-        TIME_INTEL_MOM     → PREVIOUSMONTH
-        MEASURE_RATIO      → [A] / [B] direct measure division
-        COMPLEX_VAR_DIVIDE → VAR + DIVIDE on measure refs (YoY/MoM computation)
-        CONTEXT_REMOVER    → CALCULATE + ALL()
-        STATIC_FILTERED    → references static_ tables
-        COMPLEX            → everything else compiler handles (needs_llm=BUILDER)
+        SIMPLE_AGG         -> SUM / COUNT / COUNTROWS / MAX / MIN / AVERAGE / DISTINCTCOUNT
+        SIMPLE_DIVIDE      -> DIVIDE(SUM, SUM) — leaf, no VAR
+        ARITHMETIC         -> ABS(SUM) + SUM, or similar arithmetic on aggregations
+        FILTERED_AGG       -> CALCULATE + KEEPFILTERS (single or multi filter)
+        VAR_FILTERED_DIVIDE-> VAR + CALCULATE + DIVIDE (Gap to potential risk pattern)
+        TIME_INTEL_YOY     -> SAMEPERIODLASTYEAR
+        TIME_INTEL_MOM     -> PREVIOUSMONTH
+        MEASURE_RATIO      -> [A] / [B] direct measure division
+        COMPLEX_VAR_DIVIDE -> VAR + DIVIDE on measure refs (YoY/MoM computation)
+        CONTEXT_REMOVER    -> CALCULATE + ALL()
+        STATIC_FILTERED    -> references static_ tables
+        COMPLEX            -> everything else compiler handles (needs_llm=BUILDER)
 
 REUSE FROM step3_classifier.py:
-    Pattern names         → direct reuse (renamed to UPPER_SNAKE)
-    Priority order        → same logic
-    CHANGE: string checks → AST node type checks
+    Pattern names         -> direct reuse (renamed to UPPER_SNAKE)
+    Priority order        -> same logic
+    CHANGE: string checks -> AST node type checks
 
 WHY AST-BASED:
     step3_classifier.py used string scanning:
@@ -75,11 +75,11 @@ class ClassifyResult:
     Fields:
         measure_name    : display name
         dax_pattern     : pattern label string (see module docstring)
-        sql_applicable  : True → compiler attempts SQL generation
-                          False → LLM handles (definitions only or full SQL)
+        sql_applicable  : True -> compiler attempts SQL generation
+                          False -> LLM handles (definitions only or full SQL)
         llm_role        : None | "DEFINER" | "BUILDER"
-                          DEFINER → SQL exists, LLM writes definition only
-                          BUILDER → LLM must generate SQL (compiler gave up)
+                          DEFINER -> SQL exists, LLM writes definition only
+                          BUILDER -> LLM must generate SQL (compiler gave up)
         note            : human-readable explanation of classification
         has_static      : True if measure references static_ tables
         has_time_intel  : True if measure uses SAMEPERIODLASTYEAR / PREVIOUSMONTH
@@ -356,18 +356,18 @@ def classify(annotated: AnnotatedAST) -> ClassifyResult:
         ClassifyResult — always. Never raises.
 
     Priority order (first match wins):
-        1. Static filtered          → STATIC_FILTERED
-        2. Time intel YoY           → TIME_INTEL_YOY
-        3. Time intel MoM           → TIME_INTEL_MOM
-        4. Context remover ALL()    → CONTEXT_REMOVER
-        5. Simple aggregation       → SIMPLE_AGG
-        6. Simple divide            → SIMPLE_DIVIDE
-        7. Arithmetic               → ARITHMETIC
-        8. Filtered aggregation     → FILTERED_AGG
-        9. VAR filtered divide      → VAR_FILTERED_DIVIDE
-       10. Measure ratio            → MEASURE_RATIO
-       11. Complex VAR divide       → COMPLEX_VAR_DIVIDE
-       12. Fallback                 → COMPLEX (BUILDER)
+        1. Static filtered          -> STATIC_FILTERED
+        2. Time intel YoY           -> TIME_INTEL_YOY
+        3. Time intel MoM           -> TIME_INTEL_MOM
+        4. Context remover ALL()    -> CONTEXT_REMOVER
+        5. Simple aggregation       -> SIMPLE_AGG
+        6. Simple divide            -> SIMPLE_DIVIDE
+        7. Arithmetic               -> ARITHMETIC
+        8. Filtered aggregation     -> FILTERED_AGG
+        9. VAR filtered divide      -> VAR_FILTERED_DIVIDE
+       10. Measure ratio            -> MEASURE_RATIO
+       11. Complex VAR divide       -> COMPLEX_VAR_DIVIDE
+       12. Fallback                 -> COMPLEX (BUILDER)
     """
     name      = annotated.measure_name
     ast       = annotated.ast
@@ -493,7 +493,7 @@ def classify(annotated: AnnotatedAST) -> ClassifyResult:
             llm_role       = "DEFINER",
             note           = (
                 "CALCULATE with KEEPFILTERS or inline filter. "
-                "SQL uses WHERE clause. EC24: both forms → same SQL."
+                "SQL uses WHERE clause. EC24: both forms -> same SQL."
             ),
             has_static     = False,
             has_time_intel = False,
@@ -640,7 +640,7 @@ if __name__ == "__main__":
     RELS = []
 
     def annotate(name: str, dax: str, extra_measures: dict = None) -> AnnotatedAST:
-        """Helper: clean → parse → dep_resolve → semantic_resolve."""
+        """Helper: clean -> parse -> dep_resolve -> semantic_resolve."""
         measures = {name: parse(name, dax)}
         if extra_measures:
             measures.update(extra_measures)
@@ -662,13 +662,13 @@ if __name__ == "__main__":
     check("llm_role=DEFINER",           r.llm_role       == "DEFINER")
 
     r = clf("MAX date", "MAX(risk_core[month_of_measurement])")
-    check("MAX → SIMPLE_AGG",           r.dax_pattern == "SIMPLE_AGG")
+    check("MAX -> SIMPLE_AGG",           r.dax_pattern == "SIMPLE_AGG")
 
     r = clf("Targeted gaps", "COUNTROWS(cohort)")
-    check("COUNTROWS → SIMPLE_AGG",     r.dax_pattern == "SIMPLE_AGG")
+    check("COUNTROWS -> SIMPLE_AGG",     r.dax_pattern == "SIMPLE_AGG")
 
     r = clf("Distinct", "DISTINCTCOUNT(attribution[member_count])")
-    check("DISTINCTCOUNT → SIMPLE_AGG", r.dax_pattern == "SIMPLE_AGG")
+    check("DISTINCTCOUNT -> SIMPLE_AGG", r.dax_pattern == "SIMPLE_AGG")
 
     # ── P3: SIMPLE_DIVIDE ────────────────────────────────────
     print("\nP3 — SIMPLE_DIVIDE:")
@@ -689,17 +689,17 @@ if __name__ == "__main__":
     check("pattern=FILTERED_AGG",       r.dax_pattern == "FILTERED_AGG")
     check("sql_applicable=True",        r.sql_applicable is True)
 
-    # ── EC18: AVERAGE → FILTERED_AGG ─────────────────────────
+    # ── EC18: AVERAGE -> FILTERED_AGG ─────────────────────────
     print("\nEC18 — AVERAGE:")
     dax18 = 'CALCULATE(AVERAGE(risk_core[risk_value]), KEEPFILTERS(risk_core[flag] = "Documented"))'
     r = clf("Avg risk", dax18)
-    check("AVERAGE+KEEPFILTERS → FILTERED_AGG", r.dax_pattern == "FILTERED_AGG")
+    check("AVERAGE+KEEPFILTERS -> FILTERED_AGG", r.dax_pattern == "FILTERED_AGG")
 
     # ── P7: FILTERED_AGG (inline, no KEEPFILTERS) ────────────
     print("\nP7 — FILTERED_AGG inline:")
     dax7 = 'CALCULATE(SUM(risk_core[risk_value]), risk_core[flag] = "Documented")'
     r = clf("inline filter", dax7)
-    check("inline filter → FILTERED_AGG", r.dax_pattern == "FILTERED_AGG")
+    check("inline filter -> FILTERED_AGG", r.dax_pattern == "FILTERED_AGG")
 
     # ── P6: VAR_FILTERED_DIVIDE ──────────────────────────────
     print("\nP6 — VAR_FILTERED_DIVIDE:")
@@ -804,10 +804,10 @@ if __name__ == "__main__":
         warnings      = [],
     )
     r = classify(complex_ann)
-    # CALCULATE with MeasureRef as main expr → FILTERED_AGG check fails
+    # CALCULATE with MeasureRef as main expr -> FILTERED_AGG check fails
     # (because _is_filtered_agg excludes MeasureRef as main expr)
-    # → falls to COMPLEX
-    check("MeasureRef in CALCULATE → COMPLEX", r.dax_pattern == "COMPLEX")
+    # -> falls to COMPLEX
+    check("MeasureRef in CALCULATE -> COMPLEX", r.dax_pattern == "COMPLEX")
     check("llm_role=BUILDER",          r.llm_role == "BUILDER")
 
     # ── has_* flags ──────────────────────────────────────────
@@ -819,18 +819,18 @@ if __name__ == "__main__":
     r_all = clf("Latest month", "CALCULATE(MAX(cohort[month_of_measurement]), ALL('DATE'))")
     check("has_all=True for ALL()",      r_all.has_all is True)
 
-    # ── EC2: IN {set} → FILTERED_AGG ─────────────────────────
-    print("\nEC2 — IN {set} → FILTERED_AGG:")
+    # ── EC2: IN {set} -> FILTERED_AGG ─────────────────────────
+    print("\nEC2 — IN {set} -> FILTERED_AGG:")
     dax_in = ('CALCULATE(SUM(risk_core[risk_value]), '
               'KEEPFILTERS(risk_core[flag] IN {"Undocumented","Suspected"}))')
     r = clf("flagged risk", dax_in)
-    check("IN {set} → FILTERED_AGG",    r.dax_pattern == "FILTERED_AGG")
+    check("IN {set} -> FILTERED_AGG",    r.dax_pattern == "FILTERED_AGG")
 
-    # ── EC8: boolean filter → FILTERED_AGG ───────────────────
-    print("\nEC8 — boolean filter → FILTERED_AGG:")
+    # ── EC8: boolean filter -> FILTERED_AGG ───────────────────
+    print("\nEC8 — boolean filter -> FILTERED_AGG:")
     dax_bool = 'CALCULATE(SUM(risk_core[patient_count]), KEEPFILTERS(risk_core[max_month_flag] = TRUE()))'
     r = clf("current month", dax_bool)
-    check("boolean filter → FILTERED_AGG", r.dax_pattern == "FILTERED_AGG")
+    check("boolean filter -> FILTERED_AGG", r.dax_pattern == "FILTERED_AGG")
 
     # ── Summary ─────────────────────────────────────────────
     print()

@@ -5,6 +5,11 @@ import tempfile
 from pathlib import Path
 
 import pypandoc
+from docx import Document
+from docx.shared import Pt, RGBColor
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+# from docx2pdf import convert
 
 
 # ── Config ────────────────────────────────────────────────────
@@ -26,6 +31,79 @@ VISUAL_PRIORITY = {
     "table": 4, "matrix": 4,
     "donut": 5, "pie": 5,
 }
+
+
+def style_tables(docx_path: str):
+    doc = Document(docx_path)
+    for table in doc.tables:
+        # full-width
+        tbl = table._tbl
+        tblPr = tbl.find(qn('w:tblPr'))
+        if tblPr is None:
+            tblPr = OxmlElement('w:tblPr')
+            tbl.insert(0, tblPr)
+        for old in tblPr.findall(qn('w:tblW')):
+            tblPr.remove(old)
+        tblW = OxmlElement('w:tblW')
+        tblW.set(qn('w:w'), '5000')
+        tblW.set(qn('w:type'), 'pct')
+        tblPr.append(tblW)
+
+        # auto-fit columns so no column gets crushed
+        for old in tblPr.findall(qn('w:tblLayout')):
+            tblPr.remove(old)
+        tblLayout = OxmlElement('w:tblLayout')
+        tblLayout.set(qn('w:type'), 'autofit')
+        tblPr.append(tblLayout)
+
+        for row_idx, row in enumerate(table.rows):
+            is_header = row_idx == 0
+            bg = '2E2E2E' if is_header else ('FFFFFF' if row_idx % 2 == 1 else 'F5F5F5')
+            for cell in row.cells:
+                tcPr = cell._tc.get_or_add_tcPr()
+                # borders
+                for old in tcPr.findall(qn('w:tcBorders')):
+                    tcPr.remove(old)
+                borders = OxmlElement('w:tcBorders')
+                for edge in ('top', 'left', 'bottom', 'right'):
+                    el = OxmlElement(f'w:{edge}')
+                    el.set(qn('w:val'), 'single')
+                    el.set(qn('w:sz'), '4')
+                    el.set(qn('w:space'), '0')
+                    el.set(qn('w:color'), 'CCCCCC')
+                    borders.append(el)
+                tcPr.append(borders)
+                # background
+                for old in tcPr.findall(qn('w:shd')):
+                    tcPr.remove(old)
+                shd = OxmlElement('w:shd')
+                shd.set(qn('w:val'), 'clear')
+                shd.set(qn('w:color'), 'auto')
+                shd.set(qn('w:fill'), bg)
+                tcPr.append(shd)
+                # padding
+                for old in tcPr.findall(qn('w:tcMar')):
+                    tcPr.remove(old)
+                tcMar = OxmlElement('w:tcMar')
+                for side in ('top', 'left', 'bottom', 'right'):
+                    m = OxmlElement(f'w:{side}')
+                    m.set(qn('w:w'), str(6 * 20))
+                    m.set(qn('w:type'), 'dxa')
+                    tcMar.append(m)
+                tcPr.append(tcMar)
+                # font
+                for para in cell.paragraphs:
+                    for run in para.runs:
+                        run.font.name = 'Calibri'
+                        run.font.size = Pt(10)
+                        if is_header:
+                            run.font.bold = True
+                            run.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+                        else:
+                            run.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
+    doc.save(docx_path)
+    print(f"  ✓ Table styling applied ({len(doc.tables)} tables)")
+
 
 def read_file(path: Path) -> str:
     content = path.read_text(encoding="utf-8")
@@ -57,10 +135,15 @@ def sort_pages(page_dirs):
 
 def build_combined_md(dashboard: str = "risk-dash") -> str:
     chunks = []
-    stage3 = BASE_DIR / "output" / "dashboards" / dashboard / "stage3"
+    dash_out = BASE_DIR / "output" / "dashboards" / dashboard
+    dashboard_overview_dir = dash_out / "dashboard_overview"
+    filter_section_dir     = dash_out / "filter_section"
+    page_wise_dir          = dash_out / "page_wise"
+    visual_wise_dir        = dash_out / "visual_wise"
+    glossary_faq_dir       = dash_out / "glossary_faq"
 
     # 1. Dashboard Overview  (md file has its own heading — no injected title)
-    p = stage3 / "dashboard_overview.md"
+    p = dashboard_overview_dir / "dashboard_overview.md"
     if p.exists():
         chunks.append(read_file(p))
         print("  + Dashboard Overview")
@@ -68,7 +151,7 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
         print(f"  ⚠ not found: {p}")
 
     # 2. Global Filters
-    p = stage3 / "global_filters.md"
+    p = filter_section_dir / "global_filters.md"
     if p.exists():
         chunks.append(PAGE_BREAK)
         chunks.append("# Global Filters\n\n")
@@ -78,7 +161,7 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
         print(f"  ⚠ not found: {p}")
 
     # 3. Page-Wise Story
-    p = stage3 / "page_wise_story.md"
+    p = page_wise_dir / "page_wise_story.md"
     if p.exists():
         chunks.append(PAGE_BREAK)
         chunks.append("# Page-Wise Story\n\n")
@@ -87,8 +170,8 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
     else:
         print(f"  ⚠ not found: {p}")
 
-    # 4. Visual-Wise  (card → trend → bar → table → donut, overview page first)
-    story_root = stage3 / "story_guide"
+    # 4. Visual-Wise  (card -> trend -> bar -> table -> donut, overview page first)
+    story_root = visual_wise_dir / "story_guide"
     if story_root.exists():
         count = 0
         for page_dir in sort_pages([d for d in story_root.iterdir() if d.is_dir()]):
@@ -102,11 +185,9 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
     else:
         print(f"  ⚠ not found: {story_root}")
 
-    # 5. Metric Catalog — skipped (large table causes pandoc to hang;
-    #    available separately at stage2/metric_catalog.md)
 
     # 6. FAQ
-    p = stage3 / "faq.md"
+    p = glossary_faq_dir / "faq.md"
     if p.exists():
         chunks.append(PAGE_BREAK)
         chunks.append("# FAQ\n\n")
@@ -116,7 +197,7 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
         print(f"  ⚠ not found: {p}")
 
     # 7. Glossary
-    p = stage3 / "glossary.md"
+    p = glossary_faq_dir / "glossary.md"
     if p.exists():
         chunks.append(PAGE_BREAK)
         chunks.append("# Glossary\n\n")
@@ -153,7 +234,14 @@ def main():
 
         print("  Converting...")
         pypandoc.convert_file(tmp_path, "docx", outputfile=output_path, extra_args=extra_args)
-        print(f"\n✅ {output_path}")
+        print("  Styling tables...")
+        style_tables(output_path)
+        print(f"  ✅ Word: {output_path}")
+
+        # pdf_path = output_path.replace(".docx", ".pdf")
+        # print("  Converting to PDF...")
+        # convert(output_path, pdf_path)
+        # print(f"  ✅ PDF : {pdf_path}")
     finally:
         os.unlink(tmp_path)
 

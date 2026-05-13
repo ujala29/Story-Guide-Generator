@@ -80,12 +80,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 DASHBOARD_CONFIGS = {
     "pac-dash": {
-        "llm_json": BASE_DIR / "output" / "dashboards" / "pac-dash" / "stage2" / "final_measures_with_llm.json",
-        "output_dir": BASE_DIR / "output" / "dashboards" / "pac-dash" / "stage2",
+        "llm_json": BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary" / "final_measures_with_llm.json",
+        "output_dir": BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary",
     },
     "risk-dash": {
-        "llm_json": BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2" / "final_measures_with_llm.json",
-        "output_dir": BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage2",
+        "llm_json": BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "final_measures_with_llm.json",
+        "output_dir": BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary",
     },
 }
 
@@ -404,7 +404,7 @@ def run_catalog(
     print("=" * 60)
     print(f"\n  Loaded {len(measures)} measures")
 
-    # Build name → measure lookup for dependency walking
+    # Build name -> measure lookup for dependency walking
     measures_lookup = {m["measure_name"]: m for m in measures}
 
     # Extract structured entries

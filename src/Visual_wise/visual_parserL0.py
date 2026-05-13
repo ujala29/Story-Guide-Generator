@@ -16,7 +16,7 @@
 # #   3. DAX fetch        — all measures_used + paired cards
 # #   4. Comparison       — YoY / MoM from paired multiRowCard
 # #   5. Filters          — active filter_config entries
-# #   6. Columns          — parse referenced_columns → Table + Column
+# #   6. Columns          — parse referenced_columns -> Table + Column
 # #   7. Page visuals     — O(1) from page_context.page_map
 # #   8. Peer cards       — O(1) from page_context.peer_cache
 # #   9. Validation       — missing fields warn, skip if unrecoverable
@@ -110,13 +110,13 @@
 # #     Pre-computed page-level lookups — build ONCE, reuse per visual.
 # #     Eliminates O(N×M) repeated all_visuals scans.
 # #     """
-# #     # page_name → all visuals on that page (excl. SKIP_TYPES)
+# #     # page_name -> all visuals on that page (excl. SKIP_TYPES)
 # #     page_map      : dict
 
-# #     # visual_id → (multiRowCard_visual, card_visual) tuple
+# #     # visual_id -> (multiRowCard_visual, card_visual) tuple
 # #     pairing_cache : dict
 
-# #     # visual_id → list[PeerCard]
+# #     # visual_id -> list[PeerCard]
 # #     peer_cache    : dict
 
 
@@ -188,10 +188,10 @@
 # # def _parse_column_ref(raw: str) -> ColumnRef:
 # #     """
 # #     "risk_core[risk_value]"
-# #        → ColumnRef(table="risk_core", column="risk_value", raw=...)
+# #        -> ColumnRef(table="risk_core", column="risk_value", raw=...)
 
 # #     "'date'[month_of_date]"
-# #        → ColumnRef(table="date", column="month_of_date", raw=...)
+# #        -> ColumnRef(table="date", column="month_of_date", raw=...)
 # #     """
 # #     raw = raw.strip()
 # #     if "[" in raw and raw.endswith("]"):
@@ -296,8 +296,8 @@
 # #     Determine comparison baseline from paired multiRowCard measures
 # #     and page context.
 
-# #     Page "Overview LY" → prefer YoY
-# #     Page "Overview LM" → prefer MoM
+# #     Page "Overview LY" -> prefer YoY
+# #     Page "Overview LM" -> prefer MoM
 # #     """
 # #     page_lower = page.lower()
 
@@ -338,8 +338,8 @@
 
 # #     Returns: (multiRowCard_visual, card_visual)
 
-# #     Page-aware: LY page → prefer YoY card,
-# #                 LM page → prefer MoM card
+# #     Page-aware: LY page -> prefer YoY card,
+# #                 LM page -> prefer MoM card
 # #     """
 # #     measures = visual.get("measures_used", [])
 # #     if not measures:
@@ -489,7 +489,7 @@
 # #     """
 
 # #     # ── 1. page_map ─────────────────────────────────────────
-# #     # page_name → list of visuals on that page
+# #     # page_name -> list of visuals on that page
 # #     page_map: dict = {}
 # #     for v in all_visuals:
 # #         if v.get("type") in SKIP_TYPES:
@@ -500,7 +500,7 @@
 # #         page_map[page].append(v)
 
 # #     # ── 2. pairing_cache ────────────────────────────────────
-# #     # visual_id → (multiRowCard, card) for cardVisuals only
+# #     # visual_id -> (multiRowCard, card) for cardVisuals only
 # #     pairing_cache: dict = {}
 # #     for v in all_visuals:
 # #         if v.get("type") != "cardVisual":
@@ -510,7 +510,7 @@
 # #         pairing_cache[v["id"]] = (multi, card)
 
 # #     # ── 3. peer_cache ────────────────────────────────────────
-# #     # visual_id → list[PeerCard] for cardVisuals only
+# #     # visual_id -> list[PeerCard] for cardVisuals only
 # #     peer_cache: dict = {}
 # #     for v in all_visuals:
 # #         if v.get("type") != "cardVisual":
@@ -723,7 +723,7 @@
 
 
 # # # ============================================================
-# # # SERIALISER  (L0Packet → plain dict for logging / Layer 1)
+# # # SERIALISER  (L0Packet -> plain dict for logging / Layer 1)
 # # # ============================================================
 
 # # def l0_to_dict(packet: L0Packet) -> dict:
@@ -768,7 +768,7 @@
 
 
 # # # ============================================================
-# # # SAVE  (L0Packet → disk)
+# # # SAVE  (L0Packet -> disk)
 # # # ============================================================
 
 # # L0_OUTPUT_DIR = str(_PROJECT_ROOT / "output" / "l0_packets")
@@ -854,7 +854,7 @@
 
 # #     print(f"\n  peer_cards ({len(packet.peer_cards)}):")
 # #     for p in packet.peer_cards:
-# #         print(f"    {p.title} → {p.measures}")
+# #         print(f"    {p.title} -> {p.measures}")
 
 # #     print("=" * 60 + "\n")
 
@@ -915,7 +915,7 @@
 #   3. DAX fetch        — all measures_used + paired cards
 #   4. Comparison       — YoY / MoM from paired multiRowCard
 #   5. Filters          — active filter_config entries
-#   6. Columns          — parse referenced_columns → Table + Column
+#   6. Columns          — parse referenced_columns -> Table + Column
 #   7. Page visuals     — O(1) from page_context.page_map
 #   8. Peer cards       — O(1) from page_context.peer_cache
 #   9. Validation       — missing fields warn, skip if unrecoverable
@@ -1006,13 +1006,13 @@
 #     Pre-computed page-level lookups — build ONCE, reuse per visual.
 #     Eliminates O(N×M) repeated all_visuals scans.
 #     """
-#     # page_name → all visuals on that page (excl. SKIP_TYPES)
+#     # page_name -> all visuals on that page (excl. SKIP_TYPES)
 #     page_map      : dict
 
-#     # visual_id → (multiRowCard_visual, card_visual) tuple
+#     # visual_id -> (multiRowCard_visual, card_visual) tuple
 #     pairing_cache : dict
 
-#     # visual_id → list[PeerCard]
+#     # visual_id -> list[PeerCard]
 #     peer_cache    : dict
 
 
@@ -1084,10 +1084,10 @@
 # def _parse_column_ref(raw: str) -> ColumnRef:
 #     """
 #     "risk_core[risk_value]"
-#        → ColumnRef(table="risk_core", column="risk_value", raw=...)
+#        -> ColumnRef(table="risk_core", column="risk_value", raw=...)
 
 #     "'date'[month_of_date]"
-#        → ColumnRef(table="date", column="month_of_date", raw=...)
+#        -> ColumnRef(table="date", column="month_of_date", raw=...)
 #     """
 #     raw = raw.strip()
 #     if "[" in raw and raw.endswith("]"):
@@ -1199,7 +1199,7 @@
 #     1. paired_dax roles se detect karo (multiRowCard mila)
 #     2. Agar paired_dax empty — measures_resolved mein
 #        primary_measure + "YoY Card" / "MoM Card" check karo
-#     3. Page name se prefer karo — LY→YoY, LM→MoM
+#     3. Page name se prefer karo — LY->YoY, LM->MoM
 #     """
 #     page_lower = page.lower()
 
@@ -1258,8 +1258,8 @@
 
 #     Returns: (multiRowCard_visual, card_visual)
 
-#     Page-aware: LY page → prefer YoY card,
-#                 LM page → prefer MoM card
+#     Page-aware: LY page -> prefer YoY card,
+#                 LM page -> prefer MoM card
 #     """
 #     measures = visual.get("measures_used", [])
 #     if not measures:
@@ -1409,7 +1409,7 @@
 #     """
 
 #     # ── 1. page_map ─────────────────────────────────────────
-#     # page_name → list of visuals on that page
+#     # page_name -> list of visuals on that page
 #     page_map: dict = {}
 #     for v in all_visuals:
 #         if v.get("type") in SKIP_TYPES:
@@ -1420,7 +1420,7 @@
 #         page_map[page].append(v)
 
 #     # ── 2. pairing_cache ────────────────────────────────────
-#     # visual_id → (multiRowCard, card) for cardVisuals only
+#     # visual_id -> (multiRowCard, card) for cardVisuals only
 #     pairing_cache: dict = {}
 #     for v in all_visuals:
 #         if v.get("type") != "cardVisual":
@@ -1430,7 +1430,7 @@
 #         pairing_cache[v["id"]] = (multi, card)
 
 #     # ── 3. peer_cache ────────────────────────────────────────
-#     # visual_id → list[PeerCard] for cardVisuals only
+#     # visual_id -> list[PeerCard] for cardVisuals only
 #     peer_cache: dict = {}
 #     for v in all_visuals:
 #         if v.get("type") != "cardVisual":
@@ -1665,7 +1665,7 @@
 
 
 # # ============================================================
-# # SERIALISER  (L0Packet → plain dict for logging / Layer 1)
+# # SERIALISER  (L0Packet -> plain dict for logging / Layer 1)
 # # ============================================================
 
 # def l0_to_dict(packet: L0Packet) -> dict:
@@ -1710,7 +1710,7 @@
 
 
 # # ============================================================
-# # SAVE  (L0Packet → disk)
+# # SAVE  (L0Packet -> disk)
 # # ============================================================
 
 # # Absolute path — working directory se independent
@@ -1799,7 +1799,7 @@
 
 #     print(f"\n  peer_cards ({len(packet.peer_cards)}):")
 #     for p in packet.peer_cards:
-#         print(f"    {p.title} → {p.measures}")
+#         print(f"    {p.title} -> {p.measures}")
 
 #     print("=" * 60 + "\n")
 
@@ -1904,12 +1904,12 @@ Two-step usage:
 
 What this layer does:
   1. Title fix        — override / generic / blank
-  2. Type routing     — cardVisual → card path | pivotTable/tableEx → table path
+  2. Type routing     — cardVisual -> card path | pivotTable/tableEx -> table path
   3. Primary measure  — from axis_bindings
   4. DAX fetch        — all measures_used + paired cards (card path only)
   5. Comparison       — YoY / MoM from paired multiRowCard (card) or column names (table)
   6. Filters          — active filter_config entries
-  7. Columns          — parse referenced_columns → Table + Column
+  7. Columns          — parse referenced_columns -> Table + Column
   8. Page visuals     — O(1) from page_context.page_map
   9. Peer cards       — O(1) from page_context.peer_cache (card path only)
   10. Validation      — missing fields warn, skip if unrecoverable
@@ -2011,14 +2011,14 @@ class PageContext:
     Pre-computed page-level lookups — build ONCE, reuse per visual.
     Eliminates O(N×M) repeated all_visuals scans.
     """
-    # page_name → all visuals on that page (excl. SKIP_TYPES)
+    # page_name -> all visuals on that page (excl. SKIP_TYPES)
     page_map      : dict
 
-    # visual_id → (multiRowCard_visual, card_visual) tuple
+    # visual_id -> (multiRowCard_visual, card_visual) tuple
     # cardVisuals only
     pairing_cache : dict
 
-    # visual_id → list[PeerCard]
+    # visual_id -> list[PeerCard]
     # cardVisuals only
     peer_cache    : dict
 
@@ -2126,10 +2126,10 @@ def _fix_title(visual: dict) -> str:
 def _parse_column_ref(raw: str) -> ColumnRef:
     """
     "risk_core[risk_value]"
-       → ColumnRef(table="risk_core", column="risk_value", raw=...)
+       -> ColumnRef(table="risk_core", column="risk_value", raw=...)
 
     "'date'[month_of_date]"
-       → ColumnRef(table="date", column="month_of_date", raw=...)
+       -> ColumnRef(table="date", column="month_of_date", raw=...)
     """
     raw = raw.strip()
     if "[" in raw and raw.endswith("]"):
@@ -2239,7 +2239,7 @@ def _detect_comparison(
     1. paired_dax roles se detect karo (multiRowCard mila)
     2. Agar paired_dax empty — measures_resolved mein
        primary_measure + "YoY Card" / "MoM Card" check karo
-    3. Page name se prefer karo — LY→YoY, LM→MoM
+    3. Page name se prefer karo — LY->YoY, LM->MoM
     """
     page_lower = page.lower()
 
@@ -2327,7 +2327,7 @@ def _find_paired_visuals(
     #     vm = v.get("measures_used", [])
     #     if vm:
     #         vp = vm[0].split(".", 1)[-1].strip().lower()
-    #         print(f"    → '{vp}' | match: {primary_measure in vp}")
+    #         print(f"    -> '{vp}' | match: {primary_measure in vp}")
     # # ── END DEBUG ─────────────────────────────────────────────
 
     for v in all_visuals:
@@ -2476,7 +2476,7 @@ def _find_peer_cards(
 #            continue
 #     # property preferred over display_name — clean name without suffix
 #         name = f.get("property", "") or f.get("display_name", "")
-#     # Trailing digits strip karo — "Eligible population1" → "Eligible population"
+#     # Trailing digits strip karo — "Eligible population1" -> "Eligible population"
 #         name = re.sub(r'\d+\s*$', '', name).strip()
 #         if name not in seen_cols:
 #           seen_cols.add(name)
@@ -2558,7 +2558,7 @@ def _find_peer_cards(
 #                 ))
 
 #     # ── Comparison — detect from column names ─────────────────
-#     # If any column is a YoY or MoM change column → note it
+#     # If any column is a YoY or MoM change column -> note it
 #     has_yoy = any("YoY" in c or "yoy" in c for c in table_columns)
 #     has_mom = any("MoM" in c or "mom" in c for c in table_columns)
 
@@ -2888,7 +2888,7 @@ def _build_barchart_l0_packet(
 ) -> "L0Packet":
     axis = visual.get("axis_bindings", {})
 
-    # ── Orientation — x_axis Column → vertical, y_axis Column → horizontal ──
+    # ── Orientation — x_axis Column -> vertical, y_axis Column -> horizontal ──
     x_axis = axis.get("x_axis", [])
     y_axis = axis.get("y_axis", [])
 
@@ -3386,7 +3386,7 @@ def build_page_context(all_visuals: list) -> PageContext:
     """
 
     # ── 1. page_map ─────────────────────────────────────────
-    # page_name → list of visuals on that page (excl. SKIP_TYPES)
+    # page_name -> list of visuals on that page (excl. SKIP_TYPES)
     page_map: dict = {}
     for v in all_visuals:
         if v.get("type") in SKIP_TYPES:
@@ -3470,8 +3470,8 @@ def build_l0_packet(
     Uses pre-computed PageContext — O(1) lookups only.
 
     Routing:
-      TABLE_TYPES  → _build_table_l0_packet()
-      KPI_CARD_TYPES → card path (existing logic)
+      TABLE_TYPES  -> _build_table_l0_packet()
+      KPI_CARD_TYPES -> card path (existing logic)
     """
     warnings   = []
     vid        = visual.get("id", "unknown")
@@ -3562,7 +3562,7 @@ def build_l0_packet(
     primary_measure = primary_field.get("property", "").strip()
 
 # ── Formatted wrapper detect karo — base measure use karo pairing ke liye ──
-# "Formatted Eligible population" → "Eligible population"
+# "Formatted Eligible population" -> "Eligible population"
     pairing_measure = primary_measure
     if primary_measure.lower().startswith("formatted "):
         base_name = primary_measure[len("formatted "):].strip()
@@ -3723,7 +3723,7 @@ def build_l0_packet(
 
 
 # ============================================================
-# SERIALISER  (L0Packet → plain dict for logging / Layer 1)
+# SERIALISER  (L0Packet -> plain dict for logging / Layer 1)
 # ============================================================
 
 def l0_to_dict(packet: L0Packet) -> dict:
@@ -3789,7 +3789,7 @@ def l0_to_dict(packet: L0Packet) -> dict:
 
 
 # ============================================================
-# SAVE  (L0Packet → disk)
+# SAVE  (L0Packet -> disk)
 # ============================================================
 
 L0_OUTPUT_DIR = str(_get_paths(_DASHBOARD).l0_packets_dir)
@@ -3884,7 +3884,7 @@ def print_l0_packet(packet: L0Packet):
     if not packet.is_table:
         print(f"\n  peer_cards ({len(packet.peer_cards)}):")
         for p in packet.peer_cards:
-            print(f"    {p.title} → {p.measures}")
+            print(f"    {p.title} -> {p.measures}")
 
     print("=" * 60 + "\n")
 

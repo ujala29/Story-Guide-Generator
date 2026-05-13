@@ -226,24 +226,59 @@ L3 Output: markdown section per visual (template-filled, temp=0.1)
 
 ## How to Run (Current State)
 
+### Full pipeline — single command (recommended)
+
 ```bash
-# Stage 1 — Extract Power BI schema
-cd src/Extraction
-python extractor.py --dashboard risk-dash
+# Run all stages for all dashboards
+python main.py
 
-# Stage 2 — DAX → SQL
-cd src/Metric_dictionary
-python pipeline.py --dashboard risk-dash
-python llm_fallback.py --dashboard risk-dash
-python metric_catalog.py --dashboard risk-dash   # optional
+# Run all stages for one dashboard
+python main.py --dashboard risk-dash
 
-# Stage 3 — Visual stories (run from Visual_wise/)
-cd src/Visual_wise
-python visaul_pipeline_runner.py
+# Resume from a specific stage (e.g. skip extraction)
+python main.py --dashboard risk-dash --from-stage 2
 
-# Stage 4 — Document assembly
-cd src/Page_wise
-python document_assembler.py
+# Full Visual_wise run (disable test mode)
+python main.py --no-test
+
+# Skip optional Metric_dictionary steps
+python main.py --skip-verifier --skip-catalog
+
+# No LLM / Snowflake calls (dry run)
+python main.py --dry-run
+```
+
+Pipeline execution order inside `main.py`:
+```
+Stage 1  →  Extraction                                (sequential)
+Stage 2  →  Visual_wise ∥ filter_section ∥ Metric_dict  (parallel, threaded)
+Stage 3  →  Page_wise                                 (sequential)
+Stage 4  →  Glossary & FAQ                            (sequential)
+```
+
+### Per-module runners (for targeted re-runs)
+
+```bash
+# Stage 1 — Extraction + measure resolution
+python src/Extraction/runner.py --dashboard risk-dash
+
+# Stage 2 — Metric Dictionary (DAX → SQL → LLM)
+python src/Metric_dictionary/runner.py --dashboard risk-dash
+
+# Stage 2 — Visual stories (L0→L1→L2→L3)
+python src/Visual_wise/runner.py --dashboard risk-dash
+
+# Stage 2 — Filter guide
+python src/filter_section/runner.py --dashboard risk-dash
+
+# Stage 2 — Dashboard overview
+python src/dashboard_overview/runner.py --dashboard risk-dash
+
+# Stage 3 — Page_wise story assembly
+python src/Page_wise/runner.py --dashboard risk-dash
+
+# Stage 4 — Glossary & FAQ
+python src/glossary_faq/runner.py --dashboard risk-dash
 ```
 
 ---
@@ -271,11 +306,14 @@ Do NOT use `TRUEFOUNDRY_MODEL` / `TRUEFOUNDRY_API_KEY` / `TRUEFOUNDRY_BASE_URL` 
 ## File Map
 
 ```
+main.py                        ← TOP-LEVEL PIPELINE RUNNER (stage 1→2→3→4)
+│
 src/
 ├── paths.py                   ← Centralized output-path registry (DashboardPaths, get_paths)
 │
 ├── Extraction/
-│   ├── extractor.py           ← Stage 1 orchestrator
+│   ├── runner.py              ← Stage 1 entry point  ← NEW
+│   ├── extractor.py           ← Stage 1 orchestrator (called by runner.py)
 │   ├── tmdl_parser.py
 │   ├── relationship_parser.py
 │   ├── visual_parser.py
@@ -300,7 +338,8 @@ src/
 │   └── scope_classifier.py
 │
 ├── Visual_wise/
-│   ├── visaul_pipeline_runner.py          ← Stage 3 orchestrator (TYPO — do not rename)
+│   ├── runner.py              ← Stage 2 entry point  ← NEW
+│   ├── visaul_pipeline_runner.py          ← core pipeline (TYPO — do not rename)
 │   ├── visual_enricher_with_resolved_dax_adder_L0.py
 │   ├── visual_parserL0.py                 ← L0: visual → L0Packet (deterministic)
 │   ├── visaul_pareserL1.py                ← L1: L0 → L1Packet (LLM)  [TYPO — do not rename]
@@ -325,16 +364,18 @@ src/
 │       └── segmentation_processor.py
 │
 ├── dashboard_overview/
+│   ├── runner.py              ← Stage 2 entry point  ← NEW
 │   ├── dashboard_overview_generator.py
 │   └── dashboard_overview_generator_simple.py
 │
 ├── filter_section/
+│   ├── runner.py              ← Stage 2 entry point  ← NEW
 │   └── filter_story_guidemaker.py
 │
 ├── glossary_faq/
+│   ├── runner.py              ← Stage 4 entry point
 │   ├── glossary_generator.py
-│   ├── faq_generator.py
-│   └── runner.py
+│   └── faq_generator.py
 │
 └── word_generator/
     ├── generate_word_doc.py   ← Final Word doc generator (Stage 4)

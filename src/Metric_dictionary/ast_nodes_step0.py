@@ -11,7 +11,7 @@ RULE:
     Never define AST shapes anywhere else.
 
 HOW TO READ THIS FILE:
-    Top → Bottom = Leaf nodes first, then expression nodes,
+    Top -> Bottom = Leaf nodes first, then expression nodes,
     then block nodes, then result nodes.
 
     Leaf nodes  = no children  (ColumnRef, MeasureRef, literals)
@@ -20,35 +20,35 @@ HOW TO READ THIS FILE:
     Result nodes= parser output (ParseSuccess, ParseFailure)
 
 PATTERNS COVERED (from pattern_plus_edgecases.html):
-    P1  Plain SUM               → FunctionCall("SUM", [ColumnRef])
-    P2  CALCULATE + COUNT       → FunctionCall("CALCULATE", [FunctionCall("COUNT",...)])
-    P3  DIVIDE simple           → DivideNode(num, den, default_val=None)
-    P4  DIVIDE × scalar         → ScalarMultiplier(DivideNode(...), 12000)
-    P5  CALCULATE + KEEPFILTERS → FunctionCall("CALCULATE", [..., FunctionCall("KEEPFILTERS",...)])
-    P6  KEEPFILTERS IN {set}    → FunctionCall("KEEPFILTERS", [InSetExpr(...)])
-    P7  CALCULATE inline filter → FunctionCall("CALCULATE", [..., InlineFilter(...)])
-    P8  VAR + boolean flag      → VarBlock + BoolLiteral
-    P9  Multi-flag CALCULATE    → FunctionCall("CALCULATE", [..., InlineFilter, InlineFilter])
-    P10 Measure / Measure       → BinaryOp("/", MeasureRef, MeasureRef)
-    P11 SAMEPERIODLASTYEAR      → FunctionCall("SAMEPERIODLASTYEAR", [ColumnRef])
-    P12 YoY / MoM ratio         → VarBlock + DivideNode
-    P13 MAX / MIN               → FunctionCall("MAX", [ColumnRef])
-    P14 ALL() context remover   → FunctionCall("ALL", [ColumnRef])
-    P22 ABS() wrapper           → FunctionCall("ABS", [...])
+    P1  Plain SUM               -> FunctionCall("SUM", [ColumnRef])
+    P2  CALCULATE + COUNT       -> FunctionCall("CALCULATE", [FunctionCall("COUNT",...)])
+    P3  DIVIDE simple           -> DivideNode(num, den, default_val=None)
+    P4  DIVIDE × scalar         -> ScalarMultiplier(DivideNode(...), 12000)
+    P5  CALCULATE + KEEPFILTERS -> FunctionCall("CALCULATE", [..., FunctionCall("KEEPFILTERS",...)])
+    P6  KEEPFILTERS IN {set}    -> FunctionCall("KEEPFILTERS", [InSetExpr(...)])
+    P7  CALCULATE inline filter -> FunctionCall("CALCULATE", [..., InlineFilter(...)])
+    P8  VAR + boolean flag      -> VarBlock + BoolLiteral
+    P9  Multi-flag CALCULATE    -> FunctionCall("CALCULATE", [..., InlineFilter, InlineFilter])
+    P10 Measure / Measure       -> BinaryOp("/", MeasureRef, MeasureRef)
+    P11 SAMEPERIODLASTYEAR      -> FunctionCall("SAMEPERIODLASTYEAR", [ColumnRef])
+    P12 YoY / MoM ratio         -> VarBlock + DivideNode
+    P13 MAX / MIN               -> FunctionCall("MAX", [ColumnRef])
+    P14 ALL() context remover   -> FunctionCall("ALL", [ColumnRef])
+    P22 ABS() wrapper           -> FunctionCall("ABS", [...])
 
 EDGE CASES ENCODED IN THESE NODES:
-    EC1   +0 suffix         → stripped by cleaner before parsing; never reaches AST
-    EC2   IN {} curly       → InSetExpr.values (list of strings, braces already stripped)
-    EC3   <> operator       → BinaryOp(op="<>") — sql_generator maps to !=
-    EC4   ALL() present     → FunctionCall("ALL", ...) — sql_generator skips date filter
-    EC8   TRUE() vs TRUE    → both → BoolLiteral(True) — parser normalizes
-    EC9   "true" string     → StringLiteral("true") — DIFFERENT from BoolLiteral(True)
-    EC10  * scalar          → ScalarMultiplier.multiplier (float)
-    EC16  CALCULATE no fil  → FunctionCall("CALCULATE", args=[one_expr]) — no filter args
-    EC18  AVERAGE           → FunctionCall("AVERAGE", ...) — sql_generator maps to AVG
-    EC19  DIVIDE 2 vs 3 arg → DivideNode.default_val = None vs 0
-    EC22  Typo passthrough  → StringLiteral("Undoumented") — parser doesn't validate values
-    EC24  inline vs KEEPF   → InlineFilter.has_keepfilters tracks this
+    EC1   +0 suffix         -> stripped by cleaner before parsing; never reaches AST
+    EC2   IN {} curly       -> InSetExpr.values (list of strings, braces already stripped)
+    EC3   <> operator       -> BinaryOp(op="<>") — sql_generator maps to !=
+    EC4   ALL() present     -> FunctionCall("ALL", ...) — sql_generator skips date filter
+    EC8   TRUE() vs TRUE    -> both -> BoolLiteral(True) — parser normalizes
+    EC9   "true" string     -> StringLiteral("true") — DIFFERENT from BoolLiteral(True)
+    EC10  * scalar          -> ScalarMultiplier.multiplier (float)
+    EC16  CALCULATE no fil  -> FunctionCall("CALCULATE", args=[one_expr]) — no filter args
+    EC18  AVERAGE           -> FunctionCall("AVERAGE", ...) — sql_generator maps to AVG
+    EC19  DIVIDE 2 vs 3 arg -> DivideNode.default_val = None vs 0
+    EC22  Typo passthrough  -> StringLiteral("Undoumented") — parser doesn't validate values
+    EC24  inline vs KEEPF   -> InlineFilter.has_keepfilters tracks this
 """
 
 from __future__ import annotations
@@ -66,9 +66,9 @@ class ColumnRef:
     A reference to a column inside a table.
 
     Formats parser handles:
-        risk_core[risk_value]          → table="risk_core",  column="risk_value"
-        'date'[month_of_date]          → table="date",       column="month_of_date"
-        'Y Axis scatter plot'[Y axis]  → table="Y Axis scatter plot", column="Y axis"
+        risk_core[risk_value]          -> table="risk_core",  column="risk_value"
+        'date'[month_of_date]          -> table="date",       column="month_of_date"
+        'Y Axis scatter plot'[Y axis]  -> table="Y Axis scatter plot", column="Y axis"
 
     NOTE:
         Quotes around table name are STRIPPED by the parser.
@@ -94,13 +94,13 @@ class MeasureRef:
     Written as [MeasureName] in DAX.
 
     Examples:
-        [#Members]                     → MeasureRef(name="#Members")
-        [Members with open coding gaps]→ MeasureRef(name="Members with open coding gaps")
-        [IP Discharges]                → MeasureRef(name="IP Discharges")
+        [#Members]                     -> MeasureRef(name="#Members")
+        [Members with open coding gaps]-> MeasureRef(name="Members with open coding gaps")
+        [IP Discharges]                -> MeasureRef(name="IP Discharges")
 
     NOTE:
         The parser extracts the name WITHOUT square brackets.
-        dep_resolver.py resolves these → SQL later.
+        dep_resolver.py resolves these -> SQL later.
         The parser itself does NOT resolve them.
 
     Used in:
@@ -125,7 +125,7 @@ class VarRef:
 
     NOTE:
         VarRef.name is case-preserved from DAX source.
-        sql_generator resolves VarRef → the SQL of its VarDef.
+        sql_generator resolves VarRef -> the SQL of its VarDef.
 
     Used in:
         P4   RETURN DIVIDE(Num, Denom) * 12000
@@ -141,14 +141,14 @@ class StringLiteral:
     A DAX string value, written in double quotes.
 
     Examples:
-        "Documented"       → StringLiteral(value="Documented")
-        "Home Health"      → StringLiteral(value="Home Health")
-        "Undoumented"      → StringLiteral(value="Undoumented")  ← EC22: typo passthrough
-        "true"             → StringLiteral(value="true")          ← EC9: NOT a boolean!
+        "Documented"       -> StringLiteral(value="Documented")
+        "Home Health"      -> StringLiteral(value="Home Health")
+        "Undoumented"      -> StringLiteral(value="Undoumented")  ← EC22: typo passthrough
+        "true"             -> StringLiteral(value="true")          ← EC9: NOT a boolean!
 
     EC9 CRITICAL:
-        "true" (double-quoted string) → StringLiteral("true")
-        TRUE or TRUE()               → BoolLiteral(True)
+        "true" (double-quoted string) -> StringLiteral("true")
+        TRUE or TRUE()               -> BoolLiteral(True)
         These are DIFFERENT types. SQL column type determines which to use.
         Parser must NOT convert "true" strings to BoolLiteral.
 
@@ -166,10 +166,10 @@ class NumberLiteral:
     A numeric constant in DAX.
 
     Examples:
-        0        → NumberLiteral(value=0.0)
-        1        → NumberLiteral(value=1.0)
-        12000    → NumberLiteral(value=12000.0)   ← EC10: annualization multiplier
-        0.5      → NumberLiteral(value=0.5)
+        0        -> NumberLiteral(value=0.0)
+        1        -> NumberLiteral(value=1.0)
+        12000    -> NumberLiteral(value=12000.0)   ← EC10: annualization multiplier
+        0.5      -> NumberLiteral(value=0.5)
 
     NOTE:
         Always stored as float for uniformity.
@@ -184,13 +184,13 @@ class BoolLiteral:
     A DAX boolean value.
 
     EC8 — TWO forms that both become BoolLiteral(True):
-        TRUE()   → BoolLiteral(value=True)   ← function call form (File1)
-        TRUE     → BoolLiteral(value=True)   ← keyword form    (File2)
-        FALSE()  → BoolLiteral(value=False)
-        FALSE    → BoolLiteral(value=False)
+        TRUE()   -> BoolLiteral(value=True)   ← function call form (File1)
+        TRUE     -> BoolLiteral(value=True)   ← keyword form    (File2)
+        FALSE()  -> BoolLiteral(value=False)
+        FALSE    -> BoolLiteral(value=False)
 
     EC9 CRITICAL:
-        "true"  (string in double quotes) → StringLiteral("true")  ← NOT this node!
+        "true"  (string in double quotes) -> StringLiteral("true")  ← NOT this node!
         This node is ONLY for unquoted TRUE / TRUE() / FALSE / FALSE().
 
     Used in:
@@ -214,40 +214,40 @@ class FunctionCall:
 
     Examples:
         SUM(attribution[member_count])
-            → FunctionCall("SUM", [ColumnRef("attribution","member_count")])
+            -> FunctionCall("SUM", [ColumnRef("attribution","member_count")])
 
         CALCULATE(SUM(risk_core[risk_value]), KEEPFILTERS(...))
-            → FunctionCall("CALCULATE", [
+            -> FunctionCall("CALCULATE", [
                 FunctionCall("SUM", [ColumnRef(...)]),
                 FunctionCall("KEEPFILTERS", [...])
               ])
 
         COUNTROWS(cohort)
-            → FunctionCall("COUNTROWS", [ColumnRef("cohort", "*")])
+            -> FunctionCall("COUNTROWS", [ColumnRef("cohort", "*")])
             NOTE: COUNTROWS takes a table, not a column. parser sets column="*"
 
         CALCULATE(count(pac_opp_patient_view[visit_id]))  ← EC16
-            → FunctionCall("CALCULATE", [
+            -> FunctionCall("CALCULATE", [
                 FunctionCall("COUNT", [ColumnRef(...)])
               ])
             No filter args = CALCULATE wrapper adds nothing.
             classifier.py detects this and treats as plain COUNT.
 
         AVERAGE(pac_view[pac_length_of_stay])  ← EC18
-            → FunctionCall("AVERAGE", [ColumnRef(...)])
-            sql_generator maps AVERAGE → AVG()
+            -> FunctionCall("AVERAGE", [ColumnRef(...)])
+            sql_generator maps AVERAGE -> AVG()
 
         ABS(SUM(attribution[ytd_visit_amount]))  ← EC23
-            → FunctionCall("ABS", [
+            -> FunctionCall("ABS", [
                 FunctionCall("SUM", [ColumnRef(...)])
               ])
 
         ALL('DATE')  ← EC4
-            → FunctionCall("ALL", [ColumnRef("DATE", "*")])
-            sql_generator: if ALL present → skip date filter injection
+            -> FunctionCall("ALL", [ColumnRef("DATE", "*")])
+            sql_generator: if ALL present -> skip date filter injection
 
         SAMEPERIODLASTYEAR('date'[month_of_date])  ← P11
-            → FunctionCall("SAMEPERIODLASTYEAR", [ColumnRef("date","month_of_date")])
+            -> FunctionCall("SAMEPERIODLASTYEAR", [ColumnRef("date","month_of_date")])
 
     NOTE on KEEPFILTERS:
         KEEPFILTERS is stored as a FunctionCall like any other.
@@ -265,22 +265,22 @@ class DivideNode:
     generates DIFFERENT SQL.
 
     EC19 — TWO forms:
-        DIVIDE(a, b)      → default_val=None → SQL: a / NULLIF(b, 0)   returns NULL on /0
-        DIVIDE(a, b, 0)   → default_val=0.0  → SQL: COALESCE(a / NULLIF(b, 0), 0)
+        DIVIDE(a, b)      -> default_val=None -> SQL: a / NULLIF(b, 0)   returns NULL on /0
+        DIVIDE(a, b, 0)   -> default_val=0.0  -> SQL: COALESCE(a / NULLIF(b, 0), 0)
 
     EC19b — File1 uses DIVIDE(x, py, 0), File2 uses DIVIDE(x, pm) — different behavior!
         Check which is expected before choosing COALESCE vs NULL.
 
     Examples:
         DIVIDE(SUM(attribution[ytd_visit_amount]), SUM(attribution[ytd_member_count]))
-            → DivideNode(
+            -> DivideNode(
                 numerator   = FunctionCall("SUM", [...ytd_visit_amount]),
                 denominator = FunctionCall("SUM", [...ytd_member_count]),
                 default_val = None
               )
 
         DIVIDE([#Members] - py, py, 0)
-            → DivideNode(
+            -> DivideNode(
                 numerator   = BinaryOp("-", MeasureRef("#Members"), VarRef("py")),
                 denominator = VarRef("py"),
                 default_val = 0.0
@@ -301,37 +301,37 @@ class BinaryOp:
     left OPERATOR right — any binary expression.
 
     Operators seen in actual measures:
-        =    equality filter        → SQL =
-        <>   not-equal filter (EC3) → SQL !=
-        >    greater than           → SQL >
-        <    less than              → SQL <
-        >=   greater or equal       → SQL >=
-        <=   less or equal          → SQL <=
-        +    addition               → SQL +
-        -    subtraction            → SQL -
-        *    multiplication         → SQL *
-        /    division               → SQL / (but use DivideNode for DIVIDE())
-        &    string concat (DAX)    → SQL || (only in DISPLAY measures, out of scope)
+        =    equality filter        -> SQL =
+        <>   not-equal filter (EC3) -> SQL !=
+        >    greater than           -> SQL >
+        <    less than              -> SQL <
+        >=   greater or equal       -> SQL >=
+        <=   less or equal          -> SQL <=
+        +    addition               -> SQL +
+        -    subtraction            -> SQL -
+        *    multiplication         -> SQL *
+        /    division               -> SQL / (but use DivideNode for DIVIDE())
+        &    string concat (DAX)    -> SQL || (only in DISPLAY measures, out of scope)
 
     EC3:
         KEEPFILTERS(pac_view[pac_visit_type] <> "Home Health")
-            → BinaryOp(op="<>", left=ColumnRef(...), right=StringLiteral("Home Health"))
-        sql_generator maps op "<>" → "!="
+            -> BinaryOp(op="<>", left=ColumnRef(...), right=StringLiteral("Home Health"))
+        sql_generator maps op "<>" -> "!="
 
     Examples:
         risk_core[risk_documentation_flag] = "Documented"
-            → BinaryOp("=", ColumnRef("risk_core","risk_documentation_flag"),
+            -> BinaryOp("=", ColumnRef("risk_core","risk_documentation_flag"),
                              StringLiteral("Documented"))
 
         risk_core[max_month_flag] = TRUE()
-            → BinaryOp("=", ColumnRef("risk_core","max_month_flag"),
+            -> BinaryOp("=", ColumnRef("risk_core","max_month_flag"),
                              BoolLiteral(True))
 
         [#Members] - py
-            → BinaryOp("-", MeasureRef("#Members"), VarRef("py"))
+            -> BinaryOp("-", MeasureRef("#Members"), VarRef("py"))
 
         ABS(SUM(x)) + SUM(y)
-            → BinaryOp("+", FunctionCall("ABS",[FunctionCall("SUM",[...])]),
+            -> BinaryOp("+", FunctionCall("ABS",[FunctionCall("SUM",[...])]),
                              FunctionCall("SUM",[...]))
     """
     op:    str    # one of: = <> > < >= <= + - * / &
@@ -357,7 +357,7 @@ class InSetExpr:
 
     Examples:
         KEEPFILTERS(risk_core[risk_documentation_flag] IN {"Undocumented","Suspected"})
-            → FunctionCall("KEEPFILTERS", [
+            -> FunctionCall("KEEPFILTERS", [
                 InSetExpr(
                     column = ColumnRef("risk_core", "risk_documentation_flag"),
                     values = ["Undocumented", "Suspected"]
@@ -365,7 +365,7 @@ class InSetExpr:
               ])
 
         cohort[risk_documentation_flag] IN {"Undoumented","Suspected"}  ← EC22 typo
-            → InSetExpr(
+            -> InSetExpr(
                 column = ColumnRef("cohort", "risk_documentation_flag"),
                 values = ["Undoumented", "Suspected"]   ← stored as-is
               )
@@ -381,7 +381,7 @@ class CompoundAnd:
 
     EC9 (B9 in old system):
         col = TRUE() && col = "X"
-            → CompoundAnd(
+            -> CompoundAnd(
                 left  = BinaryOp("=", ColumnRef(...), BoolLiteral(True)),
                 right = BinaryOp("=", ColumnRef(...), StringLiteral("X"))
               )
@@ -394,7 +394,7 @@ class CompoundAnd:
 
     Example:
         KEEPFILTERS(risk_core[max_month_flag] = TRUE() && risk_core[flag] = "X")
-            → FunctionCall("KEEPFILTERS", [
+            -> FunctionCall("KEEPFILTERS", [
                 CompoundAnd(
                     left  = BinaryOp("=", ColumnRef(...,"max_month_flag"), BoolLiteral(True)),
                     right = BinaryOp("=", ColumnRef(...,"flag"), StringLiteral("X"))
@@ -412,11 +412,11 @@ class InlineFilter:
 
     EC24 — DAX semantic difference (but SQL output is the same):
         WITH    KEEPFILTERS: CALCULATE(expr, KEEPFILTERS(col = "val"))
-            → respects existing report filters (additive)
+            -> respects existing report filters (additive)
         WITHOUT KEEPFILTERS: CALCULATE(expr, col = "val")
-            → overrides existing report filters
+            -> overrides existing report filters
 
-        Both → SQL: WHERE col = 'val'
+        Both -> SQL: WHERE col = 'val'
         has_keepfilters flag documents which form was in the source.
 
     Used in:
@@ -426,13 +426,13 @@ class InlineFilter:
 
     Examples:
         pac_view[pac_visit_type] = "Hospice"  (bare, inside CALCULATE)
-            → InlineFilter(
+            -> InlineFilter(
                 expr            = BinaryOp("=", ColumnRef(...), StringLiteral("Hospice")),
                 has_keepfilters = False
               )
 
         KEEPFILTERS(risk_core[flag] = "Documented")  (inside CALCULATE)
-            → InlineFilter(
+            -> InlineFilter(
                 expr            = BinaryOp("=", ColumnRef(...), StringLiteral("Documented")),
                 has_keepfilters = True
               )
@@ -452,7 +452,7 @@ class ScalarMultiplier:
 
     EC10:
         DIVIDE(Num, Denom) * 12000
-            → ScalarMultiplier(
+            -> ScalarMultiplier(
                 base_expr  = DivideNode(...),
                 multiplier = 12000.0
               )
@@ -485,13 +485,13 @@ class VarDef:
 
     Examples:
         VAR a = SUM(risk_core[risk_value])
-            → VarDef(name="a", expr=FunctionCall("SUM", [ColumnRef(...)]))
+            -> VarDef(name="a", expr=FunctionCall("SUM", [ColumnRef(...)]))
 
         VAR py = CALCULATE([#Members], SAMEPERIODLASTYEAR('date'[month_of_date]))
-            → VarDef(name="py", expr=FunctionCall("CALCULATE", [...]))
+            -> VarDef(name="py", expr=FunctionCall("CALCULATE", [...]))
 
         VAR Num = CALCULATE(count(pac_view[join_key]))
-            → VarDef(name="Num", expr=FunctionCall("CALCULATE", [FunctionCall("COUNT",[...])]))
+            -> VarDef(name="Num", expr=FunctionCall("CALCULATE", [FunctionCall("COUNT",[...])]))
 
     NOTE:
         name is case-preserved from DAX source.
@@ -513,7 +513,7 @@ class VarBlock:
                   KEEPFILTERS(risk_core[risk_documentation_flag] = "Documented"))
         RETURN DIVIDE(a, b)
 
-            → VarBlock(
+            -> VarBlock(
                 bindings = [
                     VarDef("a", FunctionCall("CALCULATE", [...])),
                     VarDef("b", FunctionCall("CALCULATE", [...]))
@@ -525,7 +525,7 @@ class VarBlock:
         VAR Denom = SUM(attribution[member_count])
         RETURN DIVIDE(Num, Denom) * 12000
 
-            → VarBlock(
+            -> VarBlock(
                 bindings = [
                     VarDef("Num",   FunctionCall("CALCULATE", [...])),
                     VarDef("Denom", FunctionCall("SUM",       [...]))
@@ -560,10 +560,10 @@ class ParseSuccess:
         ast           : the root node of the AST tree
 
     The ast can be any node type — whatever the top-level expression is:
-        Plain SUM   → FunctionCall("SUM", [...])
-        VAR block   → VarBlock(...)
-        Ratio       → BinaryOp("/", MeasureRef(...), MeasureRef(...))
-        CALCULATE   → FunctionCall("CALCULATE", [...])
+        Plain SUM   -> FunctionCall("SUM", [...])
+        VAR block   -> VarBlock(...)
+        Ratio       -> BinaryOp("/", MeasureRef(...), MeasureRef(...))
+        CALCULATE   -> FunctionCall("CALCULATE", [...])
     """
     measure_name: str
     ast:          Any
@@ -580,13 +580,13 @@ class ParseFailure:
         dax_text     : the clean DAX that failed (for debugging + LLM fallback)
 
     What happens next:
-        ParseFailure → pipeline routes to Step 8 (llm_fallback.py)
+        ParseFailure -> pipeline routes to Step 8 (llm_fallback.py)
         llm_fallback assigns role="BUILDER" — LLM generates SQL directly
         failure_type logged as PARSE_FAILED in execution_log.db
 
     RULE:
         Parser NEVER raises an exception outside its own module.
-        All failures → ParseFailure. Never None. Never exception.
+        All failures -> ParseFailure. Never None. Never exception.
     """
     measure_name: str
     error:        str
@@ -623,7 +623,7 @@ if __name__ == "__main__":
     assert p1.name == "SUM"
     assert p1.args[0].table == "attribution"
     assert p1.args[0].column == "member_count"
-    print("P1 ✅  FunctionCall → ColumnRef")
+    print("P1 ✅  FunctionCall -> ColumnRef")
 
     # ── P3: DIVIDE(SUM(...), SUM(...)) ───────────────────────
     p3 = DivideNode(
@@ -650,7 +650,7 @@ if __name__ == "__main__":
     )
     assert p4.multiplier == 12000.0
     assert isinstance(p4.base_expr, DivideNode)
-    print("P4 ✅  ScalarMultiplier → DivideNode")
+    print("P4 ✅  ScalarMultiplier -> DivideNode")
 
     # ── P5: CALCULATE + KEEPFILTERS ─────────────────────────
     p5 = FunctionCall(
@@ -688,13 +688,13 @@ if __name__ == "__main__":
     assert ec2.values[0] == "Undocumented"
     print("EC2 ✅ InSetExpr with values list")
 
-    # ── EC8: TRUE() and TRUE both → BoolLiteral ─────────────
+    # ── EC8: TRUE() and TRUE both -> BoolLiteral ─────────────
     ec8_with_parens    = BoolLiteral(value=True)
     ec8_without_parens = BoolLiteral(value=True)
     assert ec8_with_parens == ec8_without_parens
     print("EC8 ✅ BoolLiteral(True) == BoolLiteral(True)")
 
-    # ── EC9: "true" string → StringLiteral (NOT BoolLiteral) ─
+    # ── EC9: "true" string -> StringLiteral (NOT BoolLiteral) ─
     ec9_string  = StringLiteral("true")
     ec9_boolean = BoolLiteral(True)
     assert ec9_string != ec9_boolean
@@ -730,7 +730,7 @@ if __name__ == "__main__":
     assert p6.bindings[0].name == "a"
     assert p6.bindings[1].name == "b"
     assert isinstance(p6.return_expr, DivideNode)
-    print("P6 ✅  VarBlock → VarDef × 2 → DivideNode(VarRef,VarRef)")
+    print("P6 ✅  VarBlock -> VarDef × 2 -> DivideNode(VarRef,VarRef)")
 
     # ── P10: [A] / [B] measure division ─────────────────────
     p10 = BinaryOp(
@@ -740,7 +740,7 @@ if __name__ == "__main__":
     )
     assert isinstance(p10.left, MeasureRef)
     assert p10.left.name == "Members with open coding gaps"
-    print("P10 ✅ BinaryOp('/') → MeasureRef, MeasureRef")
+    print("P10 ✅ BinaryOp('/') -> MeasureRef, MeasureRef")
 
     # ── ParseSuccess and ParseFailure ───────────────────────
     ok   = ParseSuccess(measure_name="#Members", ast=p1)

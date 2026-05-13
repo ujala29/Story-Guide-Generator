@@ -15,7 +15,7 @@
 #   RelationshipSchema   ← one foreign-key link between two tables
 #   VisualSchema         ← one meaningful chart/card/slicer on a report page
 #   FilterSchema         ← one slicer parsed as a filter
-#   DependencyEdge       ← one node in the measure→measure DAG
+#   DependencyEdge       ← one node in the measure->measure DAG
 #   ReportMeta           ← report-level settings, theme, custom visuals
 #   ExtractionSummary    ← aggregate stats for the whole report
 #   ExtractedSchema      ← ROOT: the final JSON written to extracted_schema.json
@@ -122,7 +122,7 @@ class FilterSchema(BaseModel):
     visual_filter_conditions:   List[str] = Field(default_factory=list)
 # ──────────────────────────────────────────────────────────
 # DEPENDENCY EDGE
-# One node in the measure→measure directed acyclic graph (DAG).
+# One node in the measure->measure directed acyclic graph (DAG).
 # Built by MeasureDependencyGraph.build_edges().
 # ──────────────────────────────────────────────────────────
 

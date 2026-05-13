@@ -2,9 +2,9 @@
 Glossary Generator
 ==================
 Input:
-  - stage3/widget_content/*.json     → metric name + rich definition (primary source)
-  - stage2/final_measures_with_llm.json → llm_definition for remaining measures
-  - stage3/funnel_map.json           → domain_context (acronym vocabulary)
+  - stage3/widget_content/*.json     -> metric name + rich definition (primary source)
+  - stage2/final_measures_with_llm.json -> llm_definition for remaining measures
+  - stage3/funnel_map.json           -> domain_context (acronym vocabulary)
 
 Output:
   - stage3/glossary.md
@@ -16,12 +16,18 @@ clean glossary table: acronyms first, then domain terms, then metric definitions
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
+
+_SRC = str(Path(__file__).resolve().parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 _ROOT      = Path(__file__).resolve().parent.parent.parent
 PROMPT_DIR = _ROOT / "prompt" / "system_prompt"
@@ -35,17 +41,21 @@ SKIP_PAGES = {"additional dimensions", "additional_dimensions",
 # ============================================================
 
 def collect_terms(dashboard: str, root: Path) -> dict:
-    stage3 = root / "output" / "dashboards" / dashboard / "stage3"
-    stage2 = root / "output" / "dashboards" / dashboard / "stage2"
+    page_wise = root / "output" / "dashboards" / dashboard / "page_wise"
+    stage2 = root / "output" / "dashboards" / dashboard / "metric_dictionary"
 
     # ── Source A: widget_content (richest definitions) ────────
-    widget_dir  = stage3 / "widget_content"
-    widget_terms: dict[str, str] = {}   # name → definition
+    widget_dir  = page_wise / "widget_content"
+    widget_terms: dict[str, str] = {}   # name -> definition
 
     if widget_dir.exists():
         for wf in sorted(widget_dir.glob("*.json")):
-            with open(wf, encoding="utf-8") as f:
-                data = json.load(f)
+            try:
+                with open(wf, encoding="utf-8") as f:
+                    data = json.load(f)
+            except json.JSONDecodeError as e:
+                print(f"  [WARN] Malformed JSON in {wf.name}, skipping: {e}")
+                continue
             page = data.get("page", "")
             if page.lower().replace(" ", "_") in SKIP_PAGES:
                 continue
@@ -63,8 +73,12 @@ def collect_terms(dashboard: str, root: Path) -> dict:
     catalog_terms: dict[str, str] = {}
     catalog_path = stage2 / "metric_catalog.json"
     if catalog_path.exists():
-        with open(catalog_path, encoding="utf-8") as f:
-            catalog = json.load(f)
+        try:
+            with open(catalog_path, encoding="utf-8") as f:
+                catalog = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] Malformed JSON in metric_catalog.json, skipping: {e}")
+            catalog = []
         entries = catalog if isinstance(catalog, list) else catalog.get("measures", [])
         for entry in entries:
             name = entry.get("measure_name", "").strip()
@@ -79,8 +93,12 @@ def collect_terms(dashboard: str, root: Path) -> dict:
     llm_measures: dict[str, str] = {}
     llm_path = stage2 / "final_measures_with_llm.json"
     if llm_path.exists():
-        with open(llm_path, encoding="utf-8") as f:
-            measures = json.load(f)
+        try:
+            with open(llm_path, encoding="utf-8") as f:
+                measures = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] Malformed JSON in final_measures_with_llm.json, skipping: {e}")
+            measures = []
         if isinstance(measures, list):
             for m in measures:
                 name = m.get("measure_name", "").strip()
@@ -93,7 +111,7 @@ def collect_terms(dashboard: str, root: Path) -> dict:
 
     # ── Source D: funnel_map domain_context ───────────────────
     domain_context = ""
-    funnel_path = stage3 / "funnel_map.json"
+    funnel_path = page_wise / "funnel_map.json"
     if funnel_path.exists():
         with open(funnel_path, encoding="utf-8") as f:
             funnel_map = json.load(f)
@@ -198,15 +216,14 @@ def generate_glossary(data: dict, llm_client) -> str:
     system_prompt = load_glossary_prompt()
     system_prompt, user_prompt = build_glossary_prompt(data, system_prompt)
 
-    response = llm_client.chat.completions.create(
-        model=os.environ.get("TF_MODEL", "internal-bedrock/sonnet-46"),
-        messages=[
+    return llm_chat(
+        [
             {"role": "system", "content": system_prompt},
             {"role": "user",   "content": user_prompt},
         ],
         temperature=0.2,
+        client=llm_client,
     )
-    return response.choices[0].message.content
 
 
 # ============================================================
@@ -214,7 +231,7 @@ def generate_glossary(data: dict, llm_client) -> str:
 # ============================================================
 
 def save_glossary(content: str, dashboard: str, root: Path) -> Path:
-    out_dir  = root / "output" / "dashboards" / dashboard / "stage3"
+    out_dir  = root / "output" / "dashboards" / dashboard / "glossary_faq"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "glossary.md"
     out_path.write_text(content, encoding="utf-8")

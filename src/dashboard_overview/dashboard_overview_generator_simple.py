@@ -46,7 +46,7 @@ SKIP_PAGES = {"additional dimensions", "additional_dimensions",
 # ============================================================
 
 def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
-    enriched_dir = root / "output" / "dashboards" / dashboard / "stage3" / "enriched_pages"
+    enriched_dir = root / "output" / "dashboards" / dashboard / "visual_wise" / "enriched_pages"
 
     if not enriched_dir.exists():
         raise FileNotFoundError(
@@ -196,7 +196,7 @@ def generate_dashboard_overview(info: dict, llm_client) -> str:
 # ============================================================
 
 def save_overview(content: str, dashboard: str, root: Path) -> Path:
-    out_dir = root / "output" / "dashboards" / dashboard / "stage3"
+    out_dir = root / "output" / "dashboards" / dashboard / "dashboard_overview"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "dashboard_overview_simple.md"
     out_path.write_text(content, encoding="utf-8")
@@ -224,7 +224,7 @@ def main() -> None:
     )
 
     filters_path = (root / "output" / "dashboards" / args.dashboard
-                    / "stage1" / "schema_sections" / "filters.json")
+                    / "extraction" / "schema_sections" / "filters.json")
     print(f"Loading filters from: {filters_path}")
     with open(filters_path, encoding="utf-8") as f:
         filters = json.load(f)
@@ -244,8 +244,8 @@ def main() -> None:
     save_overview(result, args.dashboard, root)
     print("\nDONE")
     print("\nCompare with enhanced version:")
-    print(f"  Simple  : output/dashboards/{args.dashboard}/stage3/dashboard_overview_simple.md")
-    print(f"  Enhanced: output/dashboards/{args.dashboard}/stage3/dashboard_overview.md")
+    print(f"  Simple  : output/dashboards/{args.dashboard}/dashboard_overview/dashboard_overview_simple.md")
+    print(f"  Enhanced: output/dashboards/{args.dashboard}/dashboard_overview/dashboard_overview.md")
 
 
 if __name__ == "__main__":

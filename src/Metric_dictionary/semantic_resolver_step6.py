@@ -6,13 +6,13 @@ Stage 2 — Step 4
 PURPOSE:
     Walk every AST node and annotate it with Snowflake information:
       - ColumnRef("attribution","member_count")
-          → sf_table="PCP_VISITS_V4_VIEW", sf_column="MEMBER_COUNT"
+          -> sf_table="PCP_VISITS_V4_VIEW", sf_column="MEMBER_COUNT"
       - ColumnRef("py","*")  where "py" is a VAR binding
-          → upgrade to VarRef("py")
+          -> upgrade to VarRef("py")
       - ColumnRef("static_risk_bucket","*")
-          → tag as static, attach CTE placeholder
+          -> tag as static, attach CTE placeholder
       - ColumnRef("X Axis scatter plot","Y axis")
-          → tag as parameter, skip
+          -> tag as parameter, skip
 
 INPUT:
     - ParseSuccess (AST from parser.py)
@@ -30,14 +30,14 @@ OUTPUT:
         warnings         : list[str]   — non-fatal issues
 
 REUSE FROM step2_enricher.py:
-    build_snowflake_lookup()  → direct copy, adapted for new JSON structure
-    build_rel_graph()         → direct copy
-    get_join_paths()          → direct copy
+    build_snowflake_lookup()  -> direct copy, adapted for new JSON structure
+    build_rel_graph()         -> direct copy
+    get_join_paths()          -> direct copy
 
 ADDITION vs step2_enricher.py:
-    VarRef upgrade  → ColumnRef("py","*") → VarRef("py") using dep_resolver output
-    AST walking     → instead of scanning raw DAX strings, walks AST nodes
-    SFRef dataclass → structured per-column resolution result
+    VarRef upgrade  -> ColumnRef("py","*") -> VarRef("py") using dep_resolver output
+    AST walking     -> instead of scanning raw DAX strings, walks AST nodes
+    SFRef dataclass -> structured per-column resolution result
 """
 
 from __future__ import annotations
@@ -116,7 +116,7 @@ _PARAMETER_TABLES = {"X Axis scatter plot", "Y Axis scatter plot"}
 
 def build_snowflake_lookup(sf_map: dict) -> dict[str, dict]:
     """
-    Build flat lookup: bi_table_name → {sf_object, type}
+    Build flat lookup: bi_table_name -> {sf_object, type}
 
     Handles the actual bi_snowflakes_naming_matching.json structure:
       - Regular source tables:  {"snowflake_object": "VIEW_NAME", "type": "source"}
@@ -386,11 +386,11 @@ def _resolve_column(
     Resolve one ColumnRef to a SFRef.
 
     Rules:
-      1. column == "*" AND table in var_names → already upgraded to VarRef
+      1. column == "*" AND table in var_names -> already upgraded to VarRef
          (this function never called for those)
-      2. table is static_ prefix → type=static, sf_object=None, cte_name=table
-      3. table in sf_lookup → map to SF object, uppercase column
-      4. not found → type=unresolved
+      2. table is static_ prefix -> type=static, sf_object=None, cte_name=table
+      3. table in sf_lookup -> map to SF object, uppercase column
+      4. not found -> type=unresolved
     """
     bi_table  = col.table
     bi_column = col.column
@@ -471,9 +471,9 @@ def resolve_one(
 
     Steps:
       1. Get VAR binding names for this measure from dep_result
-      2. Upgrade ColumnRef(var_name,"*") → VarRef(var_name)
+      2. Upgrade ColumnRef(var_name,"*") -> VarRef(var_name)
       3. Collect all remaining ColumnRef nodes
-      4. Resolve each ColumnRef → SFRef
+      4. Resolve each ColumnRef -> SFRef
       5. Find join paths between source tables used
       6. Return AnnotatedAST
 
@@ -634,15 +634,15 @@ if __name__ == "__main__":
     # ── build_snowflake_lookup ───────────────────────────────
     print("build_snowflake_lookup:")
     lookup = build_snowflake_lookup(SF_MAP)
-    check("attribution → PCP_VISITS_V4_VIEW",
+    check("attribution -> PCP_VISITS_V4_VIEW",
           lookup["attribution"]["sf_object"] == "PCP_VISITS_V4_VIEW")
-    check("risk_core → RISK_CORE_V4_VIEW (dual-DB)",
+    check("risk_core -> RISK_CORE_V4_VIEW (dual-DB)",
           lookup["risk_core"]["sf_object"] == "RISK_CORE_V4_VIEW")
-    check("ALL_DAX → measure_container",
+    check("ALL_DAX -> measure_container",
           lookup["ALL_DAX"]["type"] == "measure_container")
-    check("static_risk_bucket → static",
+    check("static_risk_bucket -> static",
           lookup["static_risk_bucket"]["type"] == "static")
-    check("X Axis scatter plot → parameter",
+    check("X Axis scatter plot -> parameter",
           lookup["X Axis scatter plot"]["type"] == "parameter")
 
     # ── VarRef upgrade ───────────────────────────────────────
@@ -672,7 +672,7 @@ if __name__ == "__main__":
     )
 
     upgraded = _upgrade_var_refs(ast_with_var, {"py"})
-    # After upgrade: ColumnRef("py","*") → VarRef("py")
+    # After upgrade: ColumnRef("py","*") -> VarRef("py")
     ret = upgraded.return_expr
     check("numerator right is VarRef(py)",
           isinstance(ret.numerator.right, VarRef)
@@ -710,11 +710,11 @@ if __name__ == "__main__":
         "Documented risk", p5_parse["Documented risk"].ast, p5_dr,
         build_snowflake_lookup(SF_MAP), build_rel_graph(RELATIONSHIPS)
     )
-    check("risk_core → RISK_CORE_V4_VIEW",
+    check("risk_core -> RISK_CORE_V4_VIEW",
           any(r.sf_object == "RISK_CORE_V4_VIEW" for r in p5_ast.sf_refs))
-    check("risk_value → RISK_VALUE",
+    check("risk_value -> RISK_VALUE",
           any(r.sf_column == "RISK_VALUE" for r in p5_ast.sf_refs))
-    check("flag col → RISK_DOCUMENTATION_FLAG",
+    check("flag col -> RISK_DOCUMENTATION_FLAG",
           any(r.sf_column == "RISK_DOCUMENTATION_FLAG" for r in p5_ast.sf_refs))
 
     # ── P12: YoY — VarRef upgrade in full parse flow ─────────
@@ -737,7 +737,7 @@ if __name__ == "__main__":
     # So they should NOT appear in sf_refs as unresolved
     check("py not in unresolved",          "py" not in yoy_ann.unresolved)
     # date[month_of_date] should be resolved
-    check("date → DATE_VIEW",
+    check("date -> DATE_VIEW",
           any(r.sf_object == "DATE_VIEW" for r in yoy_ann.sf_refs))
     # attribution lives in [#Members] — a separate measure.
     # resolve_one only walks THIS measure's AST, not its dependencies.

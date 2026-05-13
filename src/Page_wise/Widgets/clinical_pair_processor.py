@@ -8,7 +8,7 @@ A clinical pair is a bar/horizontal chart ranking items by a clinical dimension
 items with full metric columns.
 
 Template structure (from Risk story guide):
-  group_intro       — what shift these visuals represent ("from which practice → to which HCC")
+  group_intro       — what shift these visuals represent ("from which practice -> to which HCC")
   bar_chart:
     name            — chart title
     definition      — what it ranks and what position means
@@ -20,7 +20,14 @@ Template structure (from Risk story guide):
 """
 
 import json
+import sys
+from pathlib import Path
 from openai import OpenAI
+
+_SRC = str(Path(__file__).resolve().parent.parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 
 CLINICAL_PAIR_SYSTEM = """You are a technical documentation writer producing content for a BI dashboard story guide.

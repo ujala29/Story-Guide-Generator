@@ -14,11 +14,18 @@ Template structure (from Risk story guide):
     italic_callout — optional connecting insight (only on most important charts)
 
 Charts are grouped by theme when multiple charts cover the same topic
-(e.g. Members + Eligible Population → one sub-section together).
+(e.g. Members + Eligible Population -> one sub-section together).
 """
 
 import json
+import sys
+from pathlib import Path
 from openai import OpenAI
+
+_SRC = str(Path(__file__).resolve().parent.parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 
 TREND_SYSTEM = """You are a technical documentation writer producing content for a BI dashboard story guide.
@@ -40,7 +47,7 @@ For each chart or chart group:
   see something alarming.
 
 Charts that track the same theme should be grouped into one sub-section
-(e.g. Members trend + Eligible Population trend → "Members and Eligible Population trends").
+(e.g. Members trend + Eligible Population trend -> "Members and Eligible Population trends").
 
 Output valid JSON only. No explanation, no markdown fences."""
 

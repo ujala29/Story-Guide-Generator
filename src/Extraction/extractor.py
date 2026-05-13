@@ -8,14 +8,14 @@
 # All other Stage 1 files are internal implementation details.
 #
 # PIPELINE ORDER (must not be reordered — each step feeds the next):
-#   Step 1: TMDLExtractor        → tables, measures, relationships
-#   Step 2: MeasureDependencyGraph → enrich measures with dep metadata
-#   Step 3: build_visual_map()   → shared visual lookup (built ONCE, reused)
-#   Step 4: ReportLayoutParser   → pages, visuals, filters, interactions
-#   Step 5: BookmarkExtractor    → bookmarks, toggle groups
-#   Step 6: ReportMetaParser     → theme, settings, custom visuals
-#   Step 7: ExtractionSummary    → aggregate counts
-#   Step 8: ExtractedSchema      → assemble + write JSON
+#   Step 1: TMDLExtractor        -> tables, measures, relationships
+#   Step 2: MeasureDependencyGraph -> enrich measures with dep metadata
+#   Step 3: build_visual_map()   -> shared visual lookup (built ONCE, reused)
+#   Step 4: ReportLayoutParser   -> pages, visuals, filters, interactions
+#   Step 5: BookmarkExtractor    -> bookmarks, toggle groups
+#   Step 6: ReportMetaParser     -> theme, settings, custom visuals
+#   Step 7: ExtractionSummary    -> aggregate counts
+#   Step 8: ExtractedSchema      -> assemble + write JSON
 #
 # CALLED BY:
 #   run.py (top-level entry point)
@@ -91,7 +91,7 @@ def run_extraction(
     dep_summary  = graph.build_summary()
 
     # ── Step 3: Build Visual Map (shared, built ONCE) ──────────────────────────
-    # visual_map is a dict of visual_id → info for ALL visuals across all pages.
+    # visual_map is a dict of visual_id -> info for ALL visuals across all pages.
     # It is passed into both ReportLayoutParser and BookmarkExtractor
     # to avoid reading the same files multiple times.
     pages_dir  = Path(report_path) / "definition" / "pages"
@@ -167,7 +167,7 @@ def run_extraction(
     _write_section_files(schema, output_path)
 
     # print summary for developer confirmation
-    print(f"\n✅ Stage 1 Extraction complete → {output_path}")
+    print(f"\n✅ Stage 1 Extraction complete -> {output_path}")
     print(f"   Tables:        {summary.total_tables}")
     print(f"   Measures:      {summary.total_measures}")
     print(f"   Relationships: {summary.total_relationships}")
@@ -237,9 +237,9 @@ def _write_section_files(schema: "ExtractedSchema", output_path: str) -> None:
         encoding="utf-8"
     )
 
-    print(f"   Sections saved → {sections_dir}/")
+    print(f"   Sections saved -> {sections_dir}/")
     print(f"   {', '.join(section_map.keys())}")
-    print(f"   measures_resolved.json → {measures_resolved_path}")
+    print(f"   measures_resolved.json -> {measures_resolved_path}")
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -255,12 +255,12 @@ if __name__ == "__main__":
         "risk-dash": {
             "semantic_model": _BASE_DIR / "input" / "Risk-Management-v4_Insights_v1.SemanticModel",
             "report":         _BASE_DIR / "input" / "Risk-Management-v4_Insights_v1.Report",
-            "output":         _BASE_DIR / "output" / "dashboards" / "risk-dash" / "stage1" / "extracted_schema.json",
+            "output":         _BASE_DIR / "output" / "dashboards" / "risk-dash" / "extraction" / "extracted_schema.json",
         },
         "pac-dash": {
             "semantic_model": _BASE_DIR / "input" / "PAC-v4_Insights_v1.SemanticModel",
             "report":         _BASE_DIR / "input" / "PAC-v4_Insights_v1.Report",
-            "output":         _BASE_DIR / "output" / "dashboards" / "pac-dash" / "stage1" / "extracted_schema.json",
+            "output":         _BASE_DIR / "output" / "dashboards" / "pac-dash" / "extraction" / "extracted_schema.json",
         },
     }
 

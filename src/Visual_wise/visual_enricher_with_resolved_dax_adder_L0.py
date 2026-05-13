@@ -45,7 +45,7 @@ def enrich_and_split(
             if chain:
                 measure_chains.append(chain)
             else:
-                not_found.append(f"{visual.get('title', '?')} → {measure_name}")
+                not_found.append(f"{visual.get('title', '?')} -> {measure_name}")
                 measure_chains.append({
                     "measure_name"    : measure_name,
                     "table"           : "unknown",

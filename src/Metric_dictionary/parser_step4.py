@@ -20,42 +20,42 @@ ALGORITHM:
       - Consumes tokens from self._tokens via peek() / consume()
       - Returns an AST node on success
       - Raises _ParseError (internal only) on failure
-      - _ParseError is always caught at the top level → ParseFailure
+      - _ParseError is always caught at the top level -> ParseFailure
 
 NEVER raises outside this module.
-All failures → ParseFailure. Never None. Never Exception to caller.
+All failures -> ParseFailure. Never None. Never Exception to caller.
 
 PARSING RULES (what each method handles):
 
-    parse()                 → top-level entry point
-    _parse_expr()           → VAR block OR expression
-    _parse_var_block()      → VAR ... RETURN ...
-    _parse_atom()           → lowest precedence: binary ops / comparisons
-    _parse_additive()       → + and - (left-associative)
-    _parse_multiplicative() → * and / and ScalarMultiplier
-    _parse_unary()          → ABS(expr), unary minus
-    _parse_primary()        → function calls, column refs, literals, measure refs
-    _parse_function_call()  → FUNCNAME(arg, arg, ...)
-    _parse_divide()         → DIVIDE(num, den) or DIVIDE(num, den, default)
-    _parse_calculate()      → CALCULATE(expr, filter, filter, ...)
-    _parse_column_ref()     → table[column] or 'table'[column]
-    _parse_measure_ref()    → [MeasureName]
-    _parse_in_set()         → col IN {"v1", "v2"}
-    _parse_filter_arg()     → KEEPFILTERS(expr) or bare filter expression
-    _parse_bool_literal()   → TRUE / TRUE() / FALSE / FALSE()
+    parse()                 -> top-level entry point
+    _parse_expr()           -> VAR block OR expression
+    _parse_var_block()      -> VAR ... RETURN ...
+    _parse_atom()           -> lowest precedence: binary ops / comparisons
+    _parse_additive()       -> + and - (left-associative)
+    _parse_multiplicative() -> * and / and ScalarMultiplier
+    _parse_unary()          -> ABS(expr), unary minus
+    _parse_primary()        -> function calls, column refs, literals, measure refs
+    _parse_function_call()  -> FUNCNAME(arg, arg, ...)
+    _parse_divide()         -> DIVIDE(num, den) or DIVIDE(num, den, default)
+    _parse_calculate()      -> CALCULATE(expr, filter, filter, ...)
+    _parse_column_ref()     -> table[column] or 'table'[column]
+    _parse_measure_ref()    -> [MeasureName]
+    _parse_in_set()         -> col IN {"v1", "v2"}
+    _parse_filter_arg()     -> KEEPFILTERS(expr) or bare filter expression
+    _parse_bool_literal()   -> TRUE / TRUE() / FALSE / FALSE()
 
 EDGE CASES HANDLED:
-    EC2   IN {set}             → InSetExpr
-    EC3   <> operator          → BinaryOp(op="<>")
-    EC4   ALL() present        → FunctionCall("ALL", ...) — sql_generator uses this
-    EC8   TRUE() and TRUE      → BoolLiteral(True) — both forms
-    EC9   "true" string        → StringLiteral (NOT BoolLiteral)
-    EC10  * scalar after DIVIDE → ScalarMultiplier
-    EC16  CALCULATE no filters → FunctionCall("CALCULATE", [expr]) only
-    EC18  AVERAGE              → FunctionCall("AVERAGE", ...) — maps to AVG in SQL
-    EC19  DIVIDE 2 vs 3 args   → DivideNode.default_val = None vs 0.0
-    EC24  inline filter        → InlineFilter(has_keepfilters=False)
-          with KEEPFILTERS     → InlineFilter(has_keepfilters=True)
+    EC2   IN {set}             -> InSetExpr
+    EC3   <> operator          -> BinaryOp(op="<>")
+    EC4   ALL() present        -> FunctionCall("ALL", ...) — sql_generator uses this
+    EC8   TRUE() and TRUE      -> BoolLiteral(True) — both forms
+    EC9   "true" string        -> StringLiteral (NOT BoolLiteral)
+    EC10  * scalar after DIVIDE -> ScalarMultiplier
+    EC16  CALCULATE no filters -> FunctionCall("CALCULATE", [expr]) only
+    EC18  AVERAGE              -> FunctionCall("AVERAGE", ...) — maps to AVG in SQL
+    EC19  DIVIDE 2 vs 3 args   -> DivideNode.default_val = None vs 0.0
+    EC24  inline filter        -> InlineFilter(has_keepfilters=False)
+          with KEEPFILTERS     -> InlineFilter(has_keepfilters=True)
 """
 
 from __future__ import annotations
@@ -175,7 +175,7 @@ class _Parser:
                 dax_text=dax_text,
             )
 
-    # ── Expression levels (low → high precedence) ───────────
+    # ── Expression levels (low -> high precedence) ───────────
 
     def _parse_expr(self) -> Any:
         """
@@ -256,7 +256,7 @@ class _Parser:
     def _parse_multiplicative(self) -> Any:
         """
         Handles * and /.
-        Special case: DivideNode * NUMBER → ScalarMultiplier (EC10).
+        Special case: DivideNode * NUMBER -> ScalarMultiplier (EC10).
         """
         left = self._parse_primary()
 
@@ -265,7 +265,7 @@ class _Parser:
 
             if op_tok.type == "STAR":
                 right = self._parse_primary()
-                # EC10: DivideNode * scalar → ScalarMultiplier
+                # EC10: DivideNode * scalar -> ScalarMultiplier
                 if isinstance(right, NumberLiteral):
                     left = ScalarMultiplier(base_expr=left, multiplier=right.value)
                 elif isinstance(left, NumberLiteral):
@@ -333,16 +333,16 @@ class _Parser:
     def _parse_ident(self) -> Any:
         """
         Dispatches based on what follows the current IDENT:
-          IDENT (          → function call
-          IDENT [          → column ref (unquoted table)
-          TRUE / FALSE     → BoolLiteral (with or without ())
-          VAR              → shouldn't reach here (handled in _parse_expr)
-          anything else    → VarRef (variable reference inside VAR block)
+          IDENT (          -> function call
+          IDENT [          -> column ref (unquoted table)
+          TRUE / FALSE     -> BoolLiteral (with or without ())
+          VAR              -> shouldn't reach here (handled in _parse_expr)
+          anything else    -> VarRef (variable reference inside VAR block)
         """
         t = self._peek()
         name_upper = t.value.upper()
 
-        # ── TRUE / FALSE → BoolLiteral (EC8) ─────────────────
+        # ── TRUE / FALSE -> BoolLiteral (EC8) ─────────────────
         if name_upper in ("TRUE", "FALSE"):
             return self._parse_bool_literal()
 
@@ -362,7 +362,7 @@ class _Parser:
         # We distinguish by checking if the identifier was defined
         # as a VAR name — but the parser doesn't track that scope.
         # Instead we use this heuristic:
-        #   - lowercase / mixed-case short name  → likely VarRef
+        #   - lowercase / mixed-case short name  -> likely VarRef
         #   - but we cannot be sure at parse time
         #
         # Solution: return ColumnRef(name, "*") for bare identifiers
@@ -376,17 +376,17 @@ class _Parser:
         # inside a DIVIDE/arithmetic expression, return VarRef.
         #
         # Simplest correct approach: look at next token —
-        #   RPAREN or COMMA → could be either; return ColumnRef(name, "*")
-        #   anything else   → VarRef
+        #   RPAREN or COMMA -> could be either; return ColumnRef(name, "*")
+        #   anything else   -> VarRef
         #
-        # semantic_resolver will resolve: if it finds a table mapping → ColumnRef
-        # if no table found AND name matches a VAR binding → treat as VarRef
+        # semantic_resolver will resolve: if it finds a table mapping -> ColumnRef
+        # if no table found AND name matches a VAR binding -> treat as VarRef
         self._consume("IDENT")
         next_type = self._peek_type()
         if next_type in ("RPAREN", "COMMA", None):
-            # Bare identifier as sole/last argument → table-name-only ColumnRef
+            # Bare identifier as sole/last argument -> table-name-only ColumnRef
             return ColumnRef(table=t.value, column="*")
-        # Otherwise: used in arithmetic/comparison context → VarRef
+        # Otherwise: used in arithmetic/comparison context -> VarRef
         return VarRef(name=t.value)
 
     # ── Specific parsers ────────────────────────────────────
@@ -396,8 +396,8 @@ class _Parser:
         Parse any DAX function call: FUNCNAME(arg, arg, ...).
 
         Special cases dispatched here:
-          DIVIDE    → _parse_divide()   (EC19: 2 vs 3 args)
-          CALCULATE → _parse_calculate() (EC16, EC24)
+          DIVIDE    -> _parse_divide()   (EC19: 2 vs 3 args)
+          CALCULATE -> _parse_calculate() (EC16, EC24)
         """
         name_tok = self._consume("IDENT")
         name     = name_tok.value.upper()
@@ -421,8 +421,8 @@ class _Parser:
            or DIVIDE(numerator, denominator, default_val)
 
         EC19:
-            DIVIDE(a, b)      → DivideNode(a, b, default_val=None)  → NULL on /0
-            DIVIDE(a, b, 0)   → DivideNode(a, b, default_val=0.0)   → 0 on /0
+            DIVIDE(a, b)      -> DivideNode(a, b, default_val=None)  -> NULL on /0
+            DIVIDE(a, b, 0)   -> DivideNode(a, b, default_val=0.0)   -> 0 on /0
         """
         self._consume("LPAREN")
         numerator = self._parse_expr()
@@ -450,12 +450,12 @@ class _Parser:
         Parse CALCULATE(expr, filter1, filter2, ...)
 
         EC16: CALCULATE(expr)  — no filters, just evaluation context wrapper
-              → FunctionCall("CALCULATE", [expr])  — classifier handles this
+              -> FunctionCall("CALCULATE", [expr])  — classifier handles this
 
         EC24: filters can be:
-              KEEPFILTERS(condition)  → InlineFilter(expr=cond, has_keepfilters=True)
-              bare condition          → InlineFilter(expr=cond, has_keepfilters=False)
-              other functions         → passed as-is (ALL(), SAMEPERIODLASTYEAR(), etc.)
+              KEEPFILTERS(condition)  -> InlineFilter(expr=cond, has_keepfilters=True)
+              bare condition          -> InlineFilter(expr=cond, has_keepfilters=False)
+              other functions         -> passed as-is (ALL(), SAMEPERIODLASTYEAR(), etc.)
         """
         self._consume("LPAREN")
         # First arg is always the main expression
@@ -476,11 +476,11 @@ class _Parser:
 
         Three forms:
           1. KEEPFILTERS(condition)
-                → InlineFilter(expr=condition, has_keepfilters=True)
+                -> InlineFilter(expr=condition, has_keepfilters=True)
           2. ALL(...)  or  SAMEPERIODLASTYEAR(...)  or other functions
-                → parsed as regular function call (not wrapped in InlineFilter)
+                -> parsed as regular function call (not wrapped in InlineFilter)
           3. bare condition: col = "val" or col IN {"v1"} or col = TRUE
-                → InlineFilter(expr=condition, has_keepfilters=False)
+                -> InlineFilter(expr=condition, has_keepfilters=False)
         """
         t = self._peek()
 
@@ -506,7 +506,7 @@ class _Parser:
                 and self._peek_type(1) == "LPAREN"):
             return self._parse_function_call()
 
-        # Bare condition → InlineFilter (EC24)
+        # Bare condition -> InlineFilter (EC24)
         condition = self._parse_comparison()
         return InlineFilter(expr=condition, has_keepfilters=False)
 
@@ -531,9 +531,9 @@ class _Parser:
         Parse table[column] or 'table'[column].
 
         Handles:
-            attribution[member_count]          → ColumnRef("attribution","member_count")
-            'date'[month_of_date]              → ColumnRef("date","month_of_date")
-            'Y Axis scatter plot'[Y axis]      → ColumnRef("Y Axis scatter plot","Y axis")
+            attribution[member_count]          -> ColumnRef("attribution","member_count")
+            'date'[month_of_date]              -> ColumnRef("date","month_of_date")
+            'Y Axis scatter plot'[Y axis]      -> ColumnRef("Y Axis scatter plot","Y axis")
 
         For COUNTROWS(table) — table name without [column]:
             The lexer produces IDENT:cohort.
@@ -573,9 +573,9 @@ class _Parser:
         Parse [MeasureName] — a reference to another measure.
 
         Examples:
-            [#Members]                     → MeasureRef("#Members")
-            [Members with open coding gaps]→ MeasureRef("Members with open coding gaps")
-            [IP Discharges]                → MeasureRef("IP Discharges")
+            [#Members]                     -> MeasureRef("#Members")
+            [Members with open coding gaps]-> MeasureRef("Members with open coding gaps")
+            [IP Discharges]                -> MeasureRef("IP Discharges")
 
         Measure names can contain spaces, #, %, and other special chars.
         We collect ALL tokens between [ and ] as the name.
@@ -586,14 +586,14 @@ class _Parser:
             parts.append(self._consume().value)
         self._consume("RBRACKET")
         name = " ".join(parts)
-        # Fix: "RAF recapture rate ( GROUP )" → "RAF recapture rate (GROUP)"
+        # Fix: "RAF recapture rate ( GROUP )" -> "RAF recapture rate (GROUP)"
         # Tokens join adds spaces inside parens — remove inner spaces only
-        # " ( " → " (" and " ) " → ")"
+        # " ( " -> " (" and " ) " -> ")"
         import re as _re_p
-        name = _re_p.sub(r' [(] ', ' (', name)   # " ( " → " ("
-        name = _re_p.sub(r' [)] ', ') ', name)   # " ) " → ") "
-        name = _re_p.sub(r'[(] ', '(', name)     # "( " → "("
-        name = _re_p.sub(r' [)]', ')', name)     # " )" → ")"
+        name = _re_p.sub(r' [(] ', ' (', name)   # " ( " -> " ("
+        name = _re_p.sub(r' [)] ', ') ', name)   # " ) " -> ") "
+        name = _re_p.sub(r'[(] ', '(', name)     # "( " -> "("
+        name = _re_p.sub(r' [)]', ')', name)     # " )" -> ")"
         name = name.strip()
         return MeasureRef(name=name)
 
@@ -621,7 +621,7 @@ class _Parser:
 
     def _parse_bool_literal(self) -> BoolLiteral:
         """
-        Parse TRUE, TRUE(), FALSE, FALSE() → BoolLiteral.
+        Parse TRUE, TRUE(), FALSE, FALSE() -> BoolLiteral.
 
         EC8: Both TRUE (keyword) and TRUE() (function call) map to BoolLiteral(True).
         EC9: "true" (string) is handled by _parse_primary as StringLiteral — NOT here.
@@ -702,10 +702,10 @@ def parse(measure_name: str, clean_dax: str) -> ParseSuccess | ParseFailure:
         result = parse(name, cr.clean_dax)
 
         if isinstance(result, ParseSuccess):
-            ast = result.ast   # → pass to semantic_resolver
+            ast = result.ast   # -> pass to semantic_resolver
         else:
             # result.error has the message
-            # → pipeline routes to llm_fallback
+            # -> pipeline routes to llm_fallback
     """
     # Step 1: Lex
     lex_result = tokenize(clean_dax)
@@ -880,18 +880,18 @@ if __name__ == "__main__":
     check("has_keepfilters=False",      ast and ast.args[1].has_keepfilters is False)
 
     # ── P8: boolean flag (EC8) ───────────────────────────────
-    print("\nEC8 — TRUE() and TRUE both → BoolLiteral:")
+    print("\nEC8 — TRUE() and TRUE both -> BoolLiteral:")
     dax1 = "CALCULATE(SUM(t[v]), KEEPFILTERS(t[flag] = TRUE()))"
     dax2 = "CALCULATE(SUM(t[v]), KEEPFILTERS(t[flag] = TRUE))"
     ast1 = ok(dax1)
     ast2 = ok(dax2)
     f1 = ast1.args[1].expr if ast1 else None
     f2 = ast2.args[1].expr if ast2 else None
-    check("TRUE() → BoolLiteral(True)", isinstance(f1.right, BoolLiteral) and f1.right.value is True)
-    check("TRUE  → BoolLiteral(True)", isinstance(f2.right, BoolLiteral) and f2.right.value is True)
+    check("TRUE() -> BoolLiteral(True)", isinstance(f1.right, BoolLiteral) and f1.right.value is True)
+    check("TRUE  -> BoolLiteral(True)", isinstance(f2.right, BoolLiteral) and f2.right.value is True)
 
     # ── EC9: "true" string (EC9) ─────────────────────────────
-    print('\nEC9 — "true" string → StringLiteral:')
+    print('\nEC9 — "true" string -> StringLiteral:')
     dax = 'CALCULATE(COUNTROWS(t), t[flag] = "true")'
     ast = ok(dax)
     f = ast.args[1].expr if ast else None

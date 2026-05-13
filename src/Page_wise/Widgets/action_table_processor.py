@@ -16,7 +16,14 @@ Template structure (from Risk story guide page 14, 17):
 """
 
 import json
+import sys
+from pathlib import Path
 from openai import OpenAI
+
+_SRC = str(Path(__file__).resolve().parent.parent.parent)
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+from utils.llm_client import llm_chat
 
 
 ACTION_TABLE_SYSTEM = """You are a technical documentation writer producing content for a BI dashboard story guide.
