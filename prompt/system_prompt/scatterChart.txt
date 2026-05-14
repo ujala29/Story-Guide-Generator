@@ -31,6 +31,8 @@
 
 **DAX measure(s):**
 [verbatim — SWITCH measure + #Members]
+**[Measure name]** = [Full DAX expression, exactly as written]
+
 
 **Tables and columns used:**
 | Table | Column | Role |

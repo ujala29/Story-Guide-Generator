@@ -196,11 +196,18 @@ Answer in 1–3 sentences. Prescriptive. Plain English.
 """
 
 
-def load_faq_prompt() -> str:
+def load_faq_prompt(dashboard: str = "risk-dash") -> str:
     path = PROMPT_DIR / "faq.txt"
     if path.exists():
-        base_path = PROMPT_DIR / "base_context.txt"
-        base = base_path.read_text(encoding="utf-8") if base_path.exists() else ""
+        _cfg_path = PROMPT_DIR.parent / "dashboard_config.json"
+        _dash_cfg = json.loads(_cfg_path.read_text(encoding="utf-8")).get(dashboard, {}) if _cfg_path.exists() else {}
+        domain_block = (
+            f"Domain context:\n"
+            f"- This dashboard is used by {_dash_cfg.get('users', 'Care Manager, Medical Director')}\n"
+            f"- Domain: {_dash_cfg.get('domain', 'Healthcare dashboard')}\n"
+        )
+        base_rules = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8") if (PROMPT_DIR / "base_context.txt").exists() else ""
+        base = (domain_block + "\n" + base_rules).strip()
         return (base + "\n\n" + path.read_text(encoding="utf-8")).strip()
     return FAQ_SYSTEM_INLINE
 
@@ -287,8 +294,8 @@ Every filter should have a "what does X do" or "how do I use X" FAQ entry.
 # STEP 4 — LLM call
 # ============================================================
 
-def generate_faq(data: dict, llm_client) -> str:
-    system_prompt = load_faq_prompt()
+def generate_faq(data: dict, llm_client, dashboard: str = "risk-dash") -> str:
+    system_prompt = load_faq_prompt(dashboard)
     system_prompt, user_prompt = build_faq_prompt(data, system_prompt)
 
     return llm_chat(
@@ -340,7 +347,7 @@ def main() -> None:
     print(f"  Sub-questions      : {len(data['sub_questions'])}")
 
     print("\nGenerating FAQ...")
-    result = generate_faq(data, llm_client)
+    result = generate_faq(data, llm_client, dashboard=args.dashboard)
 
     save_faq(result, args.dashboard, _ROOT)
     print("\nDONE")

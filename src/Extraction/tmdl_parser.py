@@ -130,7 +130,7 @@ class TMDLExtractor:
             return "measure_container"
 
         # name-based parameter check
-        if n in self.PARAM_TABLES or any(k in n for k in ["parameter", "static_", "x axis", "y axis"]):
+        if n in self.PARAM_TABLES or n.startswith("static") or any(k in n for k in ["parameter", "static_", "x axis", "y axis"]):
             return "parameter"
 
         # Power Query content check for static lookup tables

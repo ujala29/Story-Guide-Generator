@@ -130,9 +130,16 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
 # STEP 2 — System prompt
 # ============================================================
 
-def load_overview_prompt() -> str:
+def load_overview_prompt(dashboard: str = "risk-dash") -> str:
     try:
-        base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
+        _cfg_path = PROMPT_DIR.parent / "dashboard_config.json"
+        _dash_cfg = json.loads(_cfg_path.read_text(encoding="utf-8")).get(dashboard, {}) if _cfg_path.exists() else {}
+        domain_block = (
+            f"Domain context:\n"
+            f"- This dashboard is used by {_dash_cfg.get('users', 'Care Manager, Medical Director')}\n"
+            f"- Domain: {_dash_cfg.get('domain', 'Healthcare dashboard')}\n"
+        )
+        base = domain_block + "\n" + (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
     except FileNotFoundError:
         base = ""
     try:
@@ -194,14 +201,21 @@ def _format_cross_page_patterns(patterns: list) -> str:
 
 
 def build_overview_prompt(info: dict, system_prompt: str) -> tuple[str, str]:
-    pages_section = ""
-    if info["pages_mirrored"]:
-        pages_section = (
-            f"Primary pages: {info['pages_processed']}\n"
-            f"Mirrored pages (same content, different time window): {info['pages_mirrored']}"
-        )
-    else:
-        pages_section = f"Pages: {info['pages_processed']}"
+    mirrored_set = {m.upper() for m in info["pages_mirrored"]}
+    lines = []
+    for page in info["pages_processed"]:
+        if page.upper().endswith(" LY"):
+            base = page[:-3].rstrip()
+            if (base + " LM").upper() in mirrored_set:
+                lines.append(
+                    f"  - {base}: has two comparison views — "
+                    f"Last Year / LY (year-over-year) and "
+                    f"Last Month / LM (month-over-month, in-period monitoring). "
+                    f"Same visuals in both; only the comparison period differs."
+                )
+                continue
+        lines.append(f"  - {page}")
+    pages_section = "Pages in this dashboard:\n" + "\n".join(lines)
 
     user_prompt = f"""
 Generate "Dashboard at a Glance" for the Risk Management Dashboard.
@@ -259,8 +273,8 @@ ACTION (what to do):
 # STEP 4 — LLM call
 # ============================================================
 
-def generate_dashboard_overview(info: dict, llm_client) -> str:
-    system_prompt = load_overview_prompt()
+def generate_dashboard_overview(info: dict, llm_client, dashboard: str = "risk-dash") -> str:
+    system_prompt = load_overview_prompt(dashboard)
     system_prompt, user_prompt = build_overview_prompt(info, system_prompt)
 
     return llm_chat(
@@ -321,7 +335,7 @@ def main() -> None:
     print(f"  Has domain context : {bool(info['domain_context'])}")
 
     print("\nGenerating dashboard overview...")
-    result = generate_dashboard_overview(info, llm_client)
+    result = generate_dashboard_overview(info, llm_client, dashboard=args.dashboard)
 
     save_overview(result, args.dashboard, root)
     print("\nDONE")

@@ -85,14 +85,10 @@ SKIP_FILES = {
     "pages_summary.json",
 }
 
-# overview_lm aur overview_ly same visuals hain
-# sirf comparison period alag hai (MoM vs YoY)
-# Hum sirf overview_ly chalate hain — canonical page
-# overview_lm ko skip karte hain with explanation
-DUPLICATE_PAGE_PAIRS = {
-    # skip_file         : canonical_file
-    "overview_lm.json"  : "overview_ly.json",
-}
+# *_lm.json pages are mirrors of *_ly.json — same visuals, different
+# comparison period (MoM vs YoY). Pairs are detected dynamically at
+# runtime so no hardcoding is needed per dashboard.
+# DUPLICATE_PAGE_PAIRS is built inside discover_pages().
 
 # Comparison method per page — output mein yeh note add hoga
 PAGE_COMPARISON_CONTEXT = {
@@ -205,6 +201,14 @@ def discover_pages() -> list[dict]:
 
     json_files = sorted(VISUAL_ENRICHER_DIR.glob("*.json"))
 
+    # Auto-detect *_lm.json files that have a *_ly.json counterpart
+    all_fnames = {fpath.name for fpath in json_files}
+    duplicate_page_pairs = {
+        fname: fname[:-8] + "_ly.json"
+        for fname in all_fnames
+        if fname.endswith("_lm.json") and fname[:-8] + "_ly.json" in all_fnames
+    }
+
     for fpath in json_files:
         fname = fpath.name
 
@@ -220,18 +224,18 @@ def discover_pages() -> list[dict]:
             })
             continue
 
-        # ── Duplicate page skip ───────────────────────────────
-        if fname in DUPLICATE_PAGE_PAIRS:
-            canonical = DUPLICATE_PAGE_PAIRS[fname]
+        # ── Duplicate page skip (*_lm has *_ly counterpart) ──
+        if fname in duplicate_page_pairs:
+            canonical = duplicate_page_pairs[fname]
             pages.append({
                 'file'       : fname,
                 'path'       : fpath,
                 'data'       : None,
                 'skip'       : True,
                 'skip_reason': (
-                    f"duplicate of '{canonical}' — same visuals, "
-                    f"different comparison period. "
-                    f"Documented in '{canonical}' output instead."
+                    f"mirror of '{canonical}' — same visuals, "
+                    f"different comparison period (LM). "
+                    f"Only LY version is processed."
                 ),
                 'context'    : {},
             })
@@ -398,8 +402,16 @@ def load_prompt(visual_type: str) -> str | None:
     base_path     = PROMPT_DIR + "base_context.txt"
     template_path = PROMPT_DIR + filename
     try:
-        with open(base_path,     encoding="utf-8") as f: base     = f.read()
-        with open(template_path, encoding="utf-8") as f: template = f.read()
+        with open(base_path,     encoding="utf-8") as f: base_rules = f.read()
+        with open(template_path, encoding="utf-8") as f: template   = f.read()
+        _cfg_path    = Path(PROMPT_DIR).parent / "dashboard_config.json"
+        _dash_cfg    = json.loads(_cfg_path.read_text(encoding="utf-8")).get(DASHBOARD, {}) if _cfg_path.exists() else {}
+        domain_block = (
+            f"Domain context:\n"
+            f"- This dashboard is used by {_dash_cfg.get('users', 'Care Manager, Medical Director')}\n"
+            f"- Domain: {_dash_cfg.get('domain', 'Healthcare dashboard')}\n"
+        )
+        base = domain_block + "\n" + base_rules
     except FileNotFoundError:
         return None
     return base + "\n\n" + template
@@ -844,9 +856,8 @@ def main():
     print(f"Model: {os.environ.get('TF_MODEL', 'internal-bedrock/sonnet-46')}")
     print("\nRunning visual enricher...")
     enrich_and_split(
-        visuals_path  = _p.visuals,           # adjust to your actual path key
-        resolved_path = Path(MEASURES_RESOLVED_PATH),
-        out_dir       = _p.enriched_pages_dir,
+        visuals_path = _p.visuals,
+        out_dir      = _p.enriched_pages_dir,
     )
     print("Enricher done.\n")
     # ── Discover all pages ───────────────────────────────────

@@ -21,6 +21,16 @@ load_dotenv()
 
 _ROOT      = Path(__file__).resolve().parent.parent.parent
 PROMPT_DIR = _ROOT / "prompt" / "system_prompt"
+DASH_CFG   = _ROOT / "prompt" / "dashboard_config.json"
+
+
+def load_dashboard_config(dashboard: str) -> dict:
+    """Load domain/users for this dashboard from prompt/dashboard_config.json."""
+    if not DASH_CFG.exists():
+        return {}
+    with open(DASH_CFG, encoding="utf-8") as f:
+        all_cfg = json.load(f)
+    return all_cfg.get(dashboard, {})
 
 # ============================================================
 # STEP 1 — Filter JSON process karo
@@ -104,9 +114,16 @@ def print_filter_summary(page_filters: dict, global_filters: list):
 # STEP 2 — System Prompt
 # ============================================================
 
-def load_filter_prompt() -> str:
+def load_filter_prompt(dashboard: str = "risk-dash") -> str:
     try:
-        base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
+        _cfg_path = PROMPT_DIR.parent / "dashboard_config.json"
+        _dash_cfg = json.loads(_cfg_path.read_text(encoding="utf-8")).get(dashboard, {}) if _cfg_path.exists() else {}
+        domain_block = (
+            f"Domain context:\n"
+            f"- This dashboard is used by {_dash_cfg.get('users', 'Care Manager, Medical Director')}\n"
+            f"- Domain: {_dash_cfg.get('domain', 'Healthcare dashboard')}\n"
+        )
+        base = domain_block + "\n" + (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
     except FileNotFoundError:
         base = ""
     try:
@@ -122,7 +139,9 @@ def load_filter_prompt() -> str:
 def build_filter_prompt(
     global_filters: list,
     page_filters: dict,
-    system_prompt: str
+    system_prompt: str,
+    domain: str = "Healthcare dashboard",
+    users: str = "Analyst, Executive",
 ):
     PERIOD_MODE_MAP = {
         "Last Year":  "YTD (year-to-date: Jan 1 of current year to selected month)",
@@ -170,10 +189,10 @@ Output ONLY this, nothing else — no intros, no bullets, no extra sections:
 |---|---|---|
 [one row per global filter]
 
-{"## Page-specific Filters" + chr(10) + chr(10) + "[one table per page that has page-specific filters, same 3 columns]" if page_specific else ""}
+{"## Page-specific Filters" + chr(10) + chr(10) + "Rules before writing any row:" + chr(10) + "1. Mirror pages (pages that share the same base name but differ only by a time-period suffix like LY, LM, YTD, MTD, Q1-Q4) must be collapsed into ONE table with a combined heading e.g. 'Overview (LY / LM)'. Never produce separate tables for mirror pages." + chr(10) + "2. Any filter already listed in the Global Filters table above must be excluded from every page-specific table. Do not repeat a global filter in page-specific even if it is technically present on that page." + chr(10) + chr(10) + "[one table per unique page or mirror group that has page-specific filters, same 3 columns, applying both rules above]" if page_specific else ""}
 
-Domain: Healthcare risk adjustment dashboard.
-Users: Executive, Provider, Practice Manager.
+Domain: {domain}.
+Users: {users}.
     """
 
     return system_prompt, user_prompt
@@ -184,12 +203,16 @@ Users: Executive, Provider, Practice Manager.
 def generate_filter_guide(
     global_filters: list,
     page_filters: dict,
-    llm_client
+    llm_client,
+    domain: str = "Healthcare dashboard",
+    users: str = "Analyst, Executive",
+    dashboard: str = "risk-dash",
 ) -> str:
 
-    system_prompt = load_filter_prompt()
+    system_prompt = load_filter_prompt(dashboard)
     system_prompt, user_prompt = build_filter_prompt(
-        global_filters, page_filters, system_prompt
+        global_filters, page_filters, system_prompt,
+        domain=domain, users=users,
     )
 
     return llm_chat(
@@ -243,8 +266,17 @@ def main():
 
     print_filter_summary(page_filters, global_filters)
 
+    # load domain/users from prompt/dashboard_config.json
+    dash_cfg = load_dashboard_config(args.dashboard)
+    raw_users = dash_cfg.get("users", "Analyst, Executive")
+    domain    = dash_cfg.get("domain", "Healthcare dashboard")
+    users     = ", ".join(raw_users) if isinstance(raw_users, list) else raw_users
+
     print("Generating filter guide...")
-    result = generate_filter_guide(global_filters, page_filters, llm_client)
+    result = generate_filter_guide(
+        global_filters, page_filters, llm_client,
+        domain=domain, users=users, dashboard=args.dashboard,
+    )
 
     save_filter_guide(result, args.dashboard)
     print("\nDONE")

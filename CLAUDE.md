@@ -169,19 +169,19 @@ src/
 ├── Page_wise/
 │   ├── runner.py              <- Stage 3 orchestrator (steps 0->1->3->4->5)
 │   ├── funnel_input_builder_step0.py
-│   ├── funnel_mapper_step1.py
+│   ├── funnel_mapper_step1.py             <- 3-call LLM design: Call1=funnel_questions, Call2=classify, Call3=group_bucket
 │   ├── widget_group_writer_step3.py   <- cached; use --force to regenerate
 │   ├── funnel_connector_step4.py
 │   ├── document_assembler_step5.py
 │   └── Widgets/
-│       ├── kpi_card_processor.py       max_tokens=6000
-│       ├── trend_lines_processor.py    max_tokens=6000
-│       ├── clinical_pair_processor.py  max_tokens=6000
-│       ├── detail_table_processor.py   max_tokens=6000
-│       ├── entity_scatter_processor.py max_tokens=6000
-│       ├── multi_chart_processor.py    max_tokens=6000
-│       ├── action_table_processor.py   max_tokens=6000
-│       └── segmentation_processor.py   max_tokens=8000 (large — 9 visuals)
+│       ├── trend_lines_processor.py    max_completion_tokens=6000
+│       ├── clinical_pair_processor.py  max_completion_tokens=6000
+│       ├── detail_table_processor.py   max_completion_tokens=6000
+│       ├── entity_scatter_processor.py max_completion_tokens=6000
+│       ├── multi_chart_processor.py    max_completion_tokens=6000
+│       ├── action_table_processor.py   max_completion_tokens=6000
+│       └── segmentation_processor.py   max_completion_tokens=8000 (large — 9 visuals)
+│   NOTE: KPI_CARD_ROW processor is in widget_group_writer_step3.py itself (process_kpi_card_row), not a separate file. max_completion_tokens=6000.
 │
 ├── dashboard_overview/
 │   ├── runner.py              <- Stage 4 entry point (parallel with glossary_faq)
@@ -260,6 +260,11 @@ Do NOT use `TRUEFOUNDRY_MODEL` / `TRUEFOUNDRY_API_KEY` / `TRUEFOUNDRY_BASE_URL` 
 | Self-import in `_l2_from_dict()` | visual_parserL2.py | Removed |
 | Wrong env var `TRUEFOUNDRY_MODEL` | visual_parserL2.py, visaul_pareserL1.py | Changed to `TF_MODEL` |
 | `load_prompts()` crashes if prompts/ dir missing | llm_fallback.py | Fallback to inline prompt strings |
+| LLM drops visual IDs on pages with 25+ visuals | funnel_mapper_step1.py | Refactored to 3 focused calls: Call 1 = funnel questions, Call 2 = classify, Call 3 = group per bucket |
+| `max_tokens` rejected by TF model backend | funnel_mapper_step1.py `call_llm()` | Changed to `max_completion_tokens` |
+| Action funnel question returns null for "Risk capture potential" | funnel_mapper_step1.py `get_funnel_questions()` | Detect action pages in code via `_is_action_page()`, pass names explicitly to prompt |
+| KPI card processor crashes with `finish_reason=length` instead of retrying | widget_group_writer_step3.py `process_kpi_card_row()` | Raised limit 3000→6000; moved `call_llm` inside `try/except` so token errors trigger retries |
+| LLM errors in all widget processors bypass retry loop entirely | Widgets/*.py + widget_group_writer_step3.py | Wrapped all LLM calls in `try/except`; print `finish_reason` + response tail on failure |
 
 ---
 

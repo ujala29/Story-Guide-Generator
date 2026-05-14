@@ -21,6 +21,7 @@ Monthly trend of PMPM comparing current year against prior year.
 **Technical specification**
 
 **DAX measure(s):**
+**[Measure name]** = [Full DAX expression, exactly as written]
 [verbatim]
 
 **Tables and columns used:**

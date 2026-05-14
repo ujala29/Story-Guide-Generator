@@ -1,18 +1,26 @@
 {
-  "dashboard_name": "Risk Management Dashboard",
-  "domain": "Healthcare risk adjustment — HCC coding, RAF scores, gap closure, value-based care",
-  "users": [
-    "Care Manager",
-    "Medical Director", 
-    "Payer Analyst",
-    "Practice Manager"
-  ],
-  "common_pain_points": [
-    "Numbers differ from colleague",
-    "Which filter to set first",
-    "YoY or MoM showing blank or zero",
-    "Last month looks lower than expected",
-    "Data has not updated",
-    "How to find a specific PCP or practice"
-  ]
+  "risk-dash": {
+    "display_name": "Risk Management Dashboard",
+    "domain": "Healthcare risk adjustment — HCC coding, RAF scores, gap closure, value-based care",
+    "users": "Care Manager, Medical Director, Payer Analyst, Practice Manager",
+    "common_pain_points": [
+      "Numbers differ from colleague",
+      "Which filter to set first",
+      "YoY or MoM showing blank or zero",
+      "Last month looks lower than expected",
+      "Data has not updated",
+      "How to find a specific PCP or practice"
+    ]
+  },
+  "pac-dash": {
+    "display_name": "Post-Acute Care Dashboard",
+    "domain": "Post-acute care utilization and network performance — SNF, HH, IRF, LTACH transitions",
+    "users": "Care Manager, Network Director, CFO, Utilization Manager",
+    "common_pain_points": [
+      "Numbers differ from colleague",
+      "Which filter to set first",
+      "Facility counts look off",
+      "How to find a specific facility or provider"
+    ]
+  }
 }

@@ -84,6 +84,13 @@ ROLE_TO_AXIS = {
     "Small multiples": "small_multiples",
 }
 
+# Pure measure-container tables have no analytical meaning as a prefix.
+# Measures from these tables are stored without the table prefix in measures_used.
+_MEASURE_CONTAINER_TABLES = {
+    "all_dax_pac", "all_dax", "measures", "_measures",
+    "key measures", "dax measures", "dax",
+}
+
 
 def build_visual_map(pages_dir: Path) -> dict:
     """
@@ -183,7 +190,28 @@ def _extract_title(visual_node: dict) -> str:
     Extracts visual title from two possible storage locations.
     Priority: visualContainerObjects.title -> objects.title
     Returns empty string on any failure.
+
+    Exception: cardVisual and card types use the displayName from the first
+    measure projection as their label (the container title is a section header
+    like 'Leakage %' that applies to all cards equally and is not meaningful
+    per-card).
     """
+    if visual_node.get("visualType") in ("cardVisual", "card"):
+        try:
+            qs = visual_node.get("query", {}).get("queryState", {})
+            measure_prop = ""
+            for role_data in qs.values():
+                for proj in role_data.get("projections", []):
+                    dn = proj.get("displayName", "").strip()
+                    if dn:
+                        return dn
+                    f = proj.get("field", {})
+                    if "Measure" in f and not measure_prop:
+                        measure_prop = f["Measure"].get("Property", "").strip()
+            if measure_prop:
+                return measure_prop
+        except Exception:
+            pass
     try:
         return (visual_node["visualContainerObjects"]["title"][0]
                 ["properties"]["text"]["expr"]["Literal"]["Value"].strip("'"))
@@ -245,7 +273,7 @@ def _extract_fields_with_roles(visual_node: dict) -> tuple[dict, list, list]:
             if "Measure" in field:
                 prop  = field["Measure"].get("Property", "")
                 table = _extract_entity(field["Measure"])
-                k     = f"{table}.{prop}" if table else prop
+                k     = prop if table.lower() in _MEASURE_CONTAINER_TABLES else (f"{table}.{prop}" if table else prop)
                 entry = {
                     "field_type":   "Measure",
                     "table":        table,
@@ -774,6 +802,22 @@ class ReportLayoutParser:
         )
 
     def _get_title(self, visual_node: dict) -> str:
+        if visual_node.get("visualType") in ("cardVisual", "card"):
+            try:
+                qs = visual_node.get("query", {}).get("queryState", {})
+                measure_prop = ""
+                for role_data in qs.values():
+                    for proj in role_data.get("projections", []):
+                        dn = proj.get("displayName", "").strip()
+                        if dn:
+                            return dn
+                        f = proj.get("field", {})
+                        if "Measure" in f and not measure_prop:
+                            measure_prop = f["Measure"].get("Property", "").strip()
+                if measure_prop:
+                    return measure_prop
+            except Exception:
+                pass
         try:
             return (visual_node["visualContainerObjects"]["title"][0]
                     ["properties"]["text"]["expr"]["Literal"]["Value"].strip("'"))

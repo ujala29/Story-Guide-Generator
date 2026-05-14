@@ -44,7 +44,7 @@ Each meaning explains the business implication in one sentence starting with the
 **Technical specification**
 
 **DAX measure(s):**
-
+**[Measure name]** = [Full DAX expression, exactly as written]
 [List each DAX measure on its own line. Plain DAX syntax — measure name = formula. No code blocks. No bullet points. One blank line between each measure.]
 
 **Tables and columns used:**

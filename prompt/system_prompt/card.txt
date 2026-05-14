@@ -47,7 +47,7 @@ FORMAT SPECIFICATION (follow exactly)
 
 **DAX measure(s):**
 
-[Measure name] = [Full DAX expression, exactly as written]
+**[Measure name]** = [Full DAX expression, exactly as written]
 
 **Tables and columns used:**
 

@@ -1,6 +1,7 @@
 import argparse
 import os
 import re
+import sys
 import tempfile
 from pathlib import Path
 
@@ -131,6 +132,64 @@ def sort_pages(page_dirs):
     return sorted(page_dirs, key=lambda p: (idx.get(p.name, 999), p.name.lower()))
 
 
+MAX_METRIC_ROWS = 10
+
+
+def build_metric_catalog_section(dashboard: str) -> str:
+    """Read metric_catalog.md, return first MAX_METRIC_ROWS data rows + truncation note."""
+    catalog_path = (
+        BASE_DIR / "output" / "dashboards" / dashboard / "metric_dictionary" / "metric_catalog.md"
+    )
+    if not catalog_path.exists():
+        print(f"  ⚠ not found: {catalog_path}")
+        return ""
+
+    lines = catalog_path.read_text(encoding="utf-8").splitlines()
+
+    header = None
+    separator = None
+    current: list[str] = []
+    data_rows: list[str] = []
+
+    for line in lines:
+        if not line.strip():
+            continue
+        if header is None:
+            if line.strip().startswith("|"):
+                header = line.strip()
+            continue
+        if separator is None:
+            if re.match(r"^\s*\|[-| :]+\|\s*$", line):
+                separator = line.strip()
+            continue
+        # group multi-physical-line cells into one logical row
+        if line.strip().startswith("|"):
+            if current:
+                data_rows.append(" ".join(current))
+            current = [line.strip()]
+        else:
+            if current:
+                current.append(line.strip())
+
+    if current:
+        data_rows.append(" ".join(current))
+
+    total = len(data_rows)
+    preview = data_rows[:MAX_METRIC_ROWS]
+    table_md = "\n".join(x for x in [header, separator] + preview if x)
+
+    note = ""
+    if total > MAX_METRIC_ROWS:
+        note = (
+            f"\n\n> **Note:** Showing {len(preview)} of {total} measures. "
+            f"For complete DAX definitions of all measures, refer to the "
+            f"**Metric Catalog Excel file** embedded in this document.\n"
+        )
+
+    print(f"  + Metric Dictionary ({len(preview)} of {total} measures)")
+    return table_md + note + "\n\n"
+
+
 # ── Build markdown ────────────────────────────────────────────
 
 def build_combined_md(dashboard: str = "risk-dash") -> str:
@@ -186,6 +245,13 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
         print(f"  ⚠ not found: {story_root}")
 
 
+    # 5. Metric Dictionary (first 10 measures + truncation note)
+    metric_md = build_metric_catalog_section(dashboard)
+    if metric_md:
+        chunks.append(PAGE_BREAK)
+        chunks.append("# Metric Dictionary\n\n")
+        chunks.append(metric_md)
+
     # 6. FAQ
     p = glossary_faq_dir / "faq.md"
     if p.exists():
@@ -227,6 +293,17 @@ def main():
         tmp_path = tmp.name
 
     try:
+        # Fail fast if the output file is locked (e.g. open in Word)
+        if Path(output_path).exists():
+            try:
+                with open(output_path, "ab"):
+                    pass
+            except PermissionError:
+                print(f"\n  ERROR: Cannot write to '{output_path}'")
+                print(f"  The file is open in another application (e.g. Microsoft Word).")
+                print(f"  Please close it and run again.")
+                sys.exit(1)
+
         extra_args = ["--standalone", "--wrap=none"]
         ref_doc = OUTPUT_ROOT / "reference.docx"
         if ref_doc.exists():

@@ -171,26 +171,33 @@ def process_entity_scatter(
     for attempt in range(1, max_retries + 1):
         print(f"    attempt {attempt}/{max_retries}...")
 
-        response = client.chat.completions.create(
-            model=model,
-            temperature=0.1,
-            max_completion_tokens=6000,
-            messages=[
-                {"role": "system", "content": ENTITY_SCATTER_SYSTEM},
-                {"role": "user",   "content": prompt},
-            ],
-        )
-        raw = response.choices[0].message.content.strip()
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                temperature=0.1,
+                max_completion_tokens=6000,
+                messages=[
+                    {"role": "system", "content": ENTITY_SCATTER_SYSTEM},
+                    {"role": "user",   "content": prompt},
+                ],
+            )
+        except Exception as e:
+            print(f"    LLM call failed ({type(e).__name__}): {e}")
+            continue
+
+        raw           = (response.choices[0].message.content or "").strip()
+        finish_reason = response.choices[0].finish_reason
 
         if not raw:
-            print(f"    empty response")
+            print(f"    empty response — finish_reason={finish_reason}")
             continue
 
         try:
             result = _parse_json(raw)
         except Exception as e:
-            print(f"    parse failed: {e}")
-            print(f"    last 200 chars: ...{raw[-200:]}")
+            print(f"    parse failed ({type(e).__name__}): {e}")
+            print(f"    finish_reason={finish_reason}  response_length={len(raw)} chars")
+            print(f"    last 400 chars: ...{raw[-400:]}")
             continue
 
         if "entity_table" not in result:

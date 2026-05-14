@@ -5,6 +5,7 @@
 #   Stage 2  [parallel]    Visual_wise  |  filter_section  |  Metric_dictionary
 #   Stage 3  [sequential]  Page_wise
 #   Stage 4  [parallel]    dashboard_overview  |  glossary_faq
+#   Stage 5  [sequential]  Word Generator
 #
 # Usage:
 #   python main.py                              # all dashboards, all stages
@@ -46,6 +47,7 @@ RUNNERS = {
     "page_wise"         : SRC / "Page_wise"          / "runner.py",
     "dashboard_overview": SRC / "dashboard_overview" / "runner.py",
     "glossary_faq"      : SRC / "glossary_faq"       / "runner.py",
+    "word_generator"    : SRC / "word_generator"     / "runner.py",
 }
 
 # Dashboards that support "all" natively in their own runner
@@ -302,6 +304,13 @@ def stage4_parallel(dashboard: str, opts: argparse.Namespace) -> int:
     return _run_parallel(steps)
 
 
+def stage5_word_generator(dashboard: str, opts: argparse.Namespace) -> int:
+    print(f"\n{'=' * 62}")
+    print(f"  STAGE 5 — Word Generator  [{dashboard}]")
+    print(f"{'=' * 62}")
+    return _run("word_generator", RUNNERS["word_generator"], ["--dashboard", dashboard])
+
+
 # ─────────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────────
@@ -311,6 +320,7 @@ STAGES = [
     (2, "Visual_wise | filter | metric_dict (parallel)", stage2_parallel),
     (3, "Page_wise",                   stage3_page_wise),
     (4, "dashboard_overview | glossary_faq (parallel)", stage4_parallel),
+    (5, "Word Generator",              stage5_word_generator),
 ]
 
 
@@ -395,6 +405,7 @@ def main() -> None:
     print(f"  PIPELINE COMPLETE  ({elapsed:.1f}s)")
     print(f"  Dashboards: {dashboards}")
     print(f"  Output → output/dashboards/<dashboard>/")
+    print(f"  Word docs → output/<dashboard>_story_guide.docx")
     print(f"{'=' * 62}")
 
 

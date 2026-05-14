@@ -241,13 +241,6 @@ def resolve_title(visual: dict, title_overrides: dict) -> str:
                     if dn and dn not in GENERIC_TITLES:
                         return dn
 
-        # fall back to first measure_used name
-        chains = visual.get("measure_chains", [])
-        if chains:
-            name = chains[0].get("measure_name", "").strip()
-            if name:
-                return name
-
         measures_used = visual.get("measures_used", [])
         if measures_used:
             return strip_table_prefix(measures_used[0])
@@ -264,22 +257,16 @@ def resolve_title(visual: dict, title_overrides: dict) -> str:
 # Core builders
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_measure_entries(visual: dict, definitions: dict) -> list:
+def build_measure_entries(visual: dict, definitions: dict, measures_resolved: dict) -> list:
     """
     Build the measures array for one visual.
 
-    Uses measure_chains (embedded in the enriched visual) for DAX.
+    Uses measures_resolved for DAX (loaded once in build_funnel_llm_input).
     Uses metric_catalog_registry for business/technical definitions.
 
     Returns:
       [{name, dax, definition, display_name_in_visual}, ...]
     """
-    chain_lookup = {
-        c["measure_name"]: c
-        for c in visual.get("measure_chains", [])
-        if c.get("measure_name")
-    }
-
     axis_bindings = visual.get("axis_bindings", {})
     seen = set()
     result = []
@@ -290,7 +277,7 @@ def build_measure_entries(visual: dict, definitions: dict) -> list:
             continue
         seen.add(name)
 
-        chain = chain_lookup.get(name, {})
+        chain = measures_resolved.get(name, {})
         dax = get_leaf_dax(chain) if chain else ""
 
         def_entry = definitions.get(name, {})
@@ -312,7 +299,7 @@ def build_measure_entries(visual: dict, definitions: dict) -> list:
     return result
 
 
-def build_visual_entry(visual: dict, title: str, definitions: dict) -> dict:
+def build_visual_entry(visual: dict, title: str, definitions: dict, measures_resolved: dict) -> dict:
     """Build one clean visual entry for the LLM input JSON."""
     axis_bindings = visual.get("axis_bindings", {})
 
@@ -321,7 +308,7 @@ def build_visual_entry(visual: dict, title: str, definitions: dict) -> dict:
         "title":        title,
         "type":         visual.get("type", ""),
         "page":         visual.get("page", ""),
-        "measures":     build_measure_entries(visual, definitions),
+        "measures":     build_measure_entries(visual, definitions, measures_resolved),
         "columns_used": visual.get("columns_used", []),
     }
 
@@ -346,10 +333,11 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
     config             = project_root / "config"
 
     # ── load ───────────────────────────────────────────────────────────────
-    pages_raw   = load_json(stage1 / "pages.json") or []
-    definitions = load_json(stage2 / "metric_catalog_registry.json") or {}
-    fixes       = load_json(config / "fixes.json") or {}
-    dash_cfg    = load_json(config / "dashboard_config.json") or {}
+    pages_raw        = load_json(stage1 / "pages.json") or []
+    definitions      = load_json(stage2 / "metric_catalog_registry.json") or {}
+    measures_resolved = load_json(stage1 / "measures_resolved.json") or {}
+    fixes            = load_json(config / "fixes.json") or {}
+    dash_cfg         = load_json(config / "dashboard_config.json") or {}
 
     # ── dashboard display name ─────────────────────────────────────────────
     # Fallback map for known dashboards when dashboard_config.json is missing
@@ -376,10 +364,21 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
     # ── pages — sorted by order from pages.json, skip utility pages ────────
     pages = []
     valid_page_display_names = set()
+    _all_display_names_upper = {
+        p.get("display_name", "").strip().upper()
+        for p in pages_raw
+    }
     for p in sorted(pages_raw, key=lambda x: x.get("order", 99)):
         dn = p.get("display_name", "").strip()
         if not dn or dn in SKIP_PAGES:
             continue
+        # Skip *_LM pages that have a mirror *_LY page — same visuals, different
+        # time comparison label. Process only the LY version.
+        if dn.upper().endswith(" LM"):
+            ly_counterpart = dn[:-3].rstrip() + " LY"
+            if ly_counterpart.upper() in _all_display_names_upper:
+                print(f"[funnel_input_builder] SKIP mirror page: '{dn}' (LY counterpart exists)")
+                continue
         pages.append({
             "page_id":      p["name"],
             "display_name": dn,
@@ -426,6 +425,7 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
             continue
 
         # skip pages not in our valid page list from pages.json
+        # (this also catches *_LM mirror pages filtered out above)
         if page_display_name not in valid_page_display_names:
             skipped_page += len(page_data.get("visuals", []))
             continue
@@ -446,7 +446,7 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
                 skipped_empty += 1
                 continue
 
-            visuals_out.append(build_visual_entry(v, title, definitions))
+            visuals_out.append(build_visual_entry(v, title, definitions, measures_resolved))
 
     # ── content hash for downstream cache invalidation ────────────────────
     hash_src = json.dumps(

@@ -3,7 +3,12 @@ funnel_mapper.py
 ================
 Stage 3A — Step 2
 
-Calls the LLM once per LOGICAL page group to produce funnel_map.json.
+Calls the LLM in THREE focused calls per page instead of one giant combined call.
+This prevents visual ID loss on pages with 25+ visuals.
+
+Call 1 — Funnel questions (tiny call, no visual IDs)
+Call 2 — Classify visuals (flat dict: visual_id -> position)
+Call 3 — Group per bucket (one focused call per TOP/MIDDLE/BOTTOM/ACTION bucket)
 
 GENERIC PAGE DEDUPLICATION:
   Pages that share the same base name but differ only by a time-period
@@ -19,12 +24,11 @@ GENERIC PAGE DEDUPLICATION:
   This works for ANY dashboard without hardcoding page names.
 
 OUTPUT:
-  output/dashboards/<dash>/stage3/funnel_map.json
+  output/dashboards/<dash>/page_wise/funnel_map.json
 
 Run:
-  python -m app.story.funnel_mapper
-  python -m app.story.funnel_mapper --dashboard risk-dash
-  python -m app.story.funnel_mapper --force
+  python src/Page_wise/funnel_mapper_step1.py --dashboard risk-dash
+  python src/Page_wise/funnel_mapper_step1.py --dashboard risk-dash --force
 """
 
 import sys
@@ -47,7 +51,6 @@ TF_MODEL    = os.getenv("TF_MODEL", "internal-bedrock/sonnet-46")
 VALID_POSITIONS = {"TOP", "MIDDLE", "BOTTOM", "ACTION"}
 
 # ── Time-period suffixes that make pages structural duplicates ────────────────
-# A page whose name = "<base> <suffix>" is a duplicate of "<base> <other_suffix>"
 TIME_PERIOD_SUFFIXES = {
     "ly", "lm", "ytd", "mtd", "qtd",
     "q1", "q2", "q3", "q4",
@@ -58,7 +61,6 @@ TIME_PERIOD_SUFFIXES = {
 }
 
 # ── Keywords that identify action/targeting pages ─────────────────────────────
-# Generic — works for any dashboard type
 ACTION_PAGE_KEYWORDS = {
     "capture potential", "action", "targeting", "outreach",
     "intervention", "chase list", "worklist", "prioritization",
@@ -78,8 +80,6 @@ def get_page_base_name(page_name: str) -> str:
     "Detail Q1"        -> "Detail"
     "Performance MTD"  -> "Performance"
     "Risk capture potential" -> "Risk capture potential"  (no suffix)
-
-    Works by checking if the last word(s) of the name match a known suffix.
     """
     name = page_name.strip()
     parts = name.split()
@@ -115,8 +115,6 @@ def _rank_representative(name: str) -> tuple:
       3. Q1 before Q2, Q3, Q4
       4. Lower order number
       5. Alphabetical fallback
-
-    Returns a tuple used for sorting — lower = higher priority.
     """
     lower = name.lower()
     suffix_priority = {
@@ -127,12 +125,10 @@ def _rank_representative(name: str) -> tuple:
     }
     parts = lower.split()
 
-    # check last word
     last = parts[-1] if parts else ""
     if last in suffix_priority:
         return (suffix_priority[last], lower)
 
-    # check last two words
     if len(parts) >= 2:
         last_two = " ".join(parts[-2:])
         if last_two in suffix_priority:
@@ -148,13 +144,11 @@ def build_page_plan(all_pages: list) -> list[dict]:
     Steps:
       1. Group pages by their base name (strip time-period suffixes)
       2. Within each group, pick the best representative using _rank_representative
-         (LY before LM, YTD before MTD, etc.)
       3. Mark action pages
       4. Sort: non-action pages first (by order), action pages last
     """
     page_order = {p["display_name"]: p.get("order", 99) for p in all_pages}
 
-    # group by base name
     groups: dict[str, list[str]] = {}
     for p in sorted(all_pages, key=lambda x: x.get("order", 99)):
         name = p["display_name"]
@@ -163,7 +157,6 @@ def build_page_plan(all_pages: list) -> list[dict]:
 
     plan = []
     for base_name, members in groups.items():
-        # sort by representative priority — LY before LM etc.
         members_sorted = sorted(members, key=_rank_representative)
         rep     = members_sorted[0]
         mirrors = members_sorted[1:]
@@ -176,19 +169,13 @@ def build_page_plan(all_pages: list) -> list[dict]:
             "base_name":      base_name,
         })
 
-    # non-action pages first, action pages last
     plan.sort(key=lambda x: (1 if x["is_action"] else 0, x["order"]))
 
     return plan
 
 
-def _is_action_page(page_name: str) -> bool:
-    lower = page_name.lower()
-    return any(kw in lower for kw in ACTION_PAGE_KEYWORDS)
-
-
 # ─────────────────────────────────────────────────────────────────────────────
-# Prompt builders
+# System prompt (shared across all three calls)
 # ─────────────────────────────────────────────────────────────────────────────
 
 SYSTEM_PROMPT = """You are a dashboard analyst who understands the analytical story BI dashboards tell.
@@ -253,144 +240,168 @@ Rule 7 — If any page in ALL PAGES has a name suggesting action/targeting/outre
 Output must be valid JSON only. No explanation text, no markdown fences."""
 
 
-def build_first_call_prompt(
+# ─────────────────────────────────────────────────────────────────────────────
+# Prompt builders — one per call
+# ─────────────────────────────────────────────────────────────────────────────
+
+def build_funnel_questions_prompt(
     dashboard_name: str,
     all_pages: list,
-    rep_page: str,
-    mirror_pages: list,
-    visuals: list,
+    sample_measures: list,
+    action_page_names: list,
 ) -> str:
     """
-    First LLM call: representative page -> funnel questions + widgets.
+    Call 1: tiny call — funnel questions only, no visual IDs.
+    action_page_names is pre-detected in code so the LLM doesn't have to guess.
     """
     pages_block = "\n".join(
-        f"  - {p['display_name']} (order: {p['order']})"
-        for p in sorted(all_pages, key=lambda x: x["order"])
+        f"  - {p['display_name']} (order: {p.get('order', 99)})"
+        for p in sorted(all_pages, key=lambda x: x.get("order", 99))
     )
+    measures_text = "\n".join(f"  - {m}" for m in sample_measures[:15])
 
-    mirror_note = ""
-    if mirror_pages:
-        mirror_note = (
-            f"\nNOTE — page variants: '{rep_page}' and '{', '.join(mirror_pages)}' "
-            f"are the same dashboard page shown for different comparison periods "
-            f"(e.g. year-over-year vs month-over-month, or different quarters).\n"
-            f"Same visuals, same layout, same widget structure — only the time comparison differs.\n"
-            f"You are analyzing '{rep_page}' only. The widget structure will be reused for the other variant(s)."
+    if action_page_names:
+        action_instruction = (
+            f"\nACTION PAGES (already detected): {', '.join(action_page_names)}\n"
+            f"funnel_question_action MUST be a real sentence describing what these pages help the user do."
         )
+        action_schema_hint = "one sentence — what do the action/targeting pages help the user do?"
+    else:
+        action_instruction = "\nNo action/targeting pages exist in this dashboard."
+        action_schema_hint = "null"
 
-    visuals_block = _format_visuals(visuals)
-
-    schema = """{
+    schema = f"""{{
   "dashboard_name": "...",
   "domain_context": "2-3 sentences explaining what business problem this dashboard solves and what the reader needs to understand first",
   "funnel_question_top": "one sentence — what does the TOP section answer?",
   "funnel_question_middle": "one sentence — what does the MIDDLE section answer?",
   "funnel_question_bottom": "one sentence — what does the BOTTOM section answer?",
-  "funnel_question_action": "one sentence — what does the ACTION page answer? (null if no action page)",
-  "widgets": [
-    {
-      "widget_id": "w01",
-      "funnel_position": "TOP",
-      "widget_name": "short descriptive name",
-      "sub_question": "the specific question this widget answers",
-      "visual_ids": ["id1", "id2"],
-      "screenshot_label": "plain English — what to screenshot, list visual titles",
-      "reading_order": 1
-    }
-  ]
-}"""
+  "funnel_question_action": "{action_schema_hint}"
+}}"""
 
-    return f"""Analyze this dashboard page and produce the funnel map.
+    return f"""Analyze this dashboard and describe the analytical story it tells through its funnel structure.
 
 DASHBOARD: {dashboard_name}
 ALL PAGES:
 {pages_block}
-{mirror_note}
+{action_instruction}
 
-VISUALS ON PAGE "{rep_page}" ({len(visuals)} visuals):
-{visuals_block}
+SAMPLE MEASURES from the main page:
+{measures_text}
 
-Return JSON with this exact structure:
+Return JSON only:
 {schema}
 
-Grouping rules — apply these strictly:
-- All {len(visuals)} visual_ids above must appear — each in exactly one widget
-- reading_order starts at 1
-- KPI cards -> EXACTLY TWO widgets: Widget A = landscape row (population + risk scores), Widget B = performance row (rates + cost + gaps)
-- Each multiRowCard YoY/MoM indicator goes IN THE SAME widget as its parent KPI card
-- ALL lineCharts on this page -> EXACTLY ONE single widget. Do not split by metric. One widget, all line chart visual_ids together.
-- bar/column chart + detail table on same dimension -> ONE widget
-- FIRST classification table after KPI cards (payer, LOB, plan, region) -> TOP
-- DEEPER classification tables further down (model, cohort, attribution) -> MIDDLE
-- entity table (rows by provider/practice/PCP/facility) -> BOTTOM
-- entity table + scatter plot showing same entity population -> ONE widget, BOTTOM
-- never group a classification table with an entity table
-- donut/pie operational breakdown (by visit type, network, channel) -> BOTTOM
-- If any page in ALL PAGES suggests action/targeting -> funnel_question_action must be a real sentence
-- JSON only, no other text"""
+- JSON only, no markdown fences"""
 
 
-def build_action_page_prompt(
-    dashboard_name: str,
-    page_name: str,
-    visuals: list,
+def build_classify_prompt(visuals: list) -> str:
+    """
+    Call 2: classify all visuals on the page into funnel positions.
+    Returns a flat dict: {visual_id: "TOP"|"MIDDLE"|"BOTTOM"|"ACTION"}
+    """
+    visuals_block = _format_visuals(visuals)
+
+    return f"""Classify each visual into exactly one funnel position: TOP, MIDDLE, BOTTOM, or ACTION.
+
+Classification rules (apply in order):
+- card / cardVisual / multiRowCard → TOP
+- lineChart → MIDDLE
+- pivotTable / tableEx with row_dimensions containing provider / practice / PCP / physician / facility → BOTTOM
+- pivotTable / tableEx with row_dimensions containing payer / LOB / region / plan → TOP
+- pivotTable / tableEx with row_dimensions containing model / cohort / attribution → MIDDLE
+- scatterChart → BOTTOM
+- barChart / columnChart on clinical / disease / HCC dimension → BOTTOM
+- barChart / columnChart on LOB / payer / region → TOP
+- donutChart → BOTTOM
+- When uncertain, default to TOP
+
+VISUALS ({len(visuals)} total):
+{visuals_block}
+
+Return a JSON object mapping every visual_id to its position:
+{{"visual_id_1": "TOP", "visual_id_2": "MIDDLE", "visual_id_3": "BOTTOM"}}
+
+ALL {len(visuals)} visual_ids must be present as keys. JSON object only, no other text."""
+
+
+def build_group_bucket_prompt(
+    bucket_visuals: list,
+    position: str,
     funnel_questions: dict,
     reading_order_start: int,
 ) -> str:
     """
-    Prompt for action/targeting pages.
-    Funnel questions already known — only need widgets for this page.
+    Call 3: group the visuals in one bucket into widgets.
+    Each bucket call is small and focused on one position only.
     """
-    context = (
-        f"ACTION = {funnel_questions.get('funnel_question_action', 'targeting and outreach')}"
-    )
+    context = f"""DASHBOARD FUNNEL CONTEXT:
+- TOP answers   : {funnel_questions.get('funnel_question_top', '')}
+- MIDDLE answers: {funnel_questions.get('funnel_question_middle', '')}
+- BOTTOM answers: {funnel_questions.get('funnel_question_bottom', '')}
+- ACTION answers: {funnel_questions.get('funnel_question_action', 'n/a')}"""
 
-    visuals_block = _format_visuals(visuals)
+    position_rules = {
+        "TOP": """Rules for TOP bucket:
+- KPI cards (card/cardVisual/multiRowCard): EXACTLY TWO widgets
+    Widget A = landscape row: population + risk score metrics (member count, eligible, documented risk, potential risk, gap)
+    Widget B = performance row: rate + cost + gap metrics (recapture rates, PMPM, % with gaps)
+    Each multiRowCard YoY/MoM indicator goes IN THE SAME widget as its parent KPI card
+- First classification table (by payer/LOB/plan/region): ONE widget, group any matching bar/column chart with it
+- Never merge all cards into one widget. Never create one widget per card.""",
+
+        "MIDDLE": """Rules for MIDDLE bucket:
+- ALL lineChart visuals on this page → EXACTLY ONE widget together (never split trend lines)
+- bar/column chart + detail table on the same model/cohort/attribution dimension → ONE widget
+- Deeper segmentation tables (by model, cohort, attribution, enrollment) → group by shared dimension""",
+
+        "BOTTOM": """Rules for BOTTOM bucket:
+- entity table (rows by provider/practice/PCP/facility) + scatter plot showing the same entity population → ONE widget
+- bar/column chart on clinical/disease/HCC dimension + detail table on same dimension → ONE widget
+- donut/pie operational breakdown (by visit type, network, channel) → its own widget
+- Never put a classification table and an entity table in the same widget""",
+
+        "ACTION": """Rules for ACTION bucket:
+- Rule A — Summary widget: pivot/detail table showing performance by payer/plan/LOB
+    (targeted patients, targeted gaps, recapture rates, RAF scores) → ONE widget.
+    Group any LOB bar/column chart with this table if present.
+- Rule B — Segmentation widget: ALL bar charts, donut charts, column charts that segment
+    targeted gaps by member characteristics (wellness visit status, PCP visit frequency,
+    days since last visit, cost, ED utilization, risk bucket, gap bucket, distance, zip)
+    → ONE single widget together. Never split these.
+- Rule C — Entity targeting widget: pivot table by practice/PCP showing targeted gaps → ONE widget
+- Rule D — Member list widget: patient-level table listing individual members → ONE widget""",
+    }
+
+    visuals_block = _format_visuals(bucket_visuals)
 
     schema = """[
   {
     "widget_id": "wNN",
-    "funnel_position": "ACTION",
+    "funnel_position": "POSITION",
     "widget_name": "short descriptive name",
-    "sub_question": "specific question this widget answers",
+    "sub_question": "the specific question this widget answers",
     "visual_ids": ["id1", "id2"],
-    "screenshot_label": "plain English description",
+    "screenshot_label": "plain English — what to screenshot, list visual titles",
     "reading_order": N
   }
 ]"""
 
-    return f"""Page "{page_name}" is the ACTION/targeting page of dashboard "{dashboard_name}".
+    return f"""Group these {position} visuals into widgets.
+
 {context}
 
-Group all {len(visuals)} visuals into widgets using these ACTION page rules:
+{position_rules.get(position, '')}
 
-Rule A — Summary widget: A pivot/detail table showing performance by payer, plan, or LOB
-  (with columns like targeted patients, targeted gaps, recapture rates, RAF scores)
-  forms ONE widget. Group any LOB bar/column chart with this table if present.
-  Sub-question: "Which payers/plans have the most targetable revenue opportunity?"
-
-Rule B — Segmentation widget: ALL bar charts, donut charts, and column charts that segment
-  targeted gaps by member characteristics (wellness visit status, PCP visit frequency,
-  days since last visit, cost of care, ED utilization, risk bucket, coding gap bucket,
-  care gap bucket, member-PCP distance, geographic zip) form ONE single widget together.
-  These collectively answer: "How should outreach be structured across member segments?"
-  Never split segmentation charts into separate widgets — they are all part of one section.
-
-Rule C — Entity targeting widget: A pivot table showing targeted gaps by practice/PCP
-  forms ONE widget. Sub-question: "Which practices and PCPs should be prioritized?"
-
-Rule D — Member list widget: A patient-level table listing individual members
-  forms ONE widget. Sub-question: "Which specific members should be contacted?"
-
-VISUALS ({len(visuals)} visuals):
+VISUALS ({len(bucket_visuals)} visuals in {position} bucket):
 {visuals_block}
 
 Return a JSON ARRAY of widgets:
 {schema}
 
-- All {len(visuals)} visual_ids must appear — each in exactly one widget
+- funnel_position = "{position}" for every widget in this array
 - reading_order starts at {reading_order_start}
-- funnel_position = "ACTION" for all widgets
+- ALL {len(bucket_visuals)} visual_ids must appear — each in exactly one widget
 - JSON array only, no other text"""
 
 
@@ -478,7 +489,7 @@ def validate_page_widgets(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# LLM call + retry
+# LLM helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
 def call_llm(system: str, user: str) -> str:
@@ -486,7 +497,7 @@ def call_llm(system: str, user: str) -> str:
     response = client.chat.completions.create(
         model=TF_MODEL,
         temperature=0.1,
-        max_tokens=16000,
+        max_completion_tokens=16000,
         messages=[
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
@@ -505,36 +516,149 @@ def parse_json_response(raw: str) -> dict | list:
     return json.loads(text)
 
 
-def call_with_retry(
-    user_prompt: str,
-    page_visual_ids: set,
-    check_funnel_questions: bool,
+# ─────────────────────────────────────────────────────────────────────────────
+# Three focused LLM execution functions
+# ─────────────────────────────────────────────────────────────────────────────
+
+def get_funnel_questions(
+    dashboard_name: str,
+    all_pages: list,
+    sample_measures: list,
+    action_page_names: list,
     max_retries: int = 3,
-) -> tuple[list, dict]:
+) -> dict:
     """
-    Returns (widgets, top_fields).
-    top_fields has funnel questions only for the first page call.
+    Call 1: extract funnel questions only. No visual IDs involved.
     """
+    prompt = build_funnel_questions_prompt(
+        dashboard_name, all_pages, sample_measures, action_page_names
+    )
+    required = ["domain_context", "funnel_question_top",
+                "funnel_question_middle", "funnel_question_bottom"]
+
+    for attempt in range(1, max_retries + 1):
+        print(f"  [Call 1 — funnel questions] attempt {attempt}/{max_retries} ...")
+        try:
+            raw = call_llm(SYSTEM_PROMPT, prompt)
+        except Exception as e:
+            print(f"  LLM call failed ({type(e).__name__}): {e}")
+            continue
+        try:
+            parsed = parse_json_response(raw)
+        except json.JSONDecodeError as e:
+            print(f"  JSON parse failed: {e}")
+            print(f"  response_length={len(raw)} chars")
+            print(f"  last 400 chars: ...{raw[-400:]}")
+            continue
+        if not isinstance(parsed, dict):
+            print(f"  unexpected response type: {type(parsed)}")
+            continue
+        missing = [k for k in required if not parsed.get(k)]
+        if not missing:
+            print(f"  funnel questions extracted successfully")
+            return parsed
+        print(f"  missing required fields: {missing}, retrying ...")
+
+    raise RuntimeError(
+        f"get_funnel_questions failed after {max_retries} attempts"
+    )
+
+
+def classify_visuals(
+    visuals: list,
+    page_visual_ids: set,
+    max_retries: int = 3,
+) -> dict:
+    """
+    Call 2: classify all visuals into funnel positions.
+    Returns {visual_id: "TOP"|"MIDDLE"|"BOTTOM"|"ACTION"}.
+    """
+    prompt = build_classify_prompt(visuals)
+
+    for attempt in range(1, max_retries + 1):
+        print(f"  [Call 2 — classify] attempt {attempt}/{max_retries} ...")
+        try:
+            raw = call_llm(SYSTEM_PROMPT, prompt)
+        except Exception as e:
+            print(f"  LLM call failed ({type(e).__name__}): {e}")
+            continue
+        try:
+            parsed = parse_json_response(raw)
+        except json.JSONDecodeError as e:
+            print(f"  JSON parse failed: {e}")
+            print(f"  response_length={len(raw)} chars")
+            print(f"  last 400 chars: ...{raw[-400:]}")
+            continue
+        if not isinstance(parsed, dict):
+            print(f"  unexpected response type: {type(parsed)}")
+            continue
+
+        # strip invented IDs and invalid positions silently
+        result = {
+            k: v for k, v in parsed.items()
+            if k in page_visual_ids and v in VALID_POSITIONS
+        }
+
+        missing = page_visual_ids - set(result.keys())
+        if not missing:
+            print(f"  classified {len(result)} visuals successfully")
+            return result
+
+        print(f"  {len(missing)} visual_id(s) missing from classification, retrying ...")
+
+    # last resort: default all unclassified to TOP
+    print(f"  WARNING: classify_visuals exhausted retries — defaulting missing IDs to TOP")
+    for vid in page_visual_ids:
+        result.setdefault(vid, "TOP")
+    return result
+
+
+def group_bucket(
+    bucket_visuals: list,
+    position: str,
+    funnel_questions: dict,
+    reading_order_start: int,
+    max_retries: int = 3,
+) -> list:
+    """
+    Call 3: group visuals in one bucket into widgets.
+    Each call is small (one position's visuals only).
+    """
+    if not bucket_visuals:
+        return []
+
+    bucket_ids = {v["visual_id"] for v in bucket_visuals}
+    prompt = build_group_bucket_prompt(
+        bucket_visuals, position, funnel_questions, reading_order_start
+    )
+
     last_raw    = ""
     last_errors = []
 
     for attempt in range(1, max_retries + 1):
-        print(f"  attempt {attempt}/{max_retries} ...")
+        print(f"  [Call 3 — group {position} ({len(bucket_visuals)} visuals)] "
+              f"attempt {attempt}/{max_retries} ...")
 
-        current_user = user_prompt if attempt == 1 else (
-            f"Your previous response had these errors:\n"
+        current_prompt = prompt if attempt == 1 else (
+            "Your previous response had these errors:\n"
             + "\n".join(f"  - {e}" for e in last_errors)
             + f"\n\nPrevious response:\n{last_raw}\n\n"
-            + "Fix ALL errors. Every visual_id from the page must appear in exactly one widget. "
-            + "Return corrected JSON only."
+            + "Fix ALL errors. Every visual_id must appear in exactly one widget. "
+            + "Return corrected JSON array only."
         )
 
-        raw = call_llm(SYSTEM_PROMPT, current_user)
+        try:
+            raw = call_llm(SYSTEM_PROMPT, current_prompt)
+        except Exception as e:
+            last_errors = [f"LLM call failed: {type(e).__name__}: {e}"]
+            print(f"  LLM call failed ({type(e).__name__}): {e}")
+            continue
+
         last_raw = raw
 
         if not raw:
             last_errors = ["LLM returned empty response"]
-            print(f"  empty response")
+            print(f"  empty response — finish_reason=length likely; token budget too small")
             continue
 
         try:
@@ -542,35 +666,16 @@ def call_with_retry(
         except json.JSONDecodeError as e:
             last_errors = [f"Invalid JSON: {e}"]
             print(f"  JSON parse failed: {e}")
-            print(f"  response length  : {len(raw)} chars")
-            print(f"  last 300 chars   : ...{raw[-300:]}")
+            print(f"  response_length={len(raw)} chars")
+            print(f"  last 400 chars: ...{raw[-400:]}")
             continue
 
-        # extract widgets and top-level fields
-        if isinstance(parsed, list):
-            widgets    = parsed
-            top_fields = {}
-        elif isinstance(parsed, dict):
-            widgets    = parsed.get("widgets", [])
-            top_fields = {
-                k: parsed.get(k)
-                for k in ["dashboard_name", "domain_context",
-                          "funnel_question_top", "funnel_question_middle",
-                          "funnel_question_bottom", "funnel_question_action"]
-            }
-        else:
-            last_errors = ["Response is neither object nor array"]
-            continue
+        widgets = parsed if isinstance(parsed, list) else parsed.get("widgets", [])
 
-        errors = validate_page_widgets(
-            widgets, page_visual_ids,
-            check_funnel_questions=check_funnel_questions,
-            top_fields=top_fields if check_funnel_questions else None,
-        )
-
+        errors = validate_page_widgets(widgets, bucket_ids)
         if not errors:
-            print(f"  validation passed — {len(widgets)} widgets")
-            return widgets, top_fields
+            print(f"  validation passed — {len(widgets)} widgets in {position} bucket")
+            return widgets
 
         last_errors = errors
         print(f"  validation failed ({len(errors)} errors):")
@@ -578,7 +683,8 @@ def call_with_retry(
             print(f"    - {e}")
 
     raise RuntimeError(
-        f"Failed after {max_retries} attempts. Last errors: {last_errors}"
+        f"group_bucket({position}) failed after {max_retries} attempts. "
+        f"Last errors: {last_errors}"
     )
 
 
@@ -596,22 +702,12 @@ def mirror_widgets_for_page(
     """
     Overview LM has the same structure as Overview LY but different visual IDs.
     We map source visual IDs to target visual IDs by matching title + type.
-
-    Matching strategy:
-      source visual title + type  ->  target visual title + type
-    Unmatched target visuals get their own single-visual widget at the end.
     """
-    # build lookup: (title, type) -> visual_id for target page
     target_lookup: dict[tuple, str] = {}
     for v in target_visuals:
         key = (v["title"], v["type"])
         target_lookup[key] = v["visual_id"]
 
-    # build lookup for source: visual_id -> (title, type)
-    # We need the source enriched visuals — use the input data
-    # Since we only have widget visual_ids, we build a reverse map
-    # from the funnel_llm_input visuals array (passed in via closure)
-    # Instead: pass source_visuals as parameter
     return _do_mirror(
         source_widgets, source_page, target_page,
         target_visuals, target_lookup, widget_id_offset
@@ -622,22 +718,7 @@ def _do_mirror(
     source_widgets, source_page, target_page,
     target_visuals, target_lookup, widget_id_offset,
 ) -> list:
-    """
-    Build mirrored widget list for the target page.
-    """
-    # source visual_id -> (title, type) needs source visuals
-    # We don't have them here easily — so we use a simpler approach:
-    # match by position within each widget (same order of visual_ids).
-    # This works because LY and LM have the same visuals in the same order.
-
-    # build target visual list in original order
     target_ids_ordered = [v["visual_id"] for v in target_visuals]
-    # we don't know source order, so we match by widget structure:
-    # for each source widget, find target visuals by title+type matching
-
-    # build source visual id -> (title, type) from target_visuals
-    # We can't directly, so we rely on title matching across pages.
-    # Build target: (title, type) -> id
     used_target_ids = set()
     mirrored = []
 
@@ -645,13 +726,7 @@ def _do_mirror(
         new_widget_id = f"w{widget_id_offset + i + 1:02d}"
         matched_ids   = []
 
-        # for each source visual_id in this widget, find the matching
-        # target visual by (title, type) — this requires source title/type
-        # which we don't have here. Fallback: use index-based matching.
-        # Since both pages have same count and order, zip works.
         for j, src_vid in enumerate(sw.get("visual_ids", [])):
-            # try to find a target visual not yet used
-            # that matches by relative position
             for tv in target_visuals:
                 tid = tv["visual_id"]
                 if tid not in used_target_ids:
@@ -715,12 +790,12 @@ def run_funnel_mapper(llm_input: dict) -> dict:
         )
         print(f"  -> '{step['representative']}'{mirror_str}")
 
-    all_widgets      = []
-    funnel_questions = {}
-    is_first_call    = True
+    all_widgets             = []
+    funnel_questions        = {}
+    funnel_questions_fetched = False
 
     for step in plan:
-        rep_page    = step["representative"]
+        rep_page     = step["representative"]
         mirror_pages = step["mirrors"]
 
         rep_visuals = visuals_by_page.get(rep_page, [])
@@ -733,41 +808,27 @@ def run_funnel_mapper(llm_input: dict) -> dict:
         print(f"\n[funnel_mapper] processing '{rep_page}' "
               f"({len(rep_visuals)} visuals)")
 
-        # build prompt
-        if is_first_call:
-            prompt = build_first_call_prompt(
-                dashboard_name, all_pages,
-                rep_page, mirror_pages, rep_visuals,
-            )
-        elif step["is_action"]:
-            prompt = build_action_page_prompt(
-                dashboard_name, rep_page, rep_visuals,
-                funnel_questions,
-                reading_order_start=len(all_widgets) + 1,
-            )
-        else:
-            # non-action page after the first (rare — e.g. a third overview page)
-            # treat same as action page but without forcing ACTION position
-            prompt = build_action_page_prompt(
-                dashboard_name, rep_page, rep_visuals,
-                funnel_questions,
-                reading_order_start=len(all_widgets) + 1,
+        # ── Call 1: funnel questions — once, from first page ──────────────
+        if not funnel_questions_fetched:
+            sample_measures = []
+            for v in rep_visuals:
+                for m in v.get("measures", []):
+                    dn = m.get("display_name_in_visual", "")
+                    if dn and dn not in sample_measures:
+                        sample_measures.append(dn)
+                    if len(sample_measures) >= 15:
+                        break
+                if len(sample_measures) >= 15:
+                    break
+
+            action_page_names = [
+                s["representative"] for s in plan if s["is_action"]
+            ]
+            funnel_questions = get_funnel_questions(
+                dashboard_name, all_pages, sample_measures, action_page_names
             )
 
-        # call LLM
-        widgets, top_fields = call_with_retry(
-            user_prompt            = prompt,
-            page_visual_ids        = rep_ids,
-            check_funnel_questions = is_first_call,
-        )
-
-        # store funnel questions from first call
-        if is_first_call and top_fields:
-            funnel_questions = top_fields
-
-            # clean dashboard_name — LLM sometimes appends page name like
-            # "Risk Management Dashboard – Overview LY". Strip everything
-            # after a dash/em-dash separator.
+            # clean dashboard_name — LLM sometimes appends page name
             raw_name = funnel_questions.get("dashboard_name", "")
             for sep in [" – ", " — ", " - ", " | "]:
                 if sep in raw_name:
@@ -775,19 +836,54 @@ def run_funnel_mapper(llm_input: dict) -> dict:
             if raw_name:
                 funnel_questions["dashboard_name"] = raw_name
 
-            is_first_call = False
+            funnel_questions_fetched = True
 
-        # renumber widget IDs to be globally unique
+        # ── Call 2 + 3: classify then group per bucket ────────────────────
+        if step["is_action"]:
+            # action pages: all visuals go directly to ACTION bucket
+            print(f"  action page — skipping classification, grouping as ACTION")
+            page_widgets = group_bucket(
+                rep_visuals, "ACTION", funnel_questions,
+                reading_order_start=len(all_widgets) + 1,
+            )
+        else:
+            # Call 2: classify all visuals into positions
+            classification = classify_visuals(rep_visuals, rep_ids)
+
+            # split into buckets
+            buckets: dict[str, list] = {
+                "TOP": [], "MIDDLE": [], "BOTTOM": [], "ACTION": []
+            }
+            for v in rep_visuals:
+                pos = classification.get(v["visual_id"], "TOP")
+                buckets[pos].append(v)
+
+            for pos, vlist in buckets.items():
+                if vlist:
+                    print(f"  {pos}: {len(vlist)} visuals")
+
+            # Call 3: group each non-empty bucket separately
+            page_widgets   = []
+            reading_order  = len(all_widgets) + 1
+            for pos in ["TOP", "MIDDLE", "BOTTOM", "ACTION"]:
+                if not buckets[pos]:
+                    continue
+                bucket_widgets = group_bucket(
+                    buckets[pos], pos, funnel_questions,
+                    reading_order_start=reading_order,
+                )
+                page_widgets.extend(bucket_widgets)
+                reading_order += len(bucket_widgets)
+
+        # renumber widget IDs to be globally unique across all pages
         offset = len(all_widgets)
-        for i, w in enumerate(widgets):
-            w["widget_id"]    = f"w{offset + i + 1:02d}"
-            w["page"]         = rep_page
+        for i, w in enumerate(page_widgets):
+            w["widget_id"] = f"w{offset + i + 1:02d}"
+            w["page"]      = rep_page
 
-        all_widgets.extend(widgets)
+        all_widgets.extend(page_widgets)
 
-        # mirror pages: Option B — do NOT add widgets to funnel_map.
-        # widget_group_writer applies LY structure to LM on the fly.
-        # Just record the mirror relationship.
+        # mirror pages: record only — widget_group_writer applies LY structure to LM on the fly
         for mirror_page in mirror_pages:
             mirror_visuals = visuals_by_page.get(mirror_page, [])
             print(f"  mirror '{mirror_page}' "
@@ -808,14 +904,12 @@ def run_funnel_mapper(llm_input: dict) -> dict:
         "funnel_question_action": funnel_questions.get("funnel_question_action"),
         "widgets":                all_widgets,
         "_meta": {
-            "dashboard":      llm_input["dashboard"],
-            "content_hash":   llm_input["content_hash"],
-            "total_widgets":  len(all_widgets),
-            "total_visuals":  len(all_visuals),
+            "dashboard":       llm_input["dashboard"],
+            "content_hash":    llm_input["content_hash"],
+            "total_widgets":   len(all_widgets),
+            "total_visuals":   len(all_visuals),
             "pages_processed": [s["representative"] for s in plan],
-            "pages_mirrored":  [
-                m for s in plan for m in s["mirrors"]
-            ],
+            "pages_mirrored":  [m for s in plan for m in s["mirrors"]],
         },
     }
 
@@ -847,7 +941,7 @@ def load_json(path: Path):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate funnel_map.json — one LLM call per logical page"
+        description="Generate funnel_map.json — three focused LLM calls per page"
     )
     parser.add_argument("--dashboard", default="risk-dash")
     parser.add_argument("--force", action="store_true",
@@ -866,7 +960,7 @@ def main():
     if not llm_input:
         raise FileNotFoundError(
             f"funnel_llm_input.json not found at {in_path}\n"
-            f"Run funnel_input_builder.py first."
+            f"Run funnel_input_builder_step0.py first."
         )
 
     # cache check

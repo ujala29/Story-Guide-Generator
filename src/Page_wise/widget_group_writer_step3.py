@@ -32,6 +32,7 @@ import os
 import sys
 import argparse
 import threading
+import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from openai import OpenAI
@@ -316,17 +317,23 @@ def process_kpi_card_row(
 
     for attempt in range(1, max_retries + 1):
         print(f"    attempt {attempt}/{max_retries}...")
-        raw = call_llm(KPI_SYSTEM, prompt, max_tokens=3000)
+
+        try:
+            raw = call_llm(KPI_SYSTEM, prompt, max_tokens=6000)
+        except Exception as e:
+            print(f"    LLM call failed ({type(e).__name__}): {e}")
+            continue
 
         if not raw:
-            print(f"    empty response")
+            print(f"    empty response — finish_reason=length likely; token budget too small")
             continue
 
         try:
             result = parse_json_response(raw)
         except Exception as e:
-            print(f"    parse failed: {e}")
-            print(f"    last 200 chars: ...{raw[-200:]}")
+            print(f"    parse failed ({type(e).__name__}): {e}")
+            print(f"    response_length={len(raw)} chars")
+            print(f"    last 400 chars: ...{raw[-400:]}")
             continue
 
         # basic validation
@@ -463,7 +470,8 @@ def process_page(
             return wid, content
         except Exception as e:
             with print_lock:
-                print(f"  ✗ [{wid}] {widget['widget_name']} — ERROR: {e}")
+                print(f"  ✗ [{wid}] {widget['widget_name']} — ERROR: {type(e).__name__}: {e}")
+                traceback.print_exc()
             return wid, {
                 "widget_id":   wid,
                 "widget_type": "ERROR",

@@ -129,8 +129,15 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
 # STEP 2 — System prompt
 # ============================================================
 
-def load_overview_prompt() -> str:
-    base     = (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
+def load_overview_prompt(dashboard: str = "risk-dash") -> str:
+    _cfg_path = PROMPT_DIR.parent / "dashboard_config.json"
+    _dash_cfg = json.loads(_cfg_path.read_text(encoding="utf-8")).get(dashboard, {}) if _cfg_path.exists() else {}
+    domain_block = (
+        f"Domain context:\n"
+        f"- This dashboard is used by {_dash_cfg.get('users', 'Care Manager, Medical Director')}\n"
+        f"- Domain: {_dash_cfg.get('domain', 'Healthcare dashboard')}\n"
+    )
+    base     = domain_block + "\n" + (PROMPT_DIR / "base_context.txt").read_text(encoding="utf-8")
     template = (PROMPT_DIR / "dashboard_overview.txt").read_text(encoding="utf-8")
     return base + "\n\n" + template
 
@@ -176,8 +183,8 @@ Users:
 # STEP 4 — LLM call
 # ============================================================
 
-def generate_dashboard_overview(info: dict, llm_client) -> str:
-    system_prompt = load_overview_prompt()
+def generate_dashboard_overview(info: dict, llm_client, dashboard: str = "risk-dash") -> str:
+    system_prompt = load_overview_prompt(dashboard)
     system_prompt, user_prompt = build_overview_prompt(info, system_prompt)
 
     response = llm_client.chat.completions.create(
@@ -239,7 +246,7 @@ def main() -> None:
     print(f"  Filters      : {len(info['filters'])}")
 
     print("\nGenerating dashboard overview (simple / baseline)...")
-    result = generate_dashboard_overview(info, llm_client)
+    result = generate_dashboard_overview(info, llm_client, dashboard=args.dashboard)
 
     save_overview(result, args.dashboard, root)
     print("\nDONE")
