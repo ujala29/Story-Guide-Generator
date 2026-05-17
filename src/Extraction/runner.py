@@ -11,7 +11,7 @@
 import sys
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
-import sys
+import json
 import argparse
 from pathlib import Path
 
@@ -21,6 +21,8 @@ if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
 from extractor import run_extraction
+from tmdl_sf_mapper import generate_mapping
+from prompt_generator import generate_dashboard_prompts
 
 _SRC = str(_HERE.parent)
 if _SRC not in sys.path:
@@ -56,6 +58,17 @@ def main():
             report_path=str(cfg["report"]),
             output_path=str(p.stage1_schema),
         )
+
+        print(f"\n  Generating BI→SF naming map...")
+        mapping = generate_mapping(cfg["semantic_model"])
+        out = p.bi_sf_naming_matching
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(mapping, indent=2, ensure_ascii=False), encoding="utf-8")
+        print(f"  Written → {out}")
+
+        print(f"\n  Generating dashboard prompt files...")
+        prompts_root = ROOT / "prompt"
+        generate_dashboard_prompts(dash, mapping, prompts_root)
 
     print("\nDone.")
 

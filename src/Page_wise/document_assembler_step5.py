@@ -594,7 +594,18 @@ def assemble(dashboard: str, root: Path) -> str:
 
     # ── Pages ─────────────────────────────────────────────────────────────────
     widgets_all = funnel_map.get("widgets", [])
-    pages_in_order = pages_processed
+
+    # Priority ordering: main_page > main > overview > summary > everything else
+    _FIRST_KEYWORDS = ["main_page", "main", "overview", "summary"]
+
+    def _page_priority(page_name: str) -> int:
+        slug = page_name.lower().replace(" ", "_")
+        for i, kw in enumerate(_FIRST_KEYWORDS):
+            if slug.startswith(kw):
+                return i
+        return len(_FIRST_KEYWORDS)
+
+    pages_in_order = sorted(pages_processed, key=_page_priority)
 
     for page_num, page_name in enumerate(pages_in_order, start=1):
         page_widgets = [

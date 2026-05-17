@@ -1,0 +1,6 @@
+{
+  "cost-management-insights": {
+    "semantic_model": "input/Cost-Management-v4_Insights_v1.SemanticModel",
+    "report": "input/Cost-Management-v4_Insights_v1.Report"
+  }
+}

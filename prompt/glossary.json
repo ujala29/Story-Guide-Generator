@@ -1,17 +1,1 @@
-{
-  "flags": {
-    "Documented":   "Condition coded at a clinical encounter",
-    "Undocumented": "Condition from prior year not yet recoded",
-    "Suspected":    "Algorithmically predicted, not confirmed"
-  },
-  "columns": {
-    "risk_value":              "HCC risk weight of a condition",
-    "risk_documentation_flag": "Status — Documented/Undocumented/Suspected",
-    "member_count":            "Number of attributed members"
-  },
-  "domain_terms": {
-    "RAF": "Risk Adjustment Factor",
-    "HCC": "Hierarchical Condition Category",
-    "Gap": "Condition that should be coded but has not been"
-  }
-}
+{}

@@ -78,16 +78,17 @@ WORKERS = 5
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-DASHBOARD_CONFIGS = {
-    "pac-dash": {
-        "llm_json": BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary" / "final_measures_with_llm.json",
-        "output_dir": BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary",
-    },
-    "risk-dash": {
-        "llm_json": BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "final_measures_with_llm.json",
-        "output_dir": BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary",
-    },
-}
+# Hardcoded per-dashboard configs removed — resolved dynamically from dashboard name.
+# DASHBOARD_CONFIGS = {"pac-dash": {...}, "risk-dash": {...}}  # was: hardcoded
+DASHBOARD_CONFIGS = {}  # kept for backward compat; all dashboards resolved dynamically below
+
+def _dash_catalog_cfg(dashboard: str) -> dict:
+    """Return path config for any dashboard — no hardcoding needed."""
+    out = BASE_DIR / "output" / "dashboards" / dashboard / "metric_dictionary"
+    return {
+        "llm_json"  : out / "final_measures_with_llm.json",
+        "output_dir": out,
+    }
 
 # ══════════════════════════════════════════════════════════════
 # LLM CLIENT
@@ -126,13 +127,15 @@ Rules:
 
 def _build_prompt(entry: dict) -> str:
     name        = entry["measure_name"]
-    dax         = entry.get("clean_dax") or entry.get("raw_dax") or ""
+    dax         = entry.get("dax") or entry.get("clean_dax") or entry.get("raw_dax") or ""
     sql         = entry.get("sql") or ""
     tables      = entry.get("tables") or []
     columns     = entry.get("columns") or []
     rels        = entry.get("relationships") or []
     deps        = entry.get("dependencies") or []
     pattern     = entry.get("dax_pattern") or "UNKNOWN"
+
+    llm_defn = entry.get("llm_definition") or ""
 
     parts = [
         f"Measure: {name}",
@@ -149,6 +152,9 @@ def _build_prompt(entry: dict) -> str:
         parts.append(f"Table relationships: {', '.join(rels)}")
     if deps:
         parts.append(f"Depends on measures: {', '.join(deps)}")
+    if llm_defn and not sql:
+        # No SQL available — give the LLM a prior definition to anchor the response
+        parts.append(f"Prior definition (use as context):\n{llm_defn}")
 
     return "\n\n".join(parts)
 
@@ -173,6 +179,20 @@ def _collect_sf_refs(m: dict, lookup: dict, visited: set) -> list:
     return refs
 
 
+def _extract_dax_refs(dax: str) -> tuple:
+    """
+    Fallback: extract table[column] pairs directly from raw DAX.
+    Used when sf_refs is empty (RUNTIME_ROUTER / DEFINER scope — no SQL generated).
+    Returns (tables, columns) as sorted lists of BI names.
+    """
+    import re
+    # Match table[column] — skip pure measure references like [Measure Name] (no table prefix)
+    pairs = re.findall(r"'?([\w][\w\s]*)'?\[([\w][\w\s]*)\]", dax)
+    tables  = sorted({t.strip() for t, _ in pairs})
+    columns = sorted({c.strip() for _, c in pairs})
+    return tables, columns
+
+
 def extract_entry(m: dict, lookup: Optional[dict] = None) -> dict:
     """Extract structured fields from a measure record."""
     all_refs = _collect_sf_refs(m, lookup or {}, set())
@@ -183,6 +203,12 @@ def extract_entry(m: dict, lookup: Optional[dict] = None) -> dict:
         for r in all_refs
         if r.get("sf_object") and r.get("sf_column") and r.get("ref_type") == "source"
     })
+
+    # No Snowflake refs (measure was skipped by compiler) — fall back to DAX table[column] refs
+    if not tables and not columns:
+        dax = (m.get("clean_dax") or m.get("raw_dax") or "").strip()
+        tables, columns = _extract_dax_refs(dax)
+
     rels    = m.get("join_paths") or []
     deps    = [d["measure_name"] for d in (m.get("depends_on") or [])]
     sql     = m.get("sql_query") or ""
@@ -197,6 +223,7 @@ def extract_entry(m: dict, lookup: Optional[dict] = None) -> dict:
         "columns"       : columns,
         "relationships" : rels,
         "dependencies"  : deps,
+        "llm_definition": m.get("llm_definition") or "",
         "technical_definition": None,
         "business_definition" : None,
     }
@@ -236,40 +263,51 @@ def _define_one(
     user_prompt = _build_prompt(entry)
     model       = os.getenv("TF_MODEL")
 
-    try:
-        resp = client.chat.completions.create(
-            model=model,
-            max_completion_tokens=600,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user",   "content": user_prompt},
-            ],
-        )
-        content     = resp.choices[0].message.content
-        finish      = resp.choices[0].finish_reason
+    import re, time as _time
+    last_exc = None
+    for _attempt in range(3):
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                max_completion_tokens=600,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user",   "content": user_prompt},
+                ],
+            )
+            content = resp.choices[0].message.content
+            finish  = resp.choices[0].finish_reason
 
-        if not content or content.strip().startswith("ERROR:"):
-            raise ValueError(f"Empty response (finish_reason={finish})")
+            if not content or content.strip().startswith("ERROR:"):
+                raise ValueError(f"Empty response (finish_reason={finish})")
 
-        # Strip markdown fences if present
-        import re
-        clean = content.strip()
-        fence = re.search(r"```(?:json)?\s*\n([\s\S]*?)(?:\n```|$)", clean)
-        if fence:
-            clean = fence.group(1).strip()
+            clean = content.strip()
+            fence = re.search(r"```(?:json)?\s*\n([\s\S]*?)(?:\n```|$)", clean)
+            if fence:
+                clean = fence.group(1).strip()
 
-        result = json.loads(clean)
-        entry["technical_definition"] = result.get("technical", "")
-        entry["business_definition"]  = result.get("business",  "")
+            if not clean:
+                raise ValueError(f"Empty JSON inside fence (finish_reason={finish})")
 
+            result = json.loads(clean)
+            entry["technical_definition"] = result.get("technical", "")
+            entry["business_definition"]  = result.get("business",  "")
+
+            with _print_lock:
+                print(f"  [{idx:3d}/{total}] {name:<50s} ✅ DEFINED")
+            last_exc = None
+            break
+
+        except Exception as exc:
+            last_exc = exc
+            if _attempt < 2:
+                _time.sleep(2 ** _attempt)
+
+    if last_exc is not None:
+        entry["technical_definition"] = f"ERROR: {last_exc}"
+        entry["business_definition"]  = f"ERROR: {last_exc}"
         with _print_lock:
-            print(f"  [{idx:3d}/{total}] {name:<50s} ✅ DEFINED")
-
-    except Exception as exc:
-        entry["technical_definition"] = f"ERROR: {exc}"
-        entry["business_definition"]  = f"ERROR: {exc}"
-        with _print_lock:
-            print(f"  [{idx:3d}/{total}] {name:<50s} ⚠️  ERROR — {str(exc)[:60]}")
+            print(f"  [{idx:3d}/{total}] {name:<50s} ⚠️  ERROR — {str(last_exc)[:60]}")
 
     return entry
 
@@ -381,11 +419,7 @@ def run_catalog(
     scope_filter : str  = "all",
     excel        : bool = False,
 ) -> None:
-    cfg        = DASHBOARD_CONFIGS.get(dashboard)
-    if not cfg:
-        print(f"Unknown dashboard: {dashboard}. Choose: {list(DASHBOARD_CONFIGS)}")
-        sys.exit(1)
-
+    cfg        = _dash_catalog_cfg(dashboard)
     llm_json   = cfg["llm_json"]
     output_dir = cfg["output_dir"]
     reg_path   = output_dir / "metric_catalog_registry.json"

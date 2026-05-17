@@ -11,7 +11,7 @@ FORMAT SPECIFICATION (follow exactly)
 
 **Definition**
 
-[One paragraph. Plain business language. What the metric measures and what it represents.]
+[One paragraph. Plain business language. What the metric measures and what it represents.2-3 lines]
 
 **What it measures**
 

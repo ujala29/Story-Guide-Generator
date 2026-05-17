@@ -254,23 +254,79 @@ def resolve_title(visual: dict, title_overrides: dict) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Pairing logic  (same substring approach as visual_parserL0._find_paired_visuals)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _build_pairing_map(page_visuals: list) -> tuple:
+    """
+    For each cardVisual on this page, find its paired multiRowCard/card supports.
+
+    Matching rule: strip_table_prefix(cv_primary).lower() in strip_table_prefix(sc_primary).lower()
+    e.g. "overall readmission %" found inside "overall readmission % yoy card" → paired.
+
+    Returns:
+        cv_to_supports : {cardvisual_id -> [support_visual, ...]}
+        paired_ids     : set of support card IDs claimed by any cardVisual
+    """
+    card_visuals  = [v for v in page_visuals if v.get("type") == "cardVisual"]
+    support_cards = [v for v in page_visuals if v.get("type") in {"multiRowCard", "card"}]
+
+    cv_to_supports : dict = {}
+    paired_ids     : set  = set()
+
+    for cv in card_visuals:
+        cv_measures = cv.get("measures_used", [])
+        if not cv_measures:
+            cv_to_supports[cv["id"]] = []
+            continue
+
+        cv_primary = strip_table_prefix(cv_measures[0]).lower()
+        # Strip "formatted " wrapper before matching
+        if cv_primary.startswith("formatted "):
+            cv_primary = cv_primary[len("formatted "):].strip()
+
+        matched = []
+        for sc in support_cards:
+            sc_measures = sc.get("measures_used", [])
+            if not sc_measures:
+                continue
+            sc_primary = strip_table_prefix(sc_measures[0]).lower()
+            if cv_primary in sc_primary:
+                matched.append(sc)
+                paired_ids.add(sc["id"])
+
+        cv_to_supports[cv["id"]] = matched
+
+    return cv_to_supports, paired_ids
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Core builders
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_measure_entries(visual: dict, definitions: dict, measures_resolved: dict) -> list:
+def build_measure_entries(
+    visual           : dict,
+    definitions      : dict,
+    measures_resolved: dict,
+    paired_visuals   : list = None,
+) -> list:
     """
     Build the measures array for one visual.
 
     Uses measures_resolved for DAX (loaded once in build_funnel_llm_input).
     Uses metric_catalog_registry for business/technical definitions.
+    paired_visuals: paired multiRowCard/card visuals (cardVisual path only) —
+                    their measures are appended with a comparison role so the LLM
+                    sees the full YoY/MoM context without a separate visual entry.
 
     Returns:
-      [{name, dax, definition, display_name_in_visual}, ...]
+      [{name, dax, definition, display_name_in_visual, role}, ...]
     """
     axis_bindings = visual.get("axis_bindings", {})
     seen = set()
     result = []
 
+    # ── Primary measures from this visual ────────────────────────────────────
     for raw in visual.get("measures_used", []):
         name = strip_table_prefix(raw)
         if name in seen:
@@ -290,16 +346,57 @@ def build_measure_entries(visual: dict, definitions: dict, measures_resolved: di
         display_name_in_visual = get_display_name_for_measure(name, axis_bindings) or name
 
         result.append({
-            "name":                  name,
-            "dax":                   dax,
-            "definition":            definition,
+            "name":                   name,
+            "dax":                    dax,
+            "definition":             definition,
             "display_name_in_visual": display_name_in_visual,
+            "role":                   "primary",
         })
+
+    # ── Paired support card measures (YoY/MoM comparison tiles) ─────────────
+    for pv in (paired_visuals or []):
+        for raw in pv.get("measures_used", []):
+            name = strip_table_prefix(raw)
+            if name in seen:
+                continue
+            seen.add(name)
+
+            chain = measures_resolved.get(name, {})
+            dax = get_leaf_dax(chain) if chain else ""
+
+            def_entry = definitions.get(name, {})
+            definition = (
+                def_entry.get("business_definition")
+                or def_entry.get("technical_definition")
+                or ""
+            )
+
+            name_lower = name.lower()
+            if "yoy" in name_lower:
+                role = "yoy_comparison"
+            elif "mom" in name_lower:
+                role = "mom_comparison"
+            else:
+                role = "comparison"
+
+            result.append({
+                "name":                   name,
+                "dax":                    dax,
+                "definition":             definition,
+                "display_name_in_visual": name,
+                "role":                   role,
+            })
 
     return result
 
 
-def build_visual_entry(visual: dict, title: str, definitions: dict, measures_resolved: dict) -> dict:
+def build_visual_entry(
+    visual           : dict,
+    title            : str,
+    definitions      : dict,
+    measures_resolved: dict,
+    paired_visuals   : list = None,
+) -> dict:
     """Build one clean visual entry for the LLM input JSON."""
     axis_bindings = visual.get("axis_bindings", {})
 
@@ -308,7 +405,7 @@ def build_visual_entry(visual: dict, title: str, definitions: dict, measures_res
         "title":        title,
         "type":         visual.get("type", ""),
         "page":         visual.get("page", ""),
-        "measures":     build_measure_entries(visual, definitions, measures_resolved),
+        "measures":     build_measure_entries(visual, definitions, measures_resolved, paired_visuals),
         "columns_used": visual.get("columns_used", []),
     }
 
@@ -432,10 +529,23 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
 
         pages_loaded.append(page_display_name)
 
-        for v in page_data.get("visuals", []):
+        page_visuals_raw             = page_data.get("visuals", [])
+        cv_to_supports, paired_ids   = _build_pairing_map(page_visuals_raw)
+        # Explicit overrides: visuals that can't be auto-paired via substring match
+        # (e.g. "Dropped + suspected" is a sub-display of "Gap to potential risk"
+        # but shares no substring with the parent measure name)
+        for vid in fixes.get("paired_overrides", []):
+            paired_ids.add(vid)
+
+        for v in page_visuals_raw:
             vtype = v.get("type", "")
 
             if vtype in SKIP_TYPES:
+                skipped_type += 1
+                continue
+
+            # multiRowCard/card paired with a cardVisual → fold into parent, skip standalone
+            if vtype in {"multiRowCard", "card"} and v["id"] in paired_ids:
                 skipped_type += 1
                 continue
 
@@ -446,7 +556,8 @@ def build_funnel_llm_input(dashboard: str, project_root: Path) -> dict:
                 skipped_empty += 1
                 continue
 
-            visuals_out.append(build_visual_entry(v, title, definitions, measures_resolved))
+            paired = cv_to_supports.get(v["id"]) if vtype == "cardVisual" else None
+            visuals_out.append(build_visual_entry(v, title, definitions, measures_resolved, paired))
 
     # ── content hash for downstream cache invalidation ────────────────────
     hash_src = json.dumps(

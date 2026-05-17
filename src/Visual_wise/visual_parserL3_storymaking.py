@@ -407,7 +407,6 @@ def _build_table_markdown(
 |---|---|
 | Visual type | Matrix / table |
 | Primary metric | Multiple — one per column |
-# | Comparison | {l0.comparison} columns embedded in the table |
 | Comparison | {"YoY and MoM change columns embedded in the table" if l0.comparison != "None" else "None — current period values only, no time comparison"} |
 | Visual-level filters | {filters_text} |
 

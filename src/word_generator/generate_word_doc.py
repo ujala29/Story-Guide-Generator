@@ -1,7 +1,9 @@
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import argparse
 import os
 import re
-import sys
 import tempfile
 from pathlib import Path
 
@@ -20,11 +22,9 @@ OUTPUT_ROOT = BASE_DIR / "output"
 
 PAGE_BREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
 
-PAGE_ORDER = [
-    "overview_ly",
-    "risk_capture_potential",
-    "data_availability",
-]
+# Pages whose slugs start with these keywords are pulled to the front (in this order).
+# Works for any dashboard — main_page, main, overview, summary always come first.
+FIRST_PAGE_KEYWORDS = ["main_page", "main", "overview", "summary"]
 
 VISUAL_PRIORITY = {
     "card": 1, "trend": 2, "line": 2,
@@ -128,8 +128,13 @@ def sort_visuals(files):
 
 
 def sort_pages(page_dirs):
-    idx = {name: i for i, name in enumerate(PAGE_ORDER)}
-    return sorted(page_dirs, key=lambda p: (idx.get(p.name, 999), p.name.lower()))
+    def _priority(page_dir):
+        slug = page_dir.name.lower()
+        for i, kw in enumerate(FIRST_PAGE_KEYWORDS):
+            if slug.startswith(kw):
+                return i
+        return len(FIRST_PAGE_KEYWORDS)
+    return sorted(page_dirs, key=lambda p: (_priority(p), p.name.lower()))
 
 
 MAX_METRIC_ROWS = 10

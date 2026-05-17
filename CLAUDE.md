@@ -27,8 +27,8 @@ python main.py --dashboard risk-dash
 # Resume from a specific stage
 python main.py --dashboard risk-dash --from-stage 3
 
-# Re-run with cache bypass (Page_wise steps 1/3/4)
-python main.py --dashboard risk-dash --from-stage 3 --force
+# Re-run with cache bypass (Visual_wise L1/L2/L3 + Page_wise steps 1/3/4)
+python main.py --dashboard risk-dash --from-stage 2 --force
 
 # Visual_wise full run (disable test mode)
 python main.py --no-test

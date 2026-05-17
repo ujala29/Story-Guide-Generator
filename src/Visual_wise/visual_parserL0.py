@@ -43,16 +43,20 @@ from paths import get_paths as _get_paths, get_config as _get_config
 
 _DASHBOARD             = os.environ.get("STORY_DASHBOARD", "risk-dash")
 _cfg                   = _get_config()
-FIXES_PATH             = str(_cfg.fixes)
 MEASURES_RESOLVED_PATH = str(_get_paths(_DASHBOARD).measures_resolved)
-GLOSSARY_PATH          = str(_cfg.glossary)
 
 # ============================================================
-# LOAD CONFIG
+# LOAD CONFIG  (dashboard-specific — no cross-dashboard fallback)
 # ============================================================
 
-with open(FIXES_PATH, encoding="utf-8") as f:
-    _FIXES = json.load(f)
+_dash_fixes_path    = _cfg.dashboard_prompt_dir(_DASHBOARD) / "fixes.json"
+_dash_glossary_path = _cfg.dashboard_prompt_dir(_DASHBOARD) / "glossary.json"
+
+if _dash_fixes_path.exists():
+    with open(_dash_fixes_path, encoding="utf-8") as f:
+        _FIXES = json.load(f)
+else:
+    _FIXES = {"title_overrides": {}, "generic_titles": [], "skip_types": ["slicer", "multiRowCard", "card"]}
 
 TITLE_OVERRIDES : dict = _FIXES["title_overrides"]
 GENERIC_TITLES  : set  = set(_FIXES["generic_titles"])
@@ -61,8 +65,10 @@ SKIP_TYPES      : set  = set(_FIXES["skip_types"])
 with open(MEASURES_RESOLVED_PATH, encoding="utf-8") as f:
     MEASURES_RESOLVED: dict = json.load(f)
 
-with open(GLOSSARY_PATH, encoding="utf-8") as f:
-    GLOSSARY: dict = json.load(f)
+GLOSSARY: dict = {}
+if _dash_glossary_path.exists():
+    with open(_dash_glossary_path, encoding="utf-8") as f:
+        GLOSSARY = json.load(f)
 
 # ============================================================
 # CONSTANTS

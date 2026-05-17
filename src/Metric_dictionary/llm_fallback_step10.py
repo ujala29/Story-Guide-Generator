@@ -190,24 +190,29 @@ def trim_schema_to_tables(schema: str, sql: str, dax: str = "") -> str:
 # PATHS
 # ══════════════════════════════════════════════════════════════
 
-BASE_DIR     = Path(__file__).resolve().parent.parent.parent
-PROMPTS_DIR  = BASE_DIR / "prompts"
+BASE_DIR          = Path(__file__).resolve().parent.parent.parent
+PROMPTS_DIR       = BASE_DIR / "prompt"
+SYSTEM_PROMPT_DIR = BASE_DIR / "prompt" / "system_prompt"
 
-# Per-dashboard path configs
-DASHBOARD_LLM_CONFIGS = {
-    "risk-dash": {
-        "final_json"   : BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "final_measures.json",
-        "output_dir"   : BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary",
-    },
-    "pac-dash": {
-        "final_json"   : BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary" / "final_measures.json",
-        "output_dir"   : BASE_DIR / "output" / "dashboards" / "pac-dash" / "metric_dictionary",
-    },
-}
+# Hardcoded per-dashboard configs removed — resolved dynamically from dashboard name.
+# DASHBOARD_LLM_CONFIGS = {"risk-dash": {...}, "pac-dash": {...}}  # was: hardcoded
+DASHBOARD_LLM_CONFIGS = {}  # kept as empty dict; all dashboards resolved dynamically below
 
-# Defaults (risk-dash for backward compat)
-FINAL_JSON    = DASHBOARD_LLM_CONFIGS["risk-dash"]["final_json"]
-OUTPUT_DIR    = DASHBOARD_LLM_CONFIGS["risk-dash"]["output_dir"]
+def _dash_llm_cfg(dashboard: str) -> dict:
+    """Return path config for any dashboard — no hardcoding needed."""
+    out = BASE_DIR / "output" / "dashboards" / dashboard / "metric_dictionary"
+    return {
+        "final_json": out / "final_measures.json",
+        "output_dir": out,
+    }
+
+# Module-level defaults (first available dashboard, or placeholder)
+_default_dash = next(
+    (p.name for p in (BASE_DIR / "output" / "dashboards").iterdir() if p.is_dir()),
+    "risk-dash",
+) if (BASE_DIR / "output" / "dashboards").exists() else "risk-dash"
+OUTPUT_DIR    = BASE_DIR / "output" / "dashboards" / _default_dash / "metric_dictionary"
+FINAL_JSON    = OUTPUT_DIR / "final_measures.json"
 REGISTRY_PATH = OUTPUT_DIR / "registry.json"
 UPDATED_FINAL = OUTPUT_DIR / "final_measures_with_llm.json"
 
@@ -347,7 +352,8 @@ def registry_set(
 
 def load_prompts(dashboard: str) -> dict:
     """
-    Load prompt files for a dashboard from prompts/<dashboard>/.
+    Load prompt files for a dashboard from prompt/<dashboard>/.
+    Shared (non-dashboard-specific) files are loaded from prompt/system_prompt/.
     Falls back to inline constants when files are absent.
 
     Returns dict with keys:
@@ -356,30 +362,33 @@ def load_prompts(dashboard: str) -> dict:
     """
     d = PROMPTS_DIR / dashboard
 
-    # Inline fallbacks — used when prompts/<dashboard>/ files don't exist yet.
-    # DASHBOARD_SCHEMA_CONTEXT / VALIDATOR_SYSTEM / BUILDER_SYSTEM / DEFINER_SYSTEM
-    # are defined later in this file; resolved at call time, not definition time.
-    _fallbacks = {
+    # validator_system and definer_system are shared — load from system_prompt/
+    # then fall back to inline constants. Never look in the dashboard folder.
+    _shared = {
+        "validator_system": (SYSTEM_PROMPT_DIR / "validator_system.txt", lambda: VALIDATOR_SYSTEM),
+        "definer_system"  : (SYSTEM_PROMPT_DIR / "definer_system.txt",   lambda: DEFINER_SYSTEM),
+    }
+
+    # Dashboard-specific files — look in prompt/<dashboard>/
+    _dashboard_fallbacks = {
         "schema_context"     : lambda: DASHBOARD_SCHEMA_CONTEXT.get(dashboard, SCHEMA_CONTEXT_RISK),
-        "validator_system"   : lambda: VALIDATOR_SYSTEM,
         "validator_checklist": lambda: (
             "Does this SQL correctly implement the DAX measure? "
             "Check table, date column, date filter, aggregation, WHERE, NULLIF."
         ),
         "builder_system"     : lambda: BUILDER_SYSTEM,
-        "definer_system"     : lambda: DEFINER_SYSTEM,
     }
 
     prompts = {}
-    for key, fallback_fn in _fallbacks.items():
-        path = d / f"{key}.txt"
-        if path.exists():
-            prompts[key] = path.read_text(encoding="utf-8").strip()
-        else:
-            prompts[key] = fallback_fn()
 
-    # Validator only needs date rules + SQL conventions — not full table descriptions.
-    # Use schema_rules_only.txt if it exists, otherwise fall back to full schema_context.
+    for key, (path, fallback_fn) in _shared.items():
+        prompts[key] = path.read_text(encoding="utf-8").strip() if path.exists() else fallback_fn()
+
+    for key, fallback_fn in _dashboard_fallbacks.items():
+        path = d / f"{key}.txt"
+        prompts[key] = path.read_text(encoding="utf-8").strip() if path.exists() else fallback_fn()
+
+    # Validator only needs date rules — use schema_rules_only.txt if present, else full schema_context.
     rules_only_path = d / "schema_rules_only.txt"
     prompts["schema_rules_only"] = (
         rules_only_path.read_text(encoding="utf-8").strip()
@@ -770,8 +779,8 @@ def run_llm_fallback(
         skip_registry  : ignore registry cache (force re-run)
         dashboard      : which dashboard to run (risk-dash | pac-dash)
     """
-    # Resolve paths and schema context for this dashboard
-    dash_cfg       = DASHBOARD_LLM_CONFIGS.get(dashboard, DASHBOARD_LLM_CONFIGS["risk-dash"])
+    # Resolve paths and schema context for this dashboard (fully dynamic)
+    dash_cfg       = _dash_llm_cfg(dashboard)
     final_json     = dash_cfg["final_json"]
     output_dir     = dash_cfg["output_dir"]
     registry_path  = output_dir / "registry.json"

@@ -11,9 +11,6 @@ Reads funnel_map.json and generates funnel_connector.json containing:
 2. closing_paragraph — 2-3 sentences connecting all pages into one narrative arc
 
 Single LLM call. No widget content files needed — sub_question per widget
-import sys
-if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8")
 from funnel_map is sufficient input.
 
 INPUT:
@@ -28,9 +25,11 @@ Run:
   python funnel_connector.py --force
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import json
 import os
-import sys
 import argparse
 from pathlib import Path
 from dotenv import load_dotenv

@@ -1,7 +1,7 @@
 # runner.py — Visual_wise Entry Point
 
 ## Purpose
-Parses CLI arguments and launches `visaul_pipeline_runner.py` as a subprocess with `STORY_DASHBOARD` and `STORY_TEST_MODE` env vars set. One subprocess per dashboard.
+Parses CLI arguments and launches `visaul_pipeline_runner.py` as a subprocess with `STORY_DASHBOARD`, `STORY_TEST_MODE`, and `STORY_FORCE` env vars set. One subprocess per dashboard.
 
 ---
 
@@ -9,8 +9,8 @@ Parses CLI arguments and launches `visaul_pipeline_runner.py` as a subprocess wi
 
 | | Detail |
 |---|---|
-| **CLI args** | `--dashboard risk-dash\|pac-dash\|all`, `--no-test` |
-| **Env vars set** | `STORY_DASHBOARD=<dash>`, `STORY_TEST_MODE=1\|0` |
+| **CLI args** | `--dashboard risk-dash\|pac-dash\|all`, `--no-test`, `--force` |
+| **Env vars set** | `STORY_DASHBOARD=<dash>`, `STORY_TEST_MODE=1\|0`, `STORY_FORCE=1\|0` |
 | **Delegates to** | `visaul_pipeline_runner.py` (subprocess, timeout=1800s) |
 
 ---
@@ -18,7 +18,7 @@ Parses CLI arguments and launches `visaul_pipeline_runner.py` as a subprocess wi
 ## Pipeline Steps
 
 ```
-Step 1  parse_args()         → --dashboard, --no-test
+Step 1  parse_args()         → --dashboard, --no-test, --force
 Step 2  assert_env()         → check TF_API_KEY, TF_BASE_URL, TF_MODEL
 Step 3  [per dashboard]
         run_dashboard()      → set env vars, launch subprocess
@@ -30,12 +30,13 @@ Step 3  [per dashboard]
 
 ```
 main()
-  ├── argparse: --dashboard (default "all"), --no-test (default test_mode=True)
+  ├── argparse: --dashboard (default "all"), --no-test (default test_mode=True), --force
   ├── assert_env()           ← from utils.env_check
   ├── expand dashboards      ← ALL_DASHBOARDS if "all"
-  └── [per dash] run_dashboard(dash, test_mode)
+  └── [per dash] run_dashboard(dash, test_mode, force)
         ├── env["STORY_DASHBOARD"] = dash
         ├── env["STORY_TEST_MODE"] = "1" | "0"
+        ├── env["STORY_FORCE"]     = "1" | "0"
         └── subprocess.run(visaul_pipeline_runner.py, timeout=1800)
               → exit 1 on timeout or non-zero returncode
 ```
@@ -44,8 +45,8 @@ main()
 
 ## Function Details
 
-### `run_dashboard(dashboard, test_mode) → None`
-Sets `STORY_DASHBOARD` + `STORY_TEST_MODE` in env, then runs `visaul_pipeline_runner.py` as a subprocess. Exits with the child's returncode on failure. Timeout is hardcoded to 1800s (30 minutes).
+### `run_dashboard(dashboard, test_mode, force) → None`
+Sets `STORY_DASHBOARD` + `STORY_TEST_MODE` + `STORY_FORCE` in env, then runs `visaul_pipeline_runner.py` as a subprocess. Exits with the child's returncode on failure. Timeout is hardcoded to 1800s (30 minutes).
 
 ### `main() → None`
 Parses `--dashboard` and `--no-test`, validates env, iterates over dashboards.

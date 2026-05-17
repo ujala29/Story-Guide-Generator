@@ -193,8 +193,11 @@ def _args_for(module: str, dashboard: str, opts: argparse.Namespace) -> list[str
         extra += ["--dashboard", dashboard]      # single only; caller loops if "all"
 
     # module-specific flags
-    if module == "visual_wise" and not opts.test_mode:
-        extra.append("--no-test")
+    if module == "visual_wise":
+        if not opts.test_mode:
+            extra.append("--no-test")
+        if opts.force:
+            extra.append("--force")
 
     if module == "metric_dict":
         if opts.skip_verifier:
@@ -355,17 +358,38 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=3,
                         help="Page_wise: parallel LLM workers  (default: 3)")
     parser.add_argument("--force", action="store_true",
-                        help="Page_wise: skip all caches and re-run")
+                        help="Visual_wise + Page_wise: skip all caches and re-run")
 
     args = parser.parse_args()
 
-    # Resolve dashboard list
+    # Resolve dashboard list — includes dynamically registered dashboards
     if args.dashboard == "all":
         dashboards = ALL_DASHBOARDS
     else:
         if args.dashboard not in ALL_DASHBOARDS:
-            print(f"ERROR: Unknown dashboard '{args.dashboard}'. Available: {', '.join(ALL_DASHBOARDS)}")
-            sys.exit(1)
+            # Fallback: check dashboards_registry.json directly (handles cases
+            # where config.py registry loading failed silently at import time)
+            _reg_path = ROOT / "prompt" / "dashboards_registry.json"
+            _in_registry = False
+            if _reg_path.exists():
+                try:
+                    import json as _json
+                    _reg = _json.loads(_reg_path.read_text(encoding="utf-8"))
+                    if args.dashboard in _reg:
+                        _in_registry = True
+                        # Patch DASHBOARDS so runners can find the paths
+                        from utils.config import DASHBOARDS
+                        if args.dashboard not in DASHBOARDS:
+                            DASHBOARDS[args.dashboard] = {
+                                "semantic_model": ROOT / _reg[args.dashboard]["semantic_model"],
+                                "report":         ROOT / _reg[args.dashboard]["report"],
+                            }
+                        ALL_DASHBOARDS.append(args.dashboard)
+                except Exception as e:
+                    print(f"[main] Warning: could not read registry: {e}")
+            if not _in_registry:
+                print(f"ERROR: Unknown dashboard '{args.dashboard}'. Available: {', '.join(ALL_DASHBOARDS)}")
+                sys.exit(1)
         dashboards = [args.dashboard]
 
     if not args.dry_run:

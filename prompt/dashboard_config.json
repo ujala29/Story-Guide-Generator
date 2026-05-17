@@ -22,5 +22,18 @@
       "Facility counts look off",
       "How to find a specific facility or provider"
     ]
+  },
+  "cost-management-insights": {
+    "display_name": "Cost Management v4 Insights",
+    "domain": "Healthcare cost management — PMPM analysis, utilization trends, inpatient/outpatient/ED spend, risk adjustment, payer/plan performance",
+    "users": "Medical Director, Payer Analyst, Care Manager, Population Health Manager, ACO Administrator",
+    "common_pain_points": [
+      "Numbers differ from colleague",
+      "Which filter to set first",
+      "YoY showing blank or zero",
+      "PMPM trend not matching expected period",
+      "Inpatient vs outpatient cost split unclear",
+      "MoM vs YoY comparison confusion"
+    ]
   }
 }

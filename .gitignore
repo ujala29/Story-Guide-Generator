@@ -1,6 +1,25 @@
 venv/
 .env
 __pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
 input/
 output/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Generated per-dashboard prompt files (created by prompt_generator.py at runtime)
+prompt/*/builder_system.txt
+prompt/*/schema_rules_only.txt
+prompt/*/validator_checklist.txt
+
+# Personal notes
 senior_review.md
+interview_prep.md
+needtocorrect.md
+INTERVIEW_PREP.md

@@ -46,11 +46,10 @@ from collections import defaultdict
 # ══════════════════════════════════════════════════════════════
 
 BASE_DIR    = Path(__file__).resolve().parent.parent.parent
-INPUT_PATHS = [
-    BASE_DIR / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures_resolved.json",
-    BASE_DIR / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures.json",
-]
-OUTPUT_DIR  = BASE_DIR / "output" / "dashboards" / "risk-dash" / "metric_dictionary" / "scope"
+# Hardcoded risk-dash paths removed — pipeline_step9.py passes paths directly.
+# These module-level defaults are only used when running scope_classifier.py standalone.
+INPUT_PATHS = []   # was: ["output/dashboards/risk-dash/..."]
+OUTPUT_DIR  = BASE_DIR / "output" / "dashboards" / "scope"  # placeholder only
 
 
 # ══════════════════════════════════════════════════════════════

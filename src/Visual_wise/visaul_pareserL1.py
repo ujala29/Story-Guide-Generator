@@ -1280,6 +1280,39 @@ def save_l1_packet(
 
 
 # ============================================================
+# DESERIALISER  (plain dict -> L1Packet)
+# ============================================================
+
+def l1_from_dict(d: dict) -> L1Packet:
+    """Reconstruct L1Packet from a saved JSON dict (for cache loading)."""
+    return L1Packet(
+        visual_id           = d["visual_id"],
+        title               = d["title"],
+        visual_type         = d["visual_type"],
+        page                = d["page"],
+        comparison          = d.get("comparison", "None"),
+        active_filters      = d.get("active_filters", []),
+        one_line_definition = d.get("one_line_definition", ""),
+        numerator_meaning   = d.get("numerator_meaning", ""),
+        denominator_meaning = d.get("denominator_meaning", ""),
+        result_meaning      = d.get("result_meaning", ""),
+        scope_note          = d.get("scope_note", ""),
+        direction           = d.get("direction", "context_dependent"),
+        metric_type         = d.get("metric_type", "count"),
+        measure_meanings    = d.get("measure_meanings", {}),
+        warnings            = d.get("warnings", []),
+        skip                = d.get("skip", False),
+        skip_reason         = d.get("skip_reason", ""),
+        is_table            = d.get("is_table", False),
+        column_definitions  = d.get("column_definitions", {}),
+        is_linechart        = d.get("is_linechart", False),
+        is_barchart         = d.get("is_barchart", False),
+        is_donut            = d.get("is_donut", False),
+        is_scatter          = d.get("is_scatter", False),
+    )
+
+
+# ============================================================
 # SERIALISER  (L1Packet -> plain dict)
 # ============================================================
 

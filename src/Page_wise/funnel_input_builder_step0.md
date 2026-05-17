@@ -25,20 +25,30 @@ Reads Stage 1 and Stage 2 output files and assembles a single clean JSON (`funne
 {
   "visual_id": "...",
   "title": "...",
-  "type": "lineChart",
-  "page": "Overview LY",
+  "type": "cardVisual",
+  "page": "Main page LY",
   "measures": [
     {
-      "name": "Documented risk",
-      "dax": "CALCULATE(SUM(...))",
+      "name": "Overall Readmission %",
+      "dax": "DIVIDE(...)",
       "definition": "Business definition from metric_catalog_registry",
-      "display_name_in_visual": "Current Year"
+      "display_name_in_visual": "Overall Readmission %",
+      "role": "primary"
+    },
+    {
+      "name": "Overall Readmission % YoY Card",
+      "dax": "VAR py = CALCULATE(...) RETURN ...",
+      "definition": "",
+      "display_name_in_visual": "Overall Readmission % YoY Card",
+      "role": "yoy_comparison"
     }
   ],
   "columns_used": ["date.month_of_year"],
   "row_dimensions": ["risk_model_name"]   // pivotTable only
 }
 ```
+
+`role` values: `"primary"` (visual's own measure) | `"yoy_comparison"` | `"mom_comparison"` | `"comparison"` (paired multiRowCard measures folded in).
 
 ---
 
@@ -56,12 +66,17 @@ main()
         │
         ├── for each enriched_pages/*.json file:
         │     skip SKIP_PAGES + LM mirror pages
+        │     _build_pairing_map(page_visuals)  → cv_to_supports, paired_ids
         │     for each visual:
         │       skip SKIP_TYPES (slicers, decorations)
+        │       skip multiRowCard/card if id in paired_ids (folded into parent cardVisual)
         │       resolve_title(v, title_overrides)
         │       skip if empty (no title, no measures, no columns)
-        │       build_visual_entry(v, title, definitions, measures_resolved)
-        │         ├── build_measure_entries(visual, definitions, measures_resolved)
+        │       paired = cv_to_supports[v.id] if cardVisual else None
+        │       build_visual_entry(v, title, definitions, measures_resolved, paired)
+        │         ├── build_measure_entries(visual, definitions, measures_resolved, paired)
+        │         │     ├── primary measures → role="primary"
+        │         │     ├── paired multiRowCard measures → role="yoy_comparison"|"mom_comparison"
         │         │     ├── strip_table_prefix(raw)        → remove "ALL DAX." prefix
         │         │     ├── measures_resolved.get(name)    → full dep tree for this measure
         │         │     ├── get_leaf_dax(chain)             → deepest leaf formula
@@ -88,13 +103,25 @@ Main aggregator. Reads all source files and assembles the complete LLM input. Ha
 4. First `measures_used` name (after stripping table prefix)
 5. Visual type as last resort
 
-### `build_measure_entries(visual, definitions, measures_resolved) → list`
-For each measure in `measures_used`:
+### `_build_pairing_map(page_visuals) → (cv_to_supports, paired_ids)`
+Pre-computes per-page pairing between `cardVisual` and its supporting `multiRowCard`/`card` tiles.
+- Matching rule: `cv_primary in sc_primary` (substring, case-insensitive) — same logic as `visual_parserL0._find_paired_visuals`
+- Strips `"formatted "` wrapper before matching (e.g. "Formatted Avg LOS" → "avg los")
+- Returns `cv_to_supports` (cardVisual id → list of support visuals) and `paired_ids` (set of claimed support card IDs)
+- Works for all dashboards — no hardcoded measure names
+
+### `build_measure_entries(visual, definitions, measures_resolved, paired_visuals=None) → list`
+For each measure in `measures_used` (role = `"primary"`):
 - Strips `"ALL DAX."` table prefix (risk-dash measure container name)
 - Looks up the measure in `measures_resolved` to get its full dependency tree
 - Gets leaf DAX via `get_leaf_dax()` — LLM only needs the bottom-most formula
 - Looks up `business_definition` → fallback to `technical_definition` from `metric_catalog_registry`
 - Gets `display_name_in_visual` — the axis label shown to users, not the internal measure name
+
+Then for each measure in `paired_visuals` (role = `"yoy_comparison"` / `"mom_comparison"` / `"comparison"`):
+- Same resolution as primary measures
+- Role detected from measure name: contains "yoy" → `yoy_comparison`, "mom" → `mom_comparison`
+- Deduped via `seen` set — no measure appears twice
 
 ### `get_leaf_dax(measure_chain) → str`
 BFS traversal of the `depends_on` tree. Finds the first node with `is_leaf=True` — this is the deepest measure with a real column formula. The leaf DAX is concise and reveals what data the measure reads. Calls `_clean_dax()` to strip metadata lines appended by Power BI.

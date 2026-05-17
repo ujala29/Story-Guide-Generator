@@ -33,18 +33,16 @@ from utils.config import ALL_DASHBOARDS
 PIPELINE_SCRIPT = HERE / "visaul_pipeline_runner.py"
 
 
-def run_dashboard(dashboard: str, test_mode: bool) -> None:
+def run_dashboard(dashboard: str, test_mode: bool, force: bool) -> None:
     print(f"\n{'=' * 62}")
     print(f"  Visual_wise pipeline — {dashboard}")
-    print(f"  test_mode: {test_mode}")
+    print(f"  test_mode: {test_mode}  force: {force}")
     print(f"{'=' * 62}")
 
     env = os.environ.copy()
     env["STORY_DASHBOARD"] = dashboard
-
-    # TEST_MODE is read inside the script as a hardcoded flag.
-    # Pass it as an env var so the runner can override it if needed.
     env["STORY_TEST_MODE"] = "1" if test_mode else "0"
+    env["STORY_FORCE"]     = "1" if force else "0"
 
     cmd = [sys.executable, str(PIPELINE_SCRIPT)]
     print(f"  $ STORY_DASHBOARD={dashboard} python visaul_pipeline_runner.py")
@@ -71,6 +69,10 @@ def main() -> None:
         "--no-test", dest="test_mode", action="store_false", default=True,
         help="Disable test mode and process all visual types (default: test mode ON)"
     )
+    parser.add_argument(
+        "--force", action="store_true",
+        help="Re-run all LLM calls even if L1/L2/L3 cache files already exist"
+    )
     args = parser.parse_args()
 
     if args.dashboard != "all" and args.dashboard not in ALL_DASHBOARDS:
@@ -81,7 +83,7 @@ def main() -> None:
     dashboards = ALL_DASHBOARDS if args.dashboard == "all" else [args.dashboard]
 
     for dash in dashboards:
-        run_dashboard(dash, args.test_mode)
+        run_dashboard(dash, args.test_mode, args.force)
 
     print("\nDone.")
 

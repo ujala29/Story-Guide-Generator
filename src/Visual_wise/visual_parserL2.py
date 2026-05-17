@@ -941,6 +941,15 @@ def print_l2_packet(packet: L2Packet):
 # ============================================================
 
 def _l2_from_dict(d: dict) -> "L2Packet":
+    cr_raw = d.get("cross_read_combined")
+    cross_read_combined = (
+        CrossReadCombined(
+            primary_kpi = cr_raw["primary_kpi"],
+            partners    = cr_raw["partners"],
+            rows        = cr_raw["rows"],
+        )
+        if cr_raw else None
+    )
     return L2Packet(
         visual_id           = d["visual_id"],
         title               = d["title"],
@@ -954,7 +963,7 @@ def _l2_from_dict(d: dict) -> "L2Packet":
         drill_steps         = [
             DrillStep(**s) for s in d.get("drill_steps", [])
         ],
-        cross_read_combined = None,
+        cross_read_combined = cross_read_combined,
         warnings            = d.get("warnings", []),
         skip                = d.get("skip", False),
         skip_reason         = d.get("skip_reason", ""),

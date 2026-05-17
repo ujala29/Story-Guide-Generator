@@ -15,6 +15,9 @@ that answers real user questions: filter confusion, number mismatches, data lag,
 cross-page navigation, and "why does X look different" interpretation questions.
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import argparse
 import json
 import os

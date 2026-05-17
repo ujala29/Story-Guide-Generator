@@ -13,6 +13,9 @@ The LLM receives all collected terms and their definitions, then produces a
 clean glossary table: acronyms first, then domain terms, then metric definitions.
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import argparse
 import json
 import os

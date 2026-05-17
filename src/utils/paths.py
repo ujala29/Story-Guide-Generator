@@ -130,6 +130,10 @@ class DashboardPaths:
         return self.stage1_sections_dir / fname
 
     @property
+    def bi_sf_naming_matching(self) -> Path:
+        return self.extraction_dir / "bi_sf_naming_matching.json"
+
+    @property
     def measures_resolved(self) -> Path:
         return self.stage1_sections_dir / "measures_resolved.json"
 

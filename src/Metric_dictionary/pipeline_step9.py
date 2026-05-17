@@ -83,58 +83,13 @@ from ast_nodes_step0         import ParseSuccess, ParseFailure
 
 _BASE = Path(__file__).resolve().parent.parent.parent
 
-INPUT_CANDIDATES = [
-    _BASE / "output" / "metric_dictionary" / "step1_cleaned_measures.json",
-    _BASE / "output" / "schema_sections"   / "measures_resolved.json",
-    _BASE / "input"  / "measures_resolved.json",
-]
+DASHBOARDS_DIR = _BASE / "output" / "dashboards"
 
-SF_MAP_CANDIDATES = [
-    _BASE / "input"  / "bi_snowflakes_naming_matching.json",
-    _BASE / "config" / "bi_snowflakes_naming_matching.json",
-]
-
-REL_CANDIDATES = [
-    _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "relationships.json",
-    _BASE / "input"  / "relationships.json",
-]
-
-DASHBOARDS_DIR  = _BASE / "output" / "dashboards"
-OUTPUT_DIR      = DASHBOARDS_DIR / "risk-dash" / "metric_dictionary"   # default (latest run)
-
-# Per-dashboard input candidates
-# Add new dashboards here — key = dashboard name, value = candidate paths
-DASHBOARD_INPUTS = {
-    "risk-dash": [
-        _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures_resolved.json",
-        _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "measures.json",
-        _BASE / "input"  / "measures_resolved.json",
-    ],
-    "pac-dash": [
-        _BASE / "output" / "dashboards" / "pac-dash" / "extraction" / "schema_sections" / "measures_resolved.json",
-        _BASE / "output" / "dashboards" / "pac-dash" / "extraction" / "schema_sections" / "measures.json",
-    ],
-}
-
-DASHBOARD_SF_MAPS = {
-    "risk-dash": [
-        _BASE / "input"  / "bi_snowflakes_naming_matching.json",
-        _BASE / "config" / "bi_snowflakes_naming_matching.json",
-    ],
-    "pac-dash": [
-        _BASE / "input"  / "pac_dashboard_bi_snowflkes_naming_matching.json",
-        _BASE / "input"  / "pac" / "bi_snowflakes_naming_matching.json",
-    ],
-}
-
-DASHBOARD_RELS = {
-    "risk-dash": [
-        _BASE / "output" / "dashboards" / "risk-dash" / "extraction" / "schema_sections" / "relationships.json",
-    ],
-    "pac-dash": [
-        _BASE / "output" / "dashboards" / "pac-dash" / "extraction" / "schema_sections" / "relationships.json",
-    ],
-}
+# Hardcoded per-dashboard overrides removed — all dashboards now resolved dynamically.
+# Paths follow: output/dashboards/<dash>/extraction/...
+DASHBOARD_INPUTS   = {}  # was: {"risk-dash": [...], "pac-dash": [...]}
+DASHBOARD_SF_MAPS  = {}  # was: {"risk-dash": [...], "pac-dash": [...]}
+DASHBOARD_RELS     = {}  # was: {"risk-dash": [...], "pac-dash": [...]}
 
 
 # ══════════════════════════════════════════════════════════════
@@ -668,7 +623,8 @@ def main():
     dashboard = args.dashboard or "all"
 
     if dashboard == "all":
-        dashboards_to_run = list(DASHBOARD_INPUTS.keys())
+        # Discover dashboards from output folder — no hardcoding needed
+        dashboards_to_run = [p.name for p in DASHBOARDS_DIR.iterdir() if p.is_dir()] if DASHBOARDS_DIR.exists() else []
     else:
         dashboards_to_run = [dashboard]
 
@@ -688,19 +644,26 @@ def main():
             if args.input and len(dashboards_to_run) == 1:
                 input_path = Path(args.input)
             else:
-                candidates = DASHBOARD_INPUTS.get(dash, INPUT_CANDIDATES)
+                candidates = DASHBOARD_INPUTS.get(dash) or [
+                    _BASE / "output" / "dashboards" / dash / "extraction" / "schema_sections" / "measures_resolved.json",
+                    _BASE / "output" / "dashboards" / dash / "extraction" / "schema_sections" / "measures.json",
+                ]
                 input_path = _find_file(candidates, "measures_resolved.json")
 
             if args.sf_map and len(dashboards_to_run) == 1:
                 sf_map_path = Path(args.sf_map)
             else:
-                sf_candidates = DASHBOARD_SF_MAPS.get(dash, SF_MAP_CANDIDATES)
+                sf_candidates = DASHBOARD_SF_MAPS.get(dash) or [
+                    _BASE / "output" / "dashboards" / dash / "extraction" / "bi_sf_naming_matching.json",
+                ]
                 sf_map_path = _find_file(sf_candidates, "bi_snowflakes_naming_matching.json")
 
             if args.rels and len(dashboards_to_run) == 1:
                 rel_path = Path(args.rels)
             else:
-                rel_candidates = DASHBOARD_RELS.get(dash, REL_CANDIDATES)
+                rel_candidates = DASHBOARD_RELS.get(dash) or [
+                    _BASE / "output" / "dashboards" / dash / "extraction" / "schema_sections" / "relationships.json",
+                ]
                 rel_path = _find_file(rel_candidates, "relationships.json")
 
         except FileNotFoundError as e:

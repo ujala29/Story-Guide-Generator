@@ -23,8 +23,8 @@ from visual_parserL0 import (
     build_l0_packet,
     save_l0_packet,
 )
-from visaul_pareserL1 import call_layer1
-from visual_parserL2 import call_layer2
+from visaul_pareserL1 import call_layer1, l1_from_dict
+from visual_parserL2 import call_layer2, _l2_from_dict
 from visual_parserL3_storymaking import call_layer3
 
 """
@@ -52,7 +52,7 @@ _p        = get_paths(DASHBOARD)
 _cfg      = get_config()
 
 # ── Input paths ──────────────────────────────────────────────
-FIXES_PATH             = str(_cfg.fixes)
+_dash_fixes_path       = _cfg.dashboard_prompt_dir(DASHBOARD) / "fixes.json"
 MEASURES_RESOLVED_PATH = str(_p.measures_resolved)
 PROMPT_DIR             = str(_cfg.system_prompts_dir) + os.sep
 VISUAL_ENRICHER_DIR    = _p.enriched_pages_dir
@@ -73,6 +73,73 @@ LLM_CALL_DELAY = 0.5
 TEST_MODE        = os.environ.get("STORY_TEST_MODE", "1") == "1"
 TEST_VISUAL_TYPE = os.environ.get("STORY_TEST_VISUAL_TYPE", "cardVisual")
 TEST_LIMIT       = int(os.environ.get("STORY_TEST_LIMIT", "0"))
+
+# ── CACHE MODE ───────────────────────────────────────────
+# STORY_FORCE=1 -> skip all caches and re-run every LLM call
+FORCE_RERUN = os.environ.get("STORY_FORCE", "0") == "1"
+
+# ============================================================
+# CACHE HELPERS
+# ============================================================
+
+def _safe_title(title: str) -> str:
+    return (
+        title
+        .replace(" ", "_")
+        .replace("%", "pct")
+        .replace("/", "_")
+        .replace("(", "")
+        .replace(")", "")
+        .replace(":", "")
+        .strip("_")
+    )
+
+_L3_TYPE_SUFFIX = {
+    "cardVisual"        : "card",
+    "lineChart"         : "trend",
+    "areaChart"         : "trend",
+    "clusteredBarChart" : "bar",
+    "barChart"          : "bar",
+    "columnChart"       : "bar",
+    "donutChart"        : "donut",
+    "scatterChart"      : "scatter",
+    "pivotTable"        : "table",
+    "tableEx"           : "table",
+}
+
+
+def _try_load_l1(vid: str, title: str):
+    """Return L1Packet from disk cache, or None if not found / corrupt."""
+    p = _p.l1_packets_dir / f"{vid}_{_safe_title(title)}.json"
+    if not p.exists():
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            return l1_from_dict(json.load(f))
+    except Exception:
+        return None
+
+
+def _try_load_l2(vid: str, title: str):
+    """Return L2Packet from disk cache, or None if not found / corrupt."""
+    p = _p.l2_packets_dir / f"{vid}_{_safe_title(title)}.json"
+    if not p.exists():
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            return _l2_from_dict(json.load(f))
+    except Exception:
+        return None
+
+
+def _l3_exists(title: str, page: str, visual_type: str) -> bool:
+    """Return True if the L3 story_guide markdown already exists for this visual."""
+    page_sub = page.lower().replace(" ", "_").strip("_") if page else "unknown_page"
+    safe = _safe_title(title)
+    suffix = _L3_TYPE_SUFFIX.get(visual_type, "")
+    filename = f"{safe}_{suffix}.md" if suffix else f"{safe}.md"
+    return (_p.story_guide_dir / page_sub / filename).exists()
+
 
 # ============================================================
 # PAGE CONFIG
@@ -154,15 +221,15 @@ VISUAL_TYPE_MAP = {
 # FIXES LOAD
 # ============================================================
 
-try:
-    with open(FIXES_PATH, encoding="utf-8") as f:
-        FIXES = json.load(f)
-except FileNotFoundError:
-    print(f"ERROR: fixes file not found: {FIXES_PATH}")
-    sys.exit(1)
-except json.JSONDecodeError as e:
-    print(f"ERROR: Malformed JSON in {FIXES_PATH}: {e}")
-    sys.exit(1)
+if _dash_fixes_path.exists():
+    try:
+        with open(_dash_fixes_path, encoding="utf-8") as f:
+            FIXES = json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"ERROR: Malformed JSON in {_dash_fixes_path}: {e}")
+        sys.exit(1)
+else:
+    FIXES = {"title_overrides": {}, "generic_titles": [], "skip_types": ["slicer", "multiRowCard", "card"]}
 
 TITLE_OVERRIDES = FIXES["title_overrides"]
 GENERIC_TITLES  = set(FIXES["generic_titles"])
@@ -767,12 +834,22 @@ def process_page(page: dict, llm_client) -> dict:
     }
     print(f"  [PHASE 1 done] {len(active_l0s)}/{total} L0s active")
 
-    # ── PHASE 2: all L1s in parallel ─────────────────────────
+    # ── PHASE 2: all L1s in parallel (with cache) ────────────
     l1_packets = {}
+    need_l1_llm = {}
+    for vid, l0 in active_l0s.items():
+        if not FORCE_RERUN:
+            cached = _try_load_l1(vid, l0.title)
+            if cached is not None:
+                _print_safe(f"  [L1-CACHE] {l0.title}")
+                l1_packets[vid] = cached
+                continue
+        need_l1_llm[vid] = l0
+
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
         futures = {
             ex.submit(call_layer1, l0, llm_client): vid
-            for vid, l0 in active_l0s.items()
+            for vid, l0 in need_l1_llm.items()
         }
         for future in as_completed(futures):
             vid = futures[future]
@@ -783,12 +860,23 @@ def process_page(page: dict, llm_client) -> dict:
         vid: l1 for vid, l1 in l1_packets.items()
         if not l1.skip
     }
-    print(f"  [PHASE 2 done] {len(active_l1s)}/{total} L1s active")
+    l1_cache_count = len(active_l0s) - len(need_l1_llm)
+    print(f"  [PHASE 2 done] {len(active_l1s)}/{total} L1s active "
+          f"(cache={l1_cache_count} llm={len(need_l1_llm)})")
 
-    # ── PHASE 3: all L2s in parallel ─────────────────────────
-    # NOW all L1 packets are complete — L2 can safely do
-    # cross-visual reasoning against all peers
+    # ── PHASE 3: all L2s in parallel (with cache) ────────────
+    # All L1s must be complete before L2 starts (cross-visual reasoning).
     l2_packets = {}
+    need_l2_llm = {}
+    for vid, l1 in active_l1s.items():
+        if not FORCE_RERUN:
+            cached = _try_load_l2(vid, l1.title)
+            if cached is not None:
+                _print_safe(f"  [L2-CACHE] {l1.title}")
+                l2_packets[vid] = cached
+                continue
+        need_l2_llm[vid] = l1
+
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
         futures = {
             ex.submit(
@@ -796,7 +884,7 @@ def process_page(page: dict, llm_client) -> dict:
                 active_l0s[vid], active_l1s[vid],
                 llm_client
             ): vid
-            for vid in active_l1s
+            for vid in need_l2_llm
         }
         for future in as_completed(futures):
             vid = futures[future]
@@ -807,10 +895,22 @@ def process_page(page: dict, llm_client) -> dict:
         vid: l2 for vid, l2 in l2_packets.items()
         if not l2.skip
     }
-    print(f"  [PHASE 3 done] {len(active_l2s)}/{total} L2s active")
+    l2_cache_count = len(active_l1s) - len(need_l2_llm)
+    print(f"  [PHASE 3 done] {len(active_l2s)}/{total} L2s active "
+          f"(cache={l2_cache_count} llm={len(need_l2_llm)})")
 
-    # ── PHASE 4: all L3s in parallel ─────────────────────────
-    stats = {"success": 0, "skipped": 0, "failed": 0, "total": total}
+    # ── PHASE 4: all L3s in parallel (with cache) ────────────
+    stats = {"success": 0, "skipped": 0, "failed": 0, "cached": 0, "total": total}
+    need_l3 = {}
+    for vid in active_l2s:
+        l0 = active_l0s[vid]
+        if not FORCE_RERUN and _l3_exists(l0.title, l0.page, l0.visual_type):
+            _print_safe(f"  [L3-CACHE] {l0.title}")
+            stats["cached"] += 1
+            _increment("success")
+            continue
+        need_l3[vid] = True
+
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
         futures = {
             ex.submit(
@@ -818,7 +918,7 @@ def process_page(page: dict, llm_client) -> dict:
                 active_l0s[vid], active_l1s[vid],
                 active_l2s[vid], llm_client
             ): vid
-            for vid in active_l2s
+            for vid in need_l3
         }
         for future in as_completed(futures):
             vid = futures[future]
@@ -840,7 +940,7 @@ def process_page(page: dict, llm_client) -> dict:
     _counters["skipped"] += skipped_early
 
     print(f"  [PHASE 4 done] success={stats['success']} "
-          f"skipped={stats['skipped']} failed={stats['failed']}")
+          f"cached={stats['cached']} skipped={stats['skipped']} failed={stats['failed']}")
     return stats
 
 

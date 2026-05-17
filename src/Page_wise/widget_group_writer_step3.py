@@ -181,11 +181,12 @@ def get_widget_visuals(widget: dict, visual_lookup: dict) -> list:
 
 def get_unique_measures(visuals: list) -> list:
     """
-    Return deduplicated list of measures across all visuals in the widget.
-    Exclude multiRowCard display measures — they are YoY/MoM card indicators,
-    not base metrics. The base metrics come from card/cardVisual visuals.
-    Also strips 'Formatted ' prefix from measure names — these are display
-    wrappers whose underlying metric is the same as the unprefixed version.
+    Return deduplicated list of PRIMARY measures across all visuals in the widget.
+    Excludes:
+      - multiRowCard visuals (standalone YoY/MoM tiles — old pipeline path)
+      - measures with role != "primary" (yoy_comparison, mom_comparison, comparison)
+        — these are folded-in paired measures, not standalone KPIs
+    Also strips 'Formatted ' prefix from measure names.
     """
     seen = set()
     result = []
@@ -193,8 +194,10 @@ def get_unique_measures(visuals: list) -> list:
         if v.get("type") == "multiRowCard":
             continue
         for m in v.get("measures", []):
+            role = m.get("role", "primary")
+            if role != "primary":
+                continue
             name = m.get("name", "")
-            # strip "Formatted " prefix for display — same underlying metric
             display_name = name.removeprefix("Formatted ").strip()
             if display_name and display_name not in seen:
                 seen.add(display_name)

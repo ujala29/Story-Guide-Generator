@@ -272,14 +272,14 @@ def build_funnel_questions_prompt(
 
     schema = f"""{{
   "dashboard_name": "...",
-  "domain_context": "2-3 sentences explaining what business problem this dashboard solves and what the reader needs to understand first",
-  "funnel_question_top": "one sentence — what does the TOP section answer?",
-  "funnel_question_middle": "one sentence — what does the MIDDLE section answer?",
-  "funnel_question_bottom": "one sentence — what does the BOTTOM section answer?",
-  "funnel_question_action": "{action_schema_hint}"
+  "domain_context": "Story-telling intro in this exact shape: 'This guide explains the story the [Dashboard Name] dashboard tells — from [headline topic] down to [most granular action level]. The dashboard spans [N] pages: [Page 1 name] [what it does in 5–8 words]; [Page 2 name] [what it does in 5–8 words].' Then add 2–3 sentences of plain-language domain context: define the core business concept (e.g. what HCCs are, what risk adjustment means, what the central problem is) so a new analyst can understand what they are looking at without prior domain knowledge.",
+  "funnel_question_top": "Short question (max 10 words) + parenthetical listing the specific section names visible in this dashboard. Format: 'What is the X? (Section A, Section B)'. Example: 'What is the risk position? (KPI cards, payer breakdown)'",
+  "funnel_question_middle": "Short question (max 10 words) + parenthetical. Format: 'Where/Why is X? (Section A, Section B, Section C)'. Example: 'Where are the coding gaps? (Trends, risk models, attribution)'",
+  "funnel_question_bottom": "Short question (max 10 words) + parenthetical. Format: 'Who/What is driving X? (Section A, Section B)'. Example: 'Who is responsible and what is driving it? (Practice/PCP detail, disease recapture, gap closure)'",
+  "funnel_question_action": "{action_schema_hint} Format: 'Who do we target and how? (Page name — brief description)'. Example: 'Who do we target and how? (Risk Capture Potential — outreach segmentation)'"
 }}"""
 
-    return f"""Analyze this dashboard and describe the analytical story it tells through its funnel structure.
+    return f"""Write the story-guide intro for this dashboard. Focus on narrative clarity, not abstract description.
 
 DASHBOARD: {dashboard_name}
 ALL PAGES:
@@ -288,6 +288,12 @@ ALL PAGES:
 
 SAMPLE MEASURES from the main page:
 {measures_text}
+
+CRITICAL FORMATTING RULES:
+1. domain_context must START with: "This guide explains the story the [name] dashboard tells — from..."
+2. Funnel questions must be SHORT (≤10 words before the parenthesis) + parenthetical with actual section names from this dashboard
+3. The parenthetical must name specific visible sections, not generic descriptions
+4. Do NOT write generic phrases like "addresses the challenge of" or "helps teams understand" — write what the dashboard literally tells as a story
 
 Return JSON only:
 {schema}

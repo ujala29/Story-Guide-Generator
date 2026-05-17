@@ -221,40 +221,50 @@ DASHBOARD_CONFIGS = {
 
 ---
 
-## Step 8 — `prompt/glossary.json`
+## Step 8 — `prompt/<new-dash>/` prompt folder
 
-**File: `prompt/glossary.json`** — Used by `visual_parserL0.py` (line 1940) and `visaul_pareserL1.py` (line 239) to give the LLM domain vocabulary during visual enrichment.
+**Create folder** `prompt/<new-dash>/` with these 8 files.
 
-Currently contains only risk-dash terms (HCC, RAF, etc.). Add your dashboard's domain terms:
+### 8a. Visual enrichment files (new — required for correct L0/L1 output)
+
+**`fixes.json`** — Used by `visual_parserL0.py` and `visaul_pipeline_runner.py` to fix wrong titles and skip non-content visuals. If no fixes needed, create with empty defaults:
+
+```json
+{
+  "title_overrides": {
+    "<visual_id>": "<correct title for this visual>"
+  },
+  "generic_titles": [
+    "<any stale section-header title that incorrectly appears as a card title>"
+  ],
+  "skip_types": ["slicer", "advancedSlicerVisual", "textbox", "image",
+                 "shape", "actionButton", "basicShape", "multiRowCard", "card"]
+}
+```
+
+> `title_overrides` keyed by visual ID (from `extraction/schema_sections/visuals.json`).
+> `generic_titles` are dashboard-specific strings that `visual_parser` picks up as titles but are really container headings.
+> `skip_types` — keep the defaults unless the new dashboard uses `multiRowCard`/`card` as standalone visuals (not as paired YoY/MoM tiles).
+
+**`glossary.json`** — Used by `visual_parserL0.py` to give the LLM domain vocabulary during visual enrichment:
 
 ```json
 {
   "flags": {
-    "Documented":   "Condition coded at a clinical encounter",
-    "Undocumented": "Condition from prior year not yet recoded",
-    "Suspected":    "Algorithmically predicted, not confirmed",
-    "<new-flag>":   "<plain English meaning>"
+    "<flag_value>": "<plain English meaning>"
   },
   "columns": {
-    "<col_name>": "<what this column represents>",
     "<col_name>": "<what this column represents>"
   },
   "domain_terms": {
-    "RAF": "Risk Adjustment Factor",
-    "HCC": "Hierarchical Condition Category",
-    "<ACRONYM>": "<full form and meaning for new dashboard>"
+    "<ACRONYM>": "<full form and meaning>"
   }
 }
 ```
 
-> Add terms that are unique to your dashboard's domain. Generic healthcare terms already present don't need to be repeated.
+> Only add terms unique to this dashboard. Generic healthcare terms don't need repeating.
 
----
-
-## Step 9 — `prompt/<new-dash>/` prompt folder
-
-**Create folder** `prompt/<new-dash>/` with these 6 files.
-Copy from `prompt/pac-dash/` and update all table names, column names, and domain rules.
+### 8b. Metric_dictionary prompt files (copy from `prompt/pac-dash/` and update)
 
 | File | Used by | What to write |
 |---|---|---|
@@ -267,8 +277,53 @@ Copy from `prompt/pac-dash/` and update all table names, column names, and domai
 
 > **Note:** `llm_fallback_step10.py` line 357 looks for these files at `PROMPTS_DIR / dashboard`
 > where `PROMPTS_DIR = BASE_DIR / "prompts"` (with an **s**). The actual folder is `prompt/` (no s).
-> This means these files currently fall back to inline constants — to make them load,
-> either fix `PROMPTS_DIR` on line 194 to `BASE_DIR / "prompt"`, or create the folder at `prompts/<new-dash>/`.
+> Fix line 194: `PROMPTS_DIR = BASE_DIR / "prompt"` so dashboard-specific prompt files actually load.
+
+---
+
+## Step 9 — `src/Page_wise/funnel_input_builder_step0.py`
+
+Three hardcoded sections need updating for each new dashboard:
+
+### 9a. `SKIP_PAGES` (~line 73)
+
+Add the new dashboard's utility/tooltip page names (exact `display_name` from `pages.json`):
+
+```python
+SKIP_PAGES = {
+    "Scatter plot tooltip",
+    "Additional dimensions",
+    "Data availability",
+    "<new-dash utility page name>",   # ADD THIS
+}
+```
+
+### 9b. `KNOWN_DASHBOARD_NAMES` (~line 357)
+
+Fallback display name used when `dashboard_config.json` is missing:
+
+```python
+KNOWN_DASHBOARD_NAMES = {
+    "risk-dash": "Risk Management",
+    "pac-dash":  "PAC",
+    "<new-dash>": "<Full Display Name>",   # ADD THIS
+}
+```
+
+### 9c. `GENERIC_TITLES` (~line 197)
+
+If `visual_parser` picks up container/section headings as card titles for the new dashboard, add them here:
+
+```python
+GENERIC_TITLES = {
+    "Pharmacy PMPM YoY",   # risk-dash specific
+    "Leakage %",           # risk-dash specific
+    "Card", "Visual", "",
+    "<new-dash stale title>",   # ADD IF NEEDED
+}
+```
+
+> Check `funnel_llm_input.json` after step 0 — if any visual has a title that is obviously a section header, add it here and re-run step 0.
 
 ---
 
@@ -283,28 +338,41 @@ python main.py --dashboard <new-dash> --from-stage 1
 python main.py --dashboard <new-dash> --from-stage 2
 python main.py --dashboard <new-dash> --from-stage 3
 python main.py --dashboard <new-dash> --from-stage 4
+python main.py --dashboard <new-dash> --from-stage 5
 ```
+
+---
+
+## Notes
+
+> **Page ordering** — No config needed. Pages whose names start with `main_page`, `main`, `overview`, or `summary` automatically sort first in both `page_wise_story.md` and the Word document. All other pages follow alphabetically.
+
+> **LM/LY mirror pages** — No config needed. Any `*_LM` page that has a matching `*_LY` page is automatically skipped in both `visual_wise` and `page_wise` pipelines — only the LY version is processed.
+
+> **`PROMPTS_DIR` bug** — `llm_fallback_step10.py` line 194 points to `prompts/` (with s) but folder is `prompt/` (no s). Fix line 194: `PROMPTS_DIR = BASE_DIR / "prompt"` so dashboard-specific prompt files actually load instead of falling back to inline constants.
+
+> **Missing `metric_catalog_registry.json`** — If Stage 2 Metric_dictionary is not run, all measure definitions in `funnel_llm_input.json` will be empty. This significantly degrades funnel categorization quality in Step 1. Always run Stage 2 completely before Stage 3.
 
 ---
 
 ## Summary Table
 
-| # | File | Lines | What to add |
-|---|---|---|---|
-| 1 | `input/` | — | `.SemanticModel`, `.Report`, BI→SF mapping JSON |
-| 2 | `src/utils/config.py` | 17–26 | Entry in `DASHBOARDS` dict |
-| 3 | `prompt/dashboard_config.json` | 1–26 | Dashboard metadata block |
-| 4 | `prompt/system_prompt/base_context_<new-dash>.txt` | new file | Domain-specific base context prompt |
-| 5a | `src/Metric_dictionary/pipeline_step9.py` | 107–117 | `DASHBOARD_INPUTS` entry |
-| 5b | `src/Metric_dictionary/pipeline_step9.py` | 119–127 | `DASHBOARD_SF_MAPS` entry |
-| 5c | `src/Metric_dictionary/pipeline_step9.py` | 130–137 | `DASHBOARD_RELS` entry |
-| 6a | `src/Metric_dictionary/llm_fallback_step10.py` | 197–206 | `DASHBOARD_LLM_CONFIGS` entry |
-| 6b | `src/Metric_dictionary/llm_fallback_step10.py` | after 497 | `SCHEMA_CONTEXT_<NEW>` string (inline) |
-| 6c | `src/Metric_dictionary/llm_fallback_step10.py` | 499–502 | `DASHBOARD_SCHEMA_CONTEXT` entry |
-| 7 | `src/Metric_dictionary/metric_catalog_step12.py` | 81–90 | `DASHBOARD_CONFIGS` entry |
-| 8 | `prompt/glossary.json` | 1–17 | New domain terms, columns, acronyms |
-| 9 | `prompt/<new-dash>/` | new folder | 6 prompt files: schema_context, schema_rules_only, validator_system, validator_checklist, builder_system, definer_system |
-
-> **LM/LY mirror pages** — no extra config needed. Any `*_lm` page with a matching `*_ly` page is automatically skipped in both `visual_wise` and `page_wise` pipelines.
-
-> **`PROMPTS_DIR` bug** — `llm_fallback_step10.py` line 194 points to `prompts/` (with s) but folder is `prompt/` (no s). Fix line 194: `PROMPTS_DIR = BASE_DIR / "prompt"` so dashboard-specific prompt files actually load instead of falling back to inline constants.
+| # | File | What to add |
+|---|---|---|
+| 1 | `input/` | `.SemanticModel`, `.Report`, BI→SF mapping JSON |
+| 2 | `src/utils/config.py` | Entry in `DASHBOARDS` dict |
+| 3 | `prompt/dashboard_config.json` | Dashboard metadata block |
+| 4 | `prompt/system_prompt/base_context_<new-dash>.txt` | Domain-specific base context prompt (new file) |
+| 5a | `src/Metric_dictionary/pipeline_step9.py` | `DASHBOARD_INPUTS` entry |
+| 5b | `src/Metric_dictionary/pipeline_step9.py` | `DASHBOARD_SF_MAPS` entry |
+| 5c | `src/Metric_dictionary/pipeline_step9.py` | `DASHBOARD_RELS` entry |
+| 6a | `src/Metric_dictionary/llm_fallback_step10.py` | `DASHBOARD_LLM_CONFIGS` entry |
+| 6b | `src/Metric_dictionary/llm_fallback_step10.py` | `SCHEMA_CONTEXT_<NEW>` string (inline) |
+| 6c | `src/Metric_dictionary/llm_fallback_step10.py` | `DASHBOARD_SCHEMA_CONTEXT` entry |
+| 7 | `src/Metric_dictionary/metric_catalog_step12.py` | `DASHBOARD_CONFIGS` entry |
+| 8a | `prompt/<new-dash>/fixes.json` | Title overrides, generic titles, skip types (new file) |
+| 8a | `prompt/<new-dash>/glossary.json` | Domain flags, column meanings, acronyms (new file) |
+| 8b | `prompt/<new-dash>/` (6 txt files) | Metric_dictionary prompt files: schema_context, schema_rules_only, validator_system, validator_checklist, builder_system, definer_system |
+| 9a | `src/Page_wise/funnel_input_builder_step0.py` | `SKIP_PAGES` — utility page names |
+| 9b | `src/Page_wise/funnel_input_builder_step0.py` | `KNOWN_DASHBOARD_NAMES` — fallback display name |
+| 9c | `src/Page_wise/funnel_input_builder_step0.py` | `GENERIC_TITLES` — if dashboard has stale container titles |
