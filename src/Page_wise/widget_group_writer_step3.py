@@ -54,6 +54,7 @@ _SRC = str(Path(__file__).resolve().parent.parent)
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 from utils.llm_client import llm_chat, get_client
+from utils.json_utils import parse_llm_json
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -100,13 +101,7 @@ def call_llm(system: str, user: str, max_tokens: int = 4000) -> str:
 
 
 def parse_json_response(raw: str) -> dict | list:
-    text = raw.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")[1:]
-        while lines and lines[-1].strip() in ("```", ""):
-            lines.pop()
-        text = "\n".join(lines).strip()
-    return json.loads(text)
+    return parse_llm_json(raw, label="widget_group_writer_step3")
 
 
 # ─────────────────────────────────────────────────────────────────────────────

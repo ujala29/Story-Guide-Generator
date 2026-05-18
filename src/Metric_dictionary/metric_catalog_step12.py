@@ -430,8 +430,16 @@ def run_catalog(
         print(f"\n❌ {llm_json} not found. Run llm_fallback.py first.")
         sys.exit(1)
 
-    measures = json.loads(llm_json.read_text(encoding="utf-8"))
-    registry = json.loads(reg_path.read_text(encoding="utf-8")) if reg_path.exists() else {}
+    try:
+        measures = json.loads(llm_json.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"\n❌ {llm_json} is malformed ({e}). Re-run llm_fallback.py.")
+        sys.exit(1)
+    try:
+        registry = json.loads(reg_path.read_text(encoding="utf-8")) if reg_path.exists() else {}
+    except json.JSONDecodeError as e:
+        print(f"[metric_catalog] WARNING: registry.json is malformed ({e}); defaulting to {{}}.")
+        registry = {}
 
     print("=" * 60)
     print(f"  Metric Catalog — {dashboard}")

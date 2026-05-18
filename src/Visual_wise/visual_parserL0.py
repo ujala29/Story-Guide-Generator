@@ -58,12 +58,16 @@ if _dash_fixes_path.exists():
 else:
     _FIXES = {"title_overrides": {}, "generic_titles": [], "skip_types": ["slicer", "multiRowCard", "card"]}
 
-TITLE_OVERRIDES : dict = _FIXES["title_overrides"]
-GENERIC_TITLES  : set  = set(_FIXES["generic_titles"])
-SKIP_TYPES      : set  = set(_FIXES["skip_types"])
+TITLE_OVERRIDES : dict = _FIXES.get("title_overrides", {})
+GENERIC_TITLES  : set  = set(_FIXES.get("generic_titles", []))
+SKIP_TYPES      : set  = set(_FIXES.get("skip_types", []))
 
-with open(MEASURES_RESOLVED_PATH, encoding="utf-8") as f:
-    MEASURES_RESOLVED: dict = json.load(f)
+try:
+    with open(MEASURES_RESOLVED_PATH, encoding="utf-8") as f:
+        MEASURES_RESOLVED: dict = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError) as e:
+    print(f"[visual_parserL0] WARNING: could not load measures_resolved.json ({e}); defaulting to {{}}")
+    MEASURES_RESOLVED: dict = {}
 
 GLOSSARY: dict = {}
 if _dash_glossary_path.exists():

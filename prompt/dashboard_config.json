@@ -35,5 +35,14 @@
       "Inpatient vs outpatient cost split unclear",
       "MoM vs YoY comparison confusion"
     ]
+  },
+  "post-acute-care-dashboard": {
+    "display_name": "Post-Acute Care Dashboard",
+    "domain": "Post-acute care utilization and network performance — SNF, HH, IRF, LTACH transitions",
+    "users": "Care Manager, Network Director, CFO, Utilization Manager",
+    "common_pain_points": [
+      "Numbers differ from colleague,  Which filter to set first,  Facility counts look off,",
+      "How to find a specific facility or provider"
+    ]
   }
 }

@@ -519,7 +519,12 @@ def parse_json_response(raw: str) -> dict | list:
         while lines and lines[-1].strip() in ("```", ""):
             lines.pop()
         text = "\n".join(lines).strip()
-    return json.loads(text)
+    try:
+        result = json.loads(text)
+    except json.JSONDecodeError as e:
+        print(f"[funnel_mapper] WARNING: LLM response is not valid JSON ({e})\nTail: ...{text[-300:]}")
+        raise
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -937,8 +942,12 @@ def get_project_root() -> Path:
 def load_json(path: Path):
     if not path.exists():
         return None
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"[funnel_mapper] WARNING: {path.name} is malformed ({e}); returning None.")
+        return None
 
 
 # ─────────────────────────────────────────────────────────────────────────────

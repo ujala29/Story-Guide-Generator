@@ -32,6 +32,7 @@ _SRC = str(Path(__file__).resolve().parent.parent.parent)
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 from utils.llm_client import llm_chat
+from utils.json_utils import parse_llm_json
 
 
 DETAIL_TABLE_SYSTEM = """You are a technical documentation writer producing content for a BI dashboard story guide.
@@ -251,10 +252,4 @@ def process_detail_table(
 
 
 def _parse_json(raw: str) -> dict:
-    text = raw.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")[1:]
-        while lines and lines[-1].strip() in ("```", ""):
-            lines.pop()
-        text = "\n".join(lines).strip()
-    return json.loads(text)
+    return parse_llm_json(raw, label="detail_table_processor")

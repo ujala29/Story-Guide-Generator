@@ -342,7 +342,7 @@ def main() -> None:
 
     # Visual_wise flags
     parser.add_argument(
-        "--no-test", dest="test_mode", action="store_false", default=True,
+        "--no-test", dest="test_mode", action="store_false", default=False,
         help="Visual_wise: disable test mode and process all visual types"
     )
 

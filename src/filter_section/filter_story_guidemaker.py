@@ -76,12 +76,12 @@ def get_global_filters(page_filters: dict) -> list:
         return []
 
     pages     = list(page_filters.values())
-    first     = {f["column"] for f in pages[0]}
+    first     = {f.get("column", "") for f in pages[0]} - {""}
 
     # sare pages mein common columns
     common = first.copy()
     for page in pages[1:]:
-        page_cols = {f["column"] for f in page}
+        page_cols = {f.get("column", "") for f in page} - {""}
         common   &= page_cols
 
     # global filters nikalo — pehle page se

@@ -21,8 +21,13 @@ DEFAULT_MEASURES_PATH = SCRIPT_DIR.parent.parent / "output" / "dashboards" / "ri
 
 def load_measures(path: str) -> dict:
     """Load measures JSON and return a lookup dict: name -> measure_object"""
-    with open(path) as f:
-        data = json.load(f)
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"[measure_resolver] Measure file not found: {path}")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"[measure_resolver] Measure file is malformed ({e}): {path}")
 
     if isinstance(data, list):
         measures = data

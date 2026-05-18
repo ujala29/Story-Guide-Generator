@@ -564,32 +564,33 @@ def assemble(dashboard: str, root: Path) -> str:
 
     doc = []
 
-    # ── Title ─────────────────────────────────────────────────────────────────
-    doc.append(f"# {dashboard_name} — Story Guide\n")
-    # Use display_name for all pages in header — deduplicate (LY and LM both -> Overview)
-    seen_display = []
-    for p in all_page_names:
-        dn = display_name(p)
-        if dn not in seen_display:
-            seen_display.append(dn)
-    doc.append(
-        f"**Dashboard:** {dashboard_name} | "
-        f"**Pages:** {', '.join(seen_display)} | "
-        f"**Last updated:** {today}\n"
-    )
-    doc.append(HR)
+    doc.append("**Page Wise Narrative**\n")
 
-    # ── About this guide ──────────────────────────────────────────────────────
-    doc.append("## About this guide\n")
-    doc.append(f"{funnel_map.get('domain_context','')}\n")
-    doc.append("**The funnel:**\n")
-    doc.append(f"- **Top** -> {funnel_map.get('funnel_question_top','')}")
-    doc.append(f"- **Middle** -> {funnel_map.get('funnel_question_middle','')}")
-    doc.append(f"- **Bottom** -> {funnel_map.get('funnel_question_bottom','')}")
-    action_q = funnel_map.get("funnel_question_action")
-    if action_q:
-        doc.append(f"- **Action** -> {action_q}")
-    doc.append(NL)
+    # ── How the funnel connects ────────────────────────────────────────────────
+    cross_patterns = connector.get("cross_page_patterns", [])
+
+    doc.append("## How the funnel connects\n")
+    funnel_table = connector.get("funnel_table", [])
+    if funnel_table:
+        rows = [
+            [r.get("layer",""),
+             r.get("section",""),
+             r.get("question_it_answers","")]
+            for r in funnel_table
+        ]
+        doc.append(md_table(["Layer", "Section", "Question it answers"], rows))
+        doc.append(NL)
+
+    if cross_patterns:
+        doc.append("### Reading across pages\n")
+        rows = [[p.get("pattern",""), p.get("interpretation","")] for p in cross_patterns]
+        doc.append(md_table(["Pattern", "Interpretation"], rows))
+        doc.append(NL)
+
+    closing = connector.get("closing_paragraph", "")
+    if closing:
+        doc.append(f"{closing}\n")
+
     doc.append(HR)
 
     # ── Pages ─────────────────────────────────────────────────────────────────
@@ -667,33 +668,6 @@ def assemble(dashboard: str, root: Path) -> str:
             f"All interpretation guidance above applies equally here.*\n"
         )
         doc.append(HR)
-
-    # ── How the funnel connects ────────────────────────────────────────────────
-    cross_patterns = connector.get("cross_page_patterns", [])
-
-    doc.append("## How the funnel connects\n")
-    funnel_table = connector.get("funnel_table", [])
-    if funnel_table:
-        rows = [
-            [r.get("layer",""),
-             r.get("section",""),
-             r.get("question_it_answers","")]
-            for r in funnel_table
-        ]
-        doc.append(md_table(["Layer", "Section", "Question it answers"], rows))
-        doc.append(NL)
-
-    # ── Reading across pages — cross_page_patterns rendered ONCE here only ────
-    if cross_patterns:
-        doc.append("### Reading across pages\n")
-        rows = [[p.get("pattern",""), p.get("interpretation","")] for p in cross_patterns]
-        doc.append(md_table(["Pattern", "Interpretation"], rows))
-        doc.append(NL)
-
-    # ── Closing paragraph ──────────────────────────────────────────────────────
-    closing = connector.get("closing_paragraph", "")
-    if closing:
-        doc.append(f"{closing}\n")
 
     doc.append(HR)
     doc.append(

@@ -194,6 +194,8 @@ def _call_layer2_table(
         temperature=0.2,
         client=llm_client,
     )
+    if not raw:
+        raise ValueError(f"LLM returned null content for table L2 visual {l0.visual_id}")
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -519,6 +521,9 @@ def _parse_l2_response(raw: str, l0: L0Packet, l1: L1Packet) -> L2Packet:
     LLM response parse + validate karo.
     """
     warnings = []
+
+    if not raw:
+        raise ValueError(f"LLM returned null content for L2 visual {l0.visual_id}")
 
     # ── Strip markdown fences ────────────────────────────────
     cleaned = raw.strip()

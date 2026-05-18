@@ -28,6 +28,7 @@ _SRC = str(Path(__file__).resolve().parent.parent.parent)
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 from utils.llm_client import llm_chat
+from utils.json_utils import parse_llm_json
 
 
 CLINICAL_PAIR_SYSTEM = """You are a technical documentation writer producing content for a BI dashboard story guide.
@@ -73,7 +74,7 @@ def build_clinical_pair_prompt(
     # bar chart info
     bar_measures = bar_visual.get("measures", [])
     bar_measure_lines = "\n".join(
-        f"  - {m['display_name_in_visual'] or m['name']}: {m.get('definition','')[:100]}"
+        f"  - {m.get('display_name_in_visual') or m.get('name', 'Unknown')}: {m.get('definition','')[:100]}"
         for m in bar_measures
     )
     bar_col = ", ".join(bar_visual.get("columns_used", []))
@@ -81,7 +82,7 @@ def build_clinical_pair_prompt(
     # table info
     table_measures = table_visual.get("measures", [])
     table_measure_lines = "\n".join(
-        f"  - {m['display_name_in_visual'] or m['name']}: {m.get('definition','')[:100]}"
+        f"  - {m.get('display_name_in_visual') or m.get('name', 'Unknown')}: {m.get('definition','')[:100]}"
         for m in table_measures
     )
     table_cols = ", ".join(table_visual.get("columns_used", []))
@@ -215,10 +216,4 @@ def process_clinical_pair(
 
 
 def _parse_json(raw: str) -> dict:
-    text = raw.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")[1:]
-        while lines and lines[-1].strip() in ("```", ""):
-            lines.pop()
-        text = "\n".join(lines).strip()
-    return json.loads(text)
+    return parse_llm_json(raw, label="clinical_pair_processor")

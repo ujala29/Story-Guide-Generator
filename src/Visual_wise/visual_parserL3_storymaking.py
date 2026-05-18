@@ -165,6 +165,15 @@ def _get_related_measures(primary_name: str) -> list[tuple[str, str, str]]:
     return results
 
 
+def _clean_dax(dax: str) -> str:
+    try:
+        from Metric_dictionary.cleaner_step1 import clean as _full_clean
+        return _full_clean("_", dax).clean_dax
+    except Exception:
+        import re
+        return re.sub(r'\nlineageTag:\s*[a-f0-9\-]+', '', dax).strip()
+
+
 def _fmt_dax(all_dax: list[DaxEntry], paired_dax: list[DaxEntry]) -> str:
     """
     All measures verbatim — color measures excluded.
@@ -217,7 +226,7 @@ def _fmt_dax(all_dax: list[DaxEntry], paired_dax: list[DaxEntry]) -> str:
     role_order = {"primary": 0, "yoy_card": 1, "mom_card": 2, "dep": 0, "other": 3}
     blocks.sort(key=lambda x: role_order.get(x[2], 3))
 
-    lines = [f"{name} = {dax}" for name, dax, _ in blocks]
+    lines = [f"**{name}** = {_clean_dax(dax)}" for name, dax, _ in blocks]
     return "\n\n".join(lines) if lines else "N/A"
 
 

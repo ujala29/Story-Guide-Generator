@@ -277,7 +277,10 @@ def call_llm(
 def load_registry() -> dict:
     """Load registry.json or return empty registry."""
     if REGISTRY_PATH.exists():
-        return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        try:
+            return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            print(f"[llm_fallback] WARNING: registry.json is malformed ({e}); starting fresh.")
     return {
         "version"   : "1.0",
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -796,7 +799,11 @@ def run_llm_fallback(
         print(f"\n❌ {final_json} not found. Run pipeline.py first.")
         sys.exit(1)
 
-    all_measures_list = json.loads(final_json.read_text(encoding="utf-8"))
+    try:
+        all_measures_list = json.loads(final_json.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"\n❌ {final_json} is malformed ({e}). Re-run pipeline.py.")
+        sys.exit(1)
     all_measures = {m["measure_name"]: m for m in all_measures_list}
     print(f"\n  Loaded {len(all_measures)} measures")
 
@@ -812,7 +819,10 @@ def run_llm_fallback(
 
     def _load_reg():
         if registry_path.exists():
-            return json.loads(registry_path.read_text(encoding="utf-8"))
+            try:
+                return json.loads(registry_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as e:
+                print(f"[llm_fallback] WARNING: registry.json is malformed ({e}); starting fresh.")
         return {
             "version": "1.0", "created_at": datetime.now(timezone.utc).isoformat(),
             "measures": {}, "patterns": {}, "fixes": {},

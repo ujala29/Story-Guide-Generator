@@ -270,9 +270,11 @@ CRITICAL INTERPRETATION RULES
 
 Return exactly this JSON — no other text:
 {{
-  "one_line_definition": "One sentence — what the primary
-                          measure calculates in plain
-                          business terms",
+  "one_line_definition": "2 sentences — first: the business
+                          question this KPI helps the analyst
+                          answer; second: what a rising or
+                          falling value should prompt them
+                          to investigate or act on",
 
   "numerator_meaning":   "What the numerator of the primary
                           measure represents — mention which
@@ -484,6 +486,9 @@ def _parse_l1_response(raw: str, l0: L0Packet) -> L1Packet:
     """
     warnings = []
 
+    if not raw:
+        raise ValueError(f"LLM returned null content for L1 visual {l0.visual_id}")
+
     # ── Strip accidental markdown fences ────────────────────
     cleaned = raw.strip()
     if cleaned.startswith("```"):
@@ -607,7 +612,7 @@ Columns to interpret:
 
 Return exactly this JSON structure:
 {{
-  "one_line_definition": "One sentence — what this table shows overall",
+  "one_line_definition": "2 sentences — first: the business question this table helps the analyst answer; second: what insight they should walk away with and what it should prompt them to investigate",
   "result_meaning": "One sentence — what analysts use this table for",
   "column_definitions": {{
     "Column name 1": {{
@@ -644,6 +649,8 @@ def _call_layer1_table(l0: L0Packet, llm_client) -> L1Packet:
         temperature=0.1,
         client=llm_client,
     )
+    if not raw:
+        raise ValueError(f"LLM returned null content for table L1 visual {l0.visual_id}")
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -707,7 +714,9 @@ You are a dashboard analyst for a healthcare risk adjustment
 Power BI dashboard.
 
 Your job: for a trend line chart, write:
-1. one_line_definition — one sentence what this chart shows
+1. one_line_definition — 2 sentences: first, the trend question
+   this chart helps the analyst answer; second, what pattern or
+   divergence between lines should prompt them to act
 2. how_to_read — one paragraph (3-4 sentences) guiding the
    analyst on what patterns to look for, what divergence
    between lines means, and what actions to take
@@ -755,6 +764,8 @@ def _call_layer1_linechart(l0: L0Packet, llm_client) -> L1Packet:
         temperature=0.1,
         client=llm_client,
     )
+    if not raw:
+        raise ValueError(f"LLM returned null content for linechart L1 visual {l0.visual_id}")
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -815,8 +826,10 @@ You are a dashboard analyst for a healthcare risk adjustment
 Power BI dashboard.
 
 Your job: for a bar chart, write:
-1. one_line_definition — one sentence what this chart compares
-   and across what dimension
+1. one_line_definition — 2 sentences: first, the ranking
+   question this chart helps the analyst answer; second, what
+   a high or low position in the ranking should prompt them
+   to investigate or act on
 2. directional_rows — exactly 3 rows for the directional
    impact table. Each row must have:
    - movement: what bar movement to observe
@@ -868,6 +881,8 @@ def _call_layer1_barchart(l0: L0Packet, llm_client) -> L1Packet:
         temperature=0.1,
         client=llm_client,
     )
+    if not raw:
+        raise ValueError(f"LLM returned null content for barchart L1 visual {l0.visual_id}")
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -931,9 +946,9 @@ You are a dashboard analyst for a healthcare risk adjustment
 Power BI dashboard.
 
 For a donut chart, write:
-1. one_line_definition — 2 sentences ending with a quoted
-   question the chart answers e.g.
-   "Shows X by Y category. Answers 'through which Y are Z?'"
+1. one_line_definition — 2 sentences: first, the distribution
+   question this chart helps the analyst answer; second, what
+   a dominant or shifting slice should prompt them to act on
 2. pattern_rows — exactly 3 meaningful pattern rows as JSON:
    Each row: {"pattern": "...", "interpretation": "..."}
    Pattern = a dominant slice or distribution scenario
@@ -977,6 +992,8 @@ def _call_layer1_donut(l0: L0Packet, llm_client) -> L1Packet:
         temperature=0.1,
         client=llm_client,
     )
+    if not raw:
+        raise ValueError(f"LLM returned null content for donut L1 visual {l0.visual_id}")
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")
@@ -1107,6 +1124,8 @@ def _call_layer1_scatter(l0: L0Packet, llm_client) -> L1Packet:
         temperature=0.1,
         client=llm_client,
     )
+    if not raw:
+        raise ValueError(f"LLM returned null content for scatter L1 visual {l0.visual_id}")
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         parts   = cleaned.split("```")

@@ -139,8 +139,12 @@ def collect_faq_signals(dashboard: str, root: Path) -> dict:
     funnel_path = page_wise / "funnel_map.json"
     domain_context = ""
     if funnel_path.exists():
-        with open(funnel_path, encoding="utf-8") as f:
-            funnel_map = json.load(f)
+        try:
+            with open(funnel_path, encoding="utf-8") as f:
+                funnel_map = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"[faq_generator] WARNING: funnel_map.json is malformed ({e}); skipping funnel context.")
+            funnel_map = {}
         domain_context = funnel_map.get("domain_context", "")
         for w in funnel_map.get("widgets", []):
             q = w.get("sub_question", "").strip()

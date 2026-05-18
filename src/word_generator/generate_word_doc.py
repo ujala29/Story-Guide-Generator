@@ -9,7 +9,8 @@ from pathlib import Path
 
 import pypandoc
 from docx import Document
-from docx.shared import Pt, RGBColor
+from docx.shared import Pt, RGBColor, Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 # from docx2pdf import convert
@@ -32,6 +33,97 @@ VISUAL_PRIORITY = {
     "table": 4, "matrix": 4,
     "donut": 5, "pie": 5,
 }
+
+
+LOGO_PATH = BASE_DIR / "input" / "innovaccer.png"
+BLACK = RGBColor(0x00, 0x00, 0x00)
+
+
+def insert_cover_page(docx_path: str, dashboard: str):
+    display_name = dashboard.replace("-", " ").title()
+    doc = Document(docx_path)
+    body = doc.element.body
+    existing = list(body)
+
+    # --- build cover content (appended temporarily at end, then moved to front) ---
+
+    # top spacer — pushes logo ~1/3 down the page
+    p_top = doc.add_paragraph()
+    p_top.paragraph_format.space_before = Pt(130)
+    p_top.paragraph_format.space_after  = Pt(0)
+
+    # logo
+    if LOGO_PATH.exists():
+        p_logo = doc.add_paragraph()
+        p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_logo.paragraph_format.space_before = Pt(0)
+        p_logo.paragraph_format.space_after  = Pt(0)
+        p_logo.add_run().add_picture(str(LOGO_PATH), width=Inches(2.2))
+
+    # mid spacer — pushes title toward vertical center
+    p_mid = doc.add_paragraph()
+    p_mid.paragraph_format.space_before = Pt(90)
+    p_mid.paragraph_format.space_after  = Pt(0)
+
+    # title line 1: "<Dashboard Name> Dashboard"
+    p1 = doc.add_paragraph()
+    p1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p1.paragraph_format.space_before = Pt(0)
+    p1.paragraph_format.space_after  = Pt(6)
+    r1 = p1.add_run(f"{display_name} Dashboard")
+    r1.font.name      = 'Calibri'
+    r1.font.size      = Pt(22)
+    r1.font.bold      = True
+    r1.font.color.rgb = BLACK
+
+    # title line 2: "Story Guide"
+    p2 = doc.add_paragraph()
+    p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p2.paragraph_format.space_before = Pt(0)
+    p2.paragraph_format.space_after  = Pt(0)
+    r2 = p2.add_run("Story Guide")
+    r2.font.name      = 'Calibri'
+    r2.font.size      = Pt(22)
+    r2.font.bold      = True
+    r2.font.color.rgb = BLACK
+
+    # page break
+    p_br = doc.add_paragraph()
+    br = OxmlElement('w:br')
+    br.set(qn('w:type'), 'page')
+    p_br.add_run()._r.append(br)
+
+    # move all new elements to front of body (before first existing child)
+    new_elems = [c for c in body if c not in existing]
+    if not existing:
+        raise RuntimeError("Pandoc produced an empty document body — check input markdown")
+    ref = existing[0]
+    for elem in new_elems:
+        body.remove(elem)
+        ref.addprevious(elem)
+
+    doc.save(docx_path)
+    print(f"  ✓ Cover page added: {display_name} Dashboard")
+
+
+def update_footer_name(docx_path: str, dashboard: str):
+    display_name = dashboard.replace("-", " ").title()
+    doc = Document(docx_path)
+    placeholder = "[Dashboard Name]"
+    for section in doc.sections:
+        for para in section.footer.paragraphs:
+            # Word often splits text across multiple runs — check full para text first
+            if placeholder not in para.text:
+                continue
+            # Merge all run text, replace, write back into the first run, clear the rest
+            full_text = "".join(r.text for r in para.runs)
+            new_text  = full_text.replace(placeholder, display_name)
+            if para.runs:
+                para.runs[0].text = new_text
+                for run in para.runs[1:]:
+                    run.text = ""
+    doc.save(docx_path)
+    print(f"  ✓ Footer updated: {display_name}")
 
 
 def style_tables(docx_path: str):
@@ -104,6 +196,137 @@ def style_tables(docx_path: str):
                             run.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
     doc.save(docx_path)
     print(f"  ✓ Table styling applied ({len(doc.tables)} tables)")
+
+
+def insert_word_toc(docx_path: str):
+    doc  = Document(docx_path)
+    body = doc.element.body
+
+    # ── "Table of Contents" heading ───────────────────────────
+    toc_heading = OxmlElement('w:p')
+    h_pPr   = OxmlElement('w:pPr')
+    h_style = OxmlElement('w:pStyle')
+    h_style.set(qn('w:val'), 'Heading1')
+    h_pPr.append(h_style)
+    toc_heading.append(h_pPr)
+    h_r = OxmlElement('w:r')
+    h_t = OxmlElement('w:t')
+    h_t.text = 'Table of Contents'
+    h_r.append(h_t)
+    toc_heading.append(h_r)
+
+    # ── TOC field: headings 1-3, hyperlinked, with page numbers ─
+    toc_para = OxmlElement('w:p')
+
+    r1 = OxmlElement('w:r')
+    fc1 = OxmlElement('w:fldChar')
+    fc1.set(qn('w:fldCharType'), 'begin')
+    fc1.set(qn('w:dirty'), 'true')
+    r1.append(fc1)
+    toc_para.append(r1)
+
+    r2 = OxmlElement('w:r')
+    instr = OxmlElement('w:instrText')
+    instr.set('{http://www.w3.org/XML/1998/namespace}space', 'preserve')
+    instr.text = ' TOC \\o "1-3" \\h \\z \\u '
+    r2.append(instr)
+    toc_para.append(r2)
+
+    r3 = OxmlElement('w:r')
+    fc3 = OxmlElement('w:fldChar')
+    fc3.set(qn('w:fldCharType'), 'separate')
+    r3.append(fc3)
+    toc_para.append(r3)
+
+    r4 = OxmlElement('w:r')
+    t4 = OxmlElement('w:t')
+    t4.text = 'Right-click → Update Field to generate table of contents'
+    r4.append(t4)
+    toc_para.append(r4)
+
+    r5 = OxmlElement('w:r')
+    fc5 = OxmlElement('w:fldChar')
+    fc5.set(qn('w:fldCharType'), 'end')
+    r5.append(fc5)
+    toc_para.append(r5)
+
+    # ── Page break after TOC ───────────────────────────────────
+    pb_para = OxmlElement('w:p')
+    pb_r    = OxmlElement('w:r')
+    pb_br   = OxmlElement('w:br')
+    pb_br.set(qn('w:type'), 'page')
+    pb_r.append(pb_br)
+    pb_para.append(pb_r)
+
+    # Insert at front — cover page will be prepended after this
+    first = body[0]
+    for elem in [toc_heading, toc_para, pb_para]:
+        first.addprevious(elem)
+
+    doc.save(docx_path)
+    print('  ✓ TOC field inserted (right-click → Update Field in Word)')
+
+
+def style_section_title(docx_path: str, title: str, size_pt: int = 16):
+    doc = Document(docx_path)
+    for para in doc.paragraphs:
+        if para.text.strip() == title:
+            para.style = doc.styles["Normal"]
+            para.paragraph_format.space_before = Pt(6)
+            para.paragraph_format.space_after  = Pt(6)
+            for run in para.runs:
+                run.font.name  = "Calibri"
+                run.font.size  = Pt(size_pt)
+                run.font.bold  = True
+                run.font.color.rgb = BLACK
+    doc.save(docx_path)
+
+
+def format_faq_md(content: str) -> str:
+    """
+    Converts FAQ markdown (bold question + inline answer, no blank line between)
+    into numbered Q&A blocks with question as ### heading and answer below it.
+
+    Input:
+        **Question?**
+        Answer text.
+
+    Output:
+        ### Q1. Question?
+
+        Answer text.
+    """
+    output = []
+    q_num  = 0
+
+    # Split into blocks by --- separator; strip each block
+    raw_blocks = re.split(r'\n\s*---\s*\n', content)
+
+    for block in raw_blocks:
+        block = block.strip()
+        if not block:
+            continue
+
+        # Section heading block — keep as-is
+        if block.startswith('##'):
+            output.append(block)
+            output.append('\n---\n')
+            continue
+
+        # Q&A block: first line is **Question?**, rest is the answer
+        lines      = block.split('\n', 1)
+        q_line     = lines[0].strip()
+        answer     = lines[1].strip() if len(lines) > 1 else ''
+
+        if q_line.startswith('**') and q_line.endswith('**'):
+            q_num += 1
+            question = q_line.strip('*').strip()
+            output.append(f'### Q{q_num}. {question}\n\n{answer}')
+        else:
+            # Not a Q&A block — keep as-is
+            output.append(block)
+
+    return '\n'.join(output).rstrip('\n') + '\n\n'
 
 
 def read_file(path: Path) -> str:
@@ -206,6 +429,9 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
     visual_wise_dir        = dash_out / "visual_wise"
     glossary_faq_dir       = dash_out / "glossary_faq"
 
+    # TOC is inserted as a real Word field in post-processing (insert_word_toc)
+    # — not as markdown, so Word auto-generates page numbers + sub-sections
+
     # 1. Dashboard Overview  (md file has its own heading — no injected title)
     p = dashboard_overview_dir / "dashboard_overview.md"
     if p.exists():
@@ -228,7 +454,6 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
     p = page_wise_dir / "page_wise_story.md"
     if p.exists():
         chunks.append(PAGE_BREAK)
-        chunks.append("# Page-Wise Story\n\n")
         chunks.append(read_file(p))
         print("  + Page-Wise Story")
     else:
@@ -262,7 +487,7 @@ def build_combined_md(dashboard: str = "risk-dash") -> str:
     if p.exists():
         chunks.append(PAGE_BREAK)
         chunks.append("# FAQ\n\n")
-        chunks.append(read_file(p))
+        chunks.append(format_faq_md(p.read_text(encoding="utf-8")))
         print("  + FAQ")
     else:
         print(f"  ⚠ not found: {p}")
@@ -318,6 +543,12 @@ def main():
         pypandoc.convert_file(tmp_path, "docx", outputfile=output_path, extra_args=extra_args)
         print("  Styling tables...")
         style_tables(output_path)
+        style_section_title(output_path, "Page Wise Narrative", size_pt=16)
+        print("  Inserting TOC...")
+        insert_word_toc(output_path)
+        print("  Adding cover page...")
+        insert_cover_page(output_path, args.dashboard)
+        update_footer_name(output_path, args.dashboard)
         print(f"  ✅ Word: {output_path}")
 
         # pdf_path = output_path.replace(".docx", ".pdf")

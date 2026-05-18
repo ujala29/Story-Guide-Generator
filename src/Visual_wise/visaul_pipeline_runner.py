@@ -70,7 +70,7 @@ L0_WORKERS     = 8
 LLM_CALL_DELAY = 0.5
 
 # ── TEST MODE ────────────────────────────────────────────────
-TEST_MODE        = os.environ.get("STORY_TEST_MODE", "1") == "1"
+TEST_MODE        = os.environ.get("STORY_TEST_MODE", "0") == "1"
 TEST_VISUAL_TYPE = os.environ.get("STORY_TEST_VISUAL_TYPE", "cardVisual")
 TEST_LIMIT       = int(os.environ.get("STORY_TEST_LIMIT", "0"))
 
@@ -363,11 +363,11 @@ def fix_title(visual: dict) -> str:
     if title in GENERIC_TITLES:
         measures = visual.get("measures_used", [])
         if measures:
-            return measures[0].split(".")[-1]
+            return measures[0].split(".")[-1] if measures else ""
     if not title:
         measures = visual.get("measures_used", [])
         if measures:
-            return measures[0].split(".")[-1]
+            return measures[0].split(".")[-1] if measures else ""
         return visual.get("type", "unknown")
     return title
 
@@ -791,7 +791,7 @@ def deduplicate(fixed_visuals: list) -> list:
                 deduplicated.append(visual)
                 processed_measures.add(visual["id"])
             continue
-        primary = measures[0].split(".")[-1].strip()
+        primary = measures[0].split(".")[-1].strip() if measures else ""
         if primary not in processed_measures:
             deduplicated.append(visual)
             processed_measures.add(primary)

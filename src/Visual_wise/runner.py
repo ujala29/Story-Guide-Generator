@@ -66,8 +66,8 @@ def main() -> None:
         help="Dashboard to run: risk-dash | pac-dash | all  (default: all)"
     )
     parser.add_argument(
-        "--no-test", dest="test_mode", action="store_false", default=True,
-        help="Disable test mode and process all visual types (default: test mode ON)"
+        "--no-test", dest="test_mode", action="store_false", default=False,
+        help="Disable test mode and process all visual types (default: production mode)"
     )
     parser.add_argument(
         "--force", action="store_true",

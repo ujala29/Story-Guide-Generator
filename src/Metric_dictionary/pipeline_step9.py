@@ -112,7 +112,10 @@ def _load_measures(path: Path) -> dict:
     """Load measures — handle both list and dict formats."""
     data = _load_json(path)
     if isinstance(data, list):
-        return {m["name"]: m for m in data}
+        skipped = [m for m in data if "name" not in m]
+        if skipped:
+            print(f"[pipeline_step9] WARNING: skipping {len(skipped)} measures missing 'name' key")
+        return {m["name"]: m for m in data if "name" in m}
     return data
 
 

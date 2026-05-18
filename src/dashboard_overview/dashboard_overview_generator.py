@@ -39,8 +39,11 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
     funnel_map_path = page_wise / "funnel_map.json"
     funnel_map: dict = {}
     if funnel_map_path.exists():
-        with open(funnel_map_path, encoding="utf-8") as f:
-            funnel_map = json.load(f)
+        try:
+            with open(funnel_map_path, encoding="utf-8") as f:
+                funnel_map = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] funnel_map.json is malformed ({e}); skipping.")
     else:
         print(f"  [WARN] funnel_map.json not found at {funnel_map_path}")
         print("  Run Page_wise/runner.py (steps 0+1) first for best results.")
@@ -49,8 +52,11 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
     connector_path = page_wise / "funnel_connector.json"
     funnel_connector: dict = {}
     if connector_path.exists():
-        with open(connector_path, encoding="utf-8") as f:
-            funnel_connector = json.load(f)
+        try:
+            with open(connector_path, encoding="utf-8") as f:
+                funnel_connector = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  [WARN] funnel_connector.json is malformed ({e}); skipping.")
     else:
         print(f"  [WARN] funnel_connector.json not found at {connector_path}")
         print("  Run Page_wise/runner.py (step 4) for richer overview.")
@@ -60,8 +66,12 @@ def gather_dashboard_info(dashboard: str, root: Path, filters: list) -> dict:
     widget_content: dict[str, dict] = {}
     if widget_content_dir.exists():
         for wf in sorted(widget_content_dir.glob("*.json")):
-            with open(wf, encoding="utf-8") as f:
-                data = json.load(f)
+            try:
+                with open(wf, encoding="utf-8") as f:
+                    data = json.load(f)
+            except json.JSONDecodeError as e:
+                print(f"  [WARN] widget_content/{wf.name} is malformed ({e}); skipping.")
+                continue
             page = data.get("page", wf.stem)
             widget_content[page] = data
     else:

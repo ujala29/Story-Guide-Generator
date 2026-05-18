@@ -59,8 +59,12 @@ def run_dashboard(dashboard: str, llm_client) -> None:
         print("  Run Stage 1 extraction first.")
         return
 
-    with open(filters_path, encoding="utf-8") as f:
-        filters = json.load(f)
+    try:
+        with open(filters_path, encoding="utf-8") as f:
+            filters = json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"  [ERROR] filters.json is malformed ({e}). Re-run Extraction.")
+        return
 
     print(f"  Total slicers found: {len(filters)}")
 
