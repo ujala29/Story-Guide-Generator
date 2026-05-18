@@ -53,6 +53,7 @@ export default function RunDetail() {
 
   function download() {
     window.open(`/api/runs/${id}/download`, '_blank')
+    navigate('/')
   }
 
   if (!run) {

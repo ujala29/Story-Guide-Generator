@@ -60,6 +60,7 @@ def get_client() -> OpenAI:
         _client = OpenAI(
             api_key=os.environ["TF_API_KEY"],
             base_url=os.environ["TF_BASE_URL"],
+            timeout=120.0,  # 2 min per request; tenacity retries on APITimeoutError
         )
     return _client
 

@@ -566,32 +566,23 @@ def assemble(dashboard: str, root: Path) -> str:
 
     doc.append("**Page Wise Narrative**\n")
 
-    # ── How the funnel connects ────────────────────────────────────────────────
-    cross_patterns = connector.get("cross_page_patterns", [])
+    # ── Funnel intro bullets ───────────────────────────────────────────────────
+    top_q    = funnel_map.get("funnel_question_top", "")
+    mid_q    = funnel_map.get("funnel_question_middle", "")
+    bot_q    = funnel_map.get("funnel_question_bottom", "")
+    action_q = funnel_map.get("funnel_question_action", "")
 
-    doc.append("## How the funnel connects\n")
-    funnel_table = connector.get("funnel_table", [])
-    if funnel_table:
-        rows = [
-            [r.get("layer",""),
-             r.get("section",""),
-             r.get("question_it_answers","")]
-            for r in funnel_table
-        ]
-        doc.append(md_table(["Layer", "Section", "Question it answers"], rows))
+    if top_q or mid_q or bot_q:
+        doc.append("**The funnel:**\n")
+        if top_q:
+            doc.append(f"- **Top** -> {top_q}\n")
+        if mid_q:
+            doc.append(f"- **Middle** -> {mid_q}\n")
+        if bot_q:
+            doc.append(f"- **Bottom** -> {bot_q}\n")
+        if action_q:
+            doc.append(f"- **Action** -> {action_q}\n")
         doc.append(NL)
-
-    if cross_patterns:
-        doc.append("### Reading across pages\n")
-        rows = [[p.get("pattern",""), p.get("interpretation","")] for p in cross_patterns]
-        doc.append(md_table(["Pattern", "Interpretation"], rows))
-        doc.append(NL)
-
-    closing = connector.get("closing_paragraph", "")
-    if closing:
-        doc.append(f"{closing}\n")
-
-    doc.append(HR)
 
     # ── Pages ─────────────────────────────────────────────────────────────────
     widgets_all = funnel_map.get("widgets", [])
@@ -668,6 +659,31 @@ def assemble(dashboard: str, root: Path) -> str:
             f"All interpretation guidance above applies equally here.*\n"
         )
         doc.append(HR)
+
+    # ── How the funnel connects ────────────────────────────────────────────────
+    cross_patterns = connector.get("cross_page_patterns", [])
+
+    doc.append("## How the funnel connects\n")
+    funnel_table = connector.get("funnel_table", [])
+    if funnel_table:
+        rows = [
+            [r.get("layer",""),
+             r.get("section",""),
+             r.get("question_it_answers","")]
+            for r in funnel_table
+        ]
+        doc.append(md_table(["Layer", "Section", "Question it answers"], rows))
+        doc.append(NL)
+
+    if cross_patterns:
+        doc.append("### Reading across pages\n")
+        rows = [[p.get("pattern",""), p.get("interpretation","")] for p in cross_patterns]
+        doc.append(md_table(["Pattern", "Interpretation"], rows))
+        doc.append(NL)
+
+    closing = connector.get("closing_paragraph", "")
+    if closing:
+        doc.append(f"{closing}\n")
 
     doc.append(HR)
     doc.append(
